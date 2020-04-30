@@ -29,6 +29,10 @@ public class day200130 {
         }
     }
 
+    /**
+     * finally里的代码在表达式之后，返回结果之前执行
+     * @return
+     */
     public static int test0() {
         int b = 20;
 
@@ -53,6 +57,10 @@ public class day200130 {
         return b;
     }
 
+    /**
+     * finally里有return会忽略try和catch里的return
+     * @return
+     */
     @SuppressWarnings("finally")
     public static final String test1() {
         String t = "";
@@ -70,6 +78,10 @@ public class day200130 {
         }
     }
 
+    /**
+     * 处理方式类似于test方法
+     * @return
+     */
     @SuppressWarnings("finally")
     public static final String test2() {
         String t = "";
@@ -123,6 +135,7 @@ public class day200130 {
             return t;
         }
     }
+    // 同test3
     @SuppressWarnings("finally")
     public static final String test5() {
         String t = "";
@@ -161,7 +174,8 @@ public class day200130 {
         String t = "";
 
         try {
-            t = "try";return t;
+            t = "try";
+            return t;
         } catch (Exception e) {
             t = "catch";
             return t;
@@ -174,6 +188,7 @@ public class day200130 {
 
     /**
      * LinkedHashMap
+     * 第三个参数为true，访问了的元素会放到队尾；第三个参数为false，不改变队列的形式
      * @return
      */
     public static final void test8() {
@@ -194,15 +209,12 @@ public class day200130 {
     public static Map<String, String> getMap() {
         Map<String, String> map = new HashMap<>();
         map.put("KEY", "INIT");
-
         try {
             map.put("KEY", "TRY");
             return map;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             map.put("KEY", "CATCH");
-        }
-        finally {
+        } finally {
             // 操作的是值修改有效
             map.put("KEY", "FINALLY");
             // 操作引用修改无效
@@ -212,14 +224,16 @@ public class day200130 {
         return map;
     }
     public static void main(String[] args) {
-        /*System.out.println(day200130.test());
-        System.out.println(day200130.test0());
-        System.out.println(day200130.test1());
-        System.out.println(day200130.test2());
-        System.out.println(day200130.test4());
-        System.out.println(day200130.test6());*/
+//        System.out.println(day200130.test());
 //        System.out.println(day200130.test0());
-        System.out.println(getMap().get("KEY").toString());
+//        System.out.println(day200130.test1());
+//        System.out.println(day200130.test2());
+//        System.out.println(day200130.test3());
+//        System.out.println(day200130.test4());
+//        System.out.println(day200130.test5());
+//        System.out.println(day200130.test6());
+//        System.out.println(day200130.test7());
+         System.out.println(getMap().get("KEY").toString());
 //        test8();
 
 

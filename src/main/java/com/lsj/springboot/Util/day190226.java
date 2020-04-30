@@ -8,5 +8,10 @@ public class day190226 {
     public static void main(String[] args) {
         int a = '1';
         System.out.println(a);
+
+
+        String str = "+86-12331654321";
+        str = str.substring(str.indexOf("-") + 1);
+        System.out.println(str);
     }
 }
