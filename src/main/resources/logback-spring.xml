@@ -28,7 +28,7 @@
     </encoder>
     <File>${LOG_PATH}/${LOG_FILE}</File>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>${logPath}/%d{yyyy-MM-dd, aux}/%d{HH}.log.%i</fileNamePattern>
+      <fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd, aux}/%d{HH}.log.%i</fileNamePattern>
       <timeBasedFileNamingAndTriggeringPolicy
               class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
         <maxFileSize>50MB</maxFileSize>
