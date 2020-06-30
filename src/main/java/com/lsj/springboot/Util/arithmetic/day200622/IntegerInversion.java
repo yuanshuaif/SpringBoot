@@ -74,7 +74,7 @@ public class IntegerInversion {
     public static int roman2Int(String str){
         char[] chars = str.toCharArray();
         int target = 0;
-        for(int i = 0; i < chars.length - 1; i++){
+        for(int i = 0; i < chars.length; i++){
             switch (chars[i]){
                 case 'V':
                     target += 5;
@@ -93,12 +93,13 @@ public class IntegerInversion {
                         target += 1;
                         break;
                     }else {
-                        i++;
-                        switch (chars[i]) {
+                        switch (chars[i + 1]) {
                             case 'V':
+                                i++;
                                 target += 4;
                                 break;
                             case 'X':
+                                i++;
                                 target += 9;
                                 break;
                             default:
@@ -114,12 +115,13 @@ public class IntegerInversion {
                         target += 10;
                         break;
                     }else {
-                        i++;
-                        switch (chars[i]) {
+                        switch (chars[i + 1]) {
                             case 'L':
+                                i++;
                                 target += 40;
                                 break;
                             case 'C':
+                                i++;
                                 target += 90;
                                 break;
                             default:
@@ -135,12 +137,13 @@ public class IntegerInversion {
                         target += 100;
                         break;
                     }else {
-                        i++;
-                        switch (chars[i]) {
+                        switch (chars[i + 1]) {
                             case 'D':
+                                i++;
                                 target += 400;
                                 break;
                             case 'M':
+                                i++;
                                 target += 900;
                                 break;
                             default:
@@ -157,4 +160,5 @@ public class IntegerInversion {
         }
         return target;
     }
+
 }
