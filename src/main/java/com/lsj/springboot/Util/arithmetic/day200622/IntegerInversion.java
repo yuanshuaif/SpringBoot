@@ -15,9 +15,14 @@ package com.lsj.springboot.Util.arithmetic.day200622;
 public class IntegerInversion {
 
     public static void main(String[] args){
-        System.out.println(integerInversion(-123));
-        System.out.println(isPalindrome(-232));
-        System.out.println(roman2Int("MCMXCIV"));
+//        System.out.println(integerInversion(-123));
+//        System.out.println(isPalindrome(-232));
+//        System.out.println(roman2Int("MCMXCIV"));
+        System.out.println(linuxRules("/c/d/////././../e/."));
+        System.out.println(linuxRules("/c/d/////././../e/"));
+        System.out.println(linuxRules("/c/d/////././../e/.."));
+        System.out.println(linuxRules("/c/d/////././../ed/.."));
+        System.out.println(linuxRules("/c/d/////././../ed/."));
     }
 
     /**
@@ -161,4 +166,60 @@ public class IntegerInversion {
         return target;
     }
 
+
+    /**
+     * /c/d/////././../e/
+     * /c/d/././../e/
+     * /c/e
+     * @param orignalStr
+     * @return
+     */
+
+    public static String linuxRules(String orignalStr){
+
+        while(orignalStr.contains("//")){
+            orignalStr = orignalStr.replaceAll("//", "/");
+        }
+
+        char[] chars = orignalStr.toCharArray();
+        String targetStr = "";
+        for(int i = 0; i < chars.length ; i++){
+            switch (chars[i]){
+                case '/':
+                    if(chars.length > 1 && i != chars.length - 1){
+                        switch (chars[i + 1]){
+                            case '.':
+                                if(chars.length > 2 && i != chars.length - 2){
+                                    switch (chars[i + 2]) {
+                                        case '.':
+                                            i += 2;
+                                            int lastIndex = targetStr.lastIndexOf("/");
+                                            if (lastIndex > 0) {
+                                                targetStr = targetStr.substring(0, lastIndex);
+                                            }
+                                            break;
+                                        default:
+                                            i++;
+                                            break;
+                                    }
+                                    break;
+                                }else {
+                                    i++;
+                                    break;
+                                }
+                            default:
+                                targetStr += chars[i];
+                                break;
+                        }
+                    }
+                    break;
+                default:
+                    targetStr += chars[i];
+                    break;
+            }
+        }
+
+        return targetStr;
+
+    }
 }
