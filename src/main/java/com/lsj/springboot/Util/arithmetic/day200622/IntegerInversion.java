@@ -2,6 +2,9 @@ package com.lsj.springboot.Util.arithmetic.day200622;
 
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 题目七
  * 整数反转
@@ -35,14 +38,22 @@ public class IntegerInversion {
         System.out.println(linuxRules("/c/d/////././../ed/."));*/
    /*     String[] strs = new String[]{"flower","flow","flight","flosh"};
         System.out.println(longestCommonPrefix(strs));*/
-        System.out.println( findRealParentheses("()[]{}"));
+       /* System.out.println( findRealParentheses("()[]{}"));
         System.out.println( findRealParentheses("))[]{}"));
         System.out.println( findRealParentheses("()[]{(}"));
-        System.out.println( findRealParentheses("()[]]{}"));
+        System.out.println( findRealParentheses("()[]]{}"));*/
+        Integer[] firstList = new Integer[]{1, 5, 6};
+        Integer[] secondList = new Integer[]{1, 3, 4, 6};
+        int i = 0;
+        Integer[] combileList = combine(firstList, secondList);
+        while (i < combileList.length) {
+            System.out.println(combileList[i]);
+            i++;
+        }
     }
 
     /**
-     * 整数反转
+     * 1.整数反转
      * @param orignal
      * @return
      */
@@ -70,7 +81,7 @@ public class IntegerInversion {
 
 
     /**
-     * 是否是回文数：借助整数反转的思路，判断反转前与反转后的值是否相等
+     * 2.是否是回文数：借助整数反转的思路，判断反转前与反转后的值是否相等
      * @param orignal
      * @return
      */
@@ -80,7 +91,7 @@ public class IntegerInversion {
     }
 
     /**
-     * 罗马数字转整数
+     * 3.罗马数字转整数
      * 罗马数字包含以下7种字符:I、V、X、L、C、D、M
      * 数字值I->1,V->5,X->10,L->50,C->100,D->500,M->1000
      * 例如：罗马数字2写作II,罗马数字27写作XXVII    LVIII->58   MCMXCIV->1994
@@ -184,6 +195,7 @@ public class IntegerInversion {
 
 
     /**
+     * 4.Linux语法简化规则
      * /c/d/////././../e/
      * /c/d/././../e/
      * /c/e
@@ -240,7 +252,7 @@ public class IntegerInversion {
     }
 
     /**
-     * 查找字符串数组中的最长公共前缀
+     * 5.查找字符串数组中的最长公共前缀
      * 如果不存在公共前缀，返回空字符串
      * 所有输入只包含小写字母a-z
      * 例如：输入{"flower","flow","flight","flosh"} 输出"fl"
@@ -290,7 +302,7 @@ public class IntegerInversion {
     }
 
     /**
-     * 寻找正确的括号
+     * 6.寻找正确的括号
      * 给定一个括号的字符串，必须以正确的顺序闭合()[]{}
      * @param parentheses
      * @return
@@ -345,6 +357,42 @@ public class IntegerInversion {
         }
 
         return isRealParentheses;
+    }
+
+
+    /**
+     * 7.合并两个有序链表
+     * 将2个升序链表合并为一个新的升序链表并返回
+     * 1->5->6, 1->3->4->6
+     * @param firstList
+     * @param secondList
+     * @return
+     */
+    public static Integer[] combine(Integer[] firstList, Integer[] secondList){
+        if(firstList == null || firstList.length == 0){
+            return secondList;
+        }else if(secondList == null || secondList.length == 0){
+            return firstList;
+        }
+        List<Integer> combine = new ArrayList<>();
+        for(int i = 0, j = 0; i < firstList.length && j < secondList.length;){
+            int first = firstList[i];
+            int second = secondList[j];
+            if(first == second){
+                combine.add(first);
+                i++;j++;
+            }else {
+                int max = Math.max(first, second);
+                if(first == max){
+                    combine.add(second);
+                    j++;
+                }else if(second == max){
+                    combine.add(first);
+                    i++;
+                }
+            }
+        }
+        return combine.toArray(new Integer[combine.size()]);
     }
 
 }
