@@ -1,5 +1,7 @@
 package com.lsj.springboot.Util.arithmetic.day200622;
 
+import org.springframework.util.StringUtils;
+
 /**
  * 题目七
  * 整数反转
@@ -11,6 +13,14 @@ package com.lsj.springboot.Util.arithmetic.day200622;
  *
  * 题目13
  * 罗马数字转整数
+ *
+ * 题目14
+ * 最长公共前缀
+ *
+ * 题目15
+ * 查找正确的括号
+ *
+ *
  */
 public class IntegerInversion {
 
@@ -18,11 +28,17 @@ public class IntegerInversion {
 //        System.out.println(integerInversion(-123));
 //        System.out.println(isPalindrome(-232));
 //        System.out.println(roman2Int("MCMXCIV"));
-        System.out.println(linuxRules("/c/d/////././../e/."));
+      /*  System.out.println(linuxRules("/c/d/////././../e/."));
         System.out.println(linuxRules("/c/d/////././../e/"));
         System.out.println(linuxRules("/c/d/////././../e/.."));
         System.out.println(linuxRules("/c/d/////././../ed/.."));
-        System.out.println(linuxRules("/c/d/////././../ed/."));
+        System.out.println(linuxRules("/c/d/////././../ed/."));*/
+   /*     String[] strs = new String[]{"flower","flow","flight","flosh"};
+        System.out.println(longestCommonPrefix(strs));*/
+        System.out.println( findRealParentheses("()[]{}"));
+        System.out.println( findRealParentheses("))[]{}"));
+        System.out.println( findRealParentheses("()[]{(}"));
+        System.out.println( findRealParentheses("()[]]{}"));
     }
 
     /**
@@ -222,4 +238,113 @@ public class IntegerInversion {
         return targetStr;
 
     }
+
+    /**
+     * 查找字符串数组中的最长公共前缀
+     * 如果不存在公共前缀，返回空字符串
+     * 所有输入只包含小写字母a-z
+     * 例如：输入{"flower","flow","flight","flosh"} 输出"fl"
+     * @param strs
+     * @return
+     */
+    public static String longestCommonPrefix(String[] strs){
+
+        if(strs.length == 0){
+            return "";
+        }else if(strs.length == 1){
+            return strs[1];
+        }
+
+
+        String common = "";
+        for(int i = 0; i < strs.length - 1; i++){
+            String first = "";
+            String second = "";
+            if(StringUtils.isEmpty(common)){// 第一个跟第二个数取公共前缀
+                first = strs[i];
+                second = strs[i + 1];
+            }else{
+                first = common;
+                second = strs[i + 1];
+            }
+
+            char[] firstChars = first.toCharArray();
+            char[] secondChars = second.toCharArray();
+            int minLength = Math.min(firstChars.length, secondChars.length);
+            char[] commonChars = new char[minLength];
+
+            for(int j = 0; j < minLength; j++){
+                if(firstChars[j] != secondChars[j]){
+                    break;
+                }
+                commonChars[j] = firstChars[j];
+
+            }
+            common = String.valueOf(commonChars);
+            if(StringUtils.isEmpty(common)){
+                break;
+            }
+        }
+
+        return common;
+    }
+
+    /**
+     * 寻找正确的括号
+     * 给定一个括号的字符串，必须以正确的顺序闭合()[]{}
+     * @param parentheses
+     * @return
+     */
+    public static boolean findRealParentheses(String parentheses){
+
+        boolean isRealParentheses = false;
+        char[] parenthesesChar = parentheses.toCharArray();
+
+        if(parenthesesChar.length % 2 != 0){// 奇数直接返回
+            return isRealParentheses;
+        }
+
+        for(int i = 0; i < parenthesesChar.length; i = i + 2){
+            switch (parenthesesChar[i]){
+                case '(':
+                    switch (parenthesesChar[i + 1]){
+                        case ')':
+                            isRealParentheses = true;
+                            break;
+                        default:
+                            break;
+
+                    }
+                    break;
+                case '[':
+                    switch (parenthesesChar[i + 1]){
+                        case ']':
+                            isRealParentheses = true;
+                            break;
+                        default:
+                            break;
+
+                    }
+                    break;
+                case '{':
+                    switch (parenthesesChar[i + 1]){
+                        case '}':
+                            isRealParentheses = true;
+                            break;
+                        default:
+                            break;
+
+                    }
+                    break;
+                default:
+                    break;
+            }
+            if(!isRealParentheses){
+                break;
+            }
+        }
+
+        return isRealParentheses;
+    }
+
 }
