@@ -6,24 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 题目七
- * 整数反转
- * 1234->4321; -123->-321; 1200->21; 1301->1031
+ * 题目七:整数反转
  *
- * 题目九
- * 回文数
- * 121->true; -232->true
+ * 题目九:回文数
  *
- * 题目13
- * 罗马数字转整数
+ * 题目13:罗马数字转整数
  *
- * 题目14
- * 最长公共前缀
+ * 题目14:最长公共前缀
  *
- * 题目15
- * 查找正确的括号
+ * 题目15:查找正确的括号
  *
+ * 题目21:合并两个有序链表
  *
+ * 题目26:删除排序数组中的重复项
+ *
+ * 题目27:移除元素
  */
 public class IntegerInversion {
 
@@ -42,18 +39,23 @@ public class IntegerInversion {
         System.out.println( findRealParentheses("))[]{}"));
         System.out.println( findRealParentheses("()[]{(}"));
         System.out.println( findRealParentheses("()[]]{}"));*/
-        Integer[] firstList = new Integer[]{1, 5, 6};
+        /*Integer[] firstList = new Integer[]{1, 5, 6};
         Integer[] secondList = new Integer[]{1, 3, 4, 6};
         int i = 0;
         Integer[] combileList = combine(firstList, secondList);
         while (i < combileList.length) {
             System.out.println(combileList[i]);
             i++;
-        }
+        }*/
+       /* Integer[] original = new Integer[]{0,0,1,1,1,2,2,3,3,4};
+        System.out.println(deleteCommonItem(original));*/
+        Integer[] original = new Integer[]{3,2,3,1,4,5,3,2,1};
+        System.out.println(deleteAssignItem(original, 3));
     }
 
     /**
      * 1.整数反转
+     * 1234->4321; -123->-321; 1200->21; 1301->1031
      * @param orignal
      * @return
      */
@@ -79,9 +81,9 @@ public class IntegerInversion {
         return integerNum;
     }
 
-
     /**
      * 2.是否是回文数：借助整数反转的思路，判断反转前与反转后的值是否相等
+     * 121->true; -232->true
      * @param orignal
      * @return
      */
@@ -395,4 +397,69 @@ public class IntegerInversion {
         return combine.toArray(new Integer[combine.size()]);
     }
 
+    /**
+     * 8.删除排序数组中的重复项
+     * 给定一个排序数组，你需要在原地删除重复的数组，使得每一个元素只出现一次，返回新数组的长度
+     * 不要使用额外的数组空间，并在原地修改输入数组  元素的顺序可以改变
+     * nums{0,0,1,1,1,2,2,3,3,4}
+     * 快慢指针
+     * @param original
+     * @return
+     */
+    private static int deleteCommonItem(Integer[] original){
+        if(original == null){
+            return 0;
+        }else if(original.length < 2){
+            return original.length;
+        }
+        int cur = 0;
+        for(int i = 1; i < original.length; i++){
+            if(original[cur] != original[i]){
+                original[++cur] = original[i];
+            }
+        }
+        return (cur + 1);
+    }
+    /**
+     * 9.移除元素
+     * 给定一个排序数组nums和一个值val，你需要在原地删除值等于val的元素，返回新数组的长度
+     * 不要使用额外的数组空间，并在原地修改输入数组 元素的顺序可以改变
+     * nums{3,2,3,1,4,5,3,2,1}
+     * 快慢指针
+     * @param original
+     * @return
+     */
+    private static int deleteAssignItem(Integer[] original, int target){
+        if(original == null){
+            return 0;
+        }else if(original.length < 2){
+            return original.length;
+        }
+        int cur = 0;
+        for(int i = 0; i < original.length; i++){
+            if(original[i] != target){
+                original[cur++] = original[i];
+            }
+        }
+        return cur;
+    }
+
+    /**
+     * 28.实现indexOf(),
+     * haystack = "hello", needle = "ll" 返回2；
+     * haystack = "aaaa", needle = "bba" 返回-1;
+     * needle = ""，返回0
+     * @param orignal
+     * @param findStr
+     */
+    private static int indexOf(String orignal, String findStr){
+        if(findStr == null || orignal == null){
+            throw new RuntimeException("参数不能为空");
+        }
+        if("".equals(findStr) || "".equals(orignal) || findStr.length() > orignal.length()){
+            return 0;
+        }
+
+        return 0;
+    }
 }
