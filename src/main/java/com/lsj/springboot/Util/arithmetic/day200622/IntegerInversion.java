@@ -89,11 +89,15 @@ public class IntegerInversion {
 
     /**
      * 2.是否是回文数：借助整数反转的思路，判断反转前与反转后的值是否相等
-     * 121->true; -232->true
+     * 121->true;
+     * 输入: -121 输出: false 解释: 从左向右读, 为 -121 。 从右向左读, 为 121- 。因此它不是一个回文数。
      * @param orignal
      * @return
      */
     public static boolean isPalindrome(int orignal){
+        if(orignal < 0){
+            return false;
+        }
         int target = integerInversion(orignal);
         return target == orignal;
     }
