@@ -2,8 +2,7 @@ package com.lsj.springboot.Util.arithmetic.day200622;
 
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 题目七:整数反转
@@ -24,6 +23,10 @@ import java.util.List;
  */
 public class IntegerInversion {
 
+    private static final Map<Character,Character> map = new HashMap(){{
+        put('{','}'); put('[',']'); put('(',')');
+    }};
+
     public static void main(String[] args){
      /*   System.out.println(integerInversion(-123));
         System.out.println(integerInversion(1534236469));*/
@@ -34,12 +37,12 @@ public class IntegerInversion {
         System.out.println(linuxRules("/c/d/////././../e/.."));
         System.out.println(linuxRules("/c/d/////././../ed/.."));
         System.out.println(linuxRules("/c/d/////././../ed/."));*/
-        String[] strs = new String[]{"flower","flow","flight","flosh"};
-        System.out.println(longestCommonPrefix(strs));
-       /* System.out.println( findRealParentheses("()[]{}"));
+//        String[] strs = new String[]{"flower","flow","flight","flosh"};
+//        System.out.println(longestCommonPrefix(strs));
+        System.out.println( findRealParentheses("()[]{}"));
         System.out.println( findRealParentheses("))[]{}"));
         System.out.println( findRealParentheses("()[]{(}"));
-        System.out.println( findRealParentheses("()[]]{}"));*/
+        System.out.println( findRealParentheses("[()[]]{}"));
         /*Integer[] firstList = new Integer[]{1, 5, 6};
         Integer[] secondList = new Integer[]{1, 3, 4, 6};
         int i = 0;
@@ -323,60 +326,56 @@ public class IntegerInversion {
 
     /**
      * 6.寻找正确的括号
-     * 给定一个括号的字符串，必须以正确的顺序闭合()[]{}
+     * 给定一个括号的字符串，必须以正确的顺序闭合
+     * ()[]{}  ([{}]) 分为并排、嵌套2种
      * @param parentheses
      * @return
      */
     public static boolean findRealParentheses(String parentheses){
-
-        boolean isRealParentheses = false;
-        char[] parenthesesChar = parentheses.toCharArray();
-
-        if(parenthesesChar.length % 2 != 0){// 奇数直接返回
-            return isRealParentheses;
+     /*   // 暴力破解法
+         执行用时：55 ms, 在所有 Java 提交中击败了5.33%的用户
+         内存消耗：40.2 MB, 在所有 Java 提交中击败了5.48%的用户
+        if("".equals(parentheses)){// 空串认为是有效字符串
+            return true;
+        }else if(parentheses.length() % 2 != 0){// 奇数直接返回
+            return false;
         }
-
-        for(int i = 0; i < parenthesesChar.length; i = i + 2){
-            switch (parenthesesChar[i]){
-                case '(':
-                    switch (parenthesesChar[i + 1]){
-                        case ')':
-                            isRealParentheses = true;
-                            break;
-                        default:
-                            break;
-
-                    }
-                    break;
-                case '[':
-                    switch (parenthesesChar[i + 1]){
-                        case ']':
-                            isRealParentheses = true;
-                            break;
-                        default:
-                            break;
-
-                    }
-                    break;
-                case '{':
-                    switch (parenthesesChar[i + 1]){
-                        case '}':
-                            isRealParentheses = true;
-                            break;
-                        default:
-                            break;
-
-                    }
-                    break;
-                default:
-                    break;
-            }
-            if(!isRealParentheses){
-                break;
+        while(parentheses.contains("()") || parentheses.contains("{}") || parentheses.contains("[]")){
+            parentheses = parentheses.replace("()", "");
+            parentheses = parentheses.replace("{}", "");
+            parentheses = parentheses.replace("[]", "");
+        }
+        if("".equals(parentheses)){
+            return true;
+        }
+        return false;
+*/
+        // 入栈法
+//        执行用时：2 ms, 在所有 Java 提交中击败了 80.05% 的用户
+//        内存消耗：37.7 MB, 在所有 Java 提交中击败了 5.48% 的用户
+        // 思路：初始化栈；一次处理一个括号；如果是开括号入栈；如果是必括号从栈中取出一个判断是否是对，
+        //  如果是一对继续，不是终止，结束后判断栈中是否还有元素，有返回false
+        if("".equals(parentheses)){// 空串认为是有效字符串
+            return true;
+        }else if(parentheses.length() % 2 != 0){// 奇数直接返回
+            return false;
+        }
+        Stack<Character> stack = new Stack<>();
+        char[] chars = parentheses.toCharArray();
+        if(!map.containsKey(chars[0])){
+            return false;
+        }
+        for(int i = 0; i < chars.length; i++){
+            if(map.containsKey(chars[i])){
+                stack.push(chars[i]);
+            }else{
+                if(map.get(stack.isEmpty() ? '?' : stack.pop()) != chars[i]){
+                    return false;
+                }
             }
         }
+        return stack.isEmpty();
 
-        return isRealParentheses;
     }
 
 
