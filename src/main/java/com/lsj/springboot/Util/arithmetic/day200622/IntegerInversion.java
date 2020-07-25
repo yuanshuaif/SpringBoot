@@ -25,8 +25,8 @@ import java.util.List;
 public class IntegerInversion {
 
     public static void main(String[] args){
-//        System.out.println(integerInversion(-123));
-        System.out.println(integerInversion(1534236469));
+     /*   System.out.println(integerInversion(-123));
+        System.out.println(integerInversion(1534236469));*/
 //        System.out.println(isPalindrome(-232));
 //        System.out.println(roman2Int("MCMXCIV"));
       /*  System.out.println(linuxRules("/c/d/////././../e/."));
@@ -34,8 +34,8 @@ public class IntegerInversion {
         System.out.println(linuxRules("/c/d/////././../e/.."));
         System.out.println(linuxRules("/c/d/////././../ed/.."));
         System.out.println(linuxRules("/c/d/////././../ed/."));*/
-   /*     String[] strs = new String[]{"flower","flow","flight","flosh"};
-        System.out.println(longestCommonPrefix(strs));*/
+        String[] strs = new String[]{"flower","flow","flight","flosh"};
+        System.out.println(longestCommonPrefix(strs));
        /* System.out.println( findRealParentheses("()[]{}"));
         System.out.println( findRealParentheses("))[]{}"));
         System.out.println( findRealParentheses("()[]{(}"));
@@ -276,7 +276,7 @@ public class IntegerInversion {
         if(strs.length == 0){
             return "";
         }else if(strs.length == 1){
-            return strs[1];
+            return strs[0];
         }
 
 
@@ -292,7 +292,7 @@ public class IntegerInversion {
                 second = strs[i + 1];
             }
 
-            char[] firstChars = first.toCharArray();
+          /*  char[] firstChars = first.toCharArray();
             char[] secondChars = second.toCharArray();
             int minLength = Math.min(firstChars.length, secondChars.length);
             char[] commonChars = new char[minLength];
@@ -302,7 +302,15 @@ public class IntegerInversion {
                     break;
                 }
                 commonChars[j] = firstChars[j];
-
+            }
+            */
+            int minLength = Math.min(first.length(), second.length());
+            StringBuffer commonChars = new StringBuffer();
+            for(int j = 0; j < minLength; j++){
+                if(first.charAt(j) != second.charAt(j)){
+                    break;
+                }
+                commonChars = commonChars.append(first.charAt(j));
             }
             common = String.valueOf(commonChars);
             if(StringUtils.isEmpty(common)){
