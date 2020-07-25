@@ -20,8 +20,8 @@ public class MiniProgram {
         System.out.println(longest("bbbbb"));
         System.out.println(longest("pwwkew"));*/
 
-        System.out.println(longestPalindromeStr("babad"));
-        System.out.println(longestPalindromeStr("abbd"));
+//        System.out.println(longestPalindromeStr("babad"));
+        System.out.println(longestPalindromeStr("cyyoacmjwjubfkzrrbvquqkwhsxvmytmjvbborrtoiyotobzjmohpadfrvmxuagbdczsjuekjrmcwyaovpiogspbslcppxojgbfxhtsxmecgqjfuvahzpgprscjwwutwoiksegfreortttdotgxbfkisyakejihfjnrdngkwjxeituomuhmeiesctywhryqtjimwjadhhymydlsmcpycfdzrjhstxddvoqprrjufvihjcsoseltpyuaywgiocfodtylluuikkqkbrdxgjhrqiselmwnpdzdmpsvbfimnoulayqgdiavdgeiilayrafxlgxxtoqskmtixhbyjikfmsmxwribfzeffccczwdwukubopsoxliagenzwkbiveiajfirzvngverrbcwqmryvckvhpiioccmaqoxgmbwenyeyhzhliusupmrgmrcvwmdnniipvztmtklihobbekkgeopgwipihadswbqhzyxqsdgekazdtnamwzbitwfwezhhqznipalmomanbyezapgpxtjhudlcsfqondoiojkqadacnhcgwkhaxmttfebqelkjfigglxjfqegxpcawhpihrxydprdgavxjygfhgpcylpvsfcizkfbqzdnmxdgsjcekvrhesykldgptbeasktkasyuevtxrcrxmiylrlclocldmiwhuizhuaiophykxskufgjbmcmzpogpmyerzovzhqusxzrjcwgsdpcienkizutedcwrmowwolekockvyukyvmeidhjvbkoortjbemevrsquwnjoaikhbkycvvcscyamffbjyvkqkyeavtlkxyrrnsmqohyyqxzgtjdavgwpsgpjhqzttukynonbnnkuqfxgaatpilrrxhcqhfyyextrvqzktcrtrsbimuokxqtsbfkrgoiznhiysfhzspkpvrhtewthpbafmzgchqpgfsuiddjkhnwchpleibavgmuivfiorpteflholmnxdwewj"));
     }
 
     /**
@@ -65,6 +65,7 @@ public class MiniProgram {
      */
     public static String longestPalindromeStr(String str){
 
+        long startTime = System.currentTimeMillis();
         String palindromeStr = "";
         int len = str.length();
         for(int i = 0; i < len; i++){
@@ -84,8 +85,66 @@ public class MiniProgram {
                 break;
             }
         }
-
+        long endTime = System.currentTimeMillis();
+        System.out.println(endTime - startTime);
         return palindromeStr;
+    }
+
+    /**
+     * 数组的遍历
+     * 485. 最大连续1的个数
+     * 给定一个二进制数组， 计算其中最大连续1的个数。
+     * 输入: [1,1,0,1,1,1]  输出: 3
+     * @param nums
+     * @return
+     */
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int max = 0;
+        int temp = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] == 1){
+                temp++;
+            }else{
+                max = Math.max(max, temp);
+                temp = 0;
+            }
+        }
+        if(temp != 0){
+            max = Math.max(max, temp);
+        }
+        return max;
+    }
+
+    /**
+     * 495.中毒总时长
+     * 输入: [1,4], 2  输出: 4
+         原因: 第 1 秒初，提莫开始对艾希进行攻击并使其立即中毒。中毒状态会维持 2 秒钟，直到第 2 秒末结束。
+         第 4 秒初，提莫再次攻击艾希，使得艾希获得另外 2 秒中毒时间。
+         所以最终输出 4 秒。
+       输入: [1,2], 2 输出: 3
+         原因: 第 1 秒初，提莫开始对艾希进行攻击并使其立即中毒。中毒状态会维持 2 秒钟，直到第 2 秒末结束。
+         但是第 2 秒初，提莫再次攻击了已经处于中毒状态的艾希。
+         由于中毒状态不可叠加，提莫在第 2 秒初的这次攻击会在第 3 秒末结束。
+         所以最终输出 3 。
+     * @param timeSeries
+     * @param duration
+     * @return
+     */
+    public int findPoisonedDuration(int[] timeSeries, int duration) {
+        if(timeSeries == null || timeSeries.length == 0){
+            return 0;
+        }
+        int total = 0;
+        for(int i = 0; i < timeSeries.length - 1; i++){
+            // if(timeSeries[i] + duration < timeSeries[i + 1]){
+            //     total += duration;
+            // } else{
+            //     total += timeSeries[i + 1] - timeSeries[i];
+            // }
+            total += Math.min(timeSeries[i + 1] - timeSeries[i], duration);
+        }
+        total += duration;
+        return total;
     }
 
 }
