@@ -449,8 +449,6 @@ public class IntegerInversion {
     private static int deleteAssignItem(Integer[] original, int target){
         if(original == null){
             return 0;
-        }else if(original.length < 2){
-            return original.length;
         }
         int cur = 0;
         for(int i = 0; i < original.length; i++){
