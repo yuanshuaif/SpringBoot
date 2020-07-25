@@ -26,6 +26,7 @@ public class IntegerInversion {
 
     public static void main(String[] args){
 //        System.out.println(integerInversion(-123));
+        System.out.println(integerInversion(1534236469));
 //        System.out.println(isPalindrome(-232));
 //        System.out.println(roman2Int("MCMXCIV"));
       /*  System.out.println(linuxRules("/c/d/////././../e/."));
@@ -51,23 +52,26 @@ public class IntegerInversion {
         System.out.println(deleteCommonItem(original));*/
        /* Integer[] original = new Integer[]{3,2,3,1,4,5,3,2,1};
         System.out.println(deleteAssignItem(original, 3));*/
-        System.out.println(indexOf("hello", "ll"));
-        System.out.println(indexOf("aaaaa", "aab"));
+//        System.out.println(indexOf("hello", "ll"));
+//        System.out.println(indexOf("aaaaa", "aab"));
     }
 
     /**
      * 1.整数反转
      * 1234->4321; -123->-321; 1200->21; 1301->1031
+     * int 的存储范围 [−2^31,  2^31 − 1],如果反转后整数溢出那么就返回 0。
      * @param orignal
      * @return
      */
     public static int integerInversion(int orignal){
-        int target = 0;
+        long target = 0;
         while(orignal != 0){
             target = target * 10 + orignal % 10;
             orignal /= 10;
         }
-        return target;
+        if(target > (1L<<31) - 1 || target < -(1L<<31))
+            return 0;
+        return (int)target;
     }
 
     // 获取整数的个数
