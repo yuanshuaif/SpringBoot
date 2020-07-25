@@ -59,6 +59,8 @@ public class MergeList {
             }else if(a.value == b.value){
                 curNode.next = a;
                 curNode = curNode.next;
+                curNode.next = b;
+                curNode = curNode.next;
                 a = a.next;
                 b = b.next;
             }
