@@ -59,7 +59,7 @@ public class NodeAdd {
         Node mergeNode = new Node(0);
         Node curNode = mergeNode;
         int curValue = 0;
-        while(a != null || b != null){
+        while(a != null || b != null || curValue > 0){
             curNode.next = new Node(0);
             curNode = curNode.next;
 
