@@ -49,8 +49,10 @@ public class IntegerInversion {
         }*/
        /* Integer[] original = new Integer[]{0,0,1,1,1,2,2,3,3,4};
         System.out.println(deleteCommonItem(original));*/
-        Integer[] original = new Integer[]{3,2,3,1,4,5,3,2,1};
-        System.out.println(deleteAssignItem(original, 3));
+       /* Integer[] original = new Integer[]{3,2,3,1,4,5,3,2,1};
+        System.out.println(deleteAssignItem(original, 3));*/
+        System.out.println(indexOf("hello", "ll"));
+        System.out.println(indexOf("aaaaa", "aab"));
     }
 
     /**
@@ -445,10 +447,11 @@ public class IntegerInversion {
     }
 
     /**
-     * 28.实现indexOf(),
+     * 10.实现indexOf(),
      * haystack = "hello", needle = "ll" 返回2；
      * haystack = "aaaa", needle = "bba" 返回-1;
      * needle = ""，返回0
+     * 时间复杂度((N-L)L)
      * @param orignal
      * @param findStr
      */
@@ -456,10 +459,33 @@ public class IntegerInversion {
         if(findStr == null || orignal == null){
             throw new RuntimeException("参数不能为空");
         }
-        if("".equals(findStr) || "".equals(orignal) || findStr.length() > orignal.length()){
+        if("".equals(findStr)){
             return 0;
+        }else if(findStr.length() > orignal.length() || "".equals(orignal)){
+            return -1;
         }
-
-        return 0;
+        char[] orignalChar = orignal.toCharArray();
+        char[] findChar = findStr.toCharArray();
+        int num = 0;
+        int index = -1;
+        // 1.滑动窗口
+        for(int i = 0; i <= orignalChar.length - findChar.length; i++){
+            for(int j = 0; j < findChar.length; j++){
+                if(orignalChar[i + j] != findChar[j]){
+                    break;
+                }else{
+                    num++;
+                }
+            }
+            if(num == findChar.length){
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
+
+
+
+
 }
