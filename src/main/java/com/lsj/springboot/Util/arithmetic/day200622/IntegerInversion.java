@@ -479,10 +479,10 @@ public class IntegerInversion {
         }
         char[] orignalChar = orignal.toCharArray();
         char[] findChar = findStr.toCharArray();
-        int num = 0;
         int index = -1;
         // 1.滑动窗口
         for(int i = 0; i <= orignalChar.length - findChar.length; i++){
+            int num = 0;
             for(int j = 0; j < findChar.length; j++){
                 if(orignalChar[i + j] != findChar[j]){
                     break;
