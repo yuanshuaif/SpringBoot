@@ -12,6 +12,16 @@ import java.util.Set;
  *
  * 题目5：最长回文字串
  * 滑动窗口暴力破解、动态规划
+ *
+ * 题目11. 盛最多水的容器
+ * 双指针
+ *
+ * 485. 最大连续1的个数
+ * 495.中毒总时长
+ * 数组的遍历
+ *
+ * 509.斐波那契数
+ * 递归
  */
 public class MiniProgram {
 
@@ -91,7 +101,7 @@ public class MiniProgram {
         return palindromeStr;*/
 
         // 耗时17毫秒
-        long startTime = System.currentTimeMillis();
+       /* long startTime = System.currentTimeMillis();
         String palindromeStr = "";
         char[] chars = str.toCharArray();
         int len = chars.length;
@@ -113,6 +123,38 @@ public class MiniProgram {
         long endTime = System.currentTimeMillis();
         System.out.println(endTime - startTime);
         return palindromeStr;
+
+        */
+       // 动态规划
+        int len = str.length();
+        if(len < 2){
+            return str;
+        }
+        char[] chars =  str.toCharArray();
+        boolean[][] dp = new boolean[len][len];
+        for(int i = 0; i < len; i++){
+            dp[i][i] = true;
+        }
+        int start = 0;
+        int maxlength = 1;
+        for(int j = 1; j < len; j++){
+            for(int i = 0; i < j; i++){
+                if(chars[i] != chars[j]){
+                    dp[i][j] = false;
+                }else{
+                    if(j - i < 3){
+                        dp[i][j] = true;
+                    }else{
+                        dp[i][j] = dp[i + 1][j - 1];
+                    }
+                }
+                if(dp[i][j] && j - i + 1 > maxlength){
+                    maxlength = j - i + 1;
+                    start = i;
+                }
+            }
+        }
+        return str = str.substring(start, start + maxlength);
     }
 
     private static boolean isPalindromeStr(char[] chars, int start, int end){
@@ -183,4 +225,44 @@ public class MiniProgram {
         return total;
     }
 
+    /**
+     * 给你 n 个非负整数 a1，a2，...，an，每个数代表坐标中的一个点 (i, ai) 。在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0)。
+          找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
+     说明：你不能倾斜容器，且 n 的值至少为 2。
+     输入：[1,8,6,2,5,4,8,3,7] 输出：49
+     * @param height
+     * @return
+     */
+    public int maxArea(int[] height) {
+        // 双指针
+        int start = 0;
+        int end = height.length - 1;
+        int maxCatacity = 0;
+        while(start < end){
+            int wide = end - start;// 桶的宽
+            int minHeight = Math.min(height[start], height[end]);// 桶单的最小高
+            maxCatacity = Math.max(maxCatacity, wide * minHeight);
+            // 移动小的边
+            if(minHeight == height[start]){
+                start++;
+            }else{
+                end--;
+            }
+        }
+        return maxCatacity;
+    }
+
+    /**
+     * 509斐波那契数，通常用 F(n) 表示，形成的序列称为斐波那契数列。该数列由 0 和 1 开始，后面的每一项数字都是前面两项数字的和。也就是：
+     * F(0) = 0,   F(1) = 1     F(N) = F(N - 1) + F(N - 2), 其中 N > 1.
+     * @param N
+     * @return
+     */
+    public int fib(int N) {
+        // 递归
+        if(N < 2){
+            return N;
+        }
+        return fib(N - 1) + fib(N - 2);
+    }
 }
