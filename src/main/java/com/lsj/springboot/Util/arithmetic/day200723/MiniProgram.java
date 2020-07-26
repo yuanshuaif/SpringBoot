@@ -64,7 +64,8 @@ public class MiniProgram {
      * @return
      */
     public static String longestPalindromeStr(String str){
-
+/*
+         // 耗时587毫秒
         long startTime = System.currentTimeMillis();
         String palindromeStr = "";
         int len = str.length();
@@ -87,7 +88,42 @@ public class MiniProgram {
         }
         long endTime = System.currentTimeMillis();
         System.out.println(endTime - startTime);
+        return palindromeStr;*/
+
+        // 耗时17毫秒
+        long startTime = System.currentTimeMillis();
+        String palindromeStr = "";
+        char[] chars = str.toCharArray();
+        int len = chars.length;
+        for(int i = 0; i < len; i++){
+            int start = 0;
+            int end = len - i;
+            while(end <= str.length()) {
+                if(isPalindromeStr(chars, start, end - 1)){
+                    palindromeStr = str.substring(start, end);
+                    break;
+                }
+                start++;
+                end++;
+            }
+            if(!StringUtils.isEmpty(palindromeStr)){
+                break;
+            }
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println(endTime - startTime);
         return palindromeStr;
+    }
+
+    private static boolean isPalindromeStr(char[] chars, int start, int end){
+        while(start < end){
+            if(chars[start] != chars[end]){
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
     }
 
     /**
