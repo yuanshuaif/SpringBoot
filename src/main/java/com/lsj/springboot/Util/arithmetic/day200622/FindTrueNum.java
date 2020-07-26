@@ -1,12 +1,15 @@
 package com.lsj.springboot.Util.arithmetic.day200622;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * 题目一
  * 1.给定一个无序数组，找到正确的数
  * 2.给定一个有序数组，找到正确的数
+ *
+ * 题目15 三数之和，借助双指针
  */
 public class FindTrueNum {
 
@@ -29,7 +32,9 @@ public class FindTrueNum {
 
     public static void main(String[] args){
 //        findTrueBumInUnorderedList(unorderedList, 8);
-        findTrueBumInOrderedList(orderedList, 8);
+//        findTrueBumInOrderedList(orderedList, 8);
+        int[] nums = new int[]{-1, 0, 1, 2, -1, -4};
+        threeSum(nums);
     }
 
     /**
@@ -71,6 +76,61 @@ public class FindTrueNum {
                 end--;
             }
         }
+    }
+
+    public static List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> result = new ArrayList<>();
+        int target = 0;
+        for(int i = 0; i < nums.length; i++){
+            // 不能包含重复的3元组
+            if(i > 0 && nums[i] == nums[i - 1]){
+                continue;
+            }
+            target = -nums[i];
+            // 求子数组
+            int[] subNums = Arrays.copyOfRange(nums, i + 1, nums.length);
+            List<List<Integer>> twoSumList = twoSum(subNums, target);
+            if(twoSumList.size() != 0) {
+                result.addAll(twoSumList);
+            }
+        }
+        return result;
+
+    }
+
+    // 求2数之和
+    public static List<List<Integer>> twoSum(int[] nums, int target){
+        List<List<Integer>> sumZeros = new ArrayList<>();
+        int start = 0;
+        int end = nums.length - 1;
+        while (start < end){
+            // 解决 [0,0,0,0] 测试用例的问题
+            if(start > 0 && nums[start] == nums[start - 1]){
+                start++;
+                continue;
+            }else if(end < nums.length - 1 && nums[end] == nums[end + 1]){
+                end--;
+                continue;
+            }
+            int firstNum = nums[start];
+            int lastNum = nums[end];
+            List<Integer> sumZero = new ArrayList<>();
+            if(firstNum + lastNum == target){
+                sumZero.add(-target);
+                sumZero.add(firstNum);
+                sumZero.add(lastNum);
+                start++;
+            }else if(firstNum + lastNum < target){
+                start++;
+            }else {
+                end--;
+            }
+            if(sumZero.size() > 0) {
+                sumZeros.add(sumZero);
+            }
+        }
+        return sumZeros;
     }
 
 }
