@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * 题目3：无重复字符的最长子串
@@ -34,6 +35,11 @@ import java.util.Set;
  *
  * 10.01. 合并排序的数组
  * 利用归并排序进行merge
+ *
+ * 392. 判断子序列
+ * 入栈法
+ *
+ * 409. 最长回文串
  */
 public class MiniProgram {
 
@@ -399,5 +405,65 @@ public class MiniProgram {
            A[index++] = B[indexB++];
        }
    }
+
+
+    /**
+     * 392. 判断子序列
+     * 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+     你可以认为 s 和 t 中仅包含英文小写字母。字符串 t 可能会很长（长度 ~= 500,000），而 s 是个短字符串（长度 <=100）。
+     字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
+     示例 1:s = "abc", t = "ahbgdc"    返回 true.
+     示例 2:s = "axc", t = "ahbgdc" 返回 false.
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean isSubsequence(String s, String t) {
+        // 入栈法 将t字节压入到栈里，取出来与s的字节匹配，
+        //若结束后，s字节没有值是子序列，若有值不是子序列
+        Stack<Character> st =new Stack<>();
+        for(char ch : t.toCharArray()){
+            st.push(ch);
+        }
+        int compile = 0;
+        for(int i = s.length() - 1; i >= 0; i--){
+            if(!st.isEmpty()){
+                char pop = st.pop();
+                while(!st.isEmpty() && s.charAt(i) != pop){
+                    pop = st.pop();
+                }
+                if(s.charAt(i) == pop){
+                    compile++;
+                }
+            }
+        }
+
+        return compile == s.length();
+    }
+
+    /**
+     * 409. 最长回文串
+     * 给定一个包含大写字母和小写字母的字符串，找到通过这些字母构造成的最长的回文串。
+     在构造过程中，请注意区分大小写。比如 "Aa" 不能当做一个回文字符串。
+     输入: "abccccdd" 输出: 7
+     解释: 我们可以构造的最长的回文串是"dccaccd", 它的长度是 7。
+     * @param s
+     * @return
+     */
+    public int longestPalindrome(String s) {
+        // A-Z 65-90; a-z 97-122
+        // 记录各个字符出现的次数
+        int[] ch = new int[58];
+        for(char c : s.toCharArray()){
+            ch[c - 'A'] += 1;
+        }
+        int ans = 0;
+        for(int x : ch){
+            // x & 1 偶数的0, 奇数需要减1
+            ans += x - (x & 1);
+        }
+
+        return ans < s.length() ? (ans + 1) : ans;
+    }
 
 }
