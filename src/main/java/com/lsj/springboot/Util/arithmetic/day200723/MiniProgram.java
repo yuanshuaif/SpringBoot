@@ -31,6 +31,9 @@ import java.util.Set;
  *
  * 836. 矩形重叠
  * 将矩形相不相交的问题，转化为x,y轴上2条线相不相交的问题
+ *
+ * 10.01. 合并排序的数组
+ * 利用归并排序进行merge
  */
 public class MiniProgram {
 
@@ -44,9 +47,17 @@ public class MiniProgram {
 
 //        System.out.println(daysBetweenDates("2019-06-29", "2019-06-30"));
 //        System.out.println(daysBetweenDates("2020-01-15", "2019-12-31"));
-        int[] rec1 = {7,8,13,15};
+      /*  int[] rec1 = {7,8,13,15};
         int[] rec2 = {10,8,12,20};
-        System.out.println(isRectangleOverlap(rec1, rec2));
+        System.out.println(isRectangleOverlap(rec1, rec2));*/
+       /* 输入: A = [1,2,3,0,0,0], m = 3;  B = [2,5,6],  n = 3
+      输出: [1,2,2,3,5,6]*/
+        int[] A = {1,2,3,0,0,0};
+        int m = 3;
+        int[] B = {2,5,6};
+        int n = 3;
+        merge(A, m, B, n);
+        System.out.println(A);
     }
 
     /**
@@ -346,5 +357,47 @@ public class MiniProgram {
     public static boolean isRectangleOverlap(int[] rec1, int[] rec2) {
         return !((rec1[2] <= rec2[0] || rec2[2] <= rec1[0]) || (rec1[3] <= rec2[1] || rec2[3] <= rec1[1]));
     }
+
+
+    /**
+     * 10.01. 合并排序的数组
+     * 输入: A = [1,2,3,0,0,0], m = 3;  B = [2,5,6],  n = 3 输出: [1,2,2,3,5,6] 先将A数组中的m个元素移动到末尾；
+     * 然后利用归并排序的merge思想，每次取出A和B数组头元素中的最小值逐个放到A数组中。
+     * 以上说法有点抽象，我们举个例子吧。假设A = [1,2,3,0,0,0], B = [2,5,6] A=[1,2,3,0,0,0],B=[2,5,6]。A数组元素的变化过程如下：
+     * [0,0,0,1,2,3][1,0,0,1,2,3][1,2,0,0,0,3][1,2,2,0,0,3][1,2,2,3,0,0][1,2,2,3,5,0][1,2,2,3,5,6]
+     * 说明：以上元素被移动到正确的位置上后，其实无需置0（为了演示看起来更加直观，置0）。
+     * @param A
+     * @param m
+     * @param B
+     * @param n
+     */
+   public static void merge(int[] A, int m, int[] B, int n) {
+      /* public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+        Object src : 原数组
+        int srcPos : 从元数据的起始位置开始
+    　　Object dest : 目标数组
+    　　int destPos : 目标数组的开始起始位置
+    　　int length  : 要copy的数组的长度*/
+       // 先将A右移到末尾
+       System.arraycopy(A, 0, A, n, m);
+       int index = 0;
+       int indexA, indexB;
+       // 归并排序 merge
+       for(indexA = n, indexB = 0; indexA < m + n && indexB < n;){
+           if(A[indexA] >= B[indexB]){
+               A[index++] = B[indexB++];
+           }else{
+               A[index++] = A[indexA++];
+           }
+       }
+       // A中还有剩余元素
+       while(indexA < m + n){
+           A[index++] = A[indexA++];
+       }
+       // B中还有剩余元素
+       while(indexB < n){
+           A[index++] = B[indexB++];
+       }
+   }
 
 }
