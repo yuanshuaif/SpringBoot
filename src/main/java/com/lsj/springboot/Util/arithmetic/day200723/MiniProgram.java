@@ -263,10 +263,22 @@ public class MiniProgram {
      */
     public int fib(int N) {
         // 递归
+//        if(N < 2){
+//            return N;
+//        }
+//        return fib(N - 1) + fib(N - 2);
         if(N < 2){
             return N;
         }
-        return fib(N - 1) + fib(N - 2);
+        int first = 0;
+        int second = 1;
+        int result = 0;
+        for(int i = 2; i <= N; i++){
+            result = first + second;
+            first = second;
+            second = result;
+        }
+        return result;
     }
 
     /**
