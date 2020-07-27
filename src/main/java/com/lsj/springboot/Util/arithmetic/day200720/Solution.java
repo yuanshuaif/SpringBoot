@@ -36,8 +36,8 @@ public class Solution {
         Node temp = null;
         while(head != null){
             Node next = head.next;
-            head.next = temp;
-            temp = head;
+            head.next = temp;// 对象关联
+            temp = head;// 指针移动
             head = next;
         }
         return temp;
