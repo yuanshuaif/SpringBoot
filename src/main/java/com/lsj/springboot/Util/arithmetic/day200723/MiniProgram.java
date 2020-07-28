@@ -498,4 +498,27 @@ public class MiniProgram {
         return ans;
     }
 
+    /**
+     * 70.爬楼梯
+     * 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
+     * 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+     * 类似于斐波那契数
+     * @param n
+     * @return
+     */
+    public int climbStairs(int n) {
+        if(n < 2){
+            return n;
+        }
+        // 初始化
+        int[] ints = new int[n + 1];
+        ints[0] = 1;
+        ints[1] = 1;
+
+        for(int i = 2; i <= n; i++){
+            ints[i] = ints[i - 2] + ints[i - 1];
+        }
+        return ints[n];
+    }
+
 }
