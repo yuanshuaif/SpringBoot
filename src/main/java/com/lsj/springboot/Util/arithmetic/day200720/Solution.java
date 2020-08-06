@@ -11,11 +11,15 @@ package com.lsj.springboot.Util.arithmetic.day200720;
  *
  * 572. 另一个树的子树
  * 双递归
+ *
+ * 543. 二叉树的直径
  */
 public class Solution {
 
+    private static int ans = 0;
+
     public static void main(String[] args){
-        Node a = new Node(1);
+       /* Node a = new Node(1);
         Node b = new Node(2);
         Node c = new Node(3);
         Node d = new Node(4);
@@ -23,8 +27,12 @@ public class Solution {
         a.next = b;
         b.next = c;
         c.next = d;
-        d.next = e;
-        System.out.println(reverseList(a));
+        d.next = e;*/
+        TreeNode a = new TreeNode(1);
+        TreeNode b = new TreeNode(2);
+//        a.left = b;
+        a.right = b;
+        System.out.println(diameterOfBinaryTree(a));
     }
 
     /**
@@ -58,11 +66,9 @@ public class Solution {
      * @param root
      * @return
      */
-    public int maxDepth(TreeNode root) {
+    public static int maxDepth(TreeNode root) {
         if(root == null){
             return 0;
-        }else if(root.left == null && root.right == null){
-            return 1;
         }
         return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
     }
@@ -88,5 +94,30 @@ public class Solution {
         return isSameTree(s.left, t.left) && isSameTree(s.right, t.right);
     }
 
+    /**
+     * 543. 二叉树的直径
+     *  给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过也可能不穿过根结点。
+     *  算法：计算左右子树的最大深度，树的直径 = 左子树深度 + 右子树深度
+     * @param root
+     * @return
+     */
+    public static int diameterOfBinaryTree(TreeNode root) {
+        if(root == null || (root.right == null && root.left == null)){
+            return 0;
+        }
+        diameter(root);
+        return ans;
+    }
+
+
+    public static int diameter(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        int left = diameter(root.left);
+        int right = diameter(root.right);
+        ans = Math.max(ans, left + right);
+        return 1 + Math.max(left, right);
+    }
 
 }
