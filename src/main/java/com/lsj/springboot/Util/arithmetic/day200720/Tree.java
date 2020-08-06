@@ -3,9 +3,6 @@ package com.lsj.springboot.Util.arithmetic.day200720;
 /**
  * Created by 10326 on 2020/7/25.
  *
- * 206.链表翻转
- * 迭代
- *
  * 104. 二叉树的最大深度
  * 递归
  *
@@ -14,7 +11,7 @@ package com.lsj.springboot.Util.arithmetic.day200720;
  *
  * 543. 二叉树的直径
  */
-public class Solution {
+public class Tree {
 
     private static int ans = 0;
 
@@ -35,30 +32,7 @@ public class Solution {
         System.out.println(diameterOfBinaryTree(a));
     }
 
-    /**
-     * 206.链表翻转
-     * @param head
-     * @return
-     */
-    public static Node reverseList(Node head) {
-        // 递归法
-//        if(head == null || head.next == null)
-//            return head;
-//        Node reverseNode  = reverseList(head.next);
-//        head.next.next = head;
-//        head.next = null;
-//        return reverseNode;
 
-        // 迭代法
-        Node temp = null;
-        while(head != null){
-            Node next = head.next;
-            head.next = temp;// 对象关联
-            temp = head;// 指针移动
-            head = next;
-        }
-        return temp;
-    }
 
     /**
      * 104. 二叉树的最大深度
@@ -120,4 +94,53 @@ public class Solution {
         return 1 + Math.max(left, right);
     }
 
+}
+
+class TreeNode {
+
+    int value;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(){}
+    TreeNode(int value){
+        this(value, null, null);
+    }
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.value = val;
+        this.left = left;
+        this.right = right;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public TreeNode getLeft() {
+        return left;
+    }
+
+    public void setLeft(TreeNode left) {
+        this.left = left;
+    }
+
+    public TreeNode getRight() {
+        return right;
+    }
+
+    public void setRight(TreeNode right) {
+        this.right = right;
+    }
+
+    @Override
+    public String toString() {
+        return "TreeNode{" +
+                "value=" + value +
+                ", left=" + left +
+                ", right=" + right +
+                '}';
+    }
 }
