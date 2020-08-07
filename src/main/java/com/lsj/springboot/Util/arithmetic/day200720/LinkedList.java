@@ -4,6 +4,7 @@ package com.lsj.springboot.Util.arithmetic.day200720;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * * 链表的插入时间复杂度 o(1)，查询复杂度o(n);
@@ -22,6 +23,8 @@ import java.util.List;
  *
  * 234. 回文链表
  * 双指针
+ *
+ * 83. 删除排序链表中的重复元素
  */
 public class LinkedList {
 
@@ -267,6 +270,55 @@ public class LinkedList {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * 83. 删除排序链表中的重复元素
+     * 给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
+     * 输入: 1->1->2 输出: 1->2;    输入: 1->1->2->3->3 输出: 1->2->3
+     * @param head
+     * @return
+     */
+    public Node deleteDuplicates(Node head) {
+       /* //1.将值压到栈里，得到无重复的节点
+        if(head == null || head.next == null){
+            return head;
+        }
+        Stack<Node> stack = new Stack<>();
+        while(head != null){
+            Node next = head.next;
+            head.next = null;
+            if(stack.isEmpty()){
+                stack.push(head);
+            }else{
+                if(stack.peek().value != head.value){
+                    stack.push(head);
+                }
+            }
+            head = next;
+        }
+        //2.将节点从栈中取出得到一个新的Node
+        Node result = null;
+        while(!stack.isEmpty()){
+            Node temp = stack.pop();
+            temp.next = result;
+            result = temp;
+        }
+        return result;*/
+
+        // 如果下一个节点的值与自身节点的值不相等，则删除下一个节点
+        if(head == null || head.next == null){
+            return head;
+        }
+        Node result = head;
+        while(head != null && head.next != null){
+            if(head.value == head.next.value){
+                head.next = head.next.next;
+            }else{
+                head = head.next;
+            }
+        }
+        return result;
     }
 
 }
