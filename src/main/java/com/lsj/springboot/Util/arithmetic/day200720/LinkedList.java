@@ -25,6 +25,9 @@ import java.util.Stack;
  * 双指针
  *
  * 83. 删除排序链表中的重复元素
+ *
+ * 141. 环形链表
+ * 快慢指针
  */
 public class LinkedList {
 
@@ -96,15 +99,15 @@ public class LinkedList {
                 curNode.next = b;
                 break;
             }
-            if(a.value > b.value) {
+            if(a.val > b.val) {
                 curNode.next = b;
                 curNode = curNode.next;
                 b = b.next;
-            }else if(a.value < b.value){
+            }else if(a.val < b.val){
                 curNode.next = a;
                 curNode = curNode.next;
                 a = a.next;
-            }else if(a.value == b.value){
+            }else if(a.val == b.val){
                 curNode.next = a;
                 curNode = curNode.next;
                 curNode.next = b;
@@ -135,18 +138,18 @@ public class LinkedList {
             curNode = curNode.next;
 
             if(a != null){
-                curValue += a.value;
+                curValue += a.val;
                 a = a.next;
             }
 
             if(b != null){
-                curValue += b.value;
+                curValue += b.val;
                 b = b.next;
             }
 
             int cur = curValue % 10;
             curValue = curValue / 10;
-            curNode.value = cur;
+            curNode.val = cur;
         }
 
         return mergeNode.next;
@@ -191,7 +194,7 @@ public class LinkedList {
 
         // 把头节点匹配到的元素全部删掉
         while (head != null){
-            if(head.value == val){
+            if(head.val == val){
                 head = head.next;
             }else {
                 break;
@@ -202,7 +205,7 @@ public class LinkedList {
 
         // 比较头节点的下一个节点的元素值是否能匹配到
         while(head != null){
-            if(head.next != null && head.next.value == val){
+            if(head.next != null && head.next.val == val){
                 head.next = head.next.next;
             }else{
                 head = head.next;
@@ -226,7 +229,7 @@ public class LinkedList {
         Node orignalNode = (Node)deepClone(head);
         Node reverseNode = reverseList(head);
         while(reverseNode != null){
-            if(reverseNode.value != orignalNode.value){
+            if(reverseNode.val != orignalNode.val){
                 flag = false;
                 break;
             }
@@ -237,7 +240,7 @@ public class LinkedList {
         // 方法二、将链表中的元素取出依次放到数组中,使用双指针
         List<Integer> list = new ArrayList<>();
         while(head != null){
-            list.add(head.value);
+            list.add(head.val);
             head = head.next;
         }
         Integer[] chars = list.toArray(new Integer[0]);
@@ -291,7 +294,7 @@ public class LinkedList {
             if(stack.isEmpty()){
                 stack.push(head);
             }else{
-                if(stack.peek().value != head.value){
+                if(stack.peek().val != head.val){
                     stack.push(head);
                 }
             }
@@ -312,7 +315,7 @@ public class LinkedList {
         }
         Node result = head;
         while(head != null && head.next != null){
-            if(head.value == head.next.value){
+            if(head.val == head.next.val){
                 head.next = head.next.next;
             }else{
                 head = head.next;
@@ -321,22 +324,49 @@ public class LinkedList {
         return result;
     }
 
+    /**
+     * 141. 环形链表
+     * 给定一个链表，判断链表中是否有环。
+     * 为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。
+     * @param head
+     * @return
+     */
+    public boolean hasCycle(Node head) {
+        // 快慢指针
+        if(head == null || head.next == null){
+            return false;
+        }
+        Node first = head.next;
+        Node second = head.next.next;
+        while(first != null && second != null){
+            if(first.val == second.val){
+                return true;
+            }
+            first = first.next;
+            if(second.next == null){
+                return false;
+            }
+            second = second.next.next;
+        }
+        return false;
+    }
+
 }
 
 class Node implements Serializable {
-    int value;
+    int val;
     Node next;
-    Node(int value){
-        this.value = value;
+    Node(int val){
+        this.val = val;
         this.next = null;
     }
 
     public int getValue() {
-        return value;
+        return val;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setValue(int val) {
+        this.val = val;
     }
 
     public Node getNext() {
@@ -350,9 +380,8 @@ class Node implements Serializable {
     @Override
     public String toString() {
         return "Node{" +
-                "value=" + value +
+                "val=" + val +
                 ", next=" + next +
                 '}';
     }
 }
-
