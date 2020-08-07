@@ -1,6 +1,10 @@
 package com.lsj.springboot.Util.arithmetic.day200720;
 
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * * 链表的插入时间复杂度 o(1)，查询复杂度o(n);
  * * 顺序表的插入复杂度o(logn)，查询复杂度o(1);
@@ -13,6 +17,11 @@ package com.lsj.springboot.Util.arithmetic.day200720;
  *
  * 206.链表翻转
  * 迭代
+ *
+ * 203. 移除链表元素
+ *
+ * 234. 回文链表
+ * 双指针
  */
 public class LinkedList {
 
@@ -53,14 +62,14 @@ public class LinkedList {
 
         System.out.println(addNode(a, x));*/
 
-        Node a = new Node(1);
-        Node b = new Node(2);
-        Node c = new Node(2);
-        Node d = new Node(1);
+        Node a = new Node(-129);
+        Node b = new Node(-129);
+//        Node c = new Node(2);
+//        Node d = new Node(1);
         a.next = b;
-        b.next = c;
-        c.next = d;
-        System.out.println(removeElements(a, 2));
+//        b.next = c;
+//        c.next = d;
+        System.out.println(isPalindrome(a));
 
     }
 
@@ -199,9 +208,70 @@ public class LinkedList {
 
         return temp;
     }
+
+    /**
+     * 234. 回文链表
+     *  请判断一个链表是否为回文链表。
+     *  输入: 1->2 输出: false
+     *  输入: 1->2->2->1 输出: true
+     * @param head
+     * @return
+     */
+    public static boolean isPalindrome(Node head) {
+        boolean flag = true;
+       /* // 方法一、克隆一个对象与反转后的对象每个节点都进行对比，leetcode不支持深克隆的相关类所以暂时注释掉
+        Node orignalNode = (Node)deepClone(head);
+        Node reverseNode = reverseList(head);
+        while(reverseNode != null){
+            if(reverseNode.value != orignalNode.value){
+                flag = false;
+                break;
+            }
+            reverseNode = reverseNode.next;
+            orignalNode = orignalNode.next;
+        }*/
+
+        // 方法二、将链表中的元素取出依次放到数组中,使用双指针
+        List<Integer> list = new ArrayList<>();
+        while(head != null){
+            list.add(head.value);
+            head = head.next;
+        }
+        Integer[] chars = list.toArray(new Integer[0]);
+        if(chars.length < 2){
+            return true;
+        }
+        for(int i = 0; i < chars.length / 2; i++){
+            if((int)chars[i] != (int)chars[chars.length - i -1]){
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+
+    /**
+     * 深克隆
+     * @param node
+     * @return
+     */
+    public static Object deepClone(Node node) {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();//字节流对象
+            ObjectOutputStream oos = new ObjectOutputStream(bos);//开始转换该对象
+            oos.writeObject(node);//写到当前类，当然也可以写入文件
+            ByteArrayInputStream bais = new ByteArrayInputStream(bos.toByteArray());//字节输出流
+            ObjectInputStream ois = new ObjectInputStream(bais);//输出该对象
+            return (Object) ois.readObject();//读出对象，实现新对象的生成
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
 
-class Node {
+class Node implements Serializable {
     int value;
     Node next;
     Node(int value){
