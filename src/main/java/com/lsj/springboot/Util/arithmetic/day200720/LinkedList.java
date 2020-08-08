@@ -351,6 +351,31 @@ public class LinkedList {
         return false;
     }
 
+    /**
+     * 160. 相交链表
+     * 找到两个单链表相交的起始节点。(本地无法实现)
+     * 让两个链表从同距离末尾同等距离的位置开始遍历。这个位置只能是较短链表的头结点位置。为此，我们必须消除两个链表的长度差
+     * 1.指针 pA 指向 A 链表，指针 pB 指向 B 链表，依次往后遍历
+     * 2.如果 pA 到了末尾，则 pA = headB 继续遍历
+     * 3.如果 pB 到了末尾，则 pB = headA 继续遍历
+     * 4.A + B = B + A 消除长度差
+     * @param headA
+     * @param headB
+     * @return
+     */
+    public Node getIntersectionNode(Node headA, Node headB) {
+        if(headA == null || headB == null){
+            return null;
+        }
+        Node a = headA;
+        Node b = headB;
+        while(headA != headB){
+            headA = headA == null ? b : headA.next;
+            headB = headB == null ? a : headB.next;
+        }
+        return headB;
+    }
+
 }
 
 class Node implements Serializable {
