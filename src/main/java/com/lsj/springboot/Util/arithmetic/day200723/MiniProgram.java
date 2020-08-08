@@ -17,10 +17,6 @@ import java.util.Stack;
  * 题目5：最长回文字串
  * 滑动窗口暴力破解、动态规划
  *
- * 题目11. 盛最多水的容器
- * 双指针
- *
- * 485. 最大连续1的个数
  * 495.中毒总时长
  * 数组的遍历
  *
@@ -33,16 +29,12 @@ import java.util.Stack;
  * 836. 矩形重叠
  * 将矩形相不相交的问题，转化为x,y轴上2条线相不相交的问题
  *
- * 10.01. 合并排序的数组
- * 利用归并排序进行merge
- *
  * 392. 判断子序列
  * 入栈法
  *
  * 409. 最长回文串
  *
- * 53. 最大子序和
- * 动态规划
+
  */
 public class MiniProgram {
 
@@ -61,12 +53,6 @@ public class MiniProgram {
         System.out.println(isRectangleOverlap(rec1, rec2));*/
        /* 输入: A = [1,2,3,0,0,0], m = 3;  B = [2,5,6],  n = 3
       输出: [1,2,2,3,5,6]*/
-        int[] A = {1,2,3,0,0,0};
-        int m = 3;
-        int[] B = {2,5,6};
-        int n = 3;
-        merge(A, m, B, n);
-        System.out.println(A);
     }
 
     /**
@@ -204,90 +190,6 @@ public class MiniProgram {
     }
 
     /**
-     * 数组的遍历
-     * 485. 最大连续1的个数
-     * 给定一个二进制数组， 计算其中最大连续1的个数。
-     * 输入: [1,1,0,1,1,1]  输出: 3
-     * @param nums
-     * @return
-     */
-    public int findMaxConsecutiveOnes(int[] nums) {
-        int max = 0;
-        int temp = 0;
-        for(int i = 0; i < nums.length; i++){
-            if(nums[i] == 1){
-                temp++;
-            }else{
-                max = Math.max(max, temp);
-                temp = 0;
-            }
-        }
-        if(temp != 0){
-            max = Math.max(max, temp);
-        }
-        return max;
-    }
-
-    /**
-     * 495.中毒总时长
-     * 输入: [1,4], 2  输出: 4
-         原因: 第 1 秒初，提莫开始对艾希进行攻击并使其立即中毒。中毒状态会维持 2 秒钟，直到第 2 秒末结束。
-         第 4 秒初，提莫再次攻击艾希，使得艾希获得另外 2 秒中毒时间。
-         所以最终输出 4 秒。
-       输入: [1,2], 2 输出: 3
-         原因: 第 1 秒初，提莫开始对艾希进行攻击并使其立即中毒。中毒状态会维持 2 秒钟，直到第 2 秒末结束。
-         但是第 2 秒初，提莫再次攻击了已经处于中毒状态的艾希。
-         由于中毒状态不可叠加，提莫在第 2 秒初的这次攻击会在第 3 秒末结束。
-         所以最终输出 3 。
-     * @param timeSeries
-     * @param duration
-     * @return
-     */
-    public int findPoisonedDuration(int[] timeSeries, int duration) {
-        if(timeSeries == null || timeSeries.length == 0){
-            return 0;
-        }
-        int total = 0;
-        for(int i = 0; i < timeSeries.length - 1; i++){
-            // if(timeSeries[i] + duration < timeSeries[i + 1]){
-            //     total += duration;
-            // } else{
-            //     total += timeSeries[i + 1] - timeSeries[i];
-            // }
-            total += Math.min(timeSeries[i + 1] - timeSeries[i], duration);
-        }
-        total += duration;
-        return total;
-    }
-
-    /**
-     * 给你 n 个非负整数 a1，a2，...，an，每个数代表坐标中的一个点 (i, ai) 。在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0)。
-          找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
-     说明：你不能倾斜容器，且 n 的值至少为 2。
-     输入：[1,8,6,2,5,4,8,3,7] 输出：49
-     * @param height
-     * @return
-     */
-    public int maxArea(int[] height) {
-        // 双指针
-        int start = 0;
-        int end = height.length - 1;
-        int maxCatacity = 0;
-        while(start < end){
-            int wide = end - start;// 桶的宽
-            int minHeight = Math.min(height[start], height[end]);// 桶单的最小高
-            maxCatacity = Math.max(maxCatacity, wide * minHeight);
-            // 移动小的边
-            if(minHeight == height[start]){
-                start++;
-            }else{
-                end--;
-            }
-        }
-        return maxCatacity;
-    }
-
-    /**
      * 509斐波那契数，通常用 F(n) 表示，形成的序列称为斐波那契数列。该数列由 0 和 1 开始，后面的每一项数字都是前面两项数字的和。也就是：
      * F(0) = 0,   F(1) = 1     F(N) = F(N - 1) + F(N - 2), 其中 N > 1.
      * @param N
@@ -369,48 +271,6 @@ public class MiniProgram {
 
 
     /**
-     * 10.01. 合并排序的数组
-     * 输入: A = [1,2,3,0,0,0], m = 3;  B = [2,5,6],  n = 3 输出: [1,2,2,3,5,6] 先将A数组中的m个元素移动到末尾；
-     * 然后利用归并排序的merge思想，每次取出A和B数组头元素中的最小值逐个放到A数组中。
-     * 以上说法有点抽象，我们举个例子吧。假设A = [1,2,3,0,0,0], B = [2,5,6] A=[1,2,3,0,0,0],B=[2,5,6]。A数组元素的变化过程如下：
-     * [0,0,0,1,2,3][1,0,0,1,2,3][1,2,0,0,0,3][1,2,2,0,0,3][1,2,2,3,0,0][1,2,2,3,5,0][1,2,2,3,5,6]
-     * 说明：以上元素被移动到正确的位置上后，其实无需置0（为了演示看起来更加直观，置0）。
-     * @param A
-     * @param m
-     * @param B
-     * @param n
-     */
-   public static void merge(int[] A, int m, int[] B, int n) {
-      /* public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
-        Object src : 原数组
-        int srcPos : 从元数据的起始位置开始
-    　　Object dest : 目标数组
-    　　int destPos : 目标数组的开始起始位置
-    　　int length  : 要copy的数组的长度*/
-       // 先将A右移到末尾
-       System.arraycopy(A, 0, A, n, m);
-       int index = 0;
-       int indexA, indexB;
-       // 归并排序 merge
-       for(indexA = n, indexB = 0; indexA < m + n && indexB < n;){
-           if(A[indexA] >= B[indexB]){
-               A[index++] = B[indexB++];
-           }else{
-               A[index++] = A[indexA++];
-           }
-       }
-       // A中还有剩余元素
-       while(indexA < m + n){
-           A[index++] = A[indexA++];
-       }
-       // B中还有剩余元素
-       while(indexB < n){
-           A[index++] = B[indexB++];
-       }
-   }
-
-
-    /**
      * 392. 判断子序列
      * 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
      你可以认为 s 和 t 中仅包含英文小写字母。字符串 t 可能会很长（长度 ~= 500,000），而 s 是个短字符串（长度 <=100）。
@@ -467,35 +327,6 @@ public class MiniProgram {
         }
 
         return ans < s.length() ? (ans + 1) : ans;
-    }
-
-    /**
-     * 53. 最大子序和
-     * 给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
-     * 输入: [-2,1,-3,4,-1,2,1,-5,4]  输出: 6
-        解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
-         动态规划的是首先对数组进行遍历，当前最大连续子序列和为 sum，结果为 ans
-         如果 sum > 0，则说明 sum 对结果有增益效果，则 sum 保留并加上当前遍历数字
-         如果 sum <= 0，则说明 sum 对结果无增益效果，需要舍弃，则 sum 直接更新为当前遍历数字
-         每次比较 sum 和 ans的大小，将最大值置为ans，遍历结束返回结果
-         时间复杂度：O(n)O(n)
-     * @param nums
-     * @return
-     */
-    public int maxSubArray(int[] nums) {
-        int hSum = 0;// 历史和
-        int sum = 0;// 当前和
-        int ans = nums[0];// 最大和
-        for(int num : nums){
-            if(hSum <= 0){
-                sum = num;
-            }else{
-                sum += num;
-            }
-            hSum = sum;
-            ans = Math.max(ans, sum);
-        }
-        return ans;
     }
 
     /**

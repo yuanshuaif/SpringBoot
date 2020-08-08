@@ -15,11 +15,6 @@ import java.util.*;
  *
  * 题目15:查找正确的括号
  *
- * 题目21:合并两个有序链表
- *
- * 题目26:删除排序数组中的重复项
- *
- * 题目27:移除元素
  */
 public class IntegerInversion {
 
@@ -376,87 +371,6 @@ public class IntegerInversion {
         }
         return stack.isEmpty();
 
-    }
-
-
-    /**
-     * 7.合并两个有序链表
-     * 将2个升序链表合并为一个新的升序链表并返回
-     * 1->5->6, 1->3->4->6
-     * @param firstList
-     * @param secondList
-     * @return
-     */
-    public static Integer[] combine(Integer[] firstList, Integer[] secondList){
-        if(firstList == null || firstList.length == 0){
-            return secondList;
-        }else if(secondList == null || secondList.length == 0){
-            return firstList;
-        }
-        List<Integer> combine = new ArrayList<>();
-        for(int i = 0, j = 0; i < firstList.length && j < secondList.length;){
-            int first = firstList[i];
-            int second = secondList[j];
-            if(first == second){
-                combine.add(first);
-                i++;j++;
-            }else {
-                int max = Math.max(first, second);
-                if(first == max){
-                    combine.add(second);
-                    j++;
-                }else if(second == max){
-                    combine.add(first);
-                    i++;
-                }
-            }
-        }
-        return combine.toArray(new Integer[combine.size()]);
-    }
-
-    /**
-     * 8.删除排序数组中的重复项
-     * 给定一个排序数组，你需要在原地删除重复的数组，使得每一个元素只出现一次，返回新数组的长度
-     * 不要使用额外的数组空间，并在原地修改输入数组  元素的顺序可以改变
-     * nums{0,0,1,1,1,2,2,3,3,4}
-     * 快慢指针
-     * @param original
-     * @return
-     */
-    private static int deleteCommonItem(Integer[] original){
-        if(original == null){
-            return 0;
-        }else if(original.length < 2){
-            return original.length;
-        }
-        int cur = 0;
-        for(int i = 1; i < original.length; i++){
-            if(original[cur] != original[i]){
-                original[++cur] = original[i];
-            }
-        }
-        return (cur + 1);
-    }
-    /**
-     * 9.移除元素
-     * 给定一个排序数组nums和一个值val，你需要在原地删除值等于val的元素，返回新数组的长度
-     * 不要使用额外的数组空间，并在原地修改输入数组 元素的顺序可以改变
-     * nums{3,2,3,1,4,5,3,2,1}
-     * 快慢指针
-     * @param original
-     * @return
-     */
-    private static int deleteAssignItem(Integer[] original, int target){
-        if(original == null){
-            return 0;
-        }
-        int cur = 0;
-        for(int i = 0; i < original.length; i++){
-            if(original[i] != target){
-                original[cur++] = original[i];
-            }
-        }
-        return cur;
     }
 
     /**
