@@ -2,9 +2,7 @@ package com.lsj.springboot.Util.arithmetic.day200720;
 
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * * 链表的插入时间复杂度 o(1)，查询复杂度o(n);
@@ -33,6 +31,9 @@ import java.util.Stack;
  * 双指针
  *
  * Offer 06. 从尾到头打印链表
+ *
+ * 876. 链表的中间结点
+ * 快慢指针
  */
 public class LinkedList {
 
@@ -439,6 +440,61 @@ public class LinkedList {
             reverse[i] = stack.pop().val;
         }
         return reverse;
+    }
+
+    /**
+     * 面试题 02.01. 移除重复节点
+     * 编写代码，移除未排序链表中的重复节点。保留最开始出现的节点。
+     * 输入：[1, 2, 3, 3, 2, 1] 输出：[1, 2, 3]
+     * @param head
+     * @return
+     */
+    public Node removeDuplicateNodes(Node head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        int before, after = 0;
+        Set<Integer> set = new HashSet<>();
+        Node result = new Node(0);
+        Node temp = result;
+        while(head != null){
+            before = set.size();
+            set.add(head.val);
+            after = set.size();
+            if(before != after){
+                Node next = head.next;
+                head.next = null;
+                temp.next = head;
+                head = next;
+                temp = temp.next;
+            }else{
+                head = head.next;
+            }
+        }
+        return result.next;
+    }
+
+    /**
+     * 876. 链表的中间结点
+     * 给定一个带有头结点 head 的非空单链表，返回链表的中间结点。 如果有两个中间结点，则返回第二个中间结点。
+     * 输入：[1,2,3,4,5]   输出：此列表中的结点 3 (序列化形式：[3,4,5])
+     * 输入：[1,2,3,4,5,6] 输出：此列表中的结点 4 (序列化形式：[4,5,6])
+     * @param head
+     * @return
+     */
+    public Node middleNode(Node head) {
+        // 快慢指针
+        Node p = head;
+        Node q = head.next;
+        while(q != null){
+            p = p.next;
+            if(q.next == null){// 偶数
+                return p;
+            }else {// 奇数
+                q= q.next.next;
+            }
+        }
+        return p;
     }
 }
 
