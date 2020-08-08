@@ -28,6 +28,9 @@ import java.util.Stack;
  *
  * 141. 环形链表
  * 快慢指针
+ *
+ * 返回倒数第 k 个节点
+ * 双指针
  */
 public class LinkedList {
 
@@ -376,6 +379,39 @@ public class LinkedList {
         return headB;
     }
 
+    /**
+     * 面试题 02.02. 返回倒数第 k 个节点
+     *
+     * @param head
+     * @param k
+     * @return
+     */
+    public int kthToLast(Node head, int k) {
+       /* // 第一步将链表中的节点依次压入栈中
+        Stack<Node> stack = new Stack<>();
+        while(head != null){
+            Node next = head.next;
+            head.next = null;
+            stack.push(head);
+            head = next;
+        }
+        // 取除第i个节点
+        Node result = null;
+        for(int i = 0; i < k; i++){
+            result = stack.pop();
+        }
+        return result.val;*/
+
+       Node p = head;
+       for(int i = 0; i < k; i++){
+           p = p.next;
+       }
+       while(p != null){
+           p = p.next;
+           head = head.next;
+       }
+       return head.val;
+    }
 }
 
 class Node implements Serializable {
