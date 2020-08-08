@@ -31,6 +31,8 @@ import java.util.Stack;
  *
  * 返回倒数第 k 个节点
  * 双指针
+ *
+ * Offer 06. 从尾到头打印链表
  */
 public class LinkedList {
 
@@ -411,6 +413,32 @@ public class LinkedList {
            head = head.next;
        }
        return head.val;
+    }
+
+    /**
+     * Offer 06. 从尾到头打印链表
+     * 输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。
+     * 输入：head = [1,3,2]   输出：[2,3,1]
+     * @param head
+     * @return
+     */
+    public int[] reversePrint(Node head) {
+        // 第一步将链表中的节点依次压入栈中
+        Stack<Node> stack = new Stack<>();
+        int len = 0;
+        while(head != null){
+            Node next = head.next;
+            head.next = null;
+            stack.push(head);
+            len++;
+            head = next;
+        }
+        // 第二步依次取出节点的值组成数组返回
+        int[] reverse = new int[len];
+        for(int i = 0; i < len; i++){
+            reverse[i] = stack.pop().val;
+        }
+        return reverse;
     }
 }
 
