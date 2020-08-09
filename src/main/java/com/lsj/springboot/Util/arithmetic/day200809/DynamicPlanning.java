@@ -1,5 +1,7 @@
 package com.lsj.springboot.Util.arithmetic.day200809;
 
+import java.util.Stack;
+
 /**
  * Created by 10326 on 2020/8/9.
  * 动态规划
@@ -9,11 +11,14 @@ package com.lsj.springboot.Util.arithmetic.day200809;
  *
  * 题目53: 最大子序和
  *
- * 题目70.爬楼梯
+ * 题目70：爬楼梯
+ * 递归、迭代、动态规划
+ *
+ *  题目392： 判断子序列
+ *  入栈法
  *
  */
 public class DynamicPlanning {
-
     /**
      * 题目5：最长回文子串
      * 给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000
@@ -126,23 +131,56 @@ public class DynamicPlanning {
      * 70.爬楼梯
      * 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
      * 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+     * 本问题其实常规解法可以分成多个子问题，爬第n阶楼梯的方法数量，等于 2 部分之和
+        爬上 n-1 阶楼梯的方法数量。因为再爬1阶就能到第n阶
+        爬上 n-2 阶楼梯的方法数量，因为再爬2阶就能到第n阶
+        所以我们得到公式 dp[n] = dp[n-1] + dp[n-2] ； 同时需要初始化 dp[0]=1d 和 dp[1]=1
      * 类似于斐波那契数
      * @param n
      * @return
      */
     public int climbStairs(int n) {
-        if(n < 2){
-            return n;
-        }
+        if(n < 2)  return n;
         // 初始化
         int[] ints = new int[n + 1];
         ints[0] = 1;
         ints[1] = 1;
-
         for(int i = 2; i <= n; i++){
             ints[i] = ints[i - 2] + ints[i - 1];
         }
         return ints[n];
+    }
+
+    /**
+     * 392. 判断子序列
+     * 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+        你可以认为 s 和 t 中仅包含英文小写字母。字符串 t 可能会很长（长度 ~= 500,000），而 s 是个短字符串（长度 <=100）。
+        字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
+        示例 1:s = "abc", t = "ahbgdc"    返回 true.    示例 2:s = "axc", t = "ahbgdc" 返回 false.
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean isSubsequence(String s, String t) {
+        // 入栈法 将t字节压入到栈里，取出来与s的字节匹配，
+        // 若结束后，s字节没有值是子序列，若有值不是子序列
+        Stack<Character> st =new Stack<>();
+        for(char ch : t.toCharArray()){
+            st.push(ch);
+        }
+        int compile = 0;
+        for(int i = s.length() - 1; i >= 0; i--){
+            if(!st.isEmpty()){
+                char pop = st.pop();
+                while(!st.isEmpty() && s.charAt(i) != pop){
+                    pop = st.pop();
+                }
+                if(s.charAt(i) == pop){
+                    compile++;
+                }
+            }
+        }
+        return compile == s.length();
     }
 
 }

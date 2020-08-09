@@ -32,9 +32,6 @@ import java.util.*;
  *  1071.字符串的最大公因子
  *  辗转相除法
  *
- *  392. 判断子序列
- *  入栈法
- *
  *  409. 最长回文串
  *
  *  剑指 Offer 03. 数组中重复的数字
@@ -473,40 +470,6 @@ public class Strings {
         // }
         // return a;
         return b == 0 ? a : gcd(b, a % b);
-    }
-
-    /**
-     * 392. 判断子序列
-     * 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
-     你可以认为 s 和 t 中仅包含英文小写字母。字符串 t 可能会很长（长度 ~= 500,000），而 s 是个短字符串（长度 <=100）。
-     字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
-     示例 1:s = "abc", t = "ahbgdc"    返回 true.
-     示例 2:s = "axc", t = "ahbgdc" 返回 false.
-     * @param s
-     * @param t
-     * @return
-     */
-    public boolean isSubsequence(String s, String t) {
-        // 入栈法 将t字节压入到栈里，取出来与s的字节匹配，
-        //若结束后，s字节没有值是子序列，若有值不是子序列
-        Stack<Character> st =new Stack<>();
-        for(char ch : t.toCharArray()){
-            st.push(ch);
-        }
-        int compile = 0;
-        for(int i = s.length() - 1; i >= 0; i--){
-            if(!st.isEmpty()){
-                char pop = st.pop();
-                while(!st.isEmpty() && s.charAt(i) != pop){
-                    pop = st.pop();
-                }
-                if(s.charAt(i) == pop){
-                    compile++;
-                }
-            }
-        }
-
-        return compile == s.length();
     }
 
     /**
