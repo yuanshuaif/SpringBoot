@@ -29,6 +29,8 @@ import java.util.List;
  * 题目495:中毒总时长
  *
  * 题目21:合并两个有序链表（数组）
+ *
+ * 题目605:种花问题
  */
 public class Array {
 
@@ -172,6 +174,40 @@ public class Array {
         // B中还有剩余元素
         while(indexB < n){
             A[index++] = B[indexB++];
+        }
+    }
+
+    /**
+     * 88. 合并两个有序数组
+     * 给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。
+     * 说明:初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
+     * 输入: nums1 = [1,2,3,0,0,0], m = 3   nums2 = [2,5,6],       n = 3
+     * 输出: [1,2,2,3,5,6]
+     *
+     * @param nums1
+     * @param m
+     * @param nums2
+     * @param n
+     */
+    public void merge88(int[] nums1, int m, int[] nums2, int n) {
+        System.arraycopy(nums1, 0, nums1, n, m); // [0,0,0,1,2,3]
+        int index1 = n, index2 = 0;
+        int index = 0;
+        while (index1 < n + m && index2 < n){
+            if(nums1[index1] > nums2[index2]){
+                nums1[index++] = nums2[index2++];
+            }else if(nums1[index1] < nums2[index2]){
+                nums1[index++] = nums1[index1++];
+            }else{
+                nums1[index++] = nums1[index1++];
+                nums1[index++] = nums2[index2++];
+            }
+        }
+        while (index2 < n){
+            nums1[index++] = nums2[index2++];
+        }
+        while (index1 < n + m){
+            nums1[index++] = nums1[index1++];
         }
     }
 
@@ -401,5 +437,6 @@ public class Array {
         }
         return count >= n;
     }
+
 
 }

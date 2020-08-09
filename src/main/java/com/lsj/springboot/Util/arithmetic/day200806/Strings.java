@@ -1,22 +1,44 @@
-package com.lsj.springboot.Util.arithmetic.day200622;
+package com.lsj.springboot.Util.arithmetic.day200806;
 
 import org.springframework.util.StringUtils;
 
 import java.util.*;
 
 /**
- * 题目七:整数反转
+ * Created by 10326 on 2020/8/9.
  *
- * 题目九:回文数
+ *  面试题 01.01. 判定字符是否唯一
  *
- * 题目13:罗马数字转整数
+ *  题目13:罗马数字转整数
  *
- * 题目14:最长公共前缀
+ *  Linux语法简化规则(字节 13题的变种)
  *
- * 题目15:查找正确的括号
+ *  题目14:最长公共前缀
+ *
+ *  题目20:查找正确的括号
+ *
+ *  题目3:无重复字符的最长子串
+ *  滑动窗口
+ *
+ *  题目5:最长回文字串
+ *  滑动窗口暴力破解、动态规划
+ *
+ *  题目28:实现indexOf()
+ *  滑动窗口
+ *
+ *  344. 反转字符串
+ *  双指针
+ *
+ *  1071.字符串的最大公因子
+ *  辗转相除法
+ *
+ *  392. 判断子序列
+ *  入栈法
+ *
+ *  409. 最长回文串
  *
  */
-public class IntegerInversion {
+public class Strings {
 
     private static final Map<Character,Character> map = new HashMap(){{
         put('{','}'); put('[',']'); put('(',')');
@@ -52,56 +74,42 @@ public class IntegerInversion {
         System.out.println(deleteAssignItem(original, 3));*/
 //        System.out.println(indexOf("hello", "ll"));
 //        System.out.println(indexOf("aaaaa", "aab"));
+
+          /* System.out.println(longest("abcabcbb"));
+        System.out.println(longest("bbbbb"));
+        System.out.println(longest("pwwkew"));*/
+
+        /*System.out.println(longestPalindromeStr("babad"));
+        System.out.println(longestPalindromeStr("cyyoacmjwjubfkzrrbvquqkwhsxvmytmjvbborrtoiyotobzjmohpadfrvmxuagbdczsjuekjrmcwyaovpiogspbslcppxojgbfxhtsxmecgqjfuvahzpgprscjwwutwoiksegfreortttdotgxbfkisyakejihfjnrdngkwjxeituomuhmeiesctywhryqtjimwjadhhymydlsmcpycfdzrjhstxddvoqprrjufvihjcsoseltpyuaywgiocfodtylluuikkqkbrdxgjhrqiselmwnpdzdmpsvbfimnoulayqgdiavdgeiilayrafxlgxxtoqskmtixhbyjikfmsmxwribfzeffccczwdwukubopsoxliagenzwkbiveiajfirzvngverrbcwqmryvckvhpiioccmaqoxgmbwenyeyhzhliusupmrgmrcvwmdnniipvztmtklihobbekkgeopgwipihadswbqhzyxqsdgekazdtnamwzbitwfwezhhqznipalmomanbyezapgpxtjhudlcsfqondoiojkqadacnhcgwkhaxmttfebqelkjfigglxjfqegxpcawhpihrxydprdgavxjygfhgpcylpvsfcizkfbqzdnmxdgsjcekvrhesykldgptbeasktkasyuevtxrcrxmiylrlclocldmiwhuizhuaiophykxskufgjbmcmzpogpmyerzovzhqusxzrjcwgsdpcienkizutedcwrmowwolekockvyukyvmeidhjvbkoortjbemevrsquwnjoaikhbkycvvcscyamffbjyvkqkyeavtlkxyrrnsmqohyyqxzgtjdavgwpsgpjhqzttukynonbnnkuqfxgaatpilrrxhcqhfyyextrvqzktcrtrsbimuokxqtsbfkrgoiznhiysfhzspkpvrhtewthpbafmzgchqpgfsuiddjkhnwchpleibavgmuivfiorpteflholmnxdwewj"));*/
+
+        /*  int[] rec1 = {7,8,13,15};
+        int[] rec2 = {10,8,12,20};
+        System.out.println(isRectangleOverlap(rec1, rec2));*/
+       /* 输入: A = [1,2,3,0,0,0], m = 3;  B = [2,5,6],  n = 3
+      输出: [1,2,2,3,5,6]*/
     }
 
     /**
-     * 1.整数反转
-     * 1234->4321; -123->-321; 1200->21; 1301->1031
-     * int 的存储范围 [−2^31,  2^31 − 1],如果反转后整数溢出那么就返回 0。
-     * @param orignal
+     * 面试题 01.01. 判定字符是否唯一
+     * 实现一个算法，确定一个字符串 s 的所有字符是否全都不同。
+     * 输入: s = "leetcode" 输出: false ;   输入: s = "abc"  输出: true
+     * 不使用额外的数据结构
+     * @param astr
      * @return
      */
-    public static int integerInversion(int orignal){
-        long target = 0;
-        while(orignal != 0){
-            target = target * 10 + orignal % 10;
-            orignal /= 10;
-        }
-        if(target > (1L<<31) - 1 || target < -(1L<<31))
-            return 0;
-        return (int)target;
-    }
-
-    // 获取整数的个数
-    private static int getIntegerNum(int inter){
-        int integerNum = 0;
-        for(int i = 1; ;i++) {
-            inter = inter / 10;
-            if(inter == 0){
-                integerNum = i;
+    public boolean isUnique(String astr) {
+        boolean flag = true;
+        for(int i = 0; i < astr.length(); i++){
+            if(astr.indexOf(astr.charAt(i)) != astr.lastIndexOf(astr.charAt(i))){
+                flag = false;
                 break;
             }
         }
-        return integerNum;
+        return flag;
     }
 
     /**
-     * 2.是否是回文数：借助整数反转的思路，判断反转前与反转后的值是否相等
-     * 121->true;
-     * 输入: -121 输出: false 解释: 从左向右读, 为 -121 。 从右向左读, 为 121- 。因此它不是一个回文数。
-     * @param orignal
-     * @return
-     */
-    public static boolean isPalindrome(int orignal){
-        if(orignal < 0){
-            return false;
-        }
-        int target = integerInversion(orignal);
-        return target == orignal;
-    }
-
-    /**
-     * 3.罗马数字转整数
+     * 13.罗马数字转整数
      * 罗马数字包含以下7种字符:I、V、X、L、C、D、M
      * 数字值I->1,V->5,X->10,L->50,C->100,D->500,M->1000
      * 例如：罗马数字2写作II,罗马数字27写作XXVII    LVIII->58   MCMXCIV->1994
@@ -203,22 +211,18 @@ public class IntegerInversion {
         return target;
     }
 
-
     /**
-     * 4.Linux语法简化规则
+     * Linux语法简化规则(字节 13题的变种)
      * /c/d/////././../e/
      * /c/d/././../e/
      * /c/e
      * @param orignalStr
      * @return
      */
-
     public static String linuxRules(String orignalStr){
-
         while(orignalStr.contains("//")){
             orignalStr = orignalStr.replaceAll("//", "/");
         }
-
         char[] chars = orignalStr.toCharArray();
         String targetStr = "";
         for(int i = 0; i < chars.length ; i++){
@@ -256,9 +260,7 @@ public class IntegerInversion {
                     break;
             }
         }
-
         return targetStr;
-
     }
 
     /**
@@ -270,14 +272,11 @@ public class IntegerInversion {
      * @return
      */
     public static String longestCommonPrefix(String[] strs){
-
         if(strs.length == 0){
             return "";
         }else if(strs.length == 1){
             return strs[0];
         }
-
-
         String common = "";
         for(int i = 0; i < strs.length - 1; i++){
             String first = "";
@@ -289,19 +288,6 @@ public class IntegerInversion {
                 first = common;
                 second = strs[i + 1];
             }
-
-          /*  char[] firstChars = first.toCharArray();
-            char[] secondChars = second.toCharArray();
-            int minLength = Math.min(firstChars.length, secondChars.length);
-            char[] commonChars = new char[minLength];
-
-            for(int j = 0; j < minLength; j++){
-                if(firstChars[j] != secondChars[j]){
-                    break;
-                }
-                commonChars[j] = firstChars[j];
-            }
-            */
             int minLength = Math.min(first.length(), second.length());
             StringBuffer commonChars = new StringBuffer();
             for(int j = 0; j < minLength; j++){
@@ -315,12 +301,11 @@ public class IntegerInversion {
                 break;
             }
         }
-
         return common;
     }
 
     /**
-     * 6.寻找正确的括号
+     * 20.寻找正确的括号
      * 给定一个括号的字符串，必须以正确的顺序闭合
      * ()[]{}  ([{}]) 分为并排、嵌套2种
      * @param parentheses
@@ -343,8 +328,7 @@ public class IntegerInversion {
         if("".equals(parentheses)){
             return true;
         }
-        return false;
-*/
+        return false;*/
         // 入栈法
 //        执行用时：2 ms, 在所有 Java 提交中击败了 80.05% 的用户
 //        内存消耗：37.7 MB, 在所有 Java 提交中击败了 5.48% 的用户
@@ -370,11 +354,138 @@ public class IntegerInversion {
             }
         }
         return stack.isEmpty();
-
+    }
+    /**
+     * 题目3：无重复字符的最长子串
+     * abcabcbb 最长字串abc; bbbbb 最长字串b; pwwkew 最长字串wke
+     * @param str
+     * @return
+     */
+    public static int longest(String str){
+        Set<Character> set = new HashSet<>();
+        int length = str.length();
+        int start = 0;
+        int end = 0;
+        int max = 0;
+        for(int i = 0; i < length; i++){
+            // 删掉前一个元素
+            start = i;
+            if(start != 0){
+                set.remove(str.charAt(start - 1));
+            }
+            // 后面的指针指向的元素在集合中不存在加入到集合中
+            while(end < length && !set.contains(str.charAt(end))){
+                set.add(str.charAt(end));
+                end ++;
+            }
+            // 获取最大值
+            max = Math.max(max, end - start);
+        }
+        return max;
     }
 
     /**
-     * 10.实现indexOf(),
+     * 题目5：最长回文子串
+     * 输入 babad 输出 bab或者aba
+     * 输入 abbd 输出 bb
+     * @param str
+     * @return
+     */
+    public static String longestPalindromeStr(String str){
+/*      // 耗时587毫秒
+        long startTime = System.currentTimeMillis();
+        String palindromeStr = "";
+        int len = str.length();
+        for(int i = 0; i < len; i++){
+            int start = 0;
+            int end = len - i;
+            while(end <= str.length()) {
+                String subStr = str.substring(start, end);
+                String reverseStr = new StringBuilder(subStr).reverse().toString();
+                if (subStr.equals(reverseStr)) {
+                    palindromeStr = subStr;
+                    break;
+                }
+                start++;
+                end++;
+            }
+            if(!StringUtils.isEmpty(palindromeStr)){
+                break;
+            }
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println(endTime - startTime);
+        return palindromeStr;*/
+
+        // 耗时17毫秒
+       /* long startTime = System.currentTimeMillis();
+        String palindromeStr = "";
+        char[] chars = str.toCharArray();
+        int len = chars.length;
+        for(int i = 0; i < len; i++){
+            int start = 0;
+            int end = len - i;
+            while(end <= str.length()) {
+                if(isPalindromeStr(chars, start, end - 1)){
+                    palindromeStr = str.substring(start, end);
+                    break;
+                }
+                start++;
+                end++;
+            }
+            if(!StringUtils.isEmpty(palindromeStr)){
+                break;
+            }
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println(endTime - startTime);
+        return palindromeStr;
+
+        */
+        // 动态规划
+        int len = str.length();
+        if(len < 2){
+            return str;
+        }
+        char[] chars =  str.toCharArray();
+        boolean[][] dp = new boolean[len][len];
+        for(int i = 0; i < len; i++){
+            dp[i][i] = true;
+        }
+        int start = 0;
+        int maxlength = 1;
+        for(int j = 1; j < len; j++){
+            for(int i = 0; i < j; i++){
+                if(chars[i] != chars[j]){
+                    dp[i][j] = false;
+                }else{
+                    if(j - i < 3){
+                        dp[i][j] = true;
+                    }else{
+                        dp[i][j] = dp[i + 1][j - 1];
+                    }
+                }
+                if(dp[i][j] && j - i + 1 > maxlength){
+                    maxlength = j - i + 1;
+                    start = i;
+                }
+            }
+        }
+        return str = str.substring(start, start + maxlength);
+    }
+
+    private static boolean isPalindromeStr(char[] chars, int start, int end){
+        while(start < end){
+            if(chars[start] != chars[end]){
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
+    }
+    /**
+     * 28.实现indexOf(),
      * haystack = "hello", needle = "ll" 返回2；
      * haystack = "aaaa", needle = "bba" 返回-1;
      * needle = ""，返回0
@@ -412,7 +523,108 @@ public class IntegerInversion {
         return index;
     }
 
+    /**
+     * 344. 反转字符串
+     * 编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 char[] 的形式给出。
+     * 不要给另外的数组分配额外的空间，你必须原地修改输入数组、使用 O(1) 的额外空间解决这一问题。  你可以假设数组中的所有字符都是 ASCII 码表中的可打印字符。
+     * 输入：["h","e","l","l","o"]  输出：["o","l","l","e","h"]
+     * 输入：["H","a","n","n","a","h"]  输出：["h","a","n","n","a","H"]
+     *
+     * @param s
+     */
+    public char[] reverseString(char[] s) {
+        char temp;
+        for(int i = 0; i < s.length / 2; i++){
+            temp = s[i];
+            s[i] = s[s.length - i - 1];
+            s[s.length - i - 1] = temp;
+        }
+        return s;
+    }
 
+    /**
+     * 1071.字符串的最大公因子
+     * 对于字符串 S 和 T，只有在 S = T + ... + T（T 与自身连接 1 次或多次）时，我们才认定 “T 能除尽 S”。
+     返回最长字符串 X，要求满足 X 能除尽 str1 且 X 能除尽 str2。
+     * @param str1
+     * @param str2
+     * @return
+     */
+    public String gcdOfStrings(String str1, String str2) {
+        if (!(str1 + str2).equals(str2 + str1)) {
+            return "";
+        }
+        // 辗转相除法求gcd
+        return str1.substring(0, gcd(str1.length(), str2.length()));
+    }
 
+    private int gcd(int a, int b) {
+        // 辗转相除法
+        // int r = 0;
+        // while(b != 0){
+        //     r = a % b;
+        //     a = b;
+        //     b = r;
+        // }
+        // return a;
+        return b == 0 ? a : gcd(b, a % b);
+    }
 
+    /**
+     * 392. 判断子序列
+     * 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+     你可以认为 s 和 t 中仅包含英文小写字母。字符串 t 可能会很长（长度 ~= 500,000），而 s 是个短字符串（长度 <=100）。
+     字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
+     示例 1:s = "abc", t = "ahbgdc"    返回 true.
+     示例 2:s = "axc", t = "ahbgdc" 返回 false.
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean isSubsequence(String s, String t) {
+        // 入栈法 将t字节压入到栈里，取出来与s的字节匹配，
+        //若结束后，s字节没有值是子序列，若有值不是子序列
+        Stack<Character> st =new Stack<>();
+        for(char ch : t.toCharArray()){
+            st.push(ch);
+        }
+        int compile = 0;
+        for(int i = s.length() - 1; i >= 0; i--){
+            if(!st.isEmpty()){
+                char pop = st.pop();
+                while(!st.isEmpty() && s.charAt(i) != pop){
+                    pop = st.pop();
+                }
+                if(s.charAt(i) == pop){
+                    compile++;
+                }
+            }
+        }
+
+        return compile == s.length();
+    }
+
+    /**
+     * 409. 最长回文串
+     * 给定一个包含大写字母和小写字母的字符串，找到通过这些字母构造成的最长的回文串。
+     在构造过程中，请注意区分大小写。比如 "Aa" 不能当做一个回文字符串。
+     输入: "abccccdd" 输出: 7
+     解释: 我们可以构造的最长的回文串是"dccaccd", 它的长度是 7。
+     * @param s
+     * @return
+     */
+    public int longestPalindrome(String s) {
+        // A-Z 65-90; a-z 97-122
+        // 记录各个字符出现的次数
+        int[] ch = new int[58];
+        for(char c : s.toCharArray()){
+            ch[c - 'A'] += 1;
+        }
+        int ans = 0;
+        for(int x : ch){
+            // x & 1 偶数的0, 奇数需要减1
+            ans += x - (x & 1);
+        }
+        return ans < s.length() ? (ans + 1) : ans;
+    }
 }
