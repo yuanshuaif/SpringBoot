@@ -269,7 +269,7 @@ public class Strings {
     }
 
     /**
-     * 5.查找字符串数组中的最长公共前缀
+     * 14.查找字符串数组中的最长公共前缀
      * 如果不存在公共前缀，返回空字符串
      * 所有输入只包含小写字母a-z
      * 例如：输入{"flower","flow","flight","flosh"} 输出"fl"
@@ -389,106 +389,6 @@ public class Strings {
         return max;
     }
 
-    /**
-     * 题目5：最长回文子串
-     * 输入 babad 输出 bab或者aba
-     * 输入 abbd 输出 bb
-     * @param str
-     * @return
-     */
-    public static String longestPalindromeStr(String str){
-/*      // 耗时587毫秒
-        long startTime = System.currentTimeMillis();
-        String palindromeStr = "";
-        int len = str.length();
-        for(int i = 0; i < len; i++){
-            int start = 0;
-            int end = len - i;
-            while(end <= str.length()) {
-                String subStr = str.substring(start, end);
-                String reverseStr = new StringBuilder(subStr).reverse().toString();
-                if (subStr.equals(reverseStr)) {
-                    palindromeStr = subStr;
-                    break;
-                }
-                start++;
-                end++;
-            }
-            if(!StringUtils.isEmpty(palindromeStr)){
-                break;
-            }
-        }
-        long endTime = System.currentTimeMillis();
-        System.out.println(endTime - startTime);
-        return palindromeStr;*/
-
-        // 耗时17毫秒
-       /* long startTime = System.currentTimeMillis();
-        String palindromeStr = "";
-        char[] chars = str.toCharArray();
-        int len = chars.length;
-        for(int i = 0; i < len; i++){
-            int start = 0;
-            int end = len - i;
-            while(end <= str.length()) {
-                if(isPalindromeStr(chars, start, end - 1)){
-                    palindromeStr = str.substring(start, end);
-                    break;
-                }
-                start++;
-                end++;
-            }
-            if(!StringUtils.isEmpty(palindromeStr)){
-                break;
-            }
-        }
-        long endTime = System.currentTimeMillis();
-        System.out.println(endTime - startTime);
-        return palindromeStr;
-
-        */
-        // 动态规划
-        int len = str.length();
-        if(len < 2){
-            return str;
-        }
-        char[] chars =  str.toCharArray();
-        boolean[][] dp = new boolean[len][len];
-        for(int i = 0; i < len; i++){
-            dp[i][i] = true;
-        }
-        int start = 0;
-        int maxlength = 1;
-        for(int j = 1; j < len; j++){
-            for(int i = 0; i < j; i++){
-                if(chars[i] != chars[j]){
-                    dp[i][j] = false;
-                }else{
-                    if(j - i < 3){
-                        dp[i][j] = true;
-                    }else{
-                        dp[i][j] = dp[i + 1][j - 1];
-                    }
-                }
-                if(dp[i][j] && j - i + 1 > maxlength){
-                    maxlength = j - i + 1;
-                    start = i;
-                }
-            }
-        }
-        return str = str.substring(start, start + maxlength);
-    }
-
-    private static boolean isPalindromeStr(char[] chars, int start, int end){
-        while(start < end){
-            if(chars[start] != chars[end]){
-                return false;
-            }
-            start++;
-            end--;
-        }
-        return true;
-    }
     /**
      * 28.实现indexOf(),
      * haystack = "hello", needle = "ll" 返回2；

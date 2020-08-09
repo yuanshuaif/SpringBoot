@@ -13,9 +13,6 @@ import java.text.SimpleDateFormat;
  * 836. 矩形重叠
  * 将矩形相不相交的问题，转化为x,y轴上2条线相不相交的问题
  *
- * 70.爬楼梯
- * 递归
- *
  */
 public class Integers {
 
@@ -118,28 +115,5 @@ public class Integers {
 //    [7,8,13,15][10,8,12,20]
     public static boolean isRectangleOverlap(int[] rec1, int[] rec2) {
         return !((rec1[2] <= rec2[0] || rec2[2] <= rec1[0]) || (rec1[3] <= rec2[1] || rec2[3] <= rec1[1]));
-    }
-
-    /**
-     * 70.爬楼梯
-     * 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
-     * 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
-     * 类似于斐波那契数
-     * @param n
-     * @return
-     */
-    public int climbStairs(int n) {
-        if(n < 2){
-            return n;
-        }
-        // 初始化
-        int[] ints = new int[n + 1];
-        ints[0] = 1;
-        ints[1] = 1;
-
-        for(int i = 2; i <= n; i++){
-            ints[i] = ints[i - 2] + ints[i - 1];
-        }
-        return ints[n];
     }
 }
