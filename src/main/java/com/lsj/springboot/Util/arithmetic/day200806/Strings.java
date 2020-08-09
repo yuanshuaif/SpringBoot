@@ -39,6 +39,8 @@ import java.util.*;
  *  415. 字符串相加
  *  67. 二进制求和（思想同上）
  *
+ *  58. 最后一个单词的长度
+ *
  */
 public class Strings {
 
@@ -591,5 +593,18 @@ public class Strings {
             str.append(carry);
         }
         return str.reverse().toString();
+    }
+
+    /**
+     * 58. 最后一个单词的长度
+     * @param s
+     * @return
+     */
+    public int lengthOfLastWord(String s) {
+        if("".equals(s.trim())){
+            return 0;
+        }
+        String[] strs = s.split(" ");
+        return strs[strs.length - 1].length();
     }
 }
