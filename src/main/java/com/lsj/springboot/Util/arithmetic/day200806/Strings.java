@@ -41,6 +41,10 @@ import java.util.*;
  *
  *  58. 最后一个单词的长度
  *
+ *  557. 反转字符串中的单词 III
+ *
+ *  459. 重复的子字符串
+ *
  */
 public class Strings {
 
@@ -606,5 +610,43 @@ public class Strings {
         }
         String[] strs = s.split(" ");
         return strs[strs.length - 1].length();
+    }
+
+    /**
+     * 557. 反转字符串中的单词 III
+     * 输入: "Let's take LeetCode contest"    输出: "s'teL ekat edoCteeL tsetnoc"
+     * @param s
+     * @return
+     */
+    public String reverseWords(String s) {
+        String[] strs = s.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < strs.length; i++){
+            for(int j = strs[i].length() - 1; j >= 0; j--){
+                sb.append(strs[i].charAt(j));
+            }
+            if(i != strs.length -1){
+                sb.append(" ");
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 459. 重复的子字符串
+     * 给定一个非空的字符串，判断它是否可以由它的一个子串重复多次构成。给定的字符串只含有小写英文字母，并且长度不超过10000。
+     * 输入: "abab"  输出: True     输入: "aba"   输出: False
+     * 如果您的字符串S包含一个重复的子字符串，那么这意味着您可以多次“移位和换行”您的字符串，并使其与原始字符串匹配。(移动1-（n-1）)
+         例如:abcabc
+         移位一次:cabcab
+         移位两次:bcabca
+         移位三次:abcabc
+         所以可以直接判断str中去除首尾元素之后，是否包含自身元素。如果包含。则表明存在重复子串。
+     * @param s
+     * @return
+     */
+    public boolean repeatedSubstringPattern(String s) {
+        String str = s + s;
+        return str.substring(1, str.length() - 1).contains(s);
     }
 }
