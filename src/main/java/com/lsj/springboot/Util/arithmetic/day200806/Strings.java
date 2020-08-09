@@ -37,6 +37,11 @@ import java.util.*;
  *
  *  409. 最长回文串
  *
+ *  剑指 Offer 03. 数组中重复的数字
+ *
+ *  415. 字符串相加
+ *  67. 二进制求和（思想同上）
+ *
  */
 public class Strings {
 
@@ -626,5 +631,102 @@ public class Strings {
             ans += x - (x & 1);
         }
         return ans < s.length() ? (ans + 1) : ans;
+    }
+
+    /**
+     * 剑指 Offer 03. 数组中重复的数字
+     * 输入： [2, 3, 1, 0, 2, 5, 3]     输出：2 或 3   限制：2 <= n <= 100000
+     * @param nums
+     * @return
+     */
+    public int findRepeatNumber(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        int find = -1;
+        for(int i = 0; i < nums.length; i++){
+            if(!set.add(nums[i])){
+                find = nums[i];
+                break;
+            }
+        }
+        return find;
+    }
+
+    /**
+     * 415. 字符串相加
+     *  给定两个字符串形式的非负整数 num1 和num2 ，计算它们的和。
+        num1 和num2 的长度都小于 5100
+        num1 和num2 都只包含数字 0-9
+        num1 和num2 都不包含任何前导零
+        你不能使用任何內建 BigInteger 库， 也不能直接将输入的字符串转换为整数形式
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public String addStrings(String num1, String num2) {
+
+        // 执行用时：5 ms, 在所有 Java 提交中击败了18.40%的用户
+        // 内存消耗：39.8 MB, 在所有 Java 提交中击败了53.79%的用户
+        // int maxLength = Math.max(num1.length(), num2.length());
+        // Stack stack = new Stack();
+        // int carry = 0;
+        // for(int i = 1; i <= maxLength; i++){
+        //     char char1 = num1.length() - i < 0 ? '0' : num1.charAt(num1.length() - i);
+        //     char char2 = num2.length() - i < 0 ? '0' : num2.charAt(num2.length() - i);
+        //     int sum = (char1 - '0') + (char2 - '0') + carry;
+        //     stack.push(sum % 10);
+        //     carry = sum / 10;
+        // }
+        // if(carry > 0){// 1 + 9
+        //     stack.push(carry);
+        // }
+
+        // StringBuilder str = new StringBuilder();
+        // while(!stack.isEmpty()){
+        //     str.append(stack.pop());
+        // }
+        // return str.toString();
+
+        // 执行用时：2 ms, 在所有 Java 提交中击败了99.78%的用户
+        // 内存消耗：39.3 MB, 在所有 Java 提交中击败了99.92%的用户
+        int maxLength = Math.max(num1.length(), num2.length());
+        StringBuilder str = new StringBuilder();
+        int carry = 0;
+        for(int i = 1; i <= maxLength; i++){
+            char char1 = num1.length() - i < 0 ? '0' : num1.charAt(num1.length() - i);
+            char char2 = num2.length() - i < 0 ? '0' : num2.charAt(num2.length() - i);
+            int sum = (char1 - '0') + (char2 - '0') + carry;
+            str.append(sum % 10);
+            carry = sum / 10;
+        }
+        if(carry > 0){// 1 + 9
+            str.append(carry);
+        }
+        return str.reverse().toString();
+
+    }
+
+    /**
+     * 67. 二进制求和
+     * 输入: a = "11", b = "1"    输出: "100" ;         输入: a = "1010", b = "1011"  输出: "10101"
+     * @param a
+     * @param b
+     * @return
+     */
+    public String addBinary(String a, String b) {
+        // 与10进制的求和思想一致
+        int maxLength = Math.max(a.length(), b.length());
+        StringBuilder str = new StringBuilder();
+        int carry = 0;
+        for(int i = 1; i <= maxLength; i++){
+            char char1 = a.length() - i < 0 ? '0' : a.charAt(a.length() - i);
+            char char2 = b.length() - i < 0 ? '0' : b.charAt(b.length() - i);
+            int sum = (char1 - '0') + (char2 - '0') + carry;
+            str.append(sum % 2);
+            carry = sum / 2;
+        }
+        if(carry > 0){
+            str.append(carry);
+        }
+        return str.reverse().toString();
     }
 }
