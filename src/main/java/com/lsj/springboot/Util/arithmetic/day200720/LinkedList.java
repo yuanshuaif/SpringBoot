@@ -496,6 +496,19 @@ public class LinkedList {
         }
         return p;
     }
+
+    /**
+     * 148. 排序链表
+     * 在 O(n log n) 时间复杂度和常数级空间复杂度下，对链表进行排序。
+     * 输入: -1->5->3->4->0       输出: -1->0->3->4->5
+     * @param head
+     * @return
+     */
+    public Node sortList(Node head) {
+
+
+        return null;
+    }
 }
 
 class Node implements Serializable {
