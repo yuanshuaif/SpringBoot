@@ -15,6 +15,8 @@ import java.util.*;
  *
  * 350. 两个数组的交集 II
  * hash表
+ *
+ * 367. 有效的完全平方数(类似于69题)
  */
 public class BinarySearch {
 
@@ -196,5 +198,33 @@ public class BinarySearch {
             }
         }
         return Arrays.copyOf(ans, k);
+    }
+
+    /**
+     * 367. 有效的完全平方数
+     * 给定一个正整数 num，编写一个函数，如果 num 是一个完全平方数，则返回 True，否则返回 False。
+        说明：不要使用任何内置的库函数，如  sqrt。
+        输入：16 输出：True    输入：14 输出：false
+     * @param num
+     * @return
+     */
+    public boolean isPerfectSquare(int num) {
+        // k2=num 使用二分查找法找到一个k使得等式成立
+        long start = 0;
+        long end = num;
+        boolean flag = false;
+        while(start <= end){
+            // 注意int的最大值问题 2147483647
+            long mid = (start + end) / 2;
+            if(mid * mid > num){
+                end = mid - 1;
+            }else if(mid * mid < num){
+                start = mid + 1;
+            }else{
+                flag = true;
+                break;
+            }
+        }
+        return flag;
     }
 }
