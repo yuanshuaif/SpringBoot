@@ -2,10 +2,7 @@ package com.lsj.springboot.Util.arithmetic.day200812;
 
 import com.lsj.springboot.Util.arithmetic.day200806.Array;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 349. 两个数组的交集
@@ -13,6 +10,11 @@ import java.util.Set;
  * 704. 二分查找
  *
  * 69. x 的平方根
+ *
+ * 35. 搜索插入位置
+ *
+ * 350. 两个数组的交集 II
+ * hash表
  */
 public class BinarySearch {
 
@@ -127,5 +129,72 @@ public class BinarySearch {
             }
         }
         return k;
+    }
+
+    /**
+     * 35. 搜索插入位置
+     * 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。(无重复数组)
+     * 输入: [1,3,5,6], 5 输出: 2
+     * 输入: [1,3,5,6], 2 输出: 1
+     * 输入: [1,3,5,6], 7 输出: 4
+     * 输入: [1,3,5,6], 0 输出: 0
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int searchInsert(int[] nums, int target) {
+        int start = 0;
+        int end = nums.length;
+        if(target < nums[start]){
+            return 0;
+        }else if(target > nums[end - 1]){
+            return nums.length;
+        }
+        int k = 0;
+        while(start <= end){
+            int mid = (start + end) / 2;
+            if(nums[mid] < target){
+                start = mid + 1;
+                k = mid + 1;
+            }else if( nums[mid] > target){
+                end = mid - 1;
+            }else{
+                k = mid;
+                break;
+            }
+        }
+        return k;
+    }
+
+    /**
+     * 350. 两个数组的交集 II
+     * 给定两个数组，编写一个函数来计算它们的交集。
+     * 输入：nums1 = [1,2,2,1], nums2 = [2,2]  输出：[2,2]
+     * 时间复杂度：O(m+n)         空间复杂度：O(\min(m,n))
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public int[] intersect(int[] nums1, int[] nums2) {
+        // hash表的方式
+        if(nums1.length > nums2.length){
+            intersect(nums2, nums1);
+        }
+        Map<Integer, Integer> hash = new HashMap<>();
+        for(Integer integer : nums1){
+            Integer count = hash.getOrDefault(integer, 0) + 1;
+            hash.put(integer, count);
+        }
+        int[] ans = new int[nums1.length];
+        int k = 0;
+        for(int i = 0; i < nums2.length; i++){
+            Integer count = hash.getOrDefault(nums2[i], 0);
+            if(count > 0){
+                ans[k++] = nums2[i];
+                count--;
+                hash.put(nums2[i], count);
+            }
+        }
+        return Arrays.copyOf(ans, k);
     }
 }
