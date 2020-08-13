@@ -43,6 +43,8 @@ import java.util.*;
  *
  *  459. 重复的子字符串
  *
+ *  345. 反转字符串中的元音字母
+ *
  */
 public class Strings {
 
@@ -646,5 +648,34 @@ public class Strings {
     public boolean repeatedSubstringPattern(String s) {
         String str = s + s;
         return str.substring(1, str.length() - 1).contains(s);
+    }
+
+    /**
+     * 345. 反转字符串中的元音字母
+     * 编写一个函数，以字符串作为输入，反转该字符串中的元音字母。
+     * 输入: "leetcode"    输出: "leotcede"
+     * @param s
+     * @return
+     */
+    public String reverseVowels(String s) {
+        String vowels = "aeiouAEIOU";// 元音字符
+        int start = 0;
+        int end = s.length() - 1;
+        char[] chars = s.toCharArray();
+        while(start < end){
+            while(start < end && !vowels.contains(chars[start] + "")){
+                start++;
+            }
+            while(start < end && !vowels.contains(chars[end] + "")){
+                end--;
+            }
+            // 找到一对、交换
+            char temp = chars[start];
+            chars[start] = chars[end];
+            chars[end] = temp;
+            start++;
+            end--;
+        }
+        return new String(chars);
     }
 }
