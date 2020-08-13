@@ -28,6 +28,9 @@ import java.util.List;
  * 题目21:合并两个有序链表（数组）
  *
  * 题目605:种花问题
+ *
+ * 题目283:移动零
+ * 双指针
  */
 public class Array {
 
@@ -38,8 +41,11 @@ public class Array {
         int n = 3;
         merge(A, m, B, n);
         System.out.println(A);*/
-        int[] nums = new int[]{-1, 0, 1, 2, -1, -4};
-        threeSum(nums);
+     /*   int[] nums = new int[]{-1, 0, 1, 2, -1, -4};
+        threeSum(nums);*/
+        int[] nums = new int[]{0,1,0,3,12};
+        moveZeroes(nums);
+
     }
 
     /**
@@ -407,5 +413,29 @@ public class Array {
         return count >= n;
     }
 
+
+    /**
+     * 283. 移动零
+     * 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+     * 输入: [0,1,0,3,12]     输出: [1,3,12,0,0]
+     * 1.必须在原数组上操作，不能拷贝额外的数组。2.尽量减少操作次数。
+     * @param nums
+     */
+    public static void moveZeroes(int[] nums) {
+
+        int cur = 0;
+        int len = 0;
+        for(; len < nums.length; len++){
+            if(nums[len] != 0){
+                nums[cur++] = nums[len];
+            }
+        }
+        for(int j = cur; j < len; j++){
+            nums[j] = 0;
+        }
+
+        System.out.println(nums);
+
+    }
 
 }
