@@ -34,6 +34,9 @@ import java.util.List;
  *
  * 题目125:验证回文串
  * 双指针
+ *
+ * 977. 有序数组的平方
+ * 双指针
  */
 public class Array {
 
@@ -48,7 +51,9 @@ public class Array {
         threeSum(nums);*/
 //        int[] nums = new int[]{0,1,0,3,12};
 //        moveZeroes(nums);
-        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
+//        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
+        int[] A = new int[]{-4,-1,0,3,10};
+        System.out.println(sortedSquares(A));
 
     }
 
@@ -470,6 +475,38 @@ public class Array {
         }
         return true;
 
+    }
+
+    /**
+     * 977. 有序数组的平方
+     * 给定一个按非递减顺序排序的整数数组 A，返回每个数字的平方组成的新数组，要求也按非递减顺序排序。
+     * [-4,-1,0,3,10] [-7,-3,2,3,11] [-7,-3,2,8,11]
+     * @param A
+     * @return
+     */
+    public static int[] sortedSquares(int[] A) {
+        int start = 0;
+        int end = A.length - 1;
+        int[] result = new int[A.length];
+        int cur = A.length - 1;
+        while(start < end){
+            if(A[start] * A[start] < A[end] * A[end]){
+                result[cur--] = A[end] * A[end];
+                end--;
+            }else if(A[start] * A[start] > A[end] * A[end]){
+                result[cur--] = A[start] * A[start];
+                start++;
+            }else{
+                result[cur--] = A[end] * A[end];
+                result[cur--] = A[start] * A[start];
+                start++;
+                end--;
+            }
+        }
+        if(start == end){
+            result[0] = A[start] * A[start];
+        }
+        return result;
     }
 
 }
