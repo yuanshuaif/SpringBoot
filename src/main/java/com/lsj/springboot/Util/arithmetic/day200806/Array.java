@@ -7,21 +7,11 @@ import java.util.List;
 /**
  * 题目1:2数之和
  *
- * 题目26:删除排序数组中的重复项
- * 双指针
- *
- * 题目88(10.01):合并排序的数组
- * 利用归并排序进行merge
- *
- * 题目27:移除元素（同26）
- * 双指针
+ * 题目88 (10.01). 合并排序的数组
  *
  * 题目485:最大连续1的个数
  *
  * 题目15:三数之和
- *
- * 题目11:盛最多水的容器
- * 双指针
  *
  * 题目495:中毒总时长
  *
@@ -29,14 +19,6 @@ import java.util.List;
  *
  * 题目605:种花问题
  *
- * 题目283:移动零
- * 双指针
- *
- * 题目125:验证回文串
- * 双指针
- *
- * 977. 有序数组的平方
- * 双指针
  */
 public class Array {
 
@@ -52,8 +34,6 @@ public class Array {
 //        int[] nums = new int[]{0,1,0,3,12};
 //        moveZeroes(nums);
 //        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
-        int[] A = new int[]{-4,-1,0,3,10};
-        System.out.println(sortedSquares(A));
 
     }
 
@@ -98,27 +78,7 @@ public class Array {
         }
     }
 
-    /**
-     * 26.删除排序数组中的重复项
-     * 给定一个排序数组，你需要在原地删除重复的数组，使得每一个元素只出现一次，返回新数组的长度
-     * 不要使用额外的数组空间，并在原地修改输入数组  元素的顺序可以改变        nums{0,0,1,1,1,2,2,3,3,4}
-     * @param original
-     * @return
-     */
-    private static int deleteCommonItem(Integer[] original){
-        if(original == null){
-            return 0;
-        }else if(original.length < 2){
-            return original.length;
-        }
-        int cur = 0;
-        for(int i = 1; i < original.length; i++){
-            if(original[cur] != original[i]){
-                original[++cur] = original[i];
-            }
-        }
-        return (cur + 1);
-    }
+
 
     /**
      * 题目88 (10.01). 合并排序的数组
@@ -159,60 +119,6 @@ public class Array {
         while(indexB < n){
             A[index++] = B[indexB++];
         }
-    }
-
-    /**
-     * 88. 合并两个有序数组
-     * 给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。
-     * 说明:初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
-     * 输入: nums1 = [1,2,3,0,0,0], m = 3   nums2 = [2,5,6],       n = 3
-     * 输出: [1,2,2,3,5,6]
-     *
-     * @param nums1
-     * @param m
-     * @param nums2
-     * @param n
-     */
-    public void merge88(int[] nums1, int m, int[] nums2, int n) {
-        System.arraycopy(nums1, 0, nums1, n, m); // [0,0,0,1,2,3]
-        int index1 = n, index2 = 0;
-        int index = 0;
-        while (index1 < n + m && index2 < n){
-            if(nums1[index1] > nums2[index2]){
-                nums1[index++] = nums2[index2++];
-            }else if(nums1[index1] < nums2[index2]){
-                nums1[index++] = nums1[index1++];
-            }else{
-                nums1[index++] = nums1[index1++];
-                nums1[index++] = nums2[index2++];
-            }
-        }
-        while (index2 < n){
-            nums1[index++] = nums2[index2++];
-        }
-        while (index1 < n + m){
-            nums1[index++] = nums1[index1++];
-        }
-    }
-
-    /**
-     * 27.移除元素(思路同删除重复项)
-     * 给定一个排序数组nums和一个值val，你需要在原地删除值等于val的元素，返回新数组的长度
-     * 不要使用额外的数组空间，并在原地修改输入数组 元素的顺序可以改变         nums{3,2,3,1,4,5,3,2,1}
-     * @param original
-     * @return
-     */
-    private static int deleteAssignItem(Integer[] original, int target){
-        if(original == null){
-            return 0;
-        }
-        int cur = 0;
-        for(int i = 0; i < original.length; i++){
-            if(original[i] != target){
-                original[cur++] = original[i];
-            }
-        }
-        return cur;
     }
 
     /**
@@ -300,33 +206,6 @@ public class Array {
         return sumZeros;
     }
 
-    /**
-     * 题目11:盛最多水的容器
-     * 给你 n 个非负整数 a1，a2，...，an，每个数代表坐标中的一个点 (i, ai) 。在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0)。
-     找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
-     说明：你不能倾斜容器，且 n 的值至少为 2。
-     输入：[1,8,6,2,5,4,8,3,7] 输出：49
-     * @param height
-     * @return
-     */
-    public int maxArea(int[] height) {
-        // 双指针
-        int start = 0;
-        int end = height.length - 1;
-        int maxCatacity = 0;
-        while(start < end){
-            int wide = end - start;// 桶的宽
-            int minHeight = Math.min(height[start], height[end]);// 桶单的最小高
-            maxCatacity = Math.max(maxCatacity, wide * minHeight);
-            // 移动小的边
-            if(minHeight == height[start]){
-                start++;
-            }else{
-                end--;
-            }
-        }
-        return maxCatacity;
-    }
 
     /**
      * 495.中毒总时长
@@ -423,90 +302,5 @@ public class Array {
     }
 
 
-    /**
-     * 283. 移动零
-     * 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
-     * 输入: [0,1,0,3,12]     输出: [1,3,12,0,0]
-     * 1.必须在原数组上操作，不能拷贝额外的数组。2.尽量减少操作次数。
-     * @param nums
-     */
-    public static void moveZeroes(int[] nums) {
-        int cur = 0;
-        int len = 0;
-        for(; len < nums.length; len++){
-            if(nums[len] != 0){
-                nums[cur++] = nums[len];
-            }
-        }
-        for(int j = cur; j < len; j++){
-            nums[j] = 0;
-        }
-        System.out.println(nums);
-    }
-
-    /**
-     * 125. 验证回文串
-     *  给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。
-     * 说明：本题中，我们将空字符串定义为有效的回文串。
-     * 输入: "A man, a plan, a canal: Panama" 输出: true
-     * 输入: "race a car" 输出: false
-     * @param s
-     * @return
-     */
-    public static boolean isPalindrome(String s) {
-        if(s == null || s.isEmpty()){
-            return true;
-        }
-        int start = 0;
-        int end = s.length() - 1;
-        while(start < end){
-            while(start < end && !Character.isLetterOrDigit(s.charAt(start))){
-                start++;
-            }
-            while(start < end && !Character.isLetterOrDigit(s.charAt(end))){
-                end--;
-            }
-            if(Character.toLowerCase(s.charAt(start)) != Character.toLowerCase(s.charAt(end))){
-                return false;
-            }else{
-                start++;
-                end--;
-            }
-        }
-        return true;
-
-    }
-
-    /**
-     * 977. 有序数组的平方
-     * 给定一个按非递减顺序排序的整数数组 A，返回每个数字的平方组成的新数组，要求也按非递减顺序排序。
-     * [-4,-1,0,3,10] [-7,-3,2,3,11] [-7,-3,2,8,11]
-     * @param A
-     * @return
-     */
-    public static int[] sortedSquares(int[] A) {
-        int start = 0;
-        int end = A.length - 1;
-        int[] result = new int[A.length];
-        int cur = A.length - 1;
-        while(start < end){
-            if(A[start] * A[start] < A[end] * A[end]){
-                result[cur--] = A[end] * A[end];
-                end--;
-            }else if(A[start] * A[start] > A[end] * A[end]){
-                result[cur--] = A[start] * A[start];
-                start++;
-            }else{
-                result[cur--] = A[end] * A[end];
-                result[cur--] = A[start] * A[start];
-                start++;
-                end--;
-            }
-        }
-        if(start == end){
-            result[0] = A[start] * A[start];
-        }
-        return result;
-    }
 
 }

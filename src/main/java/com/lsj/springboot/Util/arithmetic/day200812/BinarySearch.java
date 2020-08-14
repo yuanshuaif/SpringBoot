@@ -1,7 +1,5 @@
 package com.lsj.springboot.Util.arithmetic.day200812;
 
-import com.lsj.springboot.Util.arithmetic.day200806.Array;
-
 import java.util.*;
 
 /**

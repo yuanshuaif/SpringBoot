@@ -23,9 +23,6 @@ import java.util.*;
  *  题目28:实现indexOf()
  *  滑动窗口
  *
- *  344. 反转字符串
- *  双指针
- *
  *  1071.字符串的最大公因子
  *  辗转相除法
  *
@@ -43,7 +40,6 @@ import java.util.*;
  *
  *  459. 重复的子字符串
  *
- *  345. 反转字符串中的元音字母
  *
  */
 public class Strings {
@@ -432,25 +428,6 @@ public class Strings {
     }
 
     /**
-     * 344. 反转字符串
-     * 编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 char[] 的形式给出。
-     * 不要给另外的数组分配额外的空间，你必须原地修改输入数组、使用 O(1) 的额外空间解决这一问题。  你可以假设数组中的所有字符都是 ASCII 码表中的可打印字符。
-     * 输入：["h","e","l","l","o"]  输出：["o","l","l","e","h"]
-     * 输入：["H","a","n","n","a","h"]  输出：["h","a","n","n","a","H"]
-     *
-     * @param s
-     */
-    public char[] reverseString(char[] s) {
-        char temp;
-        for(int i = 0; i < s.length / 2; i++){
-            temp = s[i];
-            s[i] = s[s.length - i - 1];
-            s[s.length - i - 1] = temp;
-        }
-        return s;
-    }
-
-    /**
      * 1071.字符串的最大公因子
      * 对于字符串 S 和 T，只有在 S = T + ... + T（T 与自身连接 1 次或多次）时，我们才认定 “T 能除尽 S”。
      返回最长字符串 X，要求满足 X 能除尽 str1 且 X 能除尽 str2。
@@ -650,32 +627,4 @@ public class Strings {
         return str.substring(1, str.length() - 1).contains(s);
     }
 
-    /**
-     * 345. 反转字符串中的元音字母
-     * 编写一个函数，以字符串作为输入，反转该字符串中的元音字母。
-     * 输入: "leetcode"    输出: "leotcede"
-     * @param s
-     * @return
-     */
-    public String reverseVowels(String s) {
-        String vowels = "aeiouAEIOU";// 元音字符
-        int start = 0;
-        int end = s.length() - 1;
-        char[] chars = s.toCharArray();
-        while(start < end){
-            while(start < end && !vowels.contains(chars[start] + "")){
-                start++;
-            }
-            while(start < end && !vowels.contains(chars[end] + "")){
-                end--;
-            }
-            // 找到一对、交换
-            char temp = chars[start];
-            chars[start] = chars[end];
-            chars[end] = temp;
-            start++;
-            end--;
-        }
-        return new String(chars);
-    }
 }
