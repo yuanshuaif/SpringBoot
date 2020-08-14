@@ -1,5 +1,7 @@
 package com.lsj.springboot.Util.arithmetic.day200812;
 
+import java.util.Arrays;
+
 /**
  * 题目26:删除排序数组中的重复项
  * 双指针
@@ -29,12 +31,15 @@ package com.lsj.springboot.Util.arithmetic.day200812;
  * 题目11:盛最多水的容器
  * 双指针
  *
+ * 题目844：比较含退格的字符串
+ *
  */
 public class DoublePointer {
 
     public static void main(String[] args){
-        int[] A = new int[]{-4,-1,0,3,10};
-        System.out.println(sortedSquares(A));
+//        int[] A = new int[]{-4,-1,0,3,10};
+//        System.out.println(sortedSquares(A));
+        System.out.println(backspaceCompare("ad#c", "ab#c"));
 
     }
 
@@ -342,10 +347,40 @@ public class DoublePointer {
      * @param T
      * @return
      */
-    public boolean backspaceCompare(String S, String T) {
-
-        return false;
-
+    public static boolean backspaceCompare(String S, String T) {
+        int curS = 0;
+        int indexS = 0;
+        char[] charS = S.toCharArray();
+        int curT = 0;
+        int indexT = 0;
+        char[] charT = T.toCharArray();
+        for(; indexS < charS.length; indexS++){
+            if(charS[indexS] == '#' && curS == 0){
+            }else if(charS[indexS] == '#'){
+                curS--;
+            }else{
+                charS[curS++] = charS[indexS];
+            }
+        }
+        char[] charSR = Arrays.copyOf(charS, curS);
+        for(; indexT < charT.length; indexT++){
+            if(charT[indexT] == '#' && curT == 0){
+            }else if(charT[indexT] == '#'){
+                curT--;
+            }else{
+                charT[curT++] = charT[indexT];
+            }
+        }
+        char[] charTR = Arrays.copyOf(charT, curT);
+        if(charSR.length != charTR.length){
+            return false;
+        }
+        for(int j = 0; j < charTR.length; j++){
+            if(charSR[j] != charTR[j]){
+                return false;
+            }
+        }
+        return true;
     }
 
 }
