@@ -15,6 +15,8 @@ import java.util.*;
  * hash表
  *
  * 367. 有效的完全平方数(类似于69题)
+ *
+ * 240. 搜索二维矩阵 II(剑指 Offer 04. 二维数组中的查找)
  */
 public class BinarySearch {
 
@@ -224,5 +226,32 @@ public class BinarySearch {
             }
         }
         return flag;
+    }
+
+    /**
+     * 240. 搜索二维矩阵 II(剑指 Offer 04. 二维数组中的查找)
+     * 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：
+     * 每行的元素从左到右升序排列。  每列的元素从上到下升序排列。
+     * @param matrix
+     * @param target
+     * @return
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0){
+            return false;
+        }
+        // 二维数组的二分查找，从右上角开始向左减小，向右增大
+        int row = 0;
+        int col = matrix[0].length - 1;
+        while(row < matrix.length && col >= 0){
+            if(matrix[row][col] > target){
+                col--;
+            }else if(matrix[row][col] < target){
+                row++;
+            }else{
+                return true;
+            }
+        }
+        return false;
     }
 }

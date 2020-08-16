@@ -19,6 +19,9 @@ import java.util.List;
  *
  * 题目605:种花问题
  *
+ * 剑指 Offer 53 - I. 在排序数组中查找数字 I
+ *
+ * 剑指 Offer 53 - II. 0～n-1中缺失的数字
  */
 public class Array {
 
@@ -301,6 +304,57 @@ public class Array {
         return count >= n;
     }
 
+    /**
+     * 剑指 Offer 53 - I. 在排序数组中查找数字 I
+     * 输入: nums = [5,7,7,8,8,10], target = 8    输出: 2
+     * 输入: nums = [5,7,7,8,8,10], target = 6    输出: 0
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int search(int[] nums, int target) {
+        int count = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] == target){
+                count++;
+                continue;
+            }
+            if(count > 0){
+                break;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 剑指 Offer 53 - II. 0～n-1中缺失的数字
+     * 一个长度为n-1的递增排序数组中的所有数字都是唯一的，并且每个数字都在范围0～n-1之内。在范围0～n-1内的n个数字中有且只有一个数字不在该数组中，请找出这个数字。
+     * 输入: [0,1,3]  输出: 2
+     * 输入: [0,1,2,3,4,5,6,7,9]  输出: 8
+     * 输入: [1,2,3]  输出: 0
+     *  输入: [0,1,2,3]  输出: 4
+     * @param nums
+     * @return
+     */
+    public int missingNumber(int[] nums) {
+        // 类似于贪心算法的种花问题
+        int target = 0;
+        if(nums[0] == 1){// 如果跳过了0
+            return target;
+        }
+        for(int i = 0; i < nums.length; i++){
+            if((i == 0 || nums[i] - nums[i - 1] == 1) &&
+                    (i == nums.length - 1 || nums[i + 1] - nums[i] == 1)){
+                continue;
+            }
+            target = nums[i] + 1;
+            break;
+        }
+        if(target == 0){// 如果是连续(跳过最后一个)
+            target = nums[nums.length - 1] + 1;
+        }
+        return target;
+    }
 
 
 }

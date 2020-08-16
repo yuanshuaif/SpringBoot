@@ -1,5 +1,7 @@
 package com.lsj.springboot.Util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -31,6 +33,12 @@ public class day200212 {
             e.printStackTrace();
         }
         executor.shutdown();
+        List<String> list = new ArrayList<>();
+        sub(list);
+    }
+
+    public static void sub(List<? extends Object> lists){
+
     }
 
 }

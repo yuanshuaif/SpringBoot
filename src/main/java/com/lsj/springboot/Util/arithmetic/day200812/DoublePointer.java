@@ -1,6 +1,8 @@
 package com.lsj.springboot.Util.arithmetic.day200812;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 题目26:删除排序数组中的重复项
@@ -30,6 +32,9 @@ import java.util.Arrays;
  *
  * 题目11:盛最多水的容器
  * 双指针
+ *
+ * 题目532:数组中的K-diff数对
+ * hash表
  *
  * 题目844：比较含退格的字符串
  *
@@ -325,15 +330,27 @@ public class DoublePointer {
      * 解释: 数组中有四个 1-diff 数对, (1, 2), (2, 3), (3, 4) 和 (4, 5)。
      * 输入: [1, 3, 1, 5, 4], k = 0   输出: 1
      * 解释: 数组中只有一个 0-diff 数对，(1, 1)。
-     *
-     *
      * @param nums
      * @param k
      * @return
      */
     public int findPairs(int[] nums, int k) {
-
-        return 0;
+        if(k < 0) return 0;
+        Map<Integer, Integer> map =  new HashMap<>();
+        for(int num : nums){
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        int ans = 0;
+        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+            int key = entry.getKey();
+            int value = entry.getValue();
+            if(k == 0 && value > 1){
+                ans++;
+            }else if(k > 0 && map.containsKey(key - k)){
+                ans ++;
+            }
+        }
+        return ans;
     }
 
     /**
@@ -382,5 +399,4 @@ public class DoublePointer {
         }
         return true;
     }
-
 }
