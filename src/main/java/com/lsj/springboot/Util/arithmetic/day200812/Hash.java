@@ -13,7 +13,9 @@ import java.util.Map;
  * 题目532:数组中的K-diff数对
  * hash表
  *
- * 题目242：有效的字母异位词
+ * 题目242:有效的字母异位词
+ *
+ * 题目136:只出现一次的数字
  */
 public class Hash {
 
@@ -108,6 +110,26 @@ public class Hash {
             }
         }
         return true;
+    }
+
+    /**
+     * 136. 只出现一次的数字
+     * 给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
+     * @param nums
+     * @return
+     */
+    public int singleNumber(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int num : nums){
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        int target = 0;
+        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+            if(entry.getValue() == 1){
+                target = entry.getKey();
+            }
+        }
+        return target;
     }
 
 }
