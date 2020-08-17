@@ -38,6 +38,8 @@ import java.util.*;
  *
  * 题目1213：三个有序数组的交集
  *
+ * 题目925:长按键入
+ *
  */
 public class DoublePointer {
 
@@ -45,10 +47,11 @@ public class DoublePointer {
 //        int[] A = new int[]{-4,-1,0,3,10};
 //        System.out.println(sortedSquares(A));
 //        System.out.println(backspaceCompare("ad#c", "ab#c"));
-        int[] arr1 = {1,2,3,4,5};
+     /*   int[] arr1 = {1,2,3,4,5};
         int[] arr2 = {1,2,5,7,9};
         int[] arr3 = {1,3,4,5,8};
-        System.out.println(arraysIntersection(arr1,  arr2, arr3));
+        System.out.println(arraysIntersection(arr1,  arr2, arr3));*/
+        System.out.println(isLongPressedName("leelee", "lleeelee"));
 
     }
 
@@ -442,5 +445,66 @@ public class DoublePointer {
             }
         }
         return list;
+    }
+
+    /**
+     * 925. 长按键入
+     * 你的朋友正在使用键盘输入他的名字 name。偶尔，在键入字符 c 时，按键可能会被长按，而字符可能被输入 1 次或多次。
+     * 你将会检查键盘输入的字符 typed。如果它对应的可能是你的朋友的名字（其中一些字符可能被长按），那么就返回 True。
+     * 1.输入：name = "alex", typed = "aaleex"   输出：true
+     * 解释：'alex' 中的 'a' 和 'e' 被长按。
+     * 2.输入：name = "saeed", typed = "ssaaedd"     输出：false
+     * 解释：'e' 一定需要被键入两次，但在 typed 的输出中不是这样
+     * 3.输入：name = "leelee", typed = "lleeelee"   输出：true
+     * 4.输入：name = "laiden", typed = "laiden" 输出：true
+     * 解释：长按名字中的字符并不是必要的
+     * @param name
+     * @param typed
+     * @return
+     */
+    public static boolean isLongPressedName(String name, String typed) {
+        int indexA = 0;
+        int indexB = 0;
+        while(indexA < name.length() && indexB < typed.length()){
+            if(name.charAt(indexA) == typed.charAt(indexB)){
+                if(indexA == name.length() - 1 || indexB == typed.length() - 1){
+                    if(name.charAt(indexA) == typed.charAt(indexB)){
+                        if(indexA == name.length() - 1){
+                            indexA++;
+                        }
+                        if(indexB == typed.length() - 1){
+                            indexB++;
+                        }
+                        break;
+                    }
+                    return false;
+                }
+                if(name.charAt(indexA + 1) == name.charAt(indexA) && typed.charAt(indexB) == typed.charAt(indexB + 1)){
+                    indexA++;
+                    indexB++;
+                }else if(name.charAt(indexA + 1) != name.charAt(indexA) && typed.charAt(indexB) == typed.charAt(indexB + 1)){
+                    indexB++;
+                }else if(name.charAt(indexA + 1) != name.charAt(indexA) && typed.charAt(indexB) != typed.charAt(indexB + 1)){
+                    indexA++;
+                    indexB++;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+        if(indexA < name.length()){
+            return false;
+        }
+        if(indexB < typed.length()){
+            for(int i = indexB; i < typed.length(); i++){
+                if(typed.charAt(indexB) != typed.charAt(i)){
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }
