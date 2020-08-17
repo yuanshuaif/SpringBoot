@@ -1,8 +1,6 @@
 package com.lsj.springboot.Util.arithmetic.day200812;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 题目26:删除排序数组中的重复项
@@ -38,13 +36,19 @@ import java.util.Map;
  *
  * 题目844：比较含退格的字符串
  *
+ * 题目1213：三个有序数组的交集
+ *
  */
 public class DoublePointer {
 
     public static void main(String[] args){
 //        int[] A = new int[]{-4,-1,0,3,10};
 //        System.out.println(sortedSquares(A));
-        System.out.println(backspaceCompare("ad#c", "ab#c"));
+//        System.out.println(backspaceCompare("ad#c", "ab#c"));
+        int[] arr1 = {1,2,3,4,5};
+        int[] arr2 = {1,2,5,7,9};
+        int[] arr3 = {1,3,4,5,8};
+        System.out.println(arraysIntersection(arr1,  arr2, arr3));
 
     }
 
@@ -398,5 +402,45 @@ public class DoublePointer {
             }
         }
         return true;
+    }
+
+    /**
+     * 1213. 三个有序数组的交集
+     * 给出三个均为 严格递增排列 的整数数组 arr1，arr2 和 arr3。
+     * 返回一个由 仅 在这三个数组中 同时出现 的整数所构成的有序数组。
+     * 输入: arr1 = [1,2,3,4,5], arr2 = [1,2,5,7,9], arr3 = [1,3,4,5,8]   输出: [1,5]
+     * 解释: 只有 1 和 5 同时在这三个数组中出现.
+     * @param arr1
+     * @param arr2
+     * @param arr3
+     * @return
+     */
+    public static List<Integer> arraysIntersection(int[] arr1, int[] arr2, int[] arr3) {
+        // 3指针 核心算法：如果3个指针指向的数相等，同时往下移动；如果不相等，指向最小值的指针向下移动
+        int index1 = 0;
+        int index2 = 0;
+        int index3 = 0;
+        List<Integer> list = new ArrayList<>();
+        int min = 0;
+        while(index1 < arr1.length && index2 < arr2.length && index3 < arr3.length){
+            if(arr1[index1] == arr2[index2] && arr2[index2] == arr3[index3]){
+                list.add(arr1[index1]);
+                index1++;
+                index2++;
+                index3++;
+            }else {
+                min = Math.min(arr1[index1], Math.min(arr2[index2], arr3[index3]));
+                if (arr1[index1] == min) {
+                    index1++;
+                }
+                if (arr2[index2] == min) {
+                    index2++;
+                }
+                if (arr3[index3] == min) {
+                    index3++;
+                }
+            }
+        }
+        return list;
     }
 }
