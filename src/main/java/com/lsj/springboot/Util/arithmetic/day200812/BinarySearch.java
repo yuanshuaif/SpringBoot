@@ -11,9 +11,6 @@ import java.util.*;
  *
  * 35. 搜索插入位置
  *
- * 350. 两个数组的交集 II
- * hash表
- *
  * 367. 有效的完全平方数(类似于69题)
  *
  * 240. 搜索二维矩阵 II(剑指 Offer 04. 二维数组中的查找)
@@ -166,38 +163,6 @@ public class BinarySearch {
             }
         }
         return k;
-    }
-
-    /**
-     * 350. 两个数组的交集 II
-     * 给定两个数组，编写一个函数来计算它们的交集。
-     * 输入：nums1 = [1,2,2,1], nums2 = [2,2]  输出：[2,2]
-     * 时间复杂度：O(m+n)         空间复杂度：O(\min(m,n))
-     * @param nums1
-     * @param nums2
-     * @return
-     */
-    public int[] intersect(int[] nums1, int[] nums2) {
-        // hash表的方式
-        if(nums1.length > nums2.length){
-            intersect(nums2, nums1);
-        }
-        Map<Integer, Integer> hash = new HashMap<>();
-        for(Integer integer : nums1){
-            Integer count = hash.getOrDefault(integer, 0) + 1;
-            hash.put(integer, count);
-        }
-        int[] ans = new int[nums1.length];
-        int k = 0;
-        for(int i = 0; i < nums2.length; i++){
-            Integer count = hash.getOrDefault(nums2[i], 0);
-            if(count > 0){
-                ans[k++] = nums2[i];
-                count--;
-                hash.put(nums2[i], count);
-            }
-        }
-        return Arrays.copyOf(ans, k);
     }
 
     /**

@@ -31,9 +31,6 @@ import java.util.*;
  * 题目11:盛最多水的容器
  * 双指针
  *
- * 题目532:数组中的K-diff数对
- * hash表
- *
  * 题目844：比较含退格的字符串
  *
  * 题目1213：三个有序数组的交集
@@ -325,39 +322,6 @@ public class DoublePointer {
             }
         }
         return maxCatacity;
-    }
-
-    /**
-     * 532. 数组中的K-diff数对
-     * 给定一个整数数组和一个整数 k, 你需要在数组里找到不同的 k-diff 数对。这里将 k-diff 数对定义为一个整数对 (i, j),
-     * 其中 i 和 j 都是数组中的数字，且两数之差的绝对值是 k.
-     * 输入: [3, 1, 4, 1, 5], k = 2   输出: 2
-     * 解释: 数组中有两个 2-diff 数对, (1, 3) 和 (3, 5)。尽管数组中有两个1，但我们只应返回不同的数对的数量
-     * 输入:[1, 2, 3, 4, 5], k = 1    输出: 4
-     * 解释: 数组中有四个 1-diff 数对, (1, 2), (2, 3), (3, 4) 和 (4, 5)。
-     * 输入: [1, 3, 1, 5, 4], k = 0   输出: 1
-     * 解释: 数组中只有一个 0-diff 数对，(1, 1)。
-     * @param nums
-     * @param k
-     * @return
-     */
-    public int findPairs(int[] nums, int k) {
-        if(k < 0) return 0;
-        Map<Integer, Integer> map =  new HashMap<>();
-        for(int num : nums){
-            map.put(num, map.getOrDefault(num, 0) + 1);
-        }
-        int ans = 0;
-        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
-            int key = entry.getKey();
-            int value = entry.getValue();
-            if(k == 0 && value > 1){
-                ans++;
-            }else if(k > 0 && map.containsKey(key - k)){
-                ans ++;
-            }
-        }
-        return ans;
     }
 
     /**
