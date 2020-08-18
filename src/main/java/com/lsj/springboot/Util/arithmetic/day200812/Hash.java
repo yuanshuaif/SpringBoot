@@ -16,6 +16,7 @@ import java.util.Map;
  * 题目242:有效的字母异位词
  *
  * 题目136:只出现一次的数字
+ * hash表  位运算-异或
  */
 public class Hash {
 
@@ -119,17 +120,28 @@ public class Hash {
      * @return
      */
     public int singleNumber(int[] nums) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for(int num : nums){
-            map.put(num, map.getOrDefault(num, 0) + 1);
-        }
+//        Map<Integer, Integer> map = new HashMap<>();
+//        for(int num : nums){
+//            map.put(num, map.getOrDefault(num, 0) + 1);
+//        }
+//        int target = 0;
+//        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+//            if(entry.getValue() == 1){
+//                target = entry.getKey();
+//            }
+//        }
+//        return target;
+
+        // 位运算~异或
+        //1.a^0=a;
+        //2.a^a=0;
+        //3.满足交换律 a^b^a = a^a^b = 0^b = b;
         int target = 0;
-        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
-            if(entry.getValue() == 1){
-                target = entry.getKey();
-            }
+        for(int num :nums){
+            target ^= num;
         }
         return target;
+
     }
 
 }
