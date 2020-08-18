@@ -1,5 +1,7 @@
 package com.lsj.springboot.Util.arithmetic.day200812;
 
+import com.lsj.springboot.Util.arithmetic.day200818.Maths;
+
 import java.util.*;
 
 /**
@@ -18,6 +20,8 @@ import java.util.*;
  *
  * 题目217：存在重复元素
  * set也是hash表的一种
+ *
+ * 题目204:计数质数
  */
 public class Hash {
 
@@ -175,6 +179,44 @@ public class Hash {
         }
         return false;
 
+    }
+
+
+    /**
+     * 204. 计数质数
+     * 统计所有小于非负整数 n 的质数的数量。
+     * 输入: 10   输出: 4   解释: 小于 10 的质数一共有 4 个, 它们是 2, 3, 5, 7 。
+     * @param n
+     * @return
+     */
+    public static int countPrimes(int n) {
+        int count = 0;
+        if (n > 2) {// n>2，一定会有2这个质数
+            count++;
+        }
+        for(int i = 1; i < n; i = i + 2){// 偶数不是质数，判断奇数是不是质数
+            if(isPrime(i)){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static boolean isPrime(int src) {
+        double sqrt = Math.sqrt(src);
+        if (src == 3) {
+            return true;
+        }
+        for (int i = 3; i <= sqrt; i += 2) {
+            if (src % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args){
+        System.out.println(countPrimes(4));
     }
 
 }
