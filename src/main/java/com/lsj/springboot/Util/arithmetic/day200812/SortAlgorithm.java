@@ -1,11 +1,11 @@
-package com.lsj.springboot.Util;
+package com.lsj.springboot.Util.arithmetic.day200812;
 
 /**
  * Created by 10326 on 2020/2/10.
  * 排序算法
- * 基本排序算法：交换排序：冒泡排序；选择排序：选择排序、堆排序；插入排序：插入排序、Shell排序；合并排序》》》》排序、桶排序
+ * 基本排序算法：交换排序：冒泡排序；选择排序：选择排序、堆排序；插入排序：插入排序、Shell排序；合并排序、桶排序
  */
-public class day200210 {
+public class SortAlgorithm {
     private static Integer[] integers = new Integer[]{31, 12, 23, 34, 43, 13, 37, 9};
 
     private static int count = 0; //统计一下次数
@@ -14,16 +14,16 @@ public class day200210 {
 //        test1();
 //        test2();
 //        test3();
-//        test4();
-        test5(0, integers.length - 1);
+        test4();
+//        test5(0, integers.length - 1);
     }
 
     /**
-     * 1.冒泡排序
+     * 1.冒泡排序 时间复杂度o(n^2)  空间复杂度o(n^2)
      */
     public static void test1(){
         // 1.需要进行n-1次循环比较
-        for(int i = 1; i <= integers.length -1; i++){
+        for(int i = 1; i < integers.length; i++){
             // 2.第i次循环，需要n-i次比较
             for(int j = 0; j < integers.length -i; j++){
                 // 3.如果前面的值大于后面的值大于前面的值，则进行交换
@@ -39,26 +39,26 @@ public class day200210 {
 
 
     /**
-     * 选择排序：
-     * 1.选择最小的元素与第一个元素交换；
-     * 2.选择第二小的元素与第二个元素交换；
-     * 3.重复上述过程，直到最后两个元素交换完毕
+     * 2.选择排序：时间复杂度o(n^2)  空间复杂度o(n)
+     *   1.选择最小的元素与第一个元素交换；
+     *   2.选择第二小的元素与第二个元素交换；
+     *   3.重复上述过程，直到最后两个元素交换完毕
      */
     public static void test2(){
-        int index;
+        int min;
         // 1.需要进行n-1次循环
         for(int i = 0; i < integers.length -1; i++){
-            index = i;// 2.设第i次循环的第一个值为最小值
+            min = i;// 2.设第i次循环的第一个值为最小值
             // 3.从后面一个元素一直到最后一个元素，循环与该元素进行比较，并修改最小值的下标
             for(int j = i + 1; j < integers.length; j++){
-                if (integers[index] > integers[j]) {
-                    index = j;
+                if (integers[min] > integers[j]) {
+                    min = j;
                 }
             }
             // 4.如果最小值与第一个元素的值不一样，转换2者的位置
-            if(i != index){
-                int temp = integers[index];
-                integers[index] = integers[i];
+            if(i != min){
+                int temp = integers[min];
+                integers[min] = integers[i];
                 integers[i] = temp;
             }
         }
@@ -66,7 +66,8 @@ public class day200210 {
     }
 
     /**
-     * 插入排序
+     * 3.插入排序   时间复杂度o(n^2)  空间复杂度o(n)
+     * 前n-1个元素是有序的，第n个元素插入到n-1个元素中对应的位置上
      */
     public static void test3(){
         int temp;
@@ -85,7 +86,7 @@ public class day200210 {
     }
 
     /**
-     * shell排序（对插入排序的优化）
+     * 4.shell排序（对插入排序的优化）
      * 1.将n个元素分成n/2个数组序列，第一个元素与n/2+1为一对
      * 2.每一次循环使每一个序列都排好顺序
      * 3.再变成n/4个序列进行排序
@@ -113,7 +114,7 @@ public class day200210 {
 
 
     /**
-     * 快速排序(对冒泡排序的优化)
+     * 5.快速排序(对冒泡排序的优化)
      * @param left
      * @param right
      */
