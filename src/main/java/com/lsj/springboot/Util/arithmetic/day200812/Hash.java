@@ -24,6 +24,8 @@ import java.util.*;
  * 题目204:计数质数
  *
  * 题目219:存在重复元素 II
+ *
+ * 题目389:找不同（类似于136）
  */
 public class Hash {
 
@@ -244,6 +246,47 @@ public class Hash {
             }
         }
         return false;
+    }
+
+    /**
+     * 389. 找不同（类似于136）
+     * 给定两个字符串 s 和 t，它们只包含小写字母。
+     * 字符串 t 由字符串 s 随机重排，然后在随机位置添加一个字母。 请找出在 t 中被添加的字母。
+     * 输入：s = "abcd" t = "abcde"    输出：e
+     * 解释：'e' 是那个被添加的字母。
+     * @param s
+     * @param t
+     * @return
+     */
+    public char findTheDifference(String s, String t) {
+       /* Map<String, Integer> hash = new HashMap<>();
+        char[] charS = s.toCharArray();
+        char[] charT = t.toCharArray();
+        for(int i = 0; i < charS.length; i++){
+            hash.put(charS[i] + "", hash.getOrDefault(charS[i] + "", 0) + 1);
+        }
+        char diff = '0';
+        for(int i = 0; i < charT.length; i++){
+            Integer value = hash.get(charT[i] + "");
+            if(value != null && value != 0){
+                hash.put(charT[i] + "", value - 1);
+            }else{
+                diff = charT[i];
+            }
+        }
+        return diff;*/
+       // 相同字符异或等于0
+       if(s.equals("")){
+           return t.charAt(0);
+       }
+        char diff = s.charAt(0);
+        for(int i = 1; i < s.length(); i++){
+            diff ^= s.charAt(i);
+        }
+        for(int i = 0; i < t.length(); i++){
+            diff ^= t.charAt(i);
+        }
+        return diff;
     }
 
     public static void main(String[] args){
