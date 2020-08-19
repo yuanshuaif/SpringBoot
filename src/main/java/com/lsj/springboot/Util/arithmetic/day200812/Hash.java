@@ -26,6 +26,8 @@ import java.util.*;
  * 题目219:存在重复元素 II
  *
  * 题目389:找不同（类似于136）
+ *
+ * 题目594：最长和谐子序列
  */
 public class Hash {
 
@@ -289,8 +291,42 @@ public class Hash {
         return diff;
     }
 
+    /**
+     * 594. 最长和谐子序列
+     * 和谐数组是指一个数组里元素的最大值和最小值之间的差别正好是1。
+     * 现在，给定一个整数数组，你需要在所有可能的子序列中找到最长的和谐子序列的长度。
+     * 输入: [1,3,2,2,5,2,3,7]    输出: 5
+     * 原因: 最长的和谐数组是：[3,2,2,2,3].
+     * @param nums
+     * @return
+     */
+    public static int findLHS(int[] nums) {
+        Map<Integer, Integer> hash = new HashMap<>();
+        for(int num : nums){
+            hash.put(num, hash.getOrDefault(num, 0) + 1);
+        }
+
+        int ans = 0;
+        for(Map.Entry<Integer, Integer> entry : hash.entrySet()){
+            int key = entry.getKey();
+            int value = entry.getValue();
+            if(hash.containsKey(key + 1)){
+                value += hash.get(key + 1);
+                ans = Math.max(ans, value);
+            }
+            value = entry.getValue();
+            if(hash.containsKey(key - 1)){
+                value += hash.get(key - 1);
+                ans = Math.max(ans, value);
+            }
+        }
+        return ans;
+
+    }
+
     public static void main(String[] args){
-        System.out.println(countPrimes(4));
+//        System.out.println(countPrimes(4));
+        System.out.println(findLHS(new int[]{1,3,2,2,5,2,3,7}));
     }
 
 }
