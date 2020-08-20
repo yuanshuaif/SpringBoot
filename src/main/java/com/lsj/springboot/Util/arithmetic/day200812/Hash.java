@@ -28,6 +28,13 @@ import java.util.*;
  * 题目389:找不同（类似于136）
  *
  * 题目594：最长和谐子序列
+ *
+ * 题目624：数组列表中的最大距离
+ *
+ * 题目645：错误的集合
+ * hash表、异或
+ *
+ * 题目387：字符串中的第一个唯一字符
  */
 public class Hash {
 
@@ -324,9 +331,127 @@ public class Hash {
 
     }
 
+    /**
+     * 624. 数组列表中的最大距离
+     * 给定 m 个数组，每个数组都已经按照升序排好序了。现在你需要从两个不同的数组中选择两个整数（每个数组选一个）并且计算它们的距离。两个整数 a 和 b 之间的距离定义为它们差的绝对值 |a-b| 。你的任务就是去找到最大距离
+     * 输入： [[1,2,3],[4,5],[1,2,3]]
+     * 输出： 4
+     * 解释：一种得到答案 4 的方法是从第一个数组或者第三个数组中选择 1，同时从第二个数组中选择 5 。
+     *
+     * 1.每个给定数组至少会有 1 个数字。列表中至少有两个非空数组。
+     * 2.所有 m 个数组中的数字总数目在范围 [2, 10000] 内。
+     * 3.m 个数组中所有整数的范围在 [-10000, 10000] 内。
+     *
+     * @param arrays
+     * @return
+     */
+    public static int maxDistance(List<List<Integer>> arrays) {
+        // [[-8,-7,-7,-5,1,1,3,4],[-2],[-10,-10,-7,0,1,3],[2]] 输出12 预期14
+        int ans = 0;
+        int hisMax = 0, hisMin = 0;
+        int index = 0;
+        for(int i = 0; i < arrays.size(); i++){
+            if(arrays.get(i).size() > 0){
+                index = i;
+                hisMin = arrays.get(i).get(0);
+                hisMax = arrays.get(i).get(arrays.get(i).size() - 1);
+                break;
+            }
+        }
+        for(int j = index + 1; j < arrays.size(); j++){
+            if(arrays.get(j).size() > 0){
+                ans = Math.max(ans, Math.max(Math.abs(arrays.get(j).get(0) - hisMax),
+                        Math.abs(arrays.get(j).get(arrays.get(j).size() - 1) - hisMin)));
+                hisMax = Math.max(hisMax, arrays.get(j).get(arrays.get(j).size() - 1));
+                hisMin = Math.min(hisMin, arrays.get(j).get(0));
+            }
+        }
+
+        return ans;
+
+    }
+
+    /**
+     * 645. 错误的集合
+     * 集合 S 包含从1到 n 的整数。不幸的是，因为数据错误，导致集合里面某一个元素复制了成了集合里面的另外一个元素的值，导致集合丢失了一个整数并且有一个元素重复。
+     * 给定一个数组 nums 代表了集合 S 发生错误后的结果。你的任务是首先寻找到重复出现的整数，再找到丢失的整数，将它们以数组的形式返回。
+     * 输入: nums = [1,2,2,4] 输出: [2,3]
+     * 1.给定数组的长度范围是 [2, 10000]。
+     * 2.给定的数组是无序的。
+     * @param nums
+     * @return
+     */
+    public static int[] findErrorNums(int[] nums) {
+        int[] ans = new int[2];
+        Set<Integer> sets = new HashSet<>();
+        int sum = 0;
+        for(int num : nums){
+            if(!sets.add(num)){
+                ans[0] = num;// 重复的数字
+            }else{
+                sum ^= num;
+            }
+        }
+        for(int i = 1; i <= nums.length; i++){
+            sum ^= i;
+        }
+        ans[1] = sum;
+        return ans;
+    }
+
+    /**
+     * 1002. 查找常用字符
+     * 给定仅有小写字母组成的字符串数组 A，返回列表中的每个字符串中都显示的全部字符（包括重复字符）组成的列表。例如，如果一个字符在每个字符串中出现 3 次，但不是 4 次，则需要在最终答案中包含该字符 3 次。
+     * 你可以按任意顺序返回答案。
+     * 输入：["bella","label","roller"]    输出：["e","l","l"]
+     * 输入：["cool","lock","cook"]    输出：["c","o"]
+     * @param A
+     * @return
+     */
+    public List<String> commonChars(String[] A) {
+
+        return null;
+
+    }
+
+    /**
+     * 387. 字符串中的第一个唯一字符
+     * 给定一个字符串，找到它的第一个不重复的字符，并返回它的索引。如果不存在，则返回 -1。
+     * s = "leetcode"   返回 0
+     * s = "loveleetcode"  返回 2
+     * @param s
+     * @return
+     */
+    public int firstUniqChar(String s) {
+        int ans = -1;
+        Map<Character, Integer> hash = new HashMap<>();
+        for(int i = 0; i < s.length(); i++){
+            hash.put(s.charAt(i), hash.getOrDefault(s.charAt(i), 0) + 1);
+        }
+        for(int i = 0; i < s.length(); i++){
+            if(hash.get(s.charAt(i)) == 1){
+                ans = i;
+                break;
+            }
+        }
+        return ans;
+    }
+
+
     public static void main(String[] args){
 //        System.out.println(countPrimes(4));
-        System.out.println(findLHS(new int[]{1,3,2,2,5,2,3,7}));
+//        System.out.println(findLHS(new int[]{1,3,2,2,5,2,3,7}));
+
+      /*  List<Integer> subList1 = new ArrayList(){{add(1);add(2);add(3);}};
+        List<Integer> subList2 = new ArrayList(){{add(4);add(5);}};
+        List<Integer> subList3 = new ArrayList(){{add(1);add(2);add(3);}};
+        List<List<Integer>> list = new ArrayList(){{add(subList1); add(subList2); add(subList3);}};
+        // [[-8,-7,-7,-5,1,1,3,4],[-2],[-10,-10,-7,0,1,3],[2]] 输出12 预期14
+       System.out.println(maxDistance(list));*/
+
+       System.out.println(findErrorNums(new int[]{37,62,43,27,12,66,36,18,39,54,61,65,47,32,23,2,46,8,4,24,29,38,63,39,25,11,45,28,44,52,15,30,21,7,57,49,1,59,58,14,9,40,3,42,56,31,20,41,22,50,13,33,6,10,16,64,53,51,19,17,48,26,34,60,35,5}));
+
+
     }
 
 }
