@@ -34,6 +34,8 @@ import java.util.*;
  * 题目645：错误的集合
  * hash表、异或
  *
+ * 题目1002：查找常用字符
+ *
  * 题目387：字符串中的第一个唯一字符
  */
 public class Hash {
@@ -401,17 +403,41 @@ public class Hash {
 
     /**
      * 1002. 查找常用字符
-     * 给定仅有小写字母组成的字符串数组 A，返回列表中的每个字符串中都显示的全部字符（包括重复字符）组成的列表。例如，如果一个字符在每个字符串中出现 3 次，但不是 4 次，则需要在最终答案中包含该字符 3 次。
+     * 给定仅有小写字母组成的字符串数组 A，返回列表中的每个字符串中都显示的全部字符（包括重复字符）组成的列表。
+     * 例如，如果一个字符在每个字符串中出现 3 次，但不是 4 次，则需要在最终答案中包含该字符 3 次。
      * 你可以按任意顺序返回答案。
      * 输入：["bella","label","roller"]    输出：["e","l","l"]
      * 输入：["cool","lock","cook"]    输出：["c","o"]
      * @param A
      * @return
      */
-    public List<String> commonChars(String[] A) {
-
-        return null;
-
+    public static List<String> commonChars(String[] A) {
+        Map<Character, Integer> hash = new HashMap<>();
+        for(int i = 0; i < A[0].length(); i++){
+            hash.put(A[0].charAt(i), hash.getOrDefault(A[0].charAt(i), 0) + 1);
+        }
+        Map<Character, Integer> temp = new HashMap<>();
+        for(int i = 1; i < A.length; i++){
+            for(int j = 0; j < A[i].length(); j++) {
+                if(hash.containsKey(A[i].charAt(j))){
+                    if(hash.get(A[i].charAt(j)) - 1 > 0) {
+                        hash.put(A[i].charAt(j), hash.get(A[i].charAt(j)) - 1);
+                    }else{
+                       hash.remove(A[i].charAt(j));
+                    }
+                    temp.put(A[i].charAt(j), temp.getOrDefault(A[i].charAt(j), 0) + 1);
+                }
+            }
+            hash = temp;
+            temp = new HashMap<>();
+        }
+        List<String> ans = new ArrayList<>();
+        for(Map.Entry<Character, Integer> entry : hash.entrySet()){
+            for(int i = 0; i < entry.getValue(); i++){
+                ans.add(entry.getKey() + "");
+            }
+        }
+        return ans;
     }
 
     /**
@@ -449,8 +475,9 @@ public class Hash {
         // [[-8,-7,-7,-5,1,1,3,4],[-2],[-10,-10,-7,0,1,3],[2]] 输出12 预期14
        System.out.println(maxDistance(list));*/
 
-       System.out.println(findErrorNums(new int[]{37,62,43,27,12,66,36,18,39,54,61,65,47,32,23,2,46,8,4,24,29,38,63,39,25,11,45,28,44,52,15,30,21,7,57,49,1,59,58,14,9,40,3,42,56,31,20,41,22,50,13,33,6,10,16,64,53,51,19,17,48,26,34,60,35,5}));
+//       System.out.println(findErrorNums(new int[]{37,62,43,27,12,66,36,18,39,54,61,65,47,32,23,2,46,8,4,24,29,38,63,39,25,11,45,28,44,52,15,30,21,7,57,49,1,59,58,14,9,40,3,42,56,31,20,41,22,50,13,33,6,10,16,64,53,51,19,17,48,26,34,60,35,5}));
 
+        System.out.println(commonChars(new String[]{"bella","label","roller"}));
 
     }
 
