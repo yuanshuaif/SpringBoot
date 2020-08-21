@@ -5,6 +5,8 @@ package com.lsj.springboot.Util.arithmetic.day200812;
  *
  *  剑指 Offer 42. 连续子数组的最大和(同53. 最大子序和)
  *
+ *  922. 按奇偶排序数组 II
+ *
  */
 public class Sort {
     /**
@@ -63,5 +65,38 @@ public class Sort {
         }
         int sumSub = ansSubLeft + ansSubRight;
         return Math.max(sumSub, Math.max(left, right));
+    }
+
+    /**
+     * 922. 按奇偶排序数组 II
+     * 给定一个非负整数数组 A， A 中一半整数是奇数，一半整数是偶数。
+     * 对数组进行排序，以便当 A[i] 为奇数时，i 也是奇数；当 A[i] 为偶数时， i 也是偶数。
+     * 你可以返回任何满足上述条件的数组作为答案
+     * 输入：[4,2,5,7]     输出：[4,5,2,7]    解释：[4,7,2,5]，[2,5,4,7]，[2,7,4,5] 也会被接受。
+     * 2 <= A.length <= 20000       A.length % 2 == 0       0 <= A[i] <= 1000
+     *
+     * @param A
+     * @return
+     */
+    public static int[] sortArrayByParityII(int[] A) {
+        int temp = 0;
+        int j = 1;
+        for(int i = 0; i < A.length; i = i + 2){
+            if(A[i] % 2 == 1){// 偶数位如果是奇数
+                for(; i < A.length; j = j + 2){
+                    if(A[j] % 2 != 1){// 奇数位如果是偶数
+                        temp = A[j];
+                        A[j] = A[i];
+                        A[i] = temp;
+                        break;
+                    }
+                }
+            }
+        }
+        return A;
+    }
+
+    public static void main(String[] args){
+        System.out.println(sortArrayByParityII(new int[]{4,2,5,6,9,7}));
     }
 }
