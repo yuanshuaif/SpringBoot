@@ -38,56 +38,10 @@ import java.util.*;
  *
  * 876. 链表的中间结点
  * 快慢指针
+ *
+ * 86. 分隔链表
  */
 public class LinkedList {
-
-    public static void main(String[] args){
-
-       /* //返回一个有序的Node
-        Node a = new Node(1);
-        Node b = new Node(4);
-        Node c = new Node(7);
-        Node d = new Node(10);
-        a.next = b;
-        b.next = c;
-        c.next = d;
-
-        Node x = new Node(2);
-        Node o = new Node(4);
-        Node y = new Node(5);
-        Node z = new Node(8);
-
-        x.next = o;
-        o.next = y;
-        y.next = z;
-
-        System.out.println(mergeNode(a, x));*/
-
-        /* //删除链表中的节点
-        Node a = new Node(2);
-        Node b = new Node(4);
-        Node c = new Node(3);
-        a.next = b;
-        b.next = c;
-
-        Node x = new Node(0);
-        Node y = new Node(6);
-        Node z = new Node(4);
-        x.next = y;
-        y.next = z;
-
-        System.out.println(addNode(a, x));*/
-
-        Node a = new Node(-129);
-        Node b = new Node(-129);
-//        Node c = new Node(2);
-//        Node d = new Node(1);
-        a.next = b;
-//        b.next = c;
-//        c.next = d;
-        System.out.println(isPalindrome(a));
-
-    }
 
     /**
      * 21.链表合并
@@ -526,9 +480,76 @@ public class LinkedList {
      * @param x
      * @return
      */
-    public Node partition(Node head, int x) {
+    public static Node partition(Node head, int x) {
+        Node min = new Node(0);
+        Node cur = min;
+        Node max = new Node(0);
+        max.next = head;
+        head = max;
+        while(head.next != null){
+            if(head.next.val < x){
+                Node next = head.next;
+                head.next = head.next.next;
+                next.next = null;
+                cur.next = next;
+                cur = cur.next;
+            }else{
+                head = head.next;
+            }
+        }
+        cur.next = max.next;
+        return min.next;
+    }
 
-        return null;
+    public static void main(String[] args){
+
+        Node a = new Node(1, new Node(4, new Node(3, new Node(2, new Node(5, new Node(2))))));
+        System.out.println(partition(a, 3));
+
+       /* //返回一个有序的Node
+        Node a = new Node(1);
+        Node b = new Node(4);
+        Node c = new Node(7);
+        Node d = new Node(10);
+        a.next = b;
+        b.next = c;
+        c.next = d;
+
+        Node x = new Node(2);
+        Node o = new Node(4);
+        Node y = new Node(5);
+        Node z = new Node(8);
+
+        x.next = o;
+        o.next = y;
+        y.next = z;
+
+        System.out.println(mergeNode(a, x));*/
+
+        /* //删除链表中的节点
+        Node a = new Node(2);
+        Node b = new Node(4);
+        Node c = new Node(3);
+        a.next = b;
+        b.next = c;
+
+        Node x = new Node(0);
+        Node y = new Node(6);
+        Node z = new Node(4);
+        x.next = y;
+        y.next = z;
+
+        System.out.println(addNode(a, x));*/
+
+   /*     Node a = new Node(-129);
+        Node b = new Node(-129);
+//        Node c = new Node(2);
+//        Node d = new Node(1);
+        a.next = b;
+//        b.next = c;
+//        c.next = d;
+        System.out.println(isPalindrome(a));*/
+
     }
 }
 
@@ -538,6 +559,11 @@ class Node implements Serializable {
     Node(int val){
         this.val = val;
         this.next = null;
+    }
+
+    Node(int val, Node next){
+        this.val = val;
+        this.next = next;
     }
 
     public int getValue() {
