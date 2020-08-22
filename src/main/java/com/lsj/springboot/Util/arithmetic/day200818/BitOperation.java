@@ -6,6 +6,9 @@ package com.lsj.springboot.Util.arithmetic.day200818;
  * 371. 两整数之和
  *
  * 61. 汉明距离
+ *
+ * 268. 缺失数字
+ *
  */
 public class BitOperation {
 
@@ -52,6 +55,24 @@ public class BitOperation {
             a = a >> 1;
         }
         return start;
+    }
+
+    /**
+     * 268. 缺失数字
+     * 给定一个包含 0, 1, 2, ..., n 中 n 个数的序列，找出 0 .. n 中没有出现在序列中的那个数。
+     * 输入: [9,6,4,2,3,5,7,0,1]   输出: 8
+     * @param nums
+     * @return
+     */
+    public int missingNumber(int[] nums) {
+        int ans = 0;
+        for(int i = 0; i < nums.length; i++){
+            ans ^= nums[i];
+        }
+        for(int i = 1; i <= nums.length; i++){
+            ans ^= i;
+        }
+        return ans;
     }
 
 }
