@@ -1,25 +1,25 @@
-package com.lsj.springboot.Util.BinarySortTree;
+package com.lsj.springboot.Util.arithmetic.day200720;
 
 /**
  * Created by 10326 on 2020/3/15.
  */
 public class OperateBinarySortTree {
 
-    private Node root;
+    private TreeNode0 root;
 
-    public Node getRoot() {
+    public TreeNode0 getRoot() {
         return root;
     }
 
-    public void setRoot(Node root) {
+    public void setRoot(TreeNode0 root) {
         this.root = root;
     }
 
     // 1.二叉树的插入操作
     public void insertBST(int value){
-        Node corrent = root;
+        TreeNode0 corrent = root;
         // 循环查找需要插入的节点
-        Node prev = null;
+        TreeNode0 prev = null;
         while(corrent != null){
             prev = corrent;
             if(corrent.getValue() == value){// 值相等的时候不需要任何操作
@@ -32,13 +32,13 @@ public class OperateBinarySortTree {
         }
         // prev 是待插入的节点
         if(root == null){
-            root = new Node(value);
+            root = new TreeNode0(value);
         }else if(value < prev.getValue()){
-            Node left = new Node(value);
+            TreeNode0 left = new TreeNode0(value);
             prev.setLeft(left);
             left.setParent(prev);
         }else if(value > prev.getValue()){
-            Node right = new Node(value);
+            TreeNode0 right = new TreeNode0(value);
             prev.setRight(right);
             right.setParent(prev);
         }
@@ -46,7 +46,7 @@ public class OperateBinarySortTree {
 
     // 2.二叉树的查找操作
     public boolean searchBST(int key){
-        Node corrent = root;
+        TreeNode0 corrent = root;
         while(corrent != null){
             if(corrent.getValue() == key){
                 return true;
@@ -64,7 +64,7 @@ public class OperateBinarySortTree {
         return deleteBST(root, key);
     }
 
-    public boolean deleteBST(Node node, int key){
+    public boolean deleteBST(TreeNode0 node, int key){
         if(node == null)
             return false;
         else{
@@ -77,8 +77,8 @@ public class OperateBinarySortTree {
             }
         }
     }
-    public boolean delete(Node node){
-        Node parent = null;
+    public boolean delete(TreeNode0 node){
+        TreeNode0 parent = null;
         if(node.getLeft() == null){
             if(node.getParent() == null){
                 root = node.getRight();
@@ -99,7 +99,7 @@ public class OperateBinarySortTree {
 //            node = node.getLeft();// 如果右子节点为空，左子节点作为当前节点
         }else{// 左右节点均不为空
             parent = node;
-            Node corrent = node.getLeft();// 转向左子树，取最大值
+            TreeNode0 corrent = node.getLeft();// 转向左子树，取最大值
             while (corrent.getRight() != null){
                 parent = corrent;
                 corrent = corrent.getRight();
@@ -129,5 +129,66 @@ public class OperateBinarySortTree {
         tree.deleteBST(8);
         System.out.println(tree.getRoot());
 
+    }
+}
+
+
+class TreeNode0 {
+
+    private int value;
+    private TreeNode0 left;
+    private TreeNode0 right;
+    private TreeNode0 parent;
+
+    public TreeNode0(int value, TreeNode0 left, TreeNode0 right, TreeNode0 parent) {
+        this.value = value;
+        this.left = left;
+        this.right = right;
+        this.parent = parent;
+    }
+
+    public TreeNode0(int value) {
+        this(value, null, null, null);
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public TreeNode0 getLeft() {
+        return left;
+    }
+
+    public void setLeft(TreeNode0 left) {
+        this.left = left;
+    }
+
+    public TreeNode0 getRight() {
+        return right;
+    }
+
+    public void setRight(TreeNode0 right) {
+        this.right = right;
+    }
+
+    public TreeNode0 getParent() {
+        return parent;
+    }
+
+    public void setParent(TreeNode0 parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public String toString() {
+        return "TreeNode0{" +
+                "value=" + value +
+                ", left=" + left +
+                ", right=" + right +
+                '}';
     }
 }

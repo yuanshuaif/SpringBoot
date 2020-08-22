@@ -12,6 +12,9 @@ package com.lsj.springboot.Util.arithmetic.day200720;
  * 543. 二叉树的直径
  *
  * 110. 平衡二叉树
+ *
+ * 111. 二叉树的最小深度
+ * 深度优先搜索
  */
 public class Tree {
 
@@ -47,6 +50,31 @@ public class Tree {
             return 0;
         }
         return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+    }
+
+    /**
+     * 111. 二叉树的最小深度
+     * 给定一个二叉树，找出其最小深度。
+     * 最小深度是从根节点到最近叶子节点的最短路径上的节点数量。
+     * 说明: 叶子节点是指没有子节点的节点。
+     * >>>>>>>>>>>>>>>>>>>>>>最近叶子节点
+     * @param root
+     * @return
+     */
+    public static int minDepth(TreeNode root) {
+        if(root == null){
+            return 0;
+        }else if(root.left == null && root.right == null){
+            return 1;
+        }
+        int min = Integer.MAX_VALUE;
+        if (root.left != null){
+            min = Math.min(1 + minDepth(root.left), min);
+        }
+        if (root.right != null){
+            min = Math.min(1 + minDepth(root.right), min);
+        }
+        return min;
     }
 
     /**
