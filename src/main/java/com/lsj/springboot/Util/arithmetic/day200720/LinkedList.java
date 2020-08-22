@@ -40,6 +40,8 @@ import java.util.*;
  * 快慢指针
  *
  * 86. 分隔链表
+ *
+ * 1474. 删除链表 M 个节点之后的 N 个节点
  */
 public class LinkedList {
 
@@ -499,6 +501,54 @@ public class LinkedList {
         }
         cur.next = max.next;
         return min.next;
+    }
+
+    /**
+     * 1474. 删除链表 M 个节点之后的 N 个节点
+     * 给定链表 head 和两个整数 m 和 n. 遍历该链表并按照如下方式删除节点:
+         开始时以头节点作为当前节点.
+         保留以当前节点开始的前 m 个节点.
+         删除接下来的 n 个节点.
+         重复步骤 2 和 3, 直到到达链表结尾.
+         在删除了指定结点之后, 返回修改过后的链表的头节点.
+
+         输入: head = [1,2,3,4,5,6,7,8,9,10,11,12,13], m = 2, n = 3
+         输出: [1,2,6,7,11,12]
+         解析: 保留前(m = 2)个结点,  也就是以黑色节点表示的从链表头结点开始的结点(1 ->2).
+         删除接下来的(n = 3)个结点(3 -> 4 -> 5), 在图中以红色结点表示.
+         继续相同的操作, 直到链表的末尾.
+         返回删除结点之后的链表的头结点.
+
+         输入: head = [1,2,3,4,5,6,7,8,9,10,11], m = 1, n = 3
+         输出: [1,5,9]
+         解析: 返回删除结点之后的链表的头结点.
+
+         输入: head = [1,2,3,4,5,6,7,8,9,10,11], m = 3, n = 1
+         输出: [1,2,3,5,6,7,9,10,11]
+
+     * @param head
+     * @param m
+     * @param n
+     * @return
+     */
+    public Node deleteNodes(Node head, int m, int n) {
+        Node ans = head;
+        while(head != null){
+            for(int i = 0; i < m - 1 && head != null; i++){
+                head = head.next;
+            }
+            for(int j = 0; j < n && head != null; j++){
+                if(head.next != null){
+                    head.next = head.next.next;
+                }else{
+                    head.next = null;
+                }
+            }
+            if(head != null){
+                head = head.next;
+            }
+        }
+        return ans;
     }
 
     public static void main(String[] args){
