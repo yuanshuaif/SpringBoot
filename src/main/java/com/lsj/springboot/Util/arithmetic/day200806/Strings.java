@@ -40,7 +40,7 @@ import java.util.*;
  *
  *  459. 重复的子字符串
  *
- *
+ * 面试题 01.06. 字符串压缩
  */
 public class Strings {
 
@@ -625,6 +625,70 @@ public class Strings {
     public boolean repeatedSubstringPattern(String s) {
         String str = s + s;
         return str.substring(1, str.length() - 1).contains(s);
+    }
+
+    /**
+     * 面试题 01.06. 字符串压缩
+     * 字符串压缩。利用字符重复出现的次数，编写一种方法，实现基本的字符串压缩功能。比如，字符串aabcccccaaa会变为a2b1c5a3。
+     * 若“压缩”后的字符串没有变短，则返回原先的字符串。你可以假设字符串中只包含大小写英文字母（a至z）。
+     * 输入："aabcccccaaa" 输出："a2b1c5a3"
+     *  输入："abbccd" 输出："abbccd" 解释："abbccd"压缩后为"a1b2c2d1"，比原字符串长度更长。
+     * @param S
+     * @return
+     */
+    public String compressString(String S) {
+        /*Stack<String> stack = new Stack();
+        int num = 0;
+        for(int i = 0; i < S.length(); i++){
+            if(stack.isEmpty()){
+                stack.push(S.charAt(i) + "");
+                num++;
+            }else if((S.charAt(i) + "").equals(stack.peek())){
+                num++;
+            }else{
+                stack.push(String.valueOf(num));
+                stack.push(S.charAt(i) + "");
+                num = 1;
+            }
+        }
+        stack.push(String.valueOf(num));
+        if(S.length() <= stack.size()){
+            return S;
+        }else{
+            StringBuilder sb = new StringBuilder();
+            while(!stack.isEmpty()){
+                if(sb.length() == 0){
+                    sb.append(stack.pop());
+                }else{
+                    sb.insert(0, stack.pop());
+                }
+            }
+            return sb.toString();
+        }*/
+
+        StringBuilder sb = new StringBuilder();
+        if(S.equals("")){
+            return S;
+        }
+        char cur = S.charAt(0);
+        int num = 1;
+        sb.append(cur + "");
+        for(int i = 1; i < S.length(); i++){
+            if(S.charAt(i) == cur){
+                num++;
+            }else{
+                sb.append(String.valueOf(num));
+                sb.append(S.charAt(i) + "");
+                num = 1;
+                cur = S.charAt(i);
+            }
+        }
+        sb.append(String.valueOf(num));
+        if(S.length() <= sb.length()){
+            return S;
+        }else{
+            return sb.toString();
+        }
     }
 
 }
