@@ -14,8 +14,8 @@ public class SortAlgorithm {
 //        test1();
 //        test2();
 //        test3();
-        test4();
-//        test5(0, integers.length - 1);
+//        test4();
+        test5(0, integers.length - 1);
     }
 
     /**
@@ -114,11 +114,13 @@ public class SortAlgorithm {
 
 
     /**
-     * 5.快速排序(对冒泡排序的优化)
+     * 5.快速排序(对冒泡排序的优化) 时间复杂度nlogn
      * @param left
      * @param right
      */
     public static void test5(int left, int right){
+        // 31, 12, 23, 34, 43, 13, 37, 9
+        // 31, 12, 23, 34, 43, 13, 37, 9, 35
         int fleft = left,fright = right,temp;
         int t = integers[(fleft + fright) / 2]; //0.取一个分界值
         //1.把小于分界值的移动到左边；把大于分界值的移动到右边
@@ -129,8 +131,8 @@ public class SortAlgorithm {
             while(integers[fright] > t){
                 fright--;
             }
-            // 特殊场景1.fleft=fright-1; 2.fleft=fright; 3.fleft=fright-2(后面特殊处理)
-            if(fleft <= fright){
+            // 特殊场景1.fleft=fright-1（偶数）; 2.fleft=fright-2(后面特殊处理)(奇数)
+            if(fleft < fright){
                 temp = integers[fleft];
                 integers[fleft] = integers[fright];
                 integers[fright] = temp;
