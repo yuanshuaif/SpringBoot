@@ -11,7 +11,7 @@ import java.util.*;
  * 题目2：2数相加
  * 双指针
  *
- * 题目21：链表合并
+ * 题目21：链表合并(剑指 Offer 25. 合并两个排序的链表)
  * 双指针
  *
  * 206.链表翻转
@@ -50,7 +50,7 @@ import java.util.*;
 public class LinkedList {
 
     /**
-     * 21.链表合并
+     * 21.链表合并(剑指 Offer 25. 合并两个排序的链表)
      * 返回一个有序的Node
      * 1.创建一个对象，给定2个指针，一个指针负责移动（先给下一个节点赋值，然后指针执行下一个节点），一个指针指向原来的位置确保输出改变后的对象
      * 空间复杂度O(1),时间复杂度O(m+n)
@@ -81,9 +81,9 @@ public class LinkedList {
             }else if(a.val == b.val){
                 curNode.next = a;
                 curNode = curNode.next;
+                a = a.next;
                 curNode.next = b;
                 curNode = curNode.next;
-                a = a.next;
                 b = b.next;
             }
         }
@@ -661,10 +661,10 @@ public class LinkedList {
 
     public static void main(String[] args){
 
-        Node a = new Node(1, new Node(4, new Node(3, new Node(2, new Node(5, new Node(2))))));
-        System.out.println(partition(a, 3));
+//        Node a = new Node(1, new Node(4, new Node(3, new Node(2, new Node(5, new Node(2))))));
+//        System.out.println(partition(a, 3));
 
-       /* //返回一个有序的Node
+        //返回一个有序的Node
         Node a = new Node(1);
         Node b = new Node(4);
         Node c = new Node(7);
@@ -682,7 +682,7 @@ public class LinkedList {
         o.next = y;
         y.next = z;
 
-        System.out.println(mergeNode(a, x));*/
+        System.out.println(mergeNode(a, x));
 
         /* //删除链表中的节点
         Node a = new Node(2);
