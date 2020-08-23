@@ -44,6 +44,8 @@ import java.util.*;
  * 1474. 删除链表 M 个节点之后的 N 个节点
  *
  * 92. 反转链表 II
+ *
+ * 148. 排序链表
  */
 public class LinkedList {
 
@@ -469,9 +471,37 @@ public class LinkedList {
      * @return
      */
     public Node sortList(Node head) {
-
-
-        return null;
+        // 归并排序
+        if(head == null || head.next == null){
+            return head;
+        }
+        // 使用快慢指针找到分割点
+        Node fast = head.next;
+        Node soft = head;
+        while(fast != null && fast.next != null){
+            soft = soft.next;
+            fast = fast.next.next;
+        }
+        Node mid = soft.next;
+        soft.next = null;
+        // 左右递归至终结点
+        Node left = sortList(head);
+        Node right = sortList(mid);
+        // 左右2边进行merge合并
+        Node ans = new Node(0);
+        Node temp = ans;
+        while(left != null && right != null){
+            if(left.val < right.val){
+                temp.next = left;
+                left = left.next;
+            }else{
+                temp.next = right;
+                right = right.next;
+            }
+            temp = temp.next;
+        }
+        temp.next = left != null ? left : right;
+        return ans.next;
     }
 
     /**
