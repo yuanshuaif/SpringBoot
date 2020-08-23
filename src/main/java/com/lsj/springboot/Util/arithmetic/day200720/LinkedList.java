@@ -42,6 +42,8 @@ import java.util.*;
  * 86. 分隔链表
  *
  * 1474. 删除链表 M 个节点之后的 N 个节点
+ *
+ * 92. 反转链表 II
  */
 public class LinkedList {
 
@@ -567,6 +569,64 @@ public class LinkedList {
             head = head.next;
         }
         return sum;
+    }
+
+    /**
+     * 92. 反转链表 II
+     * 反转从位置 m 到 n 的链表。请使用一趟扫描完成反转。
+     * 说明:1 ≤ m ≤ n ≤ 链表长度。
+     * 输入: 1->2->3->4->5->NULL, m = 2, n = 4    输出: 1->4->3->2->5->NULL
+     * @param head
+     * @param m
+     * @param n
+     * @return
+     */
+    public Node reverseBetween(Node head, int m, int n) {
+
+        int i = 1;
+        Node cur = head;
+        Node before = cur;
+        Node temp = null;
+        Node last = null;
+        boolean hasHead = false;
+        while(head != null){
+            if(i < m){
+                if(i != m - 1){//记录头结点
+                    cur = cur.next;
+                }
+                head = head.next;
+                i++;
+                hasHead = true;
+                continue;
+            }
+            if(i <= n){// 链表反转
+                Node next = head.next;
+                head.next = temp;
+                temp = head;
+                if(i == m){
+                    last = temp;
+                }
+                head = next;
+                if(i == n && head == null){// 没有后节点
+                    if(hasHead){
+                        cur.next = temp;
+                    }else{
+                        before = temp;
+                    }
+                }
+                i++;
+            }else{
+                last.next = head;// 挂反转后的节点
+                if(hasHead){// 从开始位置翻转，不需要进行头结点的挂载
+                    cur.next = temp;
+                }else{
+                    before = temp;
+                }
+                break;
+            }
+        }
+        return before;
+
     }
 
     public static void main(String[] args){
