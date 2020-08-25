@@ -41,6 +41,10 @@ import java.util.*;
  *  459. 重复的子字符串
  *
  * 面试题 01.06. 字符串压缩
+ *
+ * 541. 反转字符串 II
+ *
+ * 1119. 删去字符串中的元音
  */
 public class Strings {
 
@@ -691,4 +695,51 @@ public class Strings {
         }
     }
 
+    /**
+     * 541. 反转字符串 II
+     * 给定一个字符串 s 和一个整数 k，你需要对从字符串开头算起的每隔 2k 个字符的前 k 个字符进行反转。
+     * 如果剩余字符少于 k 个，则将剩余字符全部反转。
+     * 如果剩余字符小于 2k 但大于或等于 k 个，则反转前 k 个字符，其余字符保持原样。
+     * 输入: s = "abcdefg", k = 2    输出: "bacdfeg"
+     * @param s
+     * @param k
+     * @return
+     */
+    public String reverseStr(String s, int k) {
+        // 每个k个字符转换k个字符
+        char[] chars = s.toCharArray();
+        char temp = 0;
+        for(int i = 0; i < chars.length; i += 2 * k){
+            int left = i;
+            int right = i + k - 1 < chars.length ? i + k - 1 : chars.length - 1;
+            while(left < right){
+                temp = chars[left];
+                chars[left] = chars[right];
+                chars[right] = temp;
+                left++;
+                right--;
+            }
+        }
+        return String.valueOf(chars);
+    }
+
+    /**
+     * 1119. 删去字符串中的元音
+     * 给你一个字符串 S，请你删去其中的所有元音字母（ 'a'，'e'，'i'，'o'，'u'），并返回这个新字符串。
+     * 输入："leetcodeisacommunityforcoders"   输出："ltcdscmmntyfrcdrs"
+     * 输入："aeiou"   输出：""
+     * @param S
+     * @return
+     */
+    public String removeVowels(String S) {
+        Set<Character> sets = new HashSet(){{add('a');add('e');add('i');add('o');add('u');}};
+        char[] chars = S.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < chars.length; i++){
+            if(!sets.contains(chars[i])){
+                sb.append(chars[i]);
+            }
+        }
+        return sb.toString();
+    }
 }
