@@ -24,6 +24,10 @@ import java.util.List;
  * 剑指 Offer 53 - II. 0～n-1中缺失的数字
  *
  * 题目34：在排序数组中查找元素的第一个和最后一个位置（Offer 53 - I）
+ *
+ * 题目189：旋转数组
+ *
+ * 题目1099：小于 K 的两数之和
  */
 public class Array {
 
@@ -389,5 +393,67 @@ public class Array {
         return ints;
     }
 
+    /**
+     * 189. 旋转数组
+     * 给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。
+     * 输入: [1,2,3,4,5,6,7] 和 k = 3   输出: [5,6,7,1,2,3,4]
+         解释:
+         向右旋转 1 步: [7,1,2,3,4,5,6]
+         向右旋转 2 步: [6,7,1,2,3,4,5]
+         向右旋转 3 步: [5,6,7,1,2,3,4]
+     * @param nums
+     * @param k
+     */
+    public void rotate(int[] nums, int k) {
+        // for(int i = 1; i <= k; i++){//移动k次
+        //     int temp = nums[nums.length - 1];
+        //     for(int j = nums.length - 1; j > 0; j--){
+        //         nums[j] = nums[j - 1];
+        //     }
+        //     nums[0] = temp;
+        // }
 
+        k %= nums.length;
+        if(k == 0) return;
+        reverse(nums, 0, nums.length - 1);// 所有数组反转
+        reverse(nums, 0, k - 1);// 前k个数组反转
+        reverse(nums, k, nums.length - 1);// 后n - k个数组反转
+    }
+
+    // 数组反转
+    public void reverse(int[] nums, int start, int end) {
+        while (start < end) {
+            int temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+            start++;
+            end--;
+        }
+    }
+
+    /**
+     * 1099. 小于 K 的两数之和
+     * 给你一个整数数组 A 和一个整数 K，请在该数组中找出两个元素，使它们的和小于 K 但尽可能地接近 K，返回这两个元素的和。
+     如不存在这样的两个元素，请返回 -1。
+     输入：A = [34,23,1,24,75,33,54,8], K = 60  输出：58
+     解释： 34 和 24 相加得到 58，58 小于 60，满足题意。
+     * @param A
+     * @param K
+     * @return
+     */
+    public int twoSumLessThanK(int[] A, int K) {
+        Arrays.sort(A);
+        int start = 0;
+        int end = A.length - 1;
+        int ans = -1;
+        while(start < end){
+            if(A[start] + A[end] >= K){
+                end--;
+            }else{
+                ans = Math.max(A[start] + A[end], ans);
+                start++;
+            }
+        }
+        return ans;
+    }
 }
