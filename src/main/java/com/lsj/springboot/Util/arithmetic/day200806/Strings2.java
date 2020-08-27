@@ -1,9 +1,14 @@
 package com.lsj.springboot.Util.arithmetic.day200806;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 680. 验证回文字符串 Ⅱ
  *
  * 1446. 连续字符
+ *
+ * 面试题 01.02. 判定是否互为字符重排
  *
  * Created by 10326 on 2020/8/26.
  */
@@ -87,10 +92,42 @@ public class Strings2 {
         return ans;
     }
 
+    /**
+     * 面试题 01.02. 判定是否互为字符重排
+     * 给定两个字符串 s1 和 s2，请编写一个程序，确定其中一个字符串的字符重新排列后，能否变成另一个字符串。
+     * 输入: s1 = "abc", s2 = "bca"   输出: true
+     * 输入: s1 = "abc", s2 = "bad"   输出: false
+     * @param s1
+     * @param s2
+     * @return
+     */
+    public static boolean CheckPermutation(String s1, String s2) {
+        if(s1.length() != s2.length()){
+            return false;
+        }
+        Map<Character, Integer> hash = new HashMap<>();
+        for(int i = 0; i < s1.length(); i++){
+            hash.put(s1.charAt(i), hash.getOrDefault(s1.charAt(i), 0) + 1);
+        }
+        for(int i = 0; i < s2.length(); i++){
+            if(hash.containsKey(s2.charAt(i))){
+                hash.put(s2.charAt(i), hash.get(s2.charAt(i)) - 1);
+                if(hash.get(s2.charAt(i)) == 0){
+                    hash.remove(s2.charAt(i));
+                }
+            }else{
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 
     public static void main(String[] args){
 //        System.out.println(validPalindrome("lcuppucul") );
-        System.out.println(maxPower("t") );
+//        System.out.println(maxPower("t") );
+        System.out.println(CheckPermutation("abc", "bca") );
 
     }
 }
