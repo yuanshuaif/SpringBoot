@@ -16,6 +16,8 @@ import java.util.Set;
  *
  * 917. 仅仅反转字母
  *
+ * 434. 字符串中的单词数
+ *
  * Created by 10326 on 2020/8/26.
  */
 public class Strings2 {
@@ -223,11 +225,37 @@ public class Strings2 {
         return (letter - 'A' >= 0 && letter - 'A' <= 25) || (letter - 'a' >= 0 && letter - 'a' <= 25);
     }
 
+    /**
+     * 434. 字符串中的单词数
+     * 统计字符串中的单词个数，这里的单词指的是连续的不是空格的字符。请注意，你可以假定字符串里不包括任何不可打印的字符。
+     * 输入: "Hello, my name is John"     输出: 5
+     * 解释: 这里的单词是指连续的不是空格的字符，所以 "Hello," 算作 1 个单词。
+     *
+     * @param s
+     * @return
+     */
+    public static int countSegments(String s) {
+        s = s.trim();
+        if(s.equals("")){
+            return 0;
+        }
+        char[] chars = s.toCharArray();
+        int ans = 0;
+        for(int i = 0; i < chars.length; i++){
+            if((i < chars.length - 1 && (chars[i] != ' ' && chars[i + 1] == ' '))
+                    || (i == chars.length - 1 && chars[i] != ' ')){
+                ans++;
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args){
 //        System.out.println(validPalindrome("lcuppucul") );
 //        System.out.println(maxPower("t") );
 //        System.out.println(CheckPermutation("abc", "bca") );
-        System.out.println(reverseOnlyLetters("Test1ng-Leet=code-Q!") );
+//        System.out.println(reverseOnlyLetters("Test1ng-Leet=code-Q!") );
+        System.out.println(countSegments(", , , ,        a, eaefa") );
 
     }
 }
