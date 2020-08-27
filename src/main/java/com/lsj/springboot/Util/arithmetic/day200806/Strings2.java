@@ -3,6 +3,8 @@ package com.lsj.springboot.Util.arithmetic.day200806;
 /**
  * 680. 验证回文字符串 Ⅱ
  *
+ * 1446. 连续字符
+ *
  * Created by 10326 on 2020/8/26.
  */
 public class Strings2 {
@@ -54,11 +56,41 @@ public class Strings2 {
         return false;
     }
 
+    /**
+     * 1446. 连续字符
+     * 给你一个字符串 s ，字符串的「能量」定义为：只包含一种字符的最长非空子字符串的长度。
+     * 请你返回字符串的能量。
+     * 输入：s = "leetcode"    输出：2    解释：子字符串 "ee" 长度为 2 ，只包含字符 'e' 。
+     * 输入：s = "abbcccddddeeeeedcba" 输出：5    解释：子字符串 "eeeee" 长度为 5 ，只包含字符 'e' 。
+     * 输入：s = "triplepillooooow"    输出：5
+     * @param s
+     * @return
+     */
+    public static int maxPower(String s) {
+        char[] chars = s.toCharArray();
+        int ans = 1;
+        int temp = 1;
+        int start = 0;
+        int end = 1;
+        while(end < chars.length){
+            if(chars[start] == chars[end]){
+                start++;
+                end++;
+                temp++;
+                ans = Math.max(temp, ans);
+            }else{
+                start++;
+                end++;
+                temp = 1;
+            }
+        }
+        return ans;
+    }
 
 
     public static void main(String[] args){
-        //"aguokepatgbnvfqmgmlcupuufxoohdfpgjdmysgvhmvffcnqxjjxqncffvmhvgsymdjgpfdhooxfuupuculmgmqfvnbgtapekouga"
-        System.out.println(validPalindrome("lcuppucul") );
+//        System.out.println(validPalindrome("lcuppucul") );
+        System.out.println(maxPower("t") );
 
     }
 }
