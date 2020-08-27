@@ -1,7 +1,9 @@
 package com.lsj.springboot.Util.arithmetic.day200806;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 680. 验证回文字符串 Ⅱ
@@ -9,6 +11,10 @@ import java.util.Map;
  * 1446. 连续字符
  *
  * 面试题 01.02. 判定是否互为字符重排
+ *
+ * 面试题 01.09. 字符串轮转
+ *
+ * 917. 仅仅反转字母
  *
  * Created by 10326 on 2020/8/26.
  */
@@ -63,8 +69,7 @@ public class Strings2 {
 
     /**
      * 1446. 连续字符
-     * 给你一个字符串 s ，字符串的「能量」定义为：只包含一种字符的最长非空子字符串的长度。
-     * 请你返回字符串的能量。
+     * 给你一个字符串 s ，字符串的「能量」定义为：只包含一种字符的最长非空子字符串的长度。请你返回字符串的能量。
      * 输入：s = "leetcode"    输出：2    解释：子字符串 "ee" 长度为 2 ，只包含字符 'e' 。
      * 输入：s = "abbcccddddeeeeedcba" 输出：5    解释：子字符串 "eeeee" 长度为 5 ，只包含字符 'e' 。
      * 输入：s = "triplepillooooow"    输出：5
@@ -123,11 +128,106 @@ public class Strings2 {
         return true;
     }
 
+    /**
+     * 面试题 01.09. 字符串轮转
+     * 字符串轮转。给定两个字符串s1和s2，请编写代码检查s2是否为s1旋转而成（比如，waterbottle是erbottlewat旋转后的字符串）。
+     * 输入：s1 = "waterbottle", s2 = "erbottlewat"    输出：True
+     * 输入：s1 = "aa", s2 = "aba" 输出：False
+     * @param s1
+     * @param s2
+     * @return
+     */
+    public boolean isFlipedString(String s1, String s2) {
+        if(s1.length() != s2.length()){
+            return false;
+        }
+        return (s1 + s1).contains(s2);
+    }
+
+    /**
+     * 917. 仅仅反转字母
+     * 给定一个字符串 S，返回 “反转后的” 字符串，其中不是字母的字符都保留在原地，而所有字母的位置发生反转。
+     * 输入："ab-cd"   输出："dc-ba"
+     * 输入："Test1ng-Leet=code-Q!"    输出："Qedo1ct-eeLg=ntse-T!"
+     * 输入："a-bC-dEf-ghIj"   输出："j-Ih-gfE-dCba"
+     * @param S
+     * @return
+     */
+    public static String reverseOnlyLetters(String S) {
+        /*Set<Character> sets = new HashSet(){{
+            add('a');add('b');add('c');add('d');add('e');add('f');add('g');add('h');
+            add('i');add('j');add('k');add('l');add('m');add('n');add('o');add('p');
+            add('q');add('r');add('s');add('t');add('u');add('v');add('w');add('x');
+            add('y');add('z');
+            add('A');add('B');add('C');add('D');add('E');add('F');add('G');add('H');
+            add('I');add('J');add('K');add('L');add('M');add('N');add('O');add('P');
+            add('Q');add('R');add('S');add('T');add('U');add('V');add('W');add('X');
+            add('Y');add('Z');}};
+        char temp;
+        int start = 0;
+        int end = S.length() - 1;
+        char[] chars = S.toCharArray();
+        while (start < end){
+            if(sets.contains(chars[start]) && sets.contains(chars[end])){
+                temp = chars[start];
+                chars[start++] = chars[end];
+                chars[end--] = temp;
+            }else if(!sets.contains(chars[start]) && sets.contains(chars[end])){
+                start++;
+                continue;
+            }else if(sets.contains(chars[start]) && !sets.contains(chars[end])){
+                end--;
+                continue;
+            }else{
+                start++;
+                end--;
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < chars.length; i++){
+            sb.append(chars[i]);
+        }
+        return sb.toString();*/
+
+        // A-Z 65-90; a-z 97-122
+        //((chars[start] - 'A' >= 0 && chars[start] - 'A' <= 25) || (chars[start] - 'A' >= 32 && chars[start] - 'A' <= 57))
+
+        char temp;
+        int start = 0;
+        int end = S.length() - 1;
+        char[] chars = S.toCharArray();
+        while (start < end){
+            if(isLetter(chars[start]) && isLetter(chars[end])){
+                temp = chars[start];
+                chars[start++] = chars[end];
+                chars[end--] = temp;
+            }else if(!isLetter(chars[start]) && isLetter(chars[end])){
+                start++;
+                continue;
+            }else if(isLetter(chars[start]) && !isLetter(chars[end])){
+                end--;
+                continue;
+            }else{
+                start++;
+                end--;
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < chars.length; i++){
+            sb.append(chars[i]);
+        }
+        return sb.toString();
+    }
+
+    public static boolean isLetter(char letter){
+        return (letter - 'A' >= 0 && letter - 'A' <= 25) || (letter - 'a' >= 0 && letter - 'a' <= 25);
+    }
 
     public static void main(String[] args){
 //        System.out.println(validPalindrome("lcuppucul") );
 //        System.out.println(maxPower("t") );
-        System.out.println(CheckPermutation("abc", "bca") );
+//        System.out.println(CheckPermutation("abc", "bca") );
+        System.out.println(reverseOnlyLetters("Test1ng-Leet=code-Q!") );
 
     }
 }
