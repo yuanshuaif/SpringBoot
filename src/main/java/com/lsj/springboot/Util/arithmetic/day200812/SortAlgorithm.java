@@ -1,12 +1,15 @@
 package com.lsj.springboot.Util.arithmetic.day200812;
 
+import java.util.Arrays;
+
 /**
  * Created by 10326 on 2020/2/10.
  * 排序算法
- * 基本排序算法：交换排序：冒泡排序；选择排序：选择排序、堆排序；插入排序：插入排序、Shell排序；合并排序、桶排序
+ * 基本排序算法：冒泡排序；选择排序；插入排序、Shell排序(插入排序升级版)；快速排序；合并排序(分治算法)
  */
 public class SortAlgorithm {
-    private static Integer[] integers = new Integer[]{31, 12, 23, 34, 43, 13, 37, 9};
+//    private static int[] integers = new int[]{31, 12, 23, 34, 43, 13, 37, 9};
+    private static int[] integers = new int[]{31, 12, 23, 34, 43, 13, 37, 23};
 
     private static int count = 0; //统计一下次数
 
@@ -15,7 +18,8 @@ public class SortAlgorithm {
 //        test2();
 //        test3();
 //        test4();
-        test5(0, integers.length - 1);
+//        test5(0, integers.length - 1);
+        test6();
     }
 
     /**
@@ -158,9 +162,70 @@ public class SortAlgorithm {
         system();
     }
 
+
+    /**
+     * 6.分治算法——分而治之，时间复杂度O(nLogn)
+     * 1.申请空间，使其大小为两个已经排序序列之和，该空间用来存放合并后的序列；
+     * 2.设定两个指针，最初位置分别为两个已经排序序列的起始位置；
+     * 3.比较两个指针所指向的元素，选择相对小的元素放入到合并空间，并移动指针到下一位置；
+     * 4.重复步骤 3 直到某一指针达到序列尾；
+     * 5.将另一序列剩下的所有元素直接复制到合并序列尾。
+     * https://www.runoob.com/w3cnote/merge-sort.html
+     */
+
+    public static void test6(){
+        int[] ans = sort(integers, 0, integers.length - 1);
+        system(ans);
+    }
+
+    public static int[] sort(int[] nums, int start, int end){
+        if(end == start){
+            return Arrays.copyOfRange(nums, start, end + 1);
+        }
+        int mid = (start + end) / 2;
+        int[] left = sort(nums, start, mid);
+        int[] right = sort(nums, mid + 1, end);
+        return merge(left, right);
+    }
+
+    public static int[] merge(int[] left, int[] right){
+        int[] ans = new int[left.length + right.length];
+        int leftRef = 0;
+        int rightRef = 0;
+        int cur = 0;
+        while(leftRef < left.length && rightRef < right.length){
+            if(left[leftRef] > right[rightRef]){
+                ans[cur++] = right[rightRef++];
+            }else if(left[leftRef] < right[rightRef]){
+                ans[cur++] = left[leftRef++];
+            }else{
+                ans[cur++] = right[rightRef++];
+                ans[cur++] = left[leftRef++];
+            }
+        }
+        if(leftRef < left.length){
+            while(leftRef < left.length){
+                ans[cur++] = left[leftRef++];
+            }
+        }
+        if(rightRef < right.length){
+            while(rightRef < right.length){
+                ans[cur++] = right[rightRef++];
+            }
+        }
+        return ans;
+    }
+
     private static void system(){
-        for (Integer integer:
+        for (int integer:
                 integers ) {
+            System.out.println(integer);
+        }
+    }
+
+    private static void system(int[] ans){
+        for (int integer:
+                ans ) {
             System.out.println(integer);
         }
     }
