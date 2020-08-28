@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Created by 10326 on 2020/2/10.
  * 排序算法
- * 基本排序算法：冒泡排序；选择排序；插入排序、Shell排序(插入排序升级版)；快速排序；合并排序(分治算法)
+ * 基本排序算法：冒泡排序；选择排序；插入排序、Shell排序(插入排序升级版)；快速排序；归并排序(分治算法)
  */
 public class SortAlgorithm {
 //    private static int[] integers = new int[]{31, 12, 23, 34, 43, 13, 37, 9};
