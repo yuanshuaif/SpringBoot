@@ -28,6 +28,8 @@ import java.util.List;
  * 题目189：旋转数组
  *
  * 题目1099：小于 K 的两数之和
+ *
+ * 905. 按奇偶排序数组
  */
 public class Array {
 
@@ -455,5 +457,33 @@ public class Array {
             }
         }
         return ans;
+    }
+
+    /**
+     * 905. 按奇偶排序数组
+     * 给定一个非负整数数组 A，返回一个数组，在该数组中， A 的所有偶数元素之后跟着所有奇数元素。
+     * 你可以返回满足此条件的任何数组作为答案。
+     * 输入：[3,1,2,4] 输出：[2,4,3,1]     输出 [4,2,3,1]，[2,4,1,3] 和 [4,2,1,3] 也会被接受。
+     * @param A
+     * @return
+     */
+    public int[] sortArrayByParity(int[] A) {
+        int temp = 0;
+        int start = 0;
+        int end = A.length - 1;
+        while(start < end){
+            while((A[start] & 1) == 0 && start < end){//偶数
+                start++;
+            }
+            while((A[end] & 1) == 1 && start < end){//奇数
+                end--;
+            }
+            if(start < end){
+                temp = A[start];
+                A[start] = A[end];
+                A[end] = temp;
+            }
+        }
+        return A;
     }
 }
