@@ -13,6 +13,8 @@ import java.util.Arrays;
  *
  *  976. 三角形的最大周长
  *
+ *  56. 合并区间
+ *
  */
 public class Sort {
     /**
@@ -137,6 +139,49 @@ public class Sort {
             }
         }
         return 0;
+    }
+
+    /**
+     * 56. 合并区间
+     * 输入: intervals = [[1,3],[2,6],[8,10],[15,18]]     输出: [[1,6],[8,10],[15,18]]
+     * 输入: intervals = [[1,4],[4,5]]    输出: [[1,5]]
+     * 输入: intervals = [[1,4],[2,3],[4,5],[6,7]]    输出: [[1,5]],[6,7]]
+     * @param intervals
+     * @return
+     */
+    public int[][] merge(int[][] intervals) {
+        // [[1,4],[2,3],[4,5],[6,7]]
+        // [[1,3],[2,6],[8,10],[15,18]]
+        if(intervals.length == 0){
+            return intervals;
+        }
+        Arrays.sort(intervals, (a1, a2) -> a1[0] - a2[0]);
+        int[][] ans = new int[intervals.length][2];
+        int start = 0;
+        int end = 0;
+        int cur = 0;// 返回结果指针
+        boolean flag = false;
+        for(int i = 0; i < intervals.length; i++){
+            end = Math.max(intervals[i][1], end);
+            if(i != intervals.length - 1){
+                if(end < intervals[i + 1][0]){
+                    ans[cur][0] = flag ? start : intervals[i][0];
+                    ans[cur][1] = end;
+                    cur++;
+                    start = 0;
+                    flag = false;
+                }else{
+                    if(!flag){
+                        start = intervals[i][0];
+                        flag = true;
+                    }
+                }
+            }else{
+                ans[cur][0] = flag ? start : intervals[i][0];
+                ans[cur][1] = end;
+            }
+        }
+        return Arrays.copyOfRange(ans, 0, cur + 1);
     }
 
     public static void main(String[] args){
