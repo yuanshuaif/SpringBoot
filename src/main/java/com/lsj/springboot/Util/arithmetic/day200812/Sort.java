@@ -1,11 +1,17 @@
 package com.lsj.springboot.Util.arithmetic.day200812;
 
+import java.util.Arrays;
+
 /**
  *  1491. 去掉最低工资和最高工资后的工资平均值
  *
  *  剑指 Offer 42. 连续子数组的最大和(同53. 最大子序和)
  *
  *  922. 按奇偶排序数组 II
+ *
+ *  252. 会议室
+ *
+ *  976. 三角形的最大周长
  *
  */
 public class Sort {
@@ -94,6 +100,43 @@ public class Sort {
             }
         }
         return A;
+    }
+
+    /**
+     * 252. 会议室
+     * 给定一个会议时间安排的数组，每个会议时间都会包括开始和结束的时间 [[s1,e1],[s2,e2],...] (si < ei)，请你判断一个人是否能够参加这里面的全部会议。
+     * 输入: [[0,30],[5,10],[15,20]]   输出: false
+     * 输入: [[7,10],[2,4]]   输出: true
+     * @param intervals
+     * @return
+     */
+    public boolean canAttendMeetings(int[][] intervals) {
+        Arrays.sort(intervals, (a1, a2) -> a1[0] - a2[0]);// 对第一列进行排序
+        for(int i = 0; i < intervals.length - 1; i++){
+            if(intervals[i][1] > intervals[i + 1][0]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 976. 三角形的最大周长
+     * 给定由一些正数（代表长度）组成的数组 A，返回由其中三个长度组成的、面积不为零的三角形的最大周长。
+     * 如果不能形成任何面积不为零的三角形，返回 0。
+     * 输入：[2,1,2]   输出：5                输入：[1,2,1]    输出：0
+     * @param A
+     * @return
+     */
+    public int largestPerimeter(int[] A) {
+        //形成三角形的前提：2边之和大于第3边
+        Arrays.sort(A);
+        for(int i = A.length -1; i >= 2; i--){
+            if(A[i] < A[i - 1] + A[i - 2]){
+                return A[i] + A[i - 1] + A[i - 2];
+            }
+        }
+        return 0;
     }
 
     public static void main(String[] args){
