@@ -30,6 +30,8 @@ import java.util.List;
  * 题目1099：小于 K 的两数之和
  *
  * 905. 按奇偶排序数组
+ *
+ * 1287. 有序数组中出现次数超过25%的元素
  */
 public class Array {
 
@@ -485,5 +487,45 @@ public class Array {
             }
         }
         return A;
+    }
+
+    /**
+     * 1287. 有序数组中出现次数超过25%的元素
+     * 给你一个非递减的 有序 整数数组，已知这个数组中恰好有一个整数，它的出现次数超过数组元素总数的 25%。
+     * 请你找到并返回这个整数
+     * 输入：arr = [1,2,2,6,6,6,6,7,10]    输出：6
+     * [1,2,3,3] 3
+     * @param arr
+     * @return
+     */
+    public int findSpecialInteger(int[] arr) {
+        double target = (double)arr.length / 4;
+        // Map<Integer, Integer> hash = new HashMap<>();
+        // for(int i = 0; i < arr.length; i++){
+        //     hash.put(arr[i], hash.getOrDefault(arr[i], 0) + 1);
+        // }
+        // for(Map.Entry<Integer, Integer> entry : hash.entrySet()){
+        //     if(entry.getValue() > target){
+        //         return entry.getKey();
+        //     }
+        // }
+        if(arr.length == 1){
+            return arr.length;
+        }
+        int temp = 1;
+        for(int i = 1; i < arr.length; i++){
+            if(arr[i] == arr[i - 1]){
+                temp++;
+            }else{
+                if(temp > target){
+                    return arr[i - 1];
+                }
+                temp = 1;
+            }
+        }
+        if(temp > target){
+            return arr[arr.length - 1];
+        }
+        return 0;
     }
 }
