@@ -45,7 +45,9 @@ import java.util.*;
  *
  * 92. 反转链表 II
  *
- * 148. 排序链表
+ * 148. 排序链表（归并排序）
+ *
+ * 147. 对链表进行插入排序
  *
  * 19. 删除链表的倒数第N个节点
  *
@@ -467,7 +469,7 @@ public class LinkedList {
     }
 
     /**
-     * 148. 排序链表
+     * 148. 排序链表(归并排序)
      * 在 O(n log n) 时间复杂度和常数级空间复杂度下，对链表进行排序。
      * 输入: -1->5->3->4->0       输出: -1->0->3->4->5
      * @param head
@@ -504,6 +506,38 @@ public class LinkedList {
             temp = temp.next;
         }
         temp.next = left != null ? left : right;
+        return ans.next;
+    }
+
+    /**
+     * 147. 对链表进行插入排序
+     * @param head
+     * @return
+     */
+    public ListNode insertionSortList(ListNode head) {
+        // 插入排序(链表插入排序与数组插入排序的区别：链表从前往后；数组从后往前)
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode pre = head;
+        ListNode cur = head.next;
+        ListNode ans = new ListNode(0);
+        ans.next = head;
+        while(cur != null){
+            if(pre.val <= cur.val){
+                pre = pre.next;
+                cur = cur.next;
+            }else{
+                ListNode temp = ans;
+                while(temp.next.val < cur.val){
+                    temp = temp.next;
+                }
+                pre.next = cur.next;
+                cur.next = temp.next;
+                temp.next = cur;
+                cur = pre.next;
+            }
+        }
         return ans.next;
     }
 
