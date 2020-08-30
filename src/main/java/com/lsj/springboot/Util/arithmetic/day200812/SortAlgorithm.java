@@ -10,7 +10,6 @@ import java.util.Arrays;
 public class SortAlgorithm {
 //    private static int[] integers = new int[]{31, 12, 23, 34, 43, 13, 37, 9};
     private static int[] integers = new int[]{31, 12, 23, 34, 43, 13, 37, 23};
-
     private static int count = 0; //统计一下次数
 
     public static void main(String[] args){
@@ -18,8 +17,9 @@ public class SortAlgorithm {
 //        test2();
 //        test3();
 //        test4();
-//        test5(0, integers.length - 1);
-        test6();
+        test5(0, integers.length - 1);
+        system();
+//        test6();
     }
 
     /**
@@ -124,42 +124,33 @@ public class SortAlgorithm {
      */
     public static void test5(int left, int right){
         // 31, 12, 23, 34, 43, 13, 37, 9
-        // 31, 12, 23, 34, 43, 13, 37, 9, 35
-        int fleft = left,fright = right,temp;
-        int t = integers[(fleft + fright) / 2]; //0.取一个分界值
-        //1.把小于分界值的移动到左边；把大于分界值的移动到右边
-        while(fleft < fright){
-            while(integers[fleft] < t){
-                fleft++;
-            }
-            while(integers[fright] > t){
-                fright--;
-            }
-            // 特殊场景1.fleft=fright-1（偶数）; 2.fleft=fright-2(后面特殊处理)(奇数)
-            if(fleft < fright){
-                temp = integers[fleft];
-                integers[fleft] = integers[fright];
-                integers[fright] = temp;
-                fleft++;
-                fright--;
-            }
+        if(integers.length == 0){
+            return;
         }
-        if(fleft == fright){
-            if(integers[fleft] <= t){// 把未比较的那个值归于左边
-                fleft++;
-            }else if(integers[fleft] > t){//把未比较的值归于右边
-                fright--;
+        int fLeft = left;
+        int fRight = right;
+        int x = integers[left];
+        while(fLeft < fRight){
+            while(fLeft < fRight && integers[fRight] >= x){
+                fRight--;
+            }
+            if(fLeft < fRight){
+                integers[fLeft++] = integers[fRight];
+            }
+            while(fLeft < fRight && integers[fLeft] < x){
+                fLeft++;
+            }
+            if(fLeft < fRight){
+                integers[fRight--] = integers[fLeft];
             }
         }
-
-        if(left < fright){// 2.递归左侧区域
-            test5(left, fleft - 1);
+        integers[fLeft] = x;// fLeft == fRight
+        if(left < fLeft){
+            test5(left, fLeft - 1);
         }
-        if(right > fleft){// 2.递归右侧区域
-            test5(fright + 1, right);
+        if(right > fRight){
+            test5(fRight + 1, right);
         }
-        System.out.println(++count + "------------");
-        system();
     }
 
 

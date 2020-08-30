@@ -15,6 +15,8 @@ import java.util.Arrays;
  *
  *  56. 合并区间
  *
+ *  面试题 17.14. 最小K个数
+ *
  */
 public class Sort {
     /**
@@ -182,6 +184,52 @@ public class Sort {
             }
         }
         return Arrays.copyOfRange(ans, 0, cur + 1);
+    }
+
+    /**
+     * 面试题 17.14. 最小K个数
+     * 设计一个算法，找出数组中最小的k个数。以任意顺序返回这k个数均可。
+     * 示例：输入： arr = [1,3,5,7,2,4,6,8], k = 4    输出： [1,2,3,4]
+     * @param arr
+     * @param k
+     * @return
+     */
+    public int[] smallestK(int[] arr, int k) {
+        sort(arr, 0, arr.length - 1);
+        int[] ans = new int[k];
+        for(int i = 0; i < k; i++){
+            ans[i] = arr[i];
+        }
+        return ans;
+    }
+    public void sort(int[] arr, int left, int right){
+        if(arr.length == 0){
+            return;
+        }
+        int fLeft = left;
+        int fRight = right;
+        int x = arr[left];
+        while(fLeft < fRight){
+            while(fLeft < fRight && arr[fRight] >= x){
+                fRight--;
+            }
+            if(fLeft < fRight){
+                arr[fLeft++] = arr[fRight];
+            }
+            while(fLeft < fRight && arr[fLeft] < x){
+                fLeft++;
+            }
+            if(fLeft < fRight){
+                arr[fRight--] = arr[fLeft];
+            }
+        }
+        arr[fLeft] = x;// fLeft == fRight
+        if(left < fLeft){
+            sort(arr, left, fLeft - 1);
+        }
+        if(right > fRight){
+            sort(arr, fRight + 1, right);
+        }
     }
 
     public static void main(String[] args){
