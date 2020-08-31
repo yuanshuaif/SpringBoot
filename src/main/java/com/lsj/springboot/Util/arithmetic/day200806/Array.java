@@ -29,8 +29,6 @@ import java.util.*;
  *
  * 1287. 有序数组中出现次数超过25%的元素
  *
- * 1086. 前五科的均分
- *
  * 1528. 重新排列字符串
  */
 public class Array {
@@ -483,35 +481,6 @@ public class Array {
             return arr[arr.length - 1];
         }
         return 0;
-    }
-
-    /**
-     * 1086. 前五科的均分
-     * 给你一个不同学生的分数列表，请按 学生的 id 顺序 返回每个学生 最高的五科 成绩的 平均分。
-     * 对于每条 items[i] 记录， items[i][0] 为学生的 id，items[i][1] 为学生的分数。平均分请采用整数除法计算。
-     * 输入：[[1,91],[1,92],[2,93],[2,97],[1,60],[2,77],[1,65],[1,87],[1,100],[2,100],[2,76]]
-     * 输出：[[1,87],[2,88]]
-     * 解释：id = 1 的学生平均分为 87。id = 2 的学生平均分为 88.6。但由于整数除法的缘故，平均分会被转换为 88。
-     * @param items
-     * @return
-     */
-    public int[][] highFive(int[][] items) {
-        Arrays.sort(items, (a, b) -> a[0] == b[0] ? b[1] - a[1] : a[0] - b[0]);// id升序，成绩降序
-        int num = items[items.length - 1][0];// 最后一个学生的id
-        int[][] result = new int[num][2];
-        for(int i = 0; i < items.length; i++){
-            if(i == 0 || items[i][0] != items[i - 1][0]){// 第一个学生或者是下一个学生
-                int id = items[i][0];
-                result[id - 1][0] = id;
-                int sum = 0;
-                for(int j = i; j < i + 5; j++){
-                    sum += items[j][1];
-                }
-                result[id - 1][1] = sum / 5;
-                i = i + 4;
-            }
-        }
-        return result;
     }
 
     /**

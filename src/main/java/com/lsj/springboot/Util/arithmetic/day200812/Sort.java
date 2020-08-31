@@ -19,6 +19,10 @@ import java.util.Arrays;
  *
  *  75. 颜色分类
  *
+ *  1086. 前五科的均分
+ *
+ *  1502. 判断能否形成等差数列
+ *
  */
 public class Sort {
     /**
@@ -265,7 +269,57 @@ public class Sort {
         nums[end] = temp;
     }
 
+    /**
+     * 1086. 前五科的均分
+     * 给你一个不同学生的分数列表，请按 学生的 id 顺序 返回每个学生 最高的五科 成绩的 平均分。
+     * 对于每条 items[i] 记录， items[i][0] 为学生的 id，items[i][1] 为学生的分数。平均分请采用整数除法计算。
+     * 输入：[[1,91],[1,92],[2,93],[2,97],[1,60],[2,77],[1,65],[1,87],[1,100],[2,100],[2,76]]
+     * 输出：[[1,87],[2,88]]
+     * 解释：id = 1 的学生平均分为 87。id = 2 的学生平均分为 88.6。但由于整数除法的缘故，平均分会被转换为 88。
+     * @param items
+     * @return
+     */
+    public int[][] highFive(int[][] items) {
+        Arrays.sort(items, (a, b) -> a[0] == b[0] ? b[1] - a[1] : a[0] - b[0]);// id升序，成绩降序
+        int num = items[items.length - 1][0];// 最后一个学生的id
+        int[][] result = new int[num][2];
+        for(int i = 0; i < items.length; i++){
+            if(i == 0 || items[i][0] != items[i - 1][0]){// 第一个学生或者是下一个学生
+                int id = items[i][0];
+                result[id - 1][0] = id;
+                int sum = 0;
+                for(int j = i; j < i + 5; j++){
+                    sum += items[j][1];
+                }
+                result[id - 1][1] = sum / 5;
+                i = i + 4;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 1502. 判断能否形成等差数列
+     * 如果一个数列中，任意相邻两项的差总等于同一个常数，那么这个数列就称为 等差数列 。
+     * 如果可以重新排列数组形成等差数列，请返回 true ；否则，返回 false 。
+     * 输入：arr = [3,5,1]     输出：true     解释：对数组重新排序得到 [1,3,5] 或者 [5,3,1] ，任意相邻两项的差分别为 2 或 -2 ，可以形成等差数列。
+     * 输入：arr = [1,2,4]     输出：false    解释：无法通过重新排序得到等差数列。
+     * 提示：2 <= arr.length <= 1000           -10^6 <= arr[i] <= 10^6
+     * @param arr
+     * @return
+     */
+    public static boolean canMakeArithmeticProgression(int[] arr) {
+        Arrays.sort(arr);
+        for(int i = 2; i < arr.length; i++){
+            if(arr[i] - arr[i - 1] != arr[1] - arr[0]){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args){
-        System.out.println(sortArrayByParityII(new int[]{4,2,5,6,9,7}));
+//        System.out.println(sortArrayByParityII(new int[]{4,2,5,6,9,7}));
+        System.out.println(canMakeArithmeticProgression(new int[]{1,2,4}));
     }
 }
