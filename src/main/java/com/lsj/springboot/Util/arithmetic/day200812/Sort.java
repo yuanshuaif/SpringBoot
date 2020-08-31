@@ -400,6 +400,32 @@ public class Sort {
                 return s2.compareTo(s1);
             }
         });
+        /*Arrays.sort(temp, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer n1, Integer n2) {
+                int len1 = (n1 + "").length();
+                int len2 = (n2 + "").length();
+                if (len1 == len2) {
+                    if (n1 > n2) {
+                        return -1;
+                    } else if (n1 < n2) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+                // [10,2]
+                int combination1 = (int) (n1 * Math.pow(10, len2)) + n2;// 10 * 10 + 2 = 102
+                int combination2 = (int) (n2 * Math.pow(10, len1)) + n1;// 2* 10 * 10 + 10 = 210
+                if (combination1 > combination2) {
+                    return -1;
+                } else if (combination1 < combination2) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        });*/
         StringBuilder sb = new StringBuilder();
         for (int num : temp){
             sb.append(num);
