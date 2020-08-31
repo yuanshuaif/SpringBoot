@@ -1,8 +1,6 @@
 package com.lsj.springboot.Util.arithmetic.day200806;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * 题目1:2数之和
@@ -30,23 +28,12 @@ import java.util.List;
  * 905. 按奇偶排序数组
  *
  * 1287. 有序数组中出现次数超过25%的元素
+ *
+ * 1086. 前五科的均分
+ *
+ * 1528. 重新排列字符串
  */
 public class Array {
-
-    public static void main(String[] args){
-      /*  int[] A = {1,2,3,0,0,0};
-        int m = 3;
-        int[] B = {2,5,6};
-        int n = 3;
-        merge(A, m, B, n);
-        System.out.println(A);*/
-     /*   int[] nums = new int[]{-1, 0, 1, 2, -1, -4};
-        threeSum(nums);*/
-//        int[] nums = new int[]{0,1,0,3,12};
-//        moveZeroes(nums);
-//        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
-
-    }
 
     /**
      * 1.从无序数组中找到2数
@@ -496,5 +483,81 @@ public class Array {
             return arr[arr.length - 1];
         }
         return 0;
+    }
+
+    /**
+     * 1086. 前五科的均分
+     * 给你一个不同学生的分数列表，请按 学生的 id 顺序 返回每个学生 最高的五科 成绩的 平均分。
+     * 对于每条 items[i] 记录， items[i][0] 为学生的 id，items[i][1] 为学生的分数。平均分请采用整数除法计算。
+     * 输入：[[1,91],[1,92],[2,93],[2,97],[1,60],[2,77],[1,65],[1,87],[1,100],[2,100],[2,76]]
+     * 输出：[[1,87],[2,88]]
+     * 解释：id = 1 的学生平均分为 87。id = 2 的学生平均分为 88.6。但由于整数除法的缘故，平均分会被转换为 88。
+     * @param items
+     * @return
+     */
+    public int[][] highFive(int[][] items) {
+        Arrays.sort(items, (a, b) -> a[0] == b[0] ? b[1] - a[1] : a[0] - b[0]);// id升序，成绩降序
+        int num = items[items.length - 1][0];// 最后一个学生的id
+        int[][] result = new int[num][2];
+        for(int i = 0; i < items.length; i++){
+            if(i == 0 || items[i][0] != items[i - 1][0]){// 第一个学生或者是下一个学生
+                int id = items[i][0];
+                result[id - 1][0] = id;
+                int sum = 0;
+                for(int j = i; j < i + 5; j++){
+                    sum += items[j][1];
+                }
+                result[id - 1][1] = sum / 5;
+                i = i + 4;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 1528. 重新排列字符串
+     * 给你一个字符串 s 和一个 长度相同 的整数数组 indices 。
+     * 请你重新排列字符串 s ，其中第 i 个字符需要移动到 indices[i] 指示的位置。返回重新排列后的字符串。
+     * 输入：s = "codeleet", indices = [4,5,6,7,0,2,1,3]   输出："leetcode"   解释：如图所示，"codeleet" 重新排列后变为 "leetcode" 。
+     * 输入：s = "abc", indices = [0,1,2]  输出："abc"    解释：重新排列后，每个字符都还留在原来的位置上。
+     *
+     * 1.s.length == indices.length == n    2.1 <= n <= 100     3.s 仅包含小写英文字母。   4.0 <= indices[i] < n
+     * 5.indices 的所有的值都是唯一的（也就是说，indices 是整数 0 到 n - 1 形成的一组排列）。
+     * @param s
+     * @param indices
+     * @return
+     */
+    public static String restoreString(String s, int[] indices) {
+        /*Map<Integer, Character> hash = new HashMap<>();
+        for(int i = 0; i < indices.length; i++){
+            hash.put(indices[i], s.charAt(i));
+        }
+        Arrays.sort(indices);
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < indices.length; i++){
+            sb.append(hash.get(indices[i]));
+        }
+        return sb.toString();*/
+        char[] result = new char[indices.length];
+        for(int i = 0; i < indices.length; i++){
+            result[indices[i]] = s.charAt(i);
+        }
+        return String.valueOf(result);
+    }
+
+    public static void main(String[] args){
+      /*  int[] A = {1,2,3,0,0,0};
+        int m = 3;
+        int[] B = {2,5,6};
+        int n = 3;
+        merge(A, m, B, n);
+        System.out.println(A);*/
+     /*   int[] nums = new int[]{-1, 0, 1, 2, -1, -4};
+        threeSum(nums);*/
+//        int[] nums = new int[]{0,1,0,3,12};
+//        moveZeroes(nums);
+//        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
+        System.out.println(restoreString("aiohn", new int[]{3,1,4,2,0}));
+
     }
 }
