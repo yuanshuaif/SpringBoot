@@ -55,6 +55,8 @@ import java.util.*;
  *
  * 61. 旋转链表
  *
+ * 445. 两数相加 II
+ *
  */
 public class LinkedList {
 
@@ -811,6 +813,46 @@ public class LinkedList {
         }
         newTail.next = null;
         return newHead;
+    }
+
+    /**
+     * 445. 两数相加 II
+     * 给你两个 非空 链表来代表两个非负整数。数字最高位位于链表开始位置。它们的每个节点只存储一位数字。将这两数相加会返回一个新的链表。
+     * 你可以假设除了数字 0 之外，这两个数字都不会以零开头。
+     * 进阶：如果输入链表不能修改该如何处理？换句话说，你不能对列表中的节点进行翻转。
+     * 输入：(7 -> 2 -> 4 -> 3) + (5 -> 6 -> 4)    输出：7 -> 8 -> 0 -> 7
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        if(l1 == null){
+            return l2;
+        }else if(l2 == null){
+            return l1;
+        }
+        Stack<Integer> s1 = new Stack<>();
+        Stack<Integer> s2 = new Stack<>();
+        while(l1 != null){
+            s1.push(l1.val);
+            l1 = l1.next;
+        }
+        while(l2 != null){
+            s2.push(l2.val);
+            l2 = l2.next;
+        }
+        int curValue = 0;
+        ListNode mergeNode = new ListNode(0);
+        while(!s1.isEmpty() || !s2.isEmpty() || curValue > 0){
+            curValue += !s1.isEmpty() ? s1.pop() : 0;
+            curValue += !s2.isEmpty() ? s2.pop() : 0;
+            ListNode curNode = new ListNode(0);
+            curNode.next = mergeNode.next;
+            mergeNode.next = curNode;
+            curNode.val = curValue % 10;
+            curValue = curValue / 10;
+        }
+        return  mergeNode.next;
     }
 
     public static void main(String[] args){
