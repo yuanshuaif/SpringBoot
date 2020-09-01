@@ -529,6 +529,8 @@ public class DoublePointer {
             // 3 4 -> 4 3 -> 2 2    // 0 2    // 3 3
             // a(开始位置->入环口) b（入环口走多少步相遇） c（再走多少步到达入环口） l（环长）
             // b + c = kl; 2(b + a) = a + b + kl   ==> a = c
+            // i -> nums[i] 形成一个边
+            // 0->3->4->2->3 2处相遇，3处环的入口
             slow = nums[slow];
             fast = nums[nums[fast]];
         } while (slow != fast);
