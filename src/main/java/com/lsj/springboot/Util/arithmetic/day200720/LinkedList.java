@@ -53,6 +53,8 @@ import java.util.*;
  *
  * 142. 环形链表 II
  *
+ * 61. 旋转链表
+ *
  */
 public class LinkedList {
 
@@ -781,19 +783,34 @@ public class LinkedList {
      * 61. 旋转链表
      * 给定一个链表，旋转链表，将链表每个节点向右移动 k 个位置，其中 k 是非负数。
      * 输入: 1->2->3->4->5->NULL, k = 2   输出: 4->5->1->2->3->NULL
-     * 解释:
-     *      向右旋转 1 步: 5->1->2->3->4->NULL    向右旋转 2 步: 4->5->1->2->3->NULL
+     * 解释:向右旋转 1 步: 5->1->2->3->4->NULL    向右旋转 2 步: 4->5->1->2->3->NULL
      * 输入: 0->1->2->NULL, k = 4     输出: 2->0->1->NULL
-     * 解释:
-     *      向右旋转 1 步: 2->0->1->NULL     向右旋转 2 步: 1->2->0->NULL
-     *      向右旋转 3 步: 0->1->2->NULL     向右旋转 4 步: 2->0->1->NULL
+     * 解释: 向右旋转 1 步: 2->0->1->NULL     向右旋转 2 步: 1->2->0->NULL      向右旋转 3 步: 0->1->2->NULL     向右旋转 4 步: 2->0->1->NULL
+     *  第一步：尾结点连到头结点，得到链表长度n
+     *  第二步：n - k % n新的头结点，n - k % n -1 新的尾结点
      * @param head
      * @param k
      * @return
      */
     public ListNode rotateRight(ListNode head, int k) {
-
-        return null;
+        if(head == null || head.next == null){
+            return head;
+        }
+        int n = 1;
+        ListNode oldTail = head;
+        while(oldTail.next != null){
+            oldTail = oldTail.next;
+            n++;
+        }
+        oldTail.next = head;
+        ListNode newTail = head;
+        ListNode newHead = head.next;
+        for(int i = 0; i < n - k % n -1; i++){
+            newTail = newTail.next;
+            newHead = newHead.next;
+        }
+        newTail.next = null;
+        return newHead;
     }
 
     public static void main(String[] args){
