@@ -57,6 +57,8 @@ import java.util.*;
  *
  * 445. 两数相加 II
  *
+ * 24. 两两交换链表中的节点
+ *
  */
 public class LinkedList {
 
@@ -853,6 +855,31 @@ public class LinkedList {
             curValue = curValue / 10;
         }
         return  mergeNode.next;
+    }
+
+    /**
+     * 24. 两两交换链表中的节点
+     * 给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+     * 给定 1->2->3->4, 你应该返回 2->1->4->3.
+     * @param head
+     * @return
+     */
+    public ListNode swapPairs(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode ans = new ListNode(0);
+        ans.next = head;
+        ListNode cur = ans;
+        while(head != null && head.next != null){
+            ListNode next = head.next;
+            head.next = head.next.next;
+            next.next = head;
+            cur.next = next;
+            head = head.next;
+            cur = cur.next.next;
+        }
+        return ans.next;
     }
 
     public static void main(String[] args){
