@@ -59,6 +59,8 @@ import java.util.*;
  *
  * 24. 两两交换链表中的节点
  *
+ * 82. 删除排序链表中的重复元素 II
+ *
  */
 public class LinkedList {
 
@@ -878,6 +880,43 @@ public class LinkedList {
             cur.next = next;
             head = head.next;
             cur = cur.next.next;
+        }
+        return ans.next;
+    }
+
+    /**
+     * 82. 删除排序链表中的重复元素 II
+     * 给定一个排序链表，删除所有含有重复数字的节点，只保留原始链表中 没有重复出现 的数字。
+     * 输入: 1->2->3->3->4->4->5      输出: 1->2->5
+     * 输入: 1->1->1->2->3            输出: 2->3
+     * @param head
+     * @return
+     */
+    public ListNode deleteDuplicates2(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode ans = new ListNode(0);
+        ans.next = head;
+        ListNode cur = ans;
+        boolean flag = false;
+        while(head != null && head.next != null){
+            if(head.val == head.next.val){
+                head.next = head.next.next;
+                flag = true;
+            }else{
+                if(flag){
+                    cur.next = head.next;
+                    head = head.next;
+                    flag = false;
+                }else{
+                    head = head.next;
+                    cur = cur.next;
+                }
+            }
+        }
+        if(flag){
+            cur.next = head.next;
         }
         return ans.next;
     }
