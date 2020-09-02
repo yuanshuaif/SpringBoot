@@ -61,6 +61,10 @@ import java.util.*;
  *
  * 82. 删除排序链表中的重复元素 II
  *
+ * 369. 给单链表加一
+ *
+ * 328. 奇偶链表
+ *
  */
 public class LinkedList {
 
@@ -919,6 +923,75 @@ public class LinkedList {
             cur.next = head.next;
         }
         return ans.next;
+    }
+
+    /**
+     * 369. 给单链表加一
+     * 用一个 非空 单链表来表示一个非负整数，然后将这个整数加一。你可以假设这个整数除了 0 本身，没有任何前导的 0。
+     * 这个整数的各个数位按照 高位在链表头部、低位在链表尾部 的顺序排列。
+     * 输入: [1,2,3]  输出: [1,2,4]
+     * @param head
+     * @return
+     */
+    public ListNode plusOne(ListNode head) {
+        // 1.哨兵头节点
+        ListNode sentinel = new ListNode(0);
+        sentinel.next = head;
+        ListNode curNode = sentinel;
+        // 2.找到最右侧不为9的节点
+        while (head != null) {
+            if(head.val != 9){
+                curNode = head;
+            }
+            head = head.next;
+        }
+        // 3.最右侧不为9的节点+1
+        curNode.val += 1;
+        // 4.后继节点的值全部变成0
+        curNode = curNode.next;
+        while(curNode != null){
+            curNode.val = 0;
+            curNode = curNode.next;
+        }
+        return sentinel.val == 0 ? sentinel.next : sentinel;
+    }
+
+    /**
+     * 328. 奇偶链表
+     * 给定一个单链表，把所有的奇数节点和偶数节点分别排在一起。请注意，这里的奇数节点和偶数节点指的是节点编号的奇偶性，而不是节点的值的奇偶性。
+     * 请尝试使用原地算法完成。你的算法的空间复杂度应为 O(1)，时间复杂度应为 O(nodes)，nodes 为节点总数。
+     * 输入: 1->2->3->4->5->NULL          输出: 1->3->5->2->4->NULL
+     * 输入: 2->1->3->5->6->4->7->NULL    输出: 2->3->6->7->1->5->4->NULL
+     * 注意：
+     * 1.应当保持奇数节点和偶数节点的相对顺序。
+     * 2.链表的第一个节点视为奇数节点，第二个节点视为偶数节点，以此类推。
+     * @param head
+     * @return
+     */
+    public ListNode oddEvenList(ListNode head) {
+        // 使用一个新链表装偶数节点
+        ListNode evenAns = new ListNode(0);
+        ListNode evenCur = evenAns;
+        // 使用一个新链表装奇数节点
+        ListNode oddAns = new ListNode(0);
+        oddAns.next = head;
+        while(head != null && head.next != null){
+            ListNode next = head.next;
+            head.next = head.next.next;
+            next.next = null;
+            evenCur.next = next;
+            if(head.next == null){// 偶数结尾
+                head.next = evenAns.next;
+                break;
+            }else if(head.next.next == null){// 奇数结尾
+                head.next.next = evenAns.next;
+                break;
+            }else {
+                head = head.next;
+                evenCur = evenCur.next;
+            }
+        }
+        return oddAns.next;
     }
 
     public static void main(String[] args){
