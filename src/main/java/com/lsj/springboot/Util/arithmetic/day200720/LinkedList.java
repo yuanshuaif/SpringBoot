@@ -65,6 +65,8 @@ import java.util.*;
  *
  * 328. 奇偶链表
  *
+ * 143. 重排链表
+ *
  */
 public class LinkedList {
 
@@ -994,13 +996,73 @@ public class LinkedList {
         return oddAns.next;
     }
 
+    /**
+     * 143. 重排链表
+     * 给定一个单链表 L：L0→L1→…→Ln-1→Ln ，将其重新排列后变为： L0→Ln→L1→Ln-1→L2→Ln-2→…
+     * 你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+     * 给定链表 1->2->3->4, 重新排列为 1->4->2->3.
+     * 给定链表 1->2->3->4->5, 重新排列为 1->5->2->4->3.
+     * @param head
+     */
+    public static void reorderList(ListNode head) {
+        if(head == null || head.next == null){
+            return;
+        }
+        Stack<ListNode> stack = new Stack<>();
+        ListNode cur = head;
+        while(cur != null){
+            stack.push(cur);
+            cur = cur.next;
+        }
+        cur = head;
+        ListNode temp = new ListNode(0);
+        ListNode ans = temp;
+        while(cur != stack.peek()){
+            if(cur.next == stack.peek()){// 偶数最后节点的处理
+                cur.next.next = null;
+                temp.next = cur;
+                break;
+            }
+            // 头节点塞值
+            ListNode next = cur.next;
+            cur.next = null;
+            temp.next = cur;
+            temp = temp.next;
+            // 尾节点塞值
+            ListNode end = stack.pop();
+            end.next = null;
+            temp.next = end;
+            temp = temp.next;
+
+            cur = next;
+        }
+        if(cur == stack.peek()){// 奇数最后节点的处理
+            temp.next = cur;
+            temp.next.next = null;
+        }
+        head = ans.next;
+    }
+
     public static void main(String[] args){
+
+        ListNode a = new ListNode(1);
+        ListNode b = new ListNode(2);
+        ListNode c = new ListNode(3);
+        ListNode d = new ListNode(4);
+        ListNode e = new ListNode(5);
+        ListNode f = new ListNode(6);
+        a.next = b;
+        b.next = c;
+        c.next = d;
+        d.next = e;
+        e.next = f;
+        reorderList(a);
 
 //        ListNode a = new ListNode(1, new ListNode(4, new ListNode(3, new ListNode(2, new ListNode(5, new ListNode(2))))));
 //        System.out.println(partition(a, 3));
 
         //返回一个有序的Node
-        ListNode a = new ListNode(1);
+        /*ListNode a = new ListNode(1);
         ListNode b = new ListNode(4);
         ListNode c = new ListNode(7);
         ListNode d = new ListNode(10);
@@ -1017,7 +1079,7 @@ public class LinkedList {
         o.next = y;
         y.next = z;
 
-        System.out.println(mergeNode(a, x));
+        System.out.println(mergeNode(a, x));*/
 
         /* //删除链表中的节点
         ListNode a = new ListNode(2);
