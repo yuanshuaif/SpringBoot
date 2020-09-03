@@ -30,6 +30,8 @@ import java.util.Comparator;
  *
  *  179. 最大数
  *
+ *  280. 摆动排序
+ *
  */
 public class Sort {
     /**
@@ -270,11 +272,7 @@ public class Sort {
             }
         }
     }
-    public void swap(int[] nums, int start, int end){
-        int temp = nums[start];
-        nums[start] = nums[end];
-        nums[end] = temp;
-    }
+
 
     /**
      * 1086. 前五科的均分
@@ -434,9 +432,40 @@ public class Sort {
         return sb.toString().charAt(0) == '0' ? "0" : sb.toString();
     }
 
+    /**
+     * 280. 摆动排序
+     * 给你一个无序的数组 nums, 将该数字 原地 重排后使得 nums[0] <= nums[1] >= nums[2] <= nums[3]...。
+     * 输入: nums = [3,5,2,1,6,4] 输出: 一个可能的解答是 [3,5,1,6,2,4]
+     * 1,2,3,4,5
+     * @param nums
+     */
+    public static void wiggleSort(int[] nums) {
+        /*// 时间复杂度 : O(nlogn)。
+        Arrays.sort(nums);
+        // 从第二个元素开始，两两交换
+        for(int i = 1; i < nums.length - 1; i += 2){
+            swap(nums, i, i + 1);
+        }*/
+
+        // 偶数位的值 > 下一个奇数位的值 交换2个值
+        // 奇数位的值 < 下一个偶数位的值 交换2个值
+        for(int i = 0; i < nums.length - 1; i++){
+            if(((i & 1) == 0 && nums[i] > nums[i + 1]) || ((i & 1) == 1 && nums[i] < nums[i + 1])){
+                swap(nums, i, i + 1);
+            }
+        }
+    }
+
+
     public static void main(String[] args){
 //        System.out.println(sortArrayByParityII(new int[]{4,2,5,6,9,7}));
 //        System.out.println(canMakeArithmeticProgression(new int[]{1,2,4}));
         System.out.println(relativeSortArray(new int[]{2,3,1,3,2,4,6,19,9,2,8,7}, new int[]{2,1,4,3,9,6}));
+    }
+
+    public static void swap(int[] nums, int start, int end){
+        int temp = nums[start];
+        nums[start] = nums[end];
+        nums[end] = temp;
     }
 }
