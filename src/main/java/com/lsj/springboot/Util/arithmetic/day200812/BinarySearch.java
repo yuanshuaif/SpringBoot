@@ -16,6 +16,8 @@ import java.util.*;
  * 240. 搜索二维矩阵 II(剑指 Offer 04. 二维数组中的查找)
  *
  * 1150. 检查一个数是否在数组中占绝大多数
+ *
+ * 面试题 10.05. 稀疏数组搜索
  */
 public class BinarySearch {
 
@@ -287,6 +289,43 @@ public class BinarySearch {
             }
         }
         return true;
+    }
+
+    /**
+     * 面试题 10.05. 稀疏数组搜索
+     * 稀疏数组搜索。有个排好序的字符串数组，其中散布着一些空字符串，编写一种方法，找出给定字符串的位置。
+     * 输入: words = ["at", "", "", "", "ball", "", "", "car", "", "","dad", "", ""], s = "ta"       输出：-1   说明: 不存在返回-1。
+     * 输入：words = ["at", "", "", "", "ball", "", "", "car", "", "","dad", "", ""], s = "ball"     输出：4
+     * @param words
+     * @param s
+     * @return
+     */
+    public int findString(String[] words, String s) {
+        int start = 0;
+        int end = words.length - 1;
+        while(start <= end){
+            // 左边第一个不为空的字符
+            while(start <= end && words[start].length() == 0){
+                start++;
+            }
+            // 右边第一个不为空的字符
+            while(start <= end && words[end].length() == 0){
+                end--;
+            }
+            // 找到不为空的中间字符
+            int mid = (start + end) / 2;
+            while(mid >= start && words[mid].length() == 0){
+                mid--;
+            }
+            if(words[mid].compareTo(s) > 0){
+                end = mid - 1;
+            }else if(words[mid].compareTo(s) < 0){
+                start = mid + 1;
+            }else{
+                return mid;
+            }
+        }
+        return -1;
     }
 
     public static void main(String[] args){
