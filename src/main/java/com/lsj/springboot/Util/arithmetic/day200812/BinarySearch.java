@@ -14,14 +14,12 @@ import java.util.*;
  * 367. 有效的完全平方数(类似于69题)
  *
  * 240. 搜索二维矩阵 II(剑指 Offer 04. 二维数组中的查找)
+ *
+ * 1150. 检查一个数是否在数组中占绝大多数
  */
 public class BinarySearch {
 
     private static int[] list = new int[]{8,5,12,98,53,22,65,21,75,89,32,21};
-
-    public static void main(String[] args){
-        System.out.println(searchZreo(list, 65));
-    }
 
     public static int searchZreo(int[] array, int value){
         Arrays.sort(array);
@@ -237,5 +235,61 @@ public class BinarySearch {
             }
         }
         return false;
+    }
+
+    /**
+     * 1150. 检查一个数是否在数组中占绝大多数
+     * 给出一个按 非递减 顺序排列的数组 nums，和一个目标数值 target。
+     * 假如数组 nums 中绝大多数元素的数值都等于 target，则返回 True，否则请返回 False。
+     * 所谓占绝大多数，是指在长度为 N 的数组中出现必须 超过 N/2 次。
+     *
+     * 输入：nums = [2,4,5,5,5,5,5,6,6], target = 5    输出：true
+     * [2,4,5,5,5,5,5,6]
+     * 解释：数字 5 出现了 5 次，而数组的长度为 9。所以，5 在数组中占绝大多数，因为 5 次 > 9/2。
+     *
+     * 输入：nums = [10,100,101,101], target = 101     输出：false
+     * 解释：数字 101 出现了 2 次，而数组的长度是 4。所以，101 不是 数组占绝大多数的元素，因为 2 次 = 4/2。
+     * @param nums
+     * @param target
+     * @return
+     */
+    public static boolean isMajorityElement(int[] nums, int target) {
+        int start0 = 0;
+        int end0 = 0;
+        int start = 0;
+        int end = nums.length - 1;
+        int mid = (start + end) / 2;
+        if(nums[mid] != target){
+            return false;
+        }else{
+            int leftEnd = mid;
+            int rightStart = mid;
+            while(start <= leftEnd){// == 解决[101,101]
+                mid = (start + leftEnd) / 2;
+                if(nums[mid] < target){
+                    start = mid + 1;
+                }else if(nums[mid] == target){
+                    start0 = mid;
+                    leftEnd = mid - 1;
+                }
+            }
+            while(rightStart <= end){
+                mid = (rightStart + end) / 2;
+                if(nums[mid] > target){
+                    end = mid - 1;
+                }else if(nums[mid] == target){
+                    end0 = mid;
+                    rightStart = mid + 1;
+                }
+            }
+            if(((end0 - start0 + 1) << 1) <= nums.length){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args){
+        System.out.println(isMajorityElement(new int[]{1,2,3,4,5}, 3));
     }
 }
