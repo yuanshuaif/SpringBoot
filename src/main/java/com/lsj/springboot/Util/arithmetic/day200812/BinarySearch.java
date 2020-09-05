@@ -28,6 +28,8 @@ import java.util.*;
  * 153. 寻找旋转排序数组中的最小值
  *
  * 1351. 统计有序矩阵中的负数
+ *
+ * 1064. 不动点 （魔术索引的简单版）
  */
 public class BinarySearch {
 
@@ -493,6 +495,34 @@ public class BinarySearch {
             }
         }
         return len > 0 ? (len * (grid.length - row)  + ans) : ans;
+    }
+
+    /**
+     * 1064. 不动点
+     * 给定已经按升序排列、由不同整数组成的数组 A，返回满足 A[i] == i 的最小索引 i。如果不存在这样的 i，返回 -1。
+     * 输入：[-10,-5,0,3,7]    输出：3    解释：对于给定的数组，A[0] = -10，A[1] = -5，A[2] = 0，A[3] = 3，因此输出为 3 。
+     * 输入：[0,2,5,8,17]      输出：0    示例：A[0] = 0，因此输出为 0 。
+     * 输入：[-10,-5,3,4,7,9]  输出：-1   解释：不存在这样的 i 满足 A[i] = i，因此输出为 -1 。
+     * [-10,-5,-2,0,4,5,6,7,8,9,10]  4
+     * @param A
+     * @return
+     */
+    public int fixedPoint(int[] A) {
+        int start = 0;
+        int end = A.length - 1;
+        int ans = -1;
+        while(start <= end){
+            int mid = (start + end) / 2;
+            if(mid == A[mid]){
+                ans = mid;
+                end = mid - 1;
+            }else if(mid < A[mid]){
+                end = mid - 1;
+            }else{
+                start = mid + 1;
+            }
+        }
+        return ans;
     }
 
     public static void main(String[] args){
