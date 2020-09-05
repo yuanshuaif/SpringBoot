@@ -30,6 +30,8 @@ import java.util.*;
  * 1351. 统计有序矩阵中的负数
  *
  * 1064. 不动点 （魔术索引的简单版）
+ *
+ * 441. 排列硬币
  */
 public class BinarySearch {
 
@@ -523,6 +525,41 @@ public class BinarySearch {
             }
         }
         return ans;
+    }
+
+    /**
+     * 441. 排列硬币
+     * 你总共有 n 枚硬币，你需要将它们摆成一个阶梯形状，第 k 行就必须正好有 k 枚硬币。给定一个数字 n，找出可形成完整阶梯行的总行数。
+     * n 是一个非负整数，并且在32位有符号整型的范围内。
+     * n = 8    因为第四行不完整，所以返回3.
+     * @param n
+     * @return
+     */
+    public int arrangeCoins(int n) {
+        // long ans = 0;
+        // int i = 1;
+        // while(ans < n){
+        //     ans += i++;
+        // }
+        // return ans == n ? i - 1 : i  - 2;
+
+        // 行数和硬 币数有如下对应关系：
+        // [0, 1, 2, 3, 4,......,n]
+        // [0,1,3,6,10,...... ((n+1)×n)/2]
+        int start = 1;
+        int end = n;
+        while(start <= end){
+            long mid = start + (end - start) / 2;// 行数
+            long multiply = (mid + 1) * mid / 2;
+            if(multiply == n){
+                return (int)mid;
+            }else if(multiply < n){
+                start = (int)mid + 1;
+            }else{
+                end = (int)mid - 1;
+            }
+        }
+        return end;
     }
 
     public static void main(String[] args){
