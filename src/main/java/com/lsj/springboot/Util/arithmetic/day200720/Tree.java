@@ -1,5 +1,10 @@
 package com.lsj.springboot.Util.arithmetic.day200720;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+
 /**
  * Created by 10326 on 2020/7/25.
  *
@@ -15,6 +20,9 @@ package com.lsj.springboot.Util.arithmetic.day200720;
  *
  * 111. 二叉树的最小深度
  * 深度优先搜索
+ *
+ * 107. 二叉树的层次遍历 II
+ * 广度优先搜索
  */
 public class Tree {
 
@@ -94,7 +102,7 @@ public class Tree {
     public boolean isSameTree(TreeNode s, TreeNode t){
         if (s == null && t == null) return true;
         if (s == null || t == null) return false;
-        if (s.value != t.value) return false;
+        if (s.val != t.val) return false;
         return isSameTree(s.left, t.left) && isSameTree(s.right, t.right);
     }
 
@@ -139,29 +147,61 @@ public class Tree {
                 && isBalanced(root.left) && isBalanced(root.right);
     }
 
+    /**
+     * 107. 二叉树的层次遍历 II(102. 二叉树的层序遍历)
+     * 给定一个二叉树，返回其节点值自底向上的层次遍历。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）
+     * 例如：给定二叉树 [3,9,20,null,null,15,7],返回其自底向上的层次遍历为：[[15,7],[9,20],[3]]
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if(root == null){
+            return ans;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        while(queue.size() != 0){
+            List<Integer> temp = new ArrayList<>();
+            int size = queue.size();
+            for(int i = 0; i < size; i++){
+                TreeNode node = queue.poll();
+                temp.add(node.val);
+                if(node.left != null){
+                    queue.offer(node.left);
+                }
+                if(node.right != null){
+                    queue.offer(node.right);
+                }
+            }
+            ans.add(0, temp);
+        }
+        return ans;
+    }
+
 }
 
 class TreeNode {
 
-    int value;
+    int val;
     TreeNode left;
     TreeNode right;
     TreeNode(){}
-    TreeNode(int value){
-        this(value, null, null);
+    TreeNode(int val){
+        this(val, null, null);
     }
     TreeNode(int val, TreeNode left, TreeNode right) {
-        this.value = val;
+        this.val = val;
         this.left = left;
         this.right = right;
     }
 
     public int getValue() {
-        return value;
+        return val;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setValue(int val) {
+        this.val = val;
     }
 
     public TreeNode getLeft() {
@@ -183,7 +223,7 @@ class TreeNode {
     @Override
     public String toString() {
         return "TreeNode{" +
-                "value=" + value +
+                "val=" + val +
                 ", left=" + left +
                 ", right=" + right +
                 '}';
