@@ -1,9 +1,7 @@
 package com.lsj.springboot.Util.arithmetic.day200720;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
+import java.util.LinkedList;
 
 /**
  * Created by 10326 on 2020/7/25.
@@ -23,6 +21,8 @@ import java.util.Queue;
  *
  * 107. 二叉树的层次遍历 II
  * 广度优先搜索
+ *
+ * 101. 对称二叉树
  */
 public class Tree {
 
@@ -177,6 +177,51 @@ public class Tree {
             ans.add(0, temp);
         }
         return ans;
+    }
+
+    /**
+     * 101. 对称二叉树
+     * 给定一个二叉树，检查它是否是镜像对称的。例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
+     * 但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的:
+     * @param root
+     * @return
+     */
+    public boolean isSymmetric(TreeNode root) {
+//        return isSymmetric(root, root);
+        if(root == null){
+            return true;
+        }
+        return isSymmetric(root.left, root.right);
+    }
+
+    public boolean isSymmetric(TreeNode l, TreeNode r) {
+//        if(l == null && r == null){
+//            return true;
+//        }
+//        if(l == null || r == null){
+//            return false;
+//        }
+//        return l.val == r.val && isSymmetric(l.left, r.right) && isSymmetric(l.right, r.left);
+
+        // 广度优先搜索
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(l);
+        queue.offer(r);
+        while(queue.size() != 0){
+            TreeNode ll = queue.poll();
+            TreeNode rr = queue.poll();
+            if(ll == null && rr == null){
+                continue;
+            }
+            if(ll == null || rr == null || ll.val != rr.val){
+                return false;
+            }
+            queue.offer(ll.left);
+            queue.offer(rr.right);
+            queue.offer(ll.right);
+            queue.offer(rr.left);
+        }
+        return true;
     }
 
 }
