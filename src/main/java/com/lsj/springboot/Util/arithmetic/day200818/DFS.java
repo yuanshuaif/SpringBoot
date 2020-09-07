@@ -5,6 +5,8 @@ package com.lsj.springboot.Util.arithmetic.day200818;
  * 题目463：岛屿的周长
  *
  * 题目200：岛屿数量
+ *
+ * 题目695：岛屿的最大面积
  */
 public class DFS {
     /**
@@ -81,5 +83,41 @@ public class DFS {
         islandPerimeter(grid, r + 1, c);
         islandPerimeter(grid, r, c - 1);
         islandPerimeter(grid, r, c + 1);
+    }
+
+    /**
+     * 695. 岛屿的最大面积
+     * 给定一个包含了一些 0 和 1 的非空二维数组 grid 。
+     * 一个 岛屿 是由一些相邻的 1 (代表土地) 构成的组合，这里的「相邻」要求两个 1 必须在水平或者竖直方向上相邻。你可以假设 grid 的四个边缘都被 0（代表水）包围着。
+     * 找到给定的二维数组中最大的岛屿面积。(如果没有岛屿，则返回面积为 0 。)
+     * [[0,0,1,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,1,1,0,1,0,0,0,0,0,0,0,0],[0,1,0,0,1,1,0,0,1,0,1,0,0],
+     * [0,1,0,0,1,1,0,0,1,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,0,0,0,0,0,0,1,1,0,0,0,0]]
+     * 输出 6
+     * @param grid
+     * @return
+     */
+    public int maxAreaOfIsland(int[][] grid) {
+        int ans = 0;
+        for(int r = 0; r < grid.length; r++){
+            for(int c = 0; c < grid[0].length; c++){
+                if(grid[r][c] == 1){
+                    ans = Math.max(islandPerimeter0(grid, r, c), ans);
+                }
+            }
+        }
+        return ans;
+    }
+
+    public int islandPerimeter0(int[][] grid, int r, int c){
+        if(!(r >= 0 && r < grid.length && c >= 0 && c < grid[0].length)){
+            return 0;//岛外return
+        }
+        if(grid[r][c] != 1){
+            return 0;// 水域或者走过的岛屿return
+        }
+        grid[r][c] = 2;
+        // 前后左右4个节点
+        return 1 + islandPerimeter0(grid, r - 1, c) + islandPerimeter0(grid, r + 1, c) +
+                islandPerimeter0(grid, r, c - 1) + islandPerimeter0(grid, r, c + 1);
     }
 }
