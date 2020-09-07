@@ -37,6 +37,8 @@ import java.util.*;
  * 题目1002：查找常用字符
  *
  * 题目387：字符串中的第一个唯一字符
+ *
+ * 题目202：快乐数
  */
 public class Hash {
 
@@ -463,8 +465,40 @@ public class Hash {
         return ans;
     }
 
+    /**
+     * 202. 快乐数
+     * 编写一个算法来判断一个数 n 是不是快乐数。
+     *「快乐数」定义为：对于一个正整数，每一次将该数替换为它每个位置上的数字的平方和，
+     * 然后重复这个过程直到这个数变为 1，也可能是 无限循环 但始终变不到 1。如果 可以变为  1，那么这个数就是快乐数。
+     * 如果 n 是快乐数就返回 True ；不是，则返回 False 。
+     * 输入：19    输出：true
+     * 解释：
+     * 12 + 92 = 82
+     * 82 + 22 = 68
+     * 62 + 82 = 100
+     * 12 + 02 + 02 = 1
+     * @param n
+     * @return
+     */
+    static Set<Integer> set = new HashSet<>();
+    public static boolean isHappy(int n) {
+        int num = 0;
+        while(n != 0){
+            num += (n % 10) * (n % 10);
+            n = n / 10;
+        }
+        if(!set.add(num)){
+            return false;
+        }
+        if(num == 1){
+            return true;
+        }
+        return isHappy(num);
+    }
+
 
     public static void main(String[] args){
+        System.out.println(isHappy(1));
 //        System.out.println(countPrimes(4));
 //        System.out.println(findLHS(new int[]{1,3,2,2,5,2,3,7}));
 
@@ -477,7 +511,7 @@ public class Hash {
 
 //       System.out.println(findErrorNums(new int[]{37,62,43,27,12,66,36,18,39,54,61,65,47,32,23,2,46,8,4,24,29,38,63,39,25,11,45,28,44,52,15,30,21,7,57,49,1,59,58,14,9,40,3,42,56,31,20,41,22,50,13,33,6,10,16,64,53,51,19,17,48,26,34,60,35,5}));
 
-        System.out.println(commonChars(new String[]{"bella","label","roller"}));
+//        System.out.println(commonChars(new String[]{"bella","label","roller"}));
 
     }
 
