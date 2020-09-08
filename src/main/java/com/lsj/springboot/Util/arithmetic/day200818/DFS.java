@@ -1,5 +1,9 @@
 package com.lsj.springboot.Util.arithmetic.day200818;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by 10326 on 2020/9/7.
  * 题目463：岛屿的周长
@@ -7,6 +11,8 @@ package com.lsj.springboot.Util.arithmetic.day200818;
  * 题目200：岛屿数量
  *
  * 题目695：岛屿的最大面积
+ *
+ * 面试题 16.19. 水域大小
  */
 public class DFS {
     /**
@@ -119,5 +125,50 @@ public class DFS {
         // 前后左右4个节点
         return 1 + islandPerimeter0(grid, r - 1, c) + islandPerimeter0(grid, r + 1, c) +
                 islandPerimeter0(grid, r, c - 1) + islandPerimeter0(grid, r, c + 1);
+    }
+
+    /**
+     * 面试题 16.19. 水域大小
+     * 你有一个用于表示一片土地的整数矩阵land，该矩阵中每个点的值代表对应地点的海拔高度。若值为0则表示水域。
+     * 由垂直、水平或对角连接的水域为池塘。
+     * 池塘的大小是指相连接的水域的个数。编写一个方法来计算矩阵中所有池塘的大小，返回值需要从小到大排序。
+     * 输入：
+     * [[0,2,1,0],
+     * [0,1,0,1],
+     * [1,1,0,1],
+     * [0,1,0,1]]    输出： [1,2,4]
+     * @param land
+     * @return
+     */
+    public int[] pondSizes(int[][] land) {
+        List<Integer> list = new ArrayList<>();
+        for(int r = 0; r < land.length; r++){
+            for(int c = 0; c < land[0].length; c++){
+                if(land[r][c] == 0){
+                    list.add(pondSizes(land, r, c));
+                }
+            }
+        }
+        Integer[] temp = list.toArray(new Integer[0]);
+        int[] ans = new int[temp.length];
+        for(int i = 0; i < temp.length; i++){
+            ans[i] = temp[i];
+        }
+        Arrays.sort(ans);
+        return ans;
+    }
+
+    public int pondSizes(int[][] land, int r, int c) {
+        if(!(r >= 0 && r < land.length && c >= 0 && c < land[0].length)){
+            return 0;//岛外return 0
+        }
+        if(land[r][c] != 0){
+            return 0;// 不是水域或者走过的水域return 0
+        }
+        land[r][c] = 1;
+        return 1 + pondSizes(land, r - 1, c) + pondSizes(land, r + 1, c) +
+                pondSizes(land, r, c - 1) + pondSizes(land, r, c + 1) +
+                pondSizes(land, r - 1, c - 1) + pondSizes(land, r - 1, c + 1) +
+                pondSizes(land, r + 1, c - 1) + pondSizes(land, r + 1, c + 1);
     }
 }
