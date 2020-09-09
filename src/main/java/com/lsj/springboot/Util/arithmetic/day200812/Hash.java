@@ -42,6 +42,8 @@ import java.util.*;
  *
  * 剑指 Offer 50. 第一个只出现一次的字符
  *
+ * 题目1496：判断路径是否相交
+ *
  */
 public class Hash {
 
@@ -517,6 +519,45 @@ public class Hash {
             }
         }
         return ' ';
+    }
+
+    /**
+     * 1496. 判断路径是否相交
+     * 给你一个字符串 path，其中 path[i] 的值可以是 'N'、'S'、'E' 或者 'W'，分别表示向北、向南、向东、向西移动一个单位。
+     * 机器人从二维平面上的原点 (0, 0) 处开始出发，按 path 所指示的路径行走。
+     * 如果路径在任何位置上出现相交的情况，也就是走到之前已经走过的位置，请返回 True ；否则，返回 False 。
+     * 输入：path = "NES"  输出：false    解释：该路径没有在任何位置相交。
+     * 输入：path = "NESWW"    输出：true     解释：该路径经过原点两次。
+     * 1 <= path.length <= 10^4         path 仅由 {'N', 'S', 'E', 'W} 中的字符组成
+     * @param path
+     * @return
+     */
+    public boolean isPathCrossing(String path) {
+        Set<Integer> set = new HashSet<>();
+        int x = 0;
+        int y = 0;
+        set.add(getHash(x, y));
+        for(int i = 0; i < path.length(); i++){
+            if('N' == path.charAt(i)){
+                x++;
+            }else if('S' == path.charAt(i)){
+                x--;
+            }else if('E' == path.charAt(i)){
+                y++;
+            }else if('W' == path.charAt(i)){
+                y--;
+            }
+            if(!set.add(getHash(x, y))){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 保证key不重复，防止hash冲突
+    public int getHash(int x, int y){
+        // 1 <= path.length <= 10^4     20001 = 10^4(正) + 10^4（负） + 1(0)
+        return x * 20001 + y;
     }
 
     public static void main(String[] args){
