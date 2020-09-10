@@ -8,7 +8,13 @@ import java.util.List;
  * 回溯算法
  * 78. 子集
  *
+ * 90. 子集 II
+ *
  * 39. 组合总和
+ *
+ * 46. 全排列
+ *
+ * 47. 全排列 II
  */
 public class Backtracking {
 
@@ -126,8 +132,80 @@ public class Backtracking {
         }
     }
 
+    /**
+     * 46. 全排列
+     * 给定一个 没有重复 数字的序列，返回其所有可能的全排列。
+     * 输入: [1,2,3]
+     * 输出:[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+     * @param nums
+     * @return
+     */
+    public static List<List<Integer>> permute(int[] nums) {
+        if(nums.length == 0){
+            return new ArrayList<>();
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        permute(nums, res, new ArrayList<>());
+        return res;
+    }
+
+    public static void permute(int[] nums, List<List<Integer>> res, List<Integer> temp){
+        if(temp.size() == nums.length){
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+        for(int i = 0; i < nums.length; i++){
+            if(temp.contains(nums[i])){
+                continue;
+            }
+            temp.add(nums[i]);
+            permute(nums, res, temp);
+            temp.remove(temp.size() - 1);
+        }
+    }
+
+    /**
+     * 47. 全排列 II
+     * 给定一个可包含重复数字的序列，返回所有不重复的全排列。
+     * 输入: [1,1,2]          输出:[[1,1,2],[1,2,1],[2,1,1]]
+     * @param nums
+     * @return
+     */
+    public static List<List<Integer>> permuteUnique(int[] nums) {
+        if(nums.length == 0){
+            return new ArrayList<>();
+        }
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        permuteUnique(nums, res, new ArrayList<>(), new ArrayList<>());
+        return res;
+    }
+
+    public static void permuteUnique(int[] nums, List<List<Integer>> res, List<Integer> temp, List<Integer> index){
+        if(temp.size() == nums.length){
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+        for(int i = 0; i < nums.length; i++){
+            if(index.contains(i)){
+                continue;
+            }
+            // 剪枝的核心算法：1）值与前一个值相等；2）前面一个没用到剪掉（说明前一个在前面的分支里已经用过了）
+            if(i > 0 && nums[i] == nums[i - 1] && !index.contains(i - 1)){
+                continue;
+            }
+            temp.add(nums[i]);
+            index.add(i);
+            permuteUnique(nums, res, temp, index);
+            temp.remove(temp.size() - 1);
+            index.remove(index.size() - 1);
+        }
+    }
+
     public static void main(String[] args){
-        System.out.println(subsets(new int[]{1,2,3}));
+//        System.out.println(subsets(new int[]{1,2,3}));
+//        System.out.println(permute(new int[]{1,2,3}));
+        System.out.println(permuteUnique(new int[]{1,1,2}));
     }
 
 
