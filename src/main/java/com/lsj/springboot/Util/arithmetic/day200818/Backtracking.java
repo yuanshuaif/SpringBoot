@@ -17,6 +17,8 @@ import java.util.List;
  * 47. 全排列 II
  *
  * 77. 组合
+ *
+ * 面试题 08.07. 无重复字符串的排列组合
  */
 public class Backtracking {
 
@@ -247,14 +249,41 @@ public class Backtracking {
      * @param S
      * @return
      */
-    public String[] permutation(String S) {
-        return null;
+    public static String[] permutation(String S) {
+        List<List<Character>> ans = new ArrayList<>();
+        permutation(S.toCharArray(), ans, new ArrayList<>());
+        String[] ansStr = new String[ans.size()];
+        for(int i = 0; i < ans.size(); i++){
+            StringBuilder sb = new StringBuilder();
+            for(Character character : ans.get(i)){
+                sb.append(character);
+            }
+            ansStr[i] = sb.toString();
+        }
+        return ansStr;
+    }
+
+    public static void permutation(char[] ch, List<List<Character>> ans, List<Character> temp) {
+        if(temp.size() == ch.length){
+            ans.add(new ArrayList<>(temp));
+            return;
+        }
+        for(int i = 0; i < ch.length; i++){
+            if(temp.contains(ch[i])){
+                continue;
+            }
+            temp.add(ch[i]);
+            permutation(ch, ans, temp);
+            temp.remove(temp.size() - 1);
+        }
+        return;
     }
 
     public static void main(String[] args){
 //        System.out.println(subsets(new int[]{1,2,3}));
 //        System.out.println(permute(new int[]{1,2,3}));
-        System.out.println(permuteUnique(new int[]{1,1,2}));
+//        System.out.println(permuteUnique(new int[]{1,1,2}));
+        System.out.println(permutation("qwe"));
     }
 
 
