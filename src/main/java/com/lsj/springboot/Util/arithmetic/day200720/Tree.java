@@ -25,6 +25,8 @@ import java.util.LinkedList;
  * 广度优先搜索
  *
  * 101. 对称二叉树
+ *
+ * 637. 二叉树的层平均值
  */
 public class Tree {
 
@@ -226,6 +228,43 @@ public class Tree {
             queue.offer(rr.left);
         }
         return true;
+    }
+
+    /**
+     * 637. 二叉树的层平均值（广度优先搜索）
+     * 给定一个非空二叉树, 返回一个由每层节点平均值组成的数组。
+     *     3
+     *    / \
+     *   9  20
+     *     /  \
+     *    15   7
+     * 输出：[3, 14.5, 11] 解释：第 0 层的平均值是 3 ,  第1层是 14.5 , 第2层是 11 。因此返回 [3, 14.5, 11] 。
+     * @param root
+     * @return
+     */
+    public List<Double> averageOfLevels(TreeNode root) {
+        if(root == null){
+            return new ArrayList<>();
+        }
+        List<Double> ans = new ArrayList<>();
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        while(queue.size() != 0){
+            double sum = 0;
+            int len = queue.size();
+            for(int i = 0; i < len; i++) {
+                TreeNode cur =  queue.poll();
+                sum += cur.val;
+                if(cur.left != null){
+                    queue.offer(cur.left);
+                }
+                if(cur.right != null){
+                    queue.offer(cur.right);
+                }
+            }
+            ans.add(sum / len);
+        }
+        return ans;
     }
 
 }
