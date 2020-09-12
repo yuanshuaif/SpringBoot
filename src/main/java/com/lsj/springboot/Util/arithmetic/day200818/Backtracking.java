@@ -15,6 +15,8 @@ import java.util.List;
  * 46. 全排列
  *
  * 47. 全排列 II
+ *
+ * 77. 组合
  */
 public class Backtracking {
 
@@ -200,6 +202,40 @@ public class Backtracking {
             temp.remove(temp.size() - 1);
             index.remove(index.size() - 1);
         }
+    }
+
+    /**
+     * 77. 组合
+     * 给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合。
+     * 输入: n = 4, k = 2     输出: [[2,4],[3,4],[2,3],[1,2],[1,3],[1,4]]
+     * @param n
+     * @param k
+     * @return
+     */
+    public List<List<Integer>> combine(int n, int k) {
+        if(k > n){
+            return new ArrayList<>();
+        }
+        int[] nums = new int[n];
+        for(int i = 1; i <= n; i++){
+            nums[i - 1] = i;
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        combine(nums, res, new ArrayList<>(), 0, k);
+        return res;
+    }
+
+    public void combine(int[] nums, List<List<Integer>> res, List<Integer> temp, int start, int k) {
+        if(temp.size() == k){
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+        for(int i = start; i < nums.length; i++){
+            temp.add(nums[i]);
+            combine(nums, res, temp, i + 1, k);
+            temp.remove(temp.size() - 1);
+        }
+        return;
     }
 
     public static void main(String[] args){
