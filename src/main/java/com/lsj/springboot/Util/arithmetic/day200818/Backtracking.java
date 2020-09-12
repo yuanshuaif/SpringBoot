@@ -2,6 +2,7 @@ package com.lsj.springboot.Util.arithmetic.day200818;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,6 +20,9 @@ import java.util.List;
  * 77. 组合
  *
  * 面试题 08.07. 无重复字符串的排列组合
+ *
+ * 面试题 08.08. 有重复字符串的排列组合II
+ * 剑指 Offer 38. 字符串的排列
  */
 public class Backtracking {
 
@@ -249,7 +253,7 @@ public class Backtracking {
      * @param S
      * @return
      */
-    public static String[] permutation(String S) {
+    /*public static String[] permutation(String S) {
         List<List<Character>> ans = new ArrayList<>();
         permutation(S.toCharArray(), ans, new ArrayList<>());
         String[] ansStr = new String[ans.size()];
@@ -277,6 +281,59 @@ public class Backtracking {
             temp.remove(temp.size() - 1);
         }
         return;
+    }*/
+    public static String[] permutation(String S) {
+        List<String> ans = new ArrayList<>();
+        permutation(S.toCharArray(), ans, new String(), new boolean[S.length()]);
+        return ans.toArray(new String[0]);
+    }
+
+    public static void permutation(char[] ch, List<String> ans, String cur, boolean[] used) {
+        if(cur.length() == ch.length){
+            ans.add(cur);
+            return;
+        }
+        for(int i = 0; i < ch.length; i++){
+            if(!used[i]){
+                used[i] = true;
+                permutation(ch, ans, cur, used);
+                used[i] = false;
+            }
+        }
+    }
+
+    /**
+     * 面试题 08.08. 有重复字符串的排列组合
+     * 剑指 Offer 38. 字符串的排列
+     * 有重复字符串的排列组合。编写一种方法，计算某字符串的所有排列组合。
+     *  输入：S = "qqe"    输出：["eqq","qeq","qqe"]
+     * @param S
+     * @return
+     */
+    public String[] permutation2(String S) {
+        List<String> ans = new ArrayList<>();
+        char[] ch = S.toCharArray();
+        Arrays.sort(ch);
+        permutation2(ch, ans, new String(), new boolean[S.length()]);
+        return ans.toArray(new String[0]);
+    }
+
+    public void permutation2(char[] ch, List<String> ans, String cur, boolean[] used) {
+        if(cur.length() == ch.length){
+            ans.add(cur);
+            return;
+        }
+        for(int i = 0; i < ch.length; i++){
+            // 同一层与前一个元素相等；且上一层没有被使用，说明在其他分支已用
+            if(i > 0 && ch[i] == ch[i - 1] && !used[i - 1]){
+                continue;
+            }
+            if(!used[i]){
+                used[i] = true;
+                permutation2(ch, ans, cur + ch[i], used);
+                used[i] = false;
+            }
+        }
     }
 
     public static void main(String[] args){
