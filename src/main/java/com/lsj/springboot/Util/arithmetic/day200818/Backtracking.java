@@ -238,6 +238,19 @@ public class Backtracking {
         return;
     }
 
+    /**
+     * 面试题 08.07. 无重复字符串的排列组合
+     * 无重复字符串的排列组合。编写一种方法，计算某字符串的所有排列组合，字符串每个字符均不相同。
+     * 输入：S = "qwe"     输出：["qwe", "qew", "wqe", "weq", "ewq", "eqw"]
+     * 输入：S = "ab"      输出：["ab", "ba"]
+     * 1.字符都是英文字母。2.字符串长度在[1, 9]之间。
+     * @param S
+     * @return
+     */
+    public String[] permutation(String S) {
+        return null;
+    }
+
     public static void main(String[] args){
 //        System.out.println(subsets(new int[]{1,2,3}));
 //        System.out.println(permute(new int[]{1,2,3}));
