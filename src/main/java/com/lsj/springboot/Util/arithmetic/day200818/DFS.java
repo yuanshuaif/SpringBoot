@@ -13,6 +13,8 @@ import java.util.List;
  * 题目695：岛屿的最大面积
  *
  * 面试题 16.19. 水域大小
+ *
+ * 题目79：单词搜索
  */
 public class DFS {
     /**
@@ -170,5 +172,49 @@ public class DFS {
                 pondSizes(land, r, c - 1) + pondSizes(land, r, c + 1) +
                 pondSizes(land, r - 1, c - 1) + pondSizes(land, r - 1, c + 1) +
                 pondSizes(land, r + 1, c - 1) + pondSizes(land, r + 1, c + 1);
+    }
+
+    /**
+     * 79. 单词搜索
+     * 给定一个二维网格和一个单词，找出该单词是否存在于网格中。
+     * 单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
+     * board =[['A','B','C','E'],['S','F','C','S'],['A','D','E','E']]
+     * 给定 word = "ABCCED", 返回 true      给定 word = "SEE", 返回 true      给定 word = "ABCB", 返回 false
+     * @param board
+     * @param word
+     * @return
+     */
+    public boolean exist(char[][] board, String word) {
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[0].length; j++){
+                if(board[i][j] == word.charAt(0) && exist(board, word, 0, i, j)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean exist(char[][] board, String word, int index, int row, int cow) {
+        if(index > word.length() - 1){// 全部匹配成功返回true
+            return true;
+        }
+        if(row < 0 || row > board.length - 1 || cow < 0 || cow > board[0].length - 1){// 区域外返回false
+            return false;
+        }
+        if(board[row][cow] == '0' || board[row][cow] != word.charAt(index)){// 已经使用过或者不匹配返回false
+            return false;
+        }
+        char temp = board[row][cow];
+        board[row][cow] = '0';
+        boolean result = exist(board, word, index + 1, row - 1, cow) ||
+                exist(board, word, index + 1, row + 1, cow) ||
+                exist(board, word, index + 1, row , cow - 1) ||
+                exist(board, word, index + 1, row, cow + 1);
+        if(!result){// 全部不匹配时，恢复原来的值
+            // [["C","A","A"],["A","A","A"],["B","C","D"]]"AAB"
+            board[row][cow] = temp;
+        }
+        return result;
     }
 }
