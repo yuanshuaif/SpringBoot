@@ -15,6 +15,8 @@ import java.util.List;
  * 面试题 16.19. 水域大小
  *
  * 题目79：单词搜索
+ *
+ * 题目130:被围绕的区域
  */
 public class DFS {
     /**
@@ -216,5 +218,57 @@ public class DFS {
             board[row][cow] = temp;
         }
         return result;
+    }
+
+    /**
+     * 130. 被围绕的区域
+     * 给定一个二维的矩阵，包含 'X' 和 'O'（字母 O）。找到所有被 'X' 围绕的区域，并将这些区域里所有的 'O' 用 'X' 填充。
+     * 被围绕的区间不会存在于边界上，换句话说，任何边界上的 'O' 都不会被填充为 'X'。 任何不在边界上，或不与边界上的 'O' 相连的 'O' 最终都会被填充为 'X'。如果两个元素在水平或垂直方向相邻，则称它们是“相连”的。
+     * X X X X      运行你的函数后，矩阵变为： X X X X
+     * X O O X                                X X X X
+     * X X O X                                X X X X
+     * X O X X                                X O X X
+     * @param board
+     */
+    public void solve(char[][] board) {
+        // 以4个边为起点分别标记相连的'O',被标记的还原，没有被标记的置为'X'
+        if(board.length == 0 || board[0].length == 0){
+            return;
+        }
+        int row = board.length;
+        int col = board[0].length;
+        for(int i = 0; i < row; i++){
+            if(board[i][0] == 'O')
+                solve(board, i, 0);
+            if(board[i][col - 1] == 'O')
+                solve(board, i, col - 1);
+        }
+        for(int j = 0; j < col; j++){
+            if(board[0][j] == 'O')
+                solve(board, 0, j);
+            if(board[row - 1][j] == 'O')
+                solve(board, row - 1, j);
+        }
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[0].length; j++){
+                if(board[i][j] == 'A'){
+                    board[i][j] = 'O';
+                }else if(board[i][j] == 'O'){
+                    board[i][j] = 'X';
+                }
+            }
+        }
+    }
+
+    public void solve(char[][] board, int row, int col) {
+        if(row < 0 || row > board.length - 1 || col < 0 || col > board[0].length - 1 ||
+                board[row][col] != 'O'){// 区域外、已标记、'X'不进行标记
+            return;
+        }
+        board[row][col] = 'A';
+        solve(board, row - 1, col);
+        solve(board, row + 1, col);
+        solve(board, row, col - 1);
+        solve(board, row, col + 1);
     }
 }
