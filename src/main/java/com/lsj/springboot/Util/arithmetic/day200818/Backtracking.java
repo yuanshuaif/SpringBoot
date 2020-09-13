@@ -23,6 +23,8 @@ import java.util.List;
  *
  * 面试题 08.08. 有重复字符串的排列组合II
  * 剑指 Offer 38. 字符串的排列
+ *
+ * 22. 括号生成
  */
 public class Backtracking {
 
@@ -333,6 +335,36 @@ public class Backtracking {
                 permutation2(ch, ans, cur + ch[i], used);
                 used[i] = false;
             }
+        }
+    }
+
+    /**
+     * 22. 括号生成
+     * 数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+     * 输入：n = 3     输出：["((()))","(()())","(())()","()(())","()()()"]
+     * @param n
+     * @return
+     */
+    public List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<>();
+        generateParenthesis(res, n, new StringBuilder(), 0, 0);
+        return res;
+    }
+
+    public void generateParenthesis(List<String> res, int n, StringBuilder s, int open, int close) {
+        if(n * 2 == s.length()){
+            res.add(new StringBuilder(s).toString());
+            return;
+        }
+        if(open < n){
+            s.append("(");
+            generateParenthesis(res, n, s, open + 1, close);
+            s.deleteCharAt(s.length() - 1);
+        }
+        if(close < open){
+            s.append(")");
+            generateParenthesis(res, n, s, open, close + 1);
+            s.deleteCharAt(s.length() - 1);
         }
     }
 
