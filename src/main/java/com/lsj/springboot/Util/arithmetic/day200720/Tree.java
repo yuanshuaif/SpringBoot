@@ -29,6 +29,8 @@ import java.util.LinkedList;
  * 637. 二叉树的层平均值
  *
  * 108. 将有序数组转换为二叉搜索树
+ *
+ *  112. 路径总和
  */
 public class Tree {
 
@@ -291,6 +293,33 @@ public class Tree {
         node.left = sortedArrayToBST(nums, start, mid - 1);
         node.right = sortedArrayToBST(nums, mid + 1, end);
         return node;
+    }
+
+    /**
+     * 112. 路径总和
+     * 给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。
+     * 说明: 叶子节点是指没有子节点的节点。给定如下二叉树，以及目标和 sum = 22，
+     *               5
+     *              / \
+     *             4   8
+     *            /   / \
+     *           11  13  4
+     *          /  \      \
+     *         7    2      1
+     * 返回 true, 因为存在目标和为 22 的根节点到叶子节点的路径 5->4->11->2。
+     * @param root
+     * @param sum
+     * @return
+     */
+    public boolean hasPathSum(TreeNode root, int sum) {
+        // 根节点到叶子节点的总和为sum, 下一个子节点到叶子节点的总和 sum - 当前节点的值
+        if(root == null){
+            return false;
+        }
+        if(root.left == null && root.right == null){
+            return sum == root.val;
+        }
+        return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
     }
 
 }
