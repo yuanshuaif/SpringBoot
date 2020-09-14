@@ -36,29 +36,13 @@ import java.util.LinkedList;
  *
  * 105. 从前序与中序遍历序列构造二叉树
  * 深度优先搜索
+ *
+ * 106. 从中序与后序遍历序列构造二叉树
+ * 深度优先搜索
  */
 public class Tree {
 
     private static int ans = 0;
-
-    public static void main(String[] args){
-       /* Node a = new Node(1);
-        Node b = new Node(2);
-        Node c = new Node(3);
-        Node d = new Node(4);
-        Node e = new Node(5);
-        a.next = b;
-        b.next = c;
-        c.next = d;
-        d.next = e;*/
-        TreeNode a = new TreeNode(1);
-        TreeNode b = new TreeNode(2);
-//        a.left = b;
-        a.right = b;
-        System.out.println(diameterOfBinaryTree(a));
-    }
-
-
 
     /**
      * 104. 二叉树的最大深度
@@ -361,6 +345,60 @@ public class Tree {
         root.left = buildTree(preorder, inorder, preorderLeft + 1, preorderLeft + leftNum, inorderLeft, inorderRoot - 1);
         root.right = buildTree(preorder, inorder, preorderLeft + leftNum + 1, preorderRight, inorderRoot + 1, inorderRight);
         return root;
+    }
+
+    /**
+     * 106. 从中序与后序遍历序列构造二叉树
+     * 根据一棵树的中序遍历与后序遍历构造二叉树。注意:你可以假设树中没有重复的元素。
+     * 中序遍历 inorder = [9,3,15,20,7]
+     * 后序遍历 postorder = [9,15,7,20,3]
+     * 返回如下的二叉树：
+     *     3
+     *    / \
+     *   9  20
+     *     /  \
+     *    15   7
+     * @param inorder
+     * @param postorder
+     * @return
+     */
+    public TreeNode buildTree2(int[] inorder, int[] postorder) {
+        mapping = new HashMap<>();
+        int len = inorder.length;
+        for(int i = 0; i < len; i++){
+            mapping.put(inorder[i], i);// 中序节点的值在哪个位置
+        }
+        return buildTree2(postorder, inorder, 0, len - 1, 0, len - 1);
+    }
+    public TreeNode buildTree2(int[] postorder, int[] inorder, int postorderLeft, int postorderRight, int inorderLeft, int inorderRight) {
+        if(postorderLeft > postorderRight){
+            return null;
+        }
+        int rootVal = postorder[postorderRight];// 根节点的值
+        TreeNode root = new TreeNode(rootVal);// 构造根节点
+        int rootIndex = mapping.get(rootVal);// 根节点的值在中序数组里的位置
+        int leftNum = rootIndex - inorderLeft;//左子树的数量
+        root.left = buildTree2(postorder, inorder, postorderLeft, postorderLeft + leftNum - 1, inorderLeft, rootIndex - 1);
+        root.right = buildTree2(postorder, inorder, postorderLeft + leftNum, postorderRight - 1, rootIndex + 1, inorderRight);
+        return root;
+    }
+
+
+    public static void main(String[] args){
+       /* Node a = new Node(1);
+        Node b = new Node(2);
+        Node c = new Node(3);
+        Node d = new Node(4);
+        Node e = new Node(5);
+        a.next = b;
+        b.next = c;
+        c.next = d;
+        d.next = e;*/
+//        TreeNode a = new TreeNode(1);
+//        TreeNode b = new TreeNode(2);
+////        a.left = b;
+//        a.right = b;
+//        System.out.println(diameterOfBinaryTree(a));
     }
 
 }
