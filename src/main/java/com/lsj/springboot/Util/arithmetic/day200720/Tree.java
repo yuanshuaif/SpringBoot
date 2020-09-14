@@ -27,10 +27,15 @@ import java.util.LinkedList;
  * 101. 对称二叉树
  *
  * 637. 二叉树的层平均值
+ * 广度优先搜索
  *
  * 108. 将有序数组转换为二叉搜索树
  *
- *  112. 路径总和
+ * 112. 路径总和
+ * 深度优先搜索
+ *
+ * 105. 从前序与中序遍历序列构造二叉树
+ * 深度优先搜索
  */
 public class Tree {
 
@@ -320,6 +325,42 @@ public class Tree {
             return sum == root.val;
         }
         return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+    }
+
+    /**
+     * 105. 从前序与中序遍历序列构造二叉树
+     * 根据一棵树的前序遍历与中序遍历构造二叉树。注意:你可以假设树中没有重复的元素。
+     * 前序遍历 preorder = [3,9,20,15,7]    中序遍历 inorder = [9,3,15,20,7]
+     * 返回如下的二叉树：
+     *     3
+     *    / \
+     *   9  20
+     *     /  \
+     *    15   7
+     */
+    private Map<Integer, Integer> mapping;
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        // [ 根节点, [左子树的前序遍历结果], [右子树的前序遍历结果] ]
+        // [ [左子树的中序遍历结果], 根节点, [右子树的中序遍历结果] ]
+        mapping = new HashMap<>();
+        int len = inorder.length;
+        for(int i = 0; i < len; i++){
+            mapping.put(inorder[i], i);// 中序节点的值在哪个位置
+        }
+        return buildTree(preorder, inorder, 0, len - 1, 0, len - 1);
+    }
+
+    public TreeNode buildTree(int[] preorder, int[] inorder, int preorderLeft, int preorderRight, int inorderLeft, int inorderRight) {
+        if(preorderLeft > preorderRight){
+            return null;
+        }
+        int rootVal = preorder[preorderLeft];// 根节点的值
+        TreeNode root = new TreeNode(preorder[preorderLeft]);//构造根节点
+        int inorderRoot = mapping.get(rootVal);// 中序节点的位置
+        int leftNum = inorderRoot - inorderLeft;// 左子树的数量
+        root.left = buildTree(preorder, inorder, preorderLeft + 1, preorderLeft + leftNum, inorderLeft, inorderRoot - 1);
+        root.right = buildTree(preorder, inorder, preorderLeft + leftNum + 1, preorderRight, inorderRoot + 1, inorderRight);
+        return root;
     }
 
 }
