@@ -24,6 +24,8 @@ import java.util.Arrays;
  * 题目1046:最后一块石头的重量
  *
  * 题目1518:换酒问题
+ *
+ * 题目1221:分割平衡字符串
  */
 public class GreedyAlgorithm {
 
@@ -218,5 +220,30 @@ public class GreedyAlgorithm {
         ans += numBottles;
         numEmptyBottles = numBottles + numEmptyBottles % numExchange;
         numEmptyBottles(numEmptyBottles, numExchange);
+    }
+
+    /**
+     * 1221. 分割平衡字符串
+     * 在一个「平衡字符串」中，'L' 和 'R' 字符的数量是相同的。给出一个平衡字符串 s，请你将它分割成尽可能多的平衡字符串。
+     * 返回可以通过分割得到的平衡字符串的最大数量。
+     * 输入：s = "RLRRLLRLRL"      输出：4    解释：s 可以分割为 "RL", "RRLL", "RL", "RL", 每个子字符串中都包含相同数量的 'L' 和 'R'。
+     * 输入：s = "RLLLLRRRLR"      输出：3    解释：s 可以分割为 "RL", "LLLRRR", "LR", 每个子字符串中都包含相同数量的 'L' 和 'R'。
+     * @param s
+     * @return
+     */
+    public int balancedStringSplit(String s) {
+        int ans = 0;
+        int count = 0;
+        for(int i = 0; i < s.length(); i++){
+            if(s.charAt(i) == 'R'){
+                count++;
+            }else{
+                count--;
+            }
+            if(count == 0){
+                ans++;
+            }
+        }
+        return ans;
     }
 }
