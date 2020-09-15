@@ -27,33 +27,22 @@ import java.util.LinkedList;
  * 101. 对称二叉树
  *
  * 637. 二叉树的层平均值
+ * 广度优先搜索
  *
  * 108. 将有序数组转换为二叉搜索树
  *
+ * 112. 路径总和
+ * 深度优先搜索
+ *
  * 105. 从前序与中序遍历序列构造二叉树
+ * 深度优先搜索
+ *
+ * 106. 从中序与后序遍历序列构造二叉树
+ * 深度优先搜索
  */
 public class Tree {
 
     private static int ans = 0;
-
-    public static void main(String[] args){
-       /* Node a = new Node(1);
-        Node b = new Node(2);
-        Node c = new Node(3);
-        Node d = new Node(4);
-        Node e = new Node(5);
-        a.next = b;
-        b.next = c;
-        c.next = d;
-        d.next = e;*/
-        TreeNode a = new TreeNode(1);
-        TreeNode b = new TreeNode(2);
-//        a.left = b;
-        a.right = b;
-        System.out.println(diameterOfBinaryTree(a));
-    }
-
-
 
     /**
      * 104. 二叉树的最大深度
@@ -296,14 +285,42 @@ public class Tree {
     }
 
     /**
+     * 112. 路径总和
+     * 给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。
+     * 说明: 叶子节点是指没有子节点的节点。给定如下二叉树，以及目标和 sum = 22，
+     *               5
+     *              / \
+     *             4   8
+     *            /   / \
+     *           11  13  4
+     *          /  \      \
+     *         7    2      1
+     * 返回 true, 因为存在目标和为 22 的根节点到叶子节点的路径 5->4->11->2。
+     * @param root
+     * @param sum
+     * @return
+     */
+    public boolean hasPathSum(TreeNode root, int sum) {
+        // 根节点到叶子节点的总和为sum, 下一个子节点到叶子节点的总和 sum - 当前节点的值
+        if(root == null){
+            return false;
+        }
+        if(root.left == null && root.right == null){
+            return sum == root.val;
+        }
+        return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+    }
+
+    /**
      * 105. 从前序与中序遍历序列构造二叉树
      * 根据一棵树的前序遍历与中序遍历构造二叉树。注意:你可以假设树中没有重复的元素。
      * 前序遍历 preorder = [3,9,20,15,7]    中序遍历 inorder = [9,3,15,20,7]
-     *    3
-         / \
-         9  20
-         /  \
-         15   7
+     * 返回如下的二叉树：
+     *     3
+     *    / \
+     *   9  20
+     *     /  \
+     *    15   7
      */
     private Map<Integer, Integer> mapping;
     public TreeNode buildTree(int[] preorder, int[] inorder) {
@@ -329,6 +346,61 @@ public class Tree {
         root.right = buildTree(preorder, inorder, preorderLeft + leftNum + 1, preorderRight, inorderRoot + 1, inorderRight);
         return root;
     }
+
+    /**
+     * 106. 从中序与后序遍历序列构造二叉树
+     * 根据一棵树的中序遍历与后序遍历构造二叉树。注意:你可以假设树中没有重复的元素。
+     * 中序遍历 inorder = [9,3,15,20,7]
+     * 后序遍历 postorder = [9,15,7,20,3]
+     * 返回如下的二叉树：
+     *     3
+     *    / \
+     *   9  20
+     *     /  \
+     *    15   7
+     * @param inorder
+     * @param postorder
+     * @return
+     */
+    public TreeNode buildTree2(int[] inorder, int[] postorder) {
+        mapping = new HashMap<>();
+        int len = inorder.length;
+        for(int i = 0; i < len; i++){
+            mapping.put(inorder[i], i);// 中序节点的值在哪个位置
+        }
+        return buildTree2(postorder, inorder, 0, len - 1, 0, len - 1);
+    }
+    public TreeNode buildTree2(int[] postorder, int[] inorder, int postorderLeft, int postorderRight, int inorderLeft, int inorderRight) {
+        if(postorderLeft > postorderRight){
+            return null;
+        }
+        int rootVal = postorder[postorderRight];// 根节点的值
+        TreeNode root = new TreeNode(rootVal);// 构造根节点
+        int rootIndex = mapping.get(rootVal);// 根节点的值在中序数组里的位置
+        int leftNum = rootIndex - inorderLeft;//左子树的数量
+        root.left = buildTree2(postorder, inorder, postorderLeft, postorderLeft + leftNum - 1, inorderLeft, rootIndex - 1);
+        root.right = buildTree2(postorder, inorder, postorderLeft + leftNum, postorderRight - 1, rootIndex + 1, inorderRight);
+        return root;
+    }
+
+
+    public static void main(String[] args){
+       /* Node a = new Node(1);
+        Node b = new Node(2);
+        Node c = new Node(3);
+        Node d = new Node(4);
+        Node e = new Node(5);
+        a.next = b;
+        b.next = c;
+        c.next = d;
+        d.next = e;*/
+//        TreeNode a = new TreeNode(1);
+//        TreeNode b = new TreeNode(2);
+////        a.left = b;
+//        a.right = b;
+//        System.out.println(diameterOfBinaryTree(a));
+    }
+
 }
 
 class TreeNode {
