@@ -17,6 +17,11 @@ import java.util.Arrays;
  * 题目605:种花问题
  *
  * 题目455:分发饼干
+ *
+ * 题目122:买卖股票的最佳时机 II
+ * 峰谷法
+ *
+ * 题目1046:最后一块石头的重量
  */
 public class GreedyAlgorithm {
 
@@ -113,6 +118,72 @@ public class GreedyAlgorithm {
             }
         }
         return ans;
+    }
+
+    /**
+     * 122. 买卖股票的最佳时机 II
+     * 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+     * 设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+     * 输入: [7,1,5,3,6,4]    输出: 7
+     * 解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     *      随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。
+     * 输入: [7,6,4,3,1]      输出: 0
+     * 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
+     * @param prices
+     * @return
+     */
+    public int maxProfit(int[] prices) {
+        // 峰谷法
+        int valley = prices[0];//山谷
+        int peek = prices[0];//山峰
+        int ans = 0;
+        int i = 0;
+        while(i < prices.length - 1){
+            while(i < prices.length - 1 && prices[i] >= prices[i + 1] ){
+                i++;
+            }
+            valley = prices[i];
+            while(i < prices.length - 1 && prices[i] <= prices[i + 1] ){
+                i++;
+            }
+            peek = prices[i];
+            ans += peek - valley;
+        }
+        return ans;
+       /* int ans = 0;
+        for(int i = 1; i < prices.length; i++){
+            if(prices[i] >= prices[i - 1]){
+                ans += prices[i] - prices[i - 1];
+            }
+        }
+        return ans;*/
+    }
+
+    /**
+     * 1046. 最后一块石头的重量
+     * 有一堆石头，每块石头的重量都是正整数。
+     * 每一回合，从中选出两块 最重的 石头，然后将它们一起粉碎。假设石头的重量分别为 x 和 y，且 x <= y。那么粉碎的可能结果如下：
+     * 如果 x == y，那么两块石头都会被完全粉碎；如果 x != y，那么重量为 x 的石头将会完全粉碎，而重量为 y 的石头新重量为 y-x。
+     * 最后，最多只会剩下一块石头。返回此石头的重量。如果没有石头剩下，就返回 0。
+     * 输入：[2,7,4,1,8,1]         输出：1
+     * 解释：先选出 7 和 8，得到 1，所以数组转换为 [2,4,1,1,1]，再选出 2 和 4，得到 2，所以数组转换为 [2,1,1,1]，
+     *      接着是 2 和 1，得到 1，所以数组转换为 [1,1,1]，最后选出 1 和 1，得到 0，最终数组转换为 [1]，这就是最后剩下那块石头的重量。
+     * @param stones
+     * @return
+     */
+    public int lastStoneWeight(int[] stones) {
+        if(stones.length == 0){
+            return 0;
+        }else if(stones.length == 1){
+            return stones[0];
+        }
+        Arrays.sort(stones);
+        while(stones[stones.length - 2] != 0){// 倒数第二个不为0继续计算
+            stones[stones.length - 1] = stones[stones.length - 1] - stones[stones.length - 2];
+            stones[stones.length - 2] = 0;
+            Arrays.sort(stones);
+        }
+        return stones[stones.length - 1];
     }
 
 }
