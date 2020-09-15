@@ -24,6 +24,8 @@ import java.util.Stack;
  *
  *  粉刷房子的问题
  *
+ *  题目96:不同的二叉搜索树
+ *
  */
 public class DynamicPlanning {
 
@@ -286,5 +288,24 @@ public class DynamicPlanning {
 //        }
 //        return min;
         return 0;
+    }
+
+    /**
+     * 96. 不同的二叉搜索树
+     * 给定一个整数 n，求以 1 ... n 为节点组成的二叉搜索树有多少种？
+     * 输入: 3        输出: 5
+     * @param n
+     * @return
+     */
+    public int numTrees(int n) {
+        int[] g = new int[n + 1];
+        g[0] = 1;
+        g[1] = 1;
+        for(int i = 2; i <= n; i++){
+            for(int j = 1; j <= i; j++){
+                g[i] += g[j - 1]*g[i - j];
+            }
+        }
+        return g[n];
     }
 }
