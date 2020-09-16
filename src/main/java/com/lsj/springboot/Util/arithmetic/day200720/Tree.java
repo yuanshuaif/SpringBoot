@@ -39,6 +39,8 @@ import java.util.LinkedList;
  *
  * 106. 从中序与后序遍历序列构造二叉树
  * 深度优先搜索
+ *
+ * 226. 翻转二叉树
  */
 public class Tree {
 
@@ -380,6 +382,43 @@ public class Tree {
         int leftNum = rootIndex - inorderLeft;//左子树的数量
         root.left = buildTree2(postorder, inorder, postorderLeft, postorderLeft + leftNum - 1, inorderLeft, rootIndex - 1);
         root.right = buildTree2(postorder, inorder, postorderLeft + leftNum, postorderRight - 1, rootIndex + 1, inorderRight);
+        return root;
+    }
+
+    /**
+     * 226. 翻转二叉树
+     *            4
+               /   \
+             2     7
+           / \   / \
+         1   3 6   9
+              4
+            /   \
+           7     2
+         / \   / \
+        9   6 3   1
+     * @param root
+     * @return
+     */
+    public TreeNode invertTree(TreeNode root) {
+        // if(root == null || (root.left == null && root.right == null)){
+        //     return root;
+        // }else{
+        //     TreeNode temp = root.left;
+        //     root.left = root.right;
+        //     root.right = temp;
+        //     invertTree(root.left);
+        //     invertTree(root.right);
+        // }
+        // return root;
+
+        if(root == null){
+            return root;
+        }
+        TreeNode left = invertTree(root.left);
+        TreeNode right = invertTree(root.right);
+        root.left = right;
+        root.right = left;
         return root;
     }
 
