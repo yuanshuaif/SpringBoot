@@ -43,6 +43,8 @@ import java.util.LinkedList;
  * 226. 翻转二叉树
  *
  * 617. 合并二叉树
+ *
+ * 404. 左叶子之和
  */
 public class Tree {
 
@@ -461,6 +463,30 @@ public class Tree {
         }
     }
 
+    /**
+     * 404. 左叶子之和
+            3
+           / \
+         9   20
+            /  \
+          15   7
+     在这个二叉树中，有两个左叶子，分别是 9 和 15，所以返回 24
+     * @param root
+     * @return
+     */
+    public int sumOfLeftLeaves(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        int ans = 0;
+        if(root.left != null && root.left.left == null && root.left.right == null){
+            ans += root.left.val;
+        }
+        int leftValue = sumOfLeftLeaves(root.left);
+        int rightValue = sumOfLeftLeaves(root.right);
+        ans += leftValue + rightValue;
+        return ans;
+    }
 
     public static void main(String[] args){
        /* Node a = new Node(1);
