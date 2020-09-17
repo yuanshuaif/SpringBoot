@@ -47,6 +47,8 @@ import java.util.LinkedList;
  * 404. 左叶子之和
  *
  * 257. 二叉树的所有路径
+ *
+ *  94. 二叉树的中序遍历
  */
 public class Tree {
 
@@ -530,6 +532,48 @@ public class Tree {
             sb.delete(sb.length() - 2 - String.valueOf(root.right.val).length(), sb.length());
         }
         return;
+    }
+
+    /**
+     * 94. 二叉树的中序遍历
+     * 给定一个二叉树，返回它的中序 遍历。
+     * 输入: [1,null,2,3]                 输出: [1,3,2]
+             1
+             \
+             2
+             /
+             3
+     * @param root
+     * @return
+     */
+    // 递归
+    // public List<Integer> inorderTraversal(TreeNode root) {
+    //     List<Integer> res = new ArrayList<>();
+    //     inorderTraversal(root, res);
+    //     return res;
+    // }
+    // public void inorderTraversal(TreeNode root, List<Integer> res) {
+    //     if(root == null){
+    //         return;
+    //     }
+    //     inorderTraversal(root.left, res);
+    //     res.add(root.val);
+    //     inorderTraversal(root.right, res);
+    // }
+
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        while(root != null || !stack.isEmpty()){
+            while(root != null){
+                stack.push(root);
+                root = root.left;
+            }
+            TreeNode temp = stack.pop();
+            res.add(temp.val);
+            root = temp.right;
+        }
+        return res;
     }
 
     public static void main(String[] args){
