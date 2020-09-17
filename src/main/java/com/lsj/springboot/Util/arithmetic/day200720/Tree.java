@@ -45,6 +45,8 @@ import java.util.LinkedList;
  * 617. 合并二叉树
  *
  * 404. 左叶子之和
+ *
+ * 257. 二叉树的所有路径
  */
 public class Tree {
 
@@ -486,6 +488,48 @@ public class Tree {
         int rightValue = sumOfLeftLeaves(root.right);
         ans += leftValue + rightValue;
         return ans;
+    }
+
+    /**
+     * 257. 二叉树的所有路径
+     * 给定一个二叉树，返回所有从根节点到叶子节点的路径。说明: 叶子节点是指没有子节点的节点。
+     * 输入:                       输出: ["1->2->5", "1->3"]
+     *    1
+     *  /   \
+     * 2     3
+     *  \
+     *   5
+     * @param root
+     * @return
+     */
+
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> res = new ArrayList<>();
+        if(root == null){
+            return res;
+        }
+        binaryTreePaths(root, res, new StringBuilder());
+        return res;
+    }
+
+    public void binaryTreePaths(TreeNode root, List<String> res, StringBuilder sb) {
+        if(root.left == null && root.right == null){
+            sb.append(root.val);
+            res.add(new StringBuilder(sb).toString());
+            return;
+        }
+        sb.append(root.val);
+        if(root.left != null){
+            sb.append("->");
+            binaryTreePaths(root.left, res, sb);
+            sb.delete(sb.length() - 2 - String.valueOf(root.left.val).length(), sb.length());
+        }
+        if(root.right != null){
+            sb.append("->");
+            binaryTreePaths(root.right, res, sb);
+            sb.delete(sb.length() - 2 - String.valueOf(root.right.val).length(), sb.length());
+        }
+        return;
     }
 
     public static void main(String[] args){
