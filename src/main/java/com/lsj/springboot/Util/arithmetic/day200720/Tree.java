@@ -48,7 +48,9 @@ import java.util.LinkedList;
  *
  * 257. 二叉树的所有路径
  *
- *  94. 二叉树的中序遍历
+ * 94. 二叉树的中序遍历
+ *
+ * 144. 二叉树的前序遍历
  */
 public class Tree {
 
@@ -571,6 +573,43 @@ public class Tree {
             }
             TreeNode temp = stack.pop();
             res.add(temp.val);
+            root = temp.right;
+        }
+        return res;
+    }
+
+    /**
+     *  144. 二叉树的前序遍历
+     *  给定一个二叉树，返回它的前序 遍历。
+     *  输入: [1,null,2,3]                 输出: [1,3,2]
+     * @param root
+     * @return
+     */
+//    public List<Integer> preorderTraversal(TreeNode root) {
+//        List<Integer> res = new ArrayList<>();
+//        preorderTraversal(root, res);
+//        return res;
+//    }
+//
+//    public void preorderTraversal(TreeNode root, List<Integer> res) {
+//        if(root == null){
+//            return;
+//        }
+//        res.add(root.val);
+//        preorderTraversal(root.left, res);
+//        preorderTraversal(root.right, res);
+//    }
+
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        while(root != null || !stack.isEmpty()){
+            while(root != null){
+                res.add(root.val);
+                stack.push(root);
+                root = root.left;
+            }
+            TreeNode temp = stack.pop();
             root = temp.right;
         }
         return res;
