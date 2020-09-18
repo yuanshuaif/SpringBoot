@@ -51,6 +51,9 @@ import java.util.LinkedList;
  * 94. 二叉树的中序遍历
  *
  * 144. 二叉树的前序遍历
+ *
+ * 剑指 Offer 32 - I. 从上到下打印二叉树
+ * 广度优先搜索
  */
 public class Tree {
 
@@ -613,6 +616,45 @@ public class Tree {
             root = temp.right;
         }
         return res;
+    }
+
+    /**
+     * 剑指 Offer 32 - I. 从上到下打印二叉树
+     * 从上到下打印出二叉树的每个节点，同一层的节点按照从左到右的顺序打印。
+     * 给定二叉树: [3,9,20,null,null,15,7],            返回：[3,9,20,15,7]
+     *    3
+         / \
+         9  20
+         /  \
+         15   7
+     * @param root
+     * @return
+     */
+    public int[] levelOrder(TreeNode root) {
+        if(root == null){
+            return new int[0];
+        }
+        List<Integer> temp = new ArrayList<>();
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        while(queue.size() != 0){
+            int size = queue.size();
+            for(int i = 0; i < size; i++){
+                TreeNode tempNode =  queue.poll();
+                temp.add(tempNode.val);
+                if(tempNode.left != null){
+                    queue.offer(tempNode.left);
+                }
+                if(tempNode.right != null){
+                    queue.offer(tempNode.right);
+                }
+            }
+        }
+        int[] ans = new int[temp.size()];
+        for(int i = 0; i < temp.size(); i++){
+            ans[i] = temp.get(i);
+        }
+        return ans;
     }
 
     public static void main(String[] args){
