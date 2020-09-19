@@ -56,6 +56,8 @@ import java.util.LinkedList;
  * 广度优先搜索
  *
  * 114. 二叉树展开为链表
+ *
+ * 剑指 Offer 32 - III. 从上到下打印二叉树 III
  */
 public class Tree {
 
@@ -704,6 +706,43 @@ public class Tree {
             }
             cur = cur.right;
         }
+    }
+
+    /**
+     * 剑指 Offer 32 - III. 从上到下打印二叉树 III
+     * 请实现一个函数按照之字形顺序打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右到左的顺序打印，第三行再按照从左到右的顺序打印，其他行以此类推。
+     * 给定二叉树: [3,9,20,null,null,15,7]           [[3],[20,9],[15,7]]
+     * 给定二叉树: [1,2,3,4,null,null,5]             [[1],[3,2],[4,5]]
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrder2(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if(root == null){
+            return ans;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        while(queue.size() != 0){
+            LinkedList<Integer> temp = new LinkedList<>();
+            int size = queue.size();
+            for(int i = 0; i < size; i++){
+                TreeNode node = queue.poll();
+                if(ans.size() % 2 == 0){// 偶数顺序输出
+                    temp.addLast(node.val);
+                }else{//奇数逆序输出
+                    temp.addFirst(node.val);
+                }
+                if(node.left != null){
+                    queue.offer(node.left);
+                }
+                if(node.right != null){
+                    queue.offer(node.right);
+                }
+            }
+            ans.add(temp);
+        }
+        return ans;
     }
 
     public static void main(String[] args){
