@@ -58,6 +58,8 @@ import java.util.LinkedList;
  * 114. 二叉树展开为链表
  *
  * 剑指 Offer 32 - III. 从上到下打印二叉树 III
+ *
+ * 199. 二叉树的右视图
  */
 public class Tree {
 
@@ -745,6 +747,38 @@ public class Tree {
         return ans;
     }
 
+    /**
+     * 199. 二叉树的右视图
+     * 给定一棵二叉树，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
+     * 输入: [1,2,3,null,5,null,4]    输出: [1, 3, 4]
+     * 输入: [1,2,3,null,5,null,null]    输出: [1, 3, 5]
+     * @param root
+     * @return
+     */
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        if(root == null){
+            return ans;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        while(queue.size() != 0){
+            int size = queue.size();
+            for(int i = 0; i < size; i++){
+                TreeNode node = queue.poll();
+                if(i == size - 1){
+                    ans.add(node.val);
+                }
+                if(node.left != null){
+                    queue.offer(node.left);
+                }
+                if(node.right != null){
+                    queue.offer(node.right);
+                }
+            }
+        }
+        return ans;
+    }
     public static void main(String[] args){
        /* Node a = new Node(1);
         Node b = new Node(2);
