@@ -54,6 +54,8 @@ import java.util.LinkedList;
  *
  * 剑指 Offer 32 - I. 从上到下打印二叉树
  * 广度优先搜索
+ *
+ * 114. 二叉树展开为链表
  */
 public class Tree {
 
@@ -655,6 +657,53 @@ public class Tree {
             ans[i] = temp.get(i);
         }
         return ans;
+    }
+
+    /**
+     * 114. 二叉树展开为链表
+     * 给定一个二叉树，原地将它展开为一个单链表。
+     *    1
+         / \
+         2   5
+         / \   \
+         3   4   6
+     [1,null,2,null,3,null,4,null,5,null,6]
+     * @param root
+     */
+    // public void flatten(TreeNode root) {
+    //     List<TreeNode> temp = new ArrayList<>();
+    //     preorderTraversal(root, temp);
+    //     for(int i = 1; i < temp.size(); i++){
+    //         TreeNode prev = temp.get(i - 1);
+    //         prev.left = null;
+    //         prev.right = temp.get(i);
+    //     }
+    // }
+    //  public void preorderTraversal(TreeNode root, List<TreeNode> temp) {
+    //      if(root != null){
+    //          temp.add(root);
+    //          preorderTraversal(root.left, temp);
+    //          preorderTraversal(root.right, temp);
+    //      }
+    // }
+    // 对于当前节点，如果其左子节点不为空，则在其左子树中找到最右边的节点，作为前驱节点，将当前节点的右子节点赋给前驱节点的右子节点，
+    // 然后将当前节点的左子节点赋给当前节点的右子节点，并将当前节点的左子节点设为空。对当前节点处理结束后，继续处理链表中的下一个节点，
+    // 直到所有节点都处理结束。
+    public void flatten(TreeNode root) {
+        TreeNode cur = root;
+        while(cur != null){
+            if(cur.left != null){
+                TreeNode next = cur.left;
+                TreeNode preorder = next;
+                while(preorder.right != null){
+                    preorder = preorder.right;
+                }
+                preorder.right = cur.right;
+                cur.left = null;
+                cur.right = next;
+            }
+            cur = cur.right;
+        }
     }
 
     public static void main(String[] args){
