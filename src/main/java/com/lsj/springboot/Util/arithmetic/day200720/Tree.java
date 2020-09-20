@@ -60,6 +60,8 @@ import java.util.LinkedList;
  * 剑指 Offer 32 - III. 从上到下打印二叉树 III
  *
  * 199. 二叉树的右视图
+ *
+ * 515. 在每个树行中找最大值
  */
 public class Tree {
 
@@ -779,6 +781,44 @@ public class Tree {
         }
         return ans;
     }
+
+    /**
+     * 515. 在每个树行中找最大值
+     * 您需要在二叉树的每一行中找到最大的值。
+     * 输入:1
+          / \
+         3   2
+        / \   \
+       5   3   9
+     输出: [1, 3, 9]
+     * @param root
+     * @return
+     */
+    public List<Integer> largestValues(TreeNode root) {
+        if(root == null){
+            return new ArrayList<>();
+        }
+        List<Integer> ans = new ArrayList<>();
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        while(queue.size() != 0){
+            int max = Integer.MIN_VALUE;
+            int len = queue.size();
+            for(int i = 0; i < len; i++) {
+                TreeNode cur =  queue.poll();
+                max = Math.max(max, cur.val);
+                if(cur.left != null){
+                    queue.offer(cur.left);
+                }
+                if(cur.right != null){
+                    queue.offer(cur.right);
+                }
+            }
+            ans.add(max);
+        }
+        return ans;
+    }
+
     public static void main(String[] args){
        /* Node a = new Node(1);
         Node b = new Node(2);
