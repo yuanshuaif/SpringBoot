@@ -66,6 +66,8 @@ import java.util.LinkedList;
  * 538. 把二叉搜索树转换为累加树
  *
  * 1038. 从二叉搜索树到更大和树
+ *
+ * 113. 路径总和 II
  */
 public class Tree {
 
@@ -847,6 +849,46 @@ public class Tree {
         root.val = sum;
         convertBST(root.left);
         return root;
+    }
+
+    /**
+     * 113. 路径总和 II
+     * 给定一个二叉树和一个目标和，找到所有从根节点到叶子节点路径总和等于给定目标和的路径。说明: 叶子节点是指没有子节点的节点。
+     * 示例:给定如下二叉树，以及目标和 sum = 22，
+     *            5
+     / \
+     4   8
+     /   / \
+     11  13  4
+     /  \    / \
+     7    2  5   1
+     [[5,4,11,2],[5,8,4,5]]
+     * @param root
+     * @param sum
+     */
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> res = new ArrayList<>();
+        hasPathSum(root, sum, res, new ArrayList<>());
+        return res;
+    }
+
+    public void hasPathSum(TreeNode root, int sum, List<List<Integer>> res, List<Integer> temp) {
+        // 根节点到叶子节点的总和为sum, 下一个子节点到叶子节点的总和 sum - 当前节点的值
+        if(root == null){
+            return;
+        }
+        if(root.left == null && root.right == null){
+            if(sum == root.val){
+                List<Integer> temp0 = new ArrayList<>(temp);
+                temp0.add(root.val);
+                res.add(temp0);
+            }
+            return;
+        }
+        temp.add(root.val);
+        hasPathSum(root.left, sum - root.val, res, temp);
+        hasPathSum(root.right, sum - root.val, res, temp);
+        temp.remove(temp.size() - 1);
     }
 
     public static void main(String[] args){
