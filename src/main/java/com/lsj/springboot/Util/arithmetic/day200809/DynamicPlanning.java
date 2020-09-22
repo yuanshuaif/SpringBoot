@@ -22,6 +22,8 @@ import java.util.Stack;
  *
  *  题目121：买卖股票的最佳时机
  *
+ *  64. 最小路径和
+ *
  *  粉刷房子的问题
  *
  *  题目96:不同的二叉搜索树
@@ -268,6 +270,37 @@ public class DynamicPlanning {
     }
 
     /**
+     * 64. 最小路径和
+     * 给定一个包含非负整数的 m x n 网格，请找出一条从左上角到右下角的路径，使得路径上的数字总和为最小。说明：每次只能向下或者向右移动一步。
+     * 输入:[[1,3,1],[1,5,1],[4,2,1]]     输出: 7        解释: 因为路径 1→3→1→1→1 的总和最小。
+     * @param grid
+     * @return
+     */
+    public int minPathSum(int[][] grid) {
+        if(grid == null || grid[0] == null){
+            return 0;
+        }
+        int row = grid.length;
+        int col = grid[0].length;
+        int[][] dp = new int[row][col];
+        dp[0][0] = grid[0][0];
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                if(i == 0 && j == 0){
+                    continue;
+                }else if(i == 0){
+                    dp[i][j] = dp[i][j - 1] + grid[i][j];
+                }else if(j == 0){
+                    dp[i][j] = dp[i - 1][j] + grid[i][j];
+                }else{
+                    dp[i][j] = Math.min(dp[i][j - 1], dp[i - 1][j]) + grid[i][j];
+                }
+            }
+        }
+        return dp[row - 1][col - 1];
+    }
+
+    /**
      * 粉刷房子的问题
      * 输入: [[17,2,17],[16,16,5],[14,3,19]]     [[3,5,3],[6,17,6],[7,13,18],[9,10,18]]
      * 输出: 10   26
@@ -303,7 +336,7 @@ public class DynamicPlanning {
         g[1] = 1;
         for(int i = 2; i <= n; i++){
             for(int j = 1; j <= i; j++){
-                g[i] += g[j - 1]*g[i - j];
+                g[i] += g[j - 1] * g[i - j];
             }
         }
         return g[n];
