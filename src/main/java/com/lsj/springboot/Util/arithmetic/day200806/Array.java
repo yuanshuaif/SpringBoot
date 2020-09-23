@@ -19,19 +19,21 @@ import java.util.*;
  *
  * 剑指 Offer 53 - II. 0～n-1中缺失的数字
  *
- * 题目34：在排序数组中查找元素的第一个和最后一个位置（Offer 53 - I）
+ * 题目34:在排序数组中查找元素的第一个和最后一个位置（Offer 53 - I）
  *
- * 题目189：旋转数组
+ * 题目189:旋转数组
  *
- * 题目1099：小于 K 的两数之和
+ * 题目1099:小于 K 的两数之和
  *
- * 905：按奇偶排序数组
+ * 题目905：按奇偶排序数组
  *
- * 1287. 有序数组中出现次数超过25%的元素
+ * 题目1287:有序数组中出现次数超过25%的元素
  *
- * 1528. 重新排列字符串
+ * 题目1528:重新排列字符串
  *
- * 561. 数组拆分 I
+ * 题目561:数组拆分 I
+ *
+ * 题目941:有效的山脉数组
  */
 public class Array {
 
@@ -531,6 +533,35 @@ public class Array {
             ans += nums[i];
         }
         return ans;
+    }
+
+    /**
+     * 941. 有效的山脉数组
+     * 给定一个整数数组 A，如果它是有效的山脉数组就返回 true，否则返回 false。让我们回顾一下，如果 A 满足下述条件，那么它是一个山脉数组：
+     * A.length >= 3    在 0 < i < A.length - 1 条件下，存在 i 使得： A[0] < A[1] < ... A[i-1] < A[i]     A[i] > A[i+1] > ... > A[A.length - 1]
+     * @param A
+     * @return
+     */
+    public boolean validMountainArray(int[] A) {
+        if(A == null || A.length < 3){
+            return false;
+        }
+        int peekIndex = 0;
+        for(int i = 1; i < A.length - 1; i++){
+            if(peekIndex == 0){
+                if(A[i] <= A[i - 1]){// 山峰之前递增
+                    return false;
+                }
+                if(A[i] > A[i - 1] && A[i] > A[i + 1]){// 山峰的位置
+                    peekIndex = i;
+                }
+            }else{
+                if(A[i] >= A[i - 1]){// 山峰之前递减
+                    return false;
+                }
+            }
+        }
+        return peekIndex != 0 && A[A.length - 1] < A[A.length - 2];
     }
 
     public static void main(String[] args){
