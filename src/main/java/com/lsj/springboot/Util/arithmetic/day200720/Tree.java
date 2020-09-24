@@ -68,6 +68,8 @@ import java.util.LinkedList;
  * 1038. 从二叉搜索树到更大和树
  *
  * 113. 路径总和 II
+ *
+ * 145. 二叉树的后序遍历
  */
 public class Tree {
 
@@ -890,6 +892,29 @@ public class Tree {
         hasPathSum(root.right, sum - root.val, res, temp);
         temp.remove(temp.size() - 1);
     }
+
+    /**
+     * 145. 二叉树的后序遍历
+     * 给定一个二叉树，返回它的 后序 遍历。
+     * 输入: [1,null,2,3]                 输出: [3,2,1]
+     * @param root
+     * @return
+     */
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        postorderTraversal(root, res);
+        return res;
+    }
+
+    public void postorderTraversal(TreeNode root, List<Integer> res) {
+        if(root == null){
+            return;
+        }
+        postorderTraversal(root.left, res);
+        postorderTraversal(root.right, res);
+        res.add(root.val);
+    }
+
 
     public static void main(String[] args){
        /* Node a = new Node(1);
