@@ -1,6 +1,10 @@
 package com.lsj.springboot.Util.arithmetic.day200809;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 /**
  * Created by 10326 on 2020/8/9.
@@ -28,26 +32,11 @@ import java.util.Stack;
  *
  *  题目96:不同的二叉搜索树
  *
+ *  120. 三角形最小路径和
+ *
  */
 public class DynamicPlanning {
 
-    public static void main(String[] args){
-        int[][] costs = new int[3][3];
-        costs[0][0] = 17;
-        costs[0][1] = 2;
-        costs[0][2] = 17;
-
-        costs[1][0] = 16;
-        costs[1][1] = 16;
-        costs[1][2] = 5;
-
-        costs[2][0] = 14;
-        costs[2][1] = 3;
-        costs[2][2] = 19;
-//         [[3,5,3],[6,17,6],[7,13,18],[9,10,18]]
-
-        System.out.println(minCost(costs));
-    }
     /**
      * 题目5：最长回文子串
      * 给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000
@@ -340,5 +329,71 @@ public class DynamicPlanning {
             }
         }
         return g[n];
+    }
+
+    /**
+     * 120. 三角形最小路径和
+     * 给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。
+     * 相邻的结点 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。
+     * 例如，给定三角形：
+     * [     [2],
+     *     [3,4],
+     *    [6,5,7],
+     *   [4,1,8,3]
+     * ]
+     * 自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）
+     * 如果你可以只使用 O(n) 的额外空间（n 为三角形的总行数）来解决这个问题，那么你的算法会很加分。
+     * @param triangle
+     * @return
+     */
+    public static int minimumTotal(List<List<Integer>> triangle) {
+        if(triangle == null || triangle.size() == 0 || triangle.get(0) == null || triangle.get(0).size() == 0){
+            return 0;
+        }
+        for(int i = 1; i < triangle.size(); i++){
+            for(int j = 0; j < triangle.get(i).size(); j++){
+                if(j == 0){
+                    triangle.get(i).set(j, triangle.get(i).get(j) + triangle.get(i - 1).get(j));
+                }else if(j == triangle.get(i).size() - 1){
+                    triangle.get(i).set(j, triangle.get(i).get(j) + triangle.get(i - 1).get(j - 1));
+                }else{
+                    triangle.get(i).set(j, triangle.get(i).get(j) +
+                            Math.min(triangle.get(i - 1).get(j - 1), triangle.get(i - 1).get(j)));
+                }
+            }
+        }
+
+        if(triangle.size() > 0){
+            int min = Integer.MAX_VALUE;
+            for(int i = 0; i < triangle.get(triangle.size() - 1).size(); i++){
+                min = Math.min(min, triangle.get(triangle.size() - 1).get(i));
+            }
+            return min;
+        }else{
+            return triangle.get(0).get(0);
+        }
+    }
+
+    public static void main(String[] args){
+        /*int[][] costs = new int[3][3];
+        costs[0][0] = 17;
+        costs[0][1] = 2;
+        costs[0][2] = 17;
+
+        costs[1][0] = 16;
+        costs[1][1] = 16;
+        costs[1][2] = 5;
+
+        costs[2][0] = 14;
+        costs[2][1] = 3;
+        costs[2][2] = 19;
+//         [[3,5,3],[6,17,6],[7,13,18],[9,10,18]]
+        System.out.println(minCost(costs));*/
+        List<Integer> param1 = new ArrayList(){{add(2);}};
+        List<Integer> param2 = new ArrayList(){{add(3);add(4);}};
+        List<Integer> param3 = new ArrayList(){{add(6);add(5);add(7);}};
+        List<Integer> param4 = new ArrayList(){{add(4);add(1);add(8);add(3);}};
+        List<List<Integer>> params = new ArrayList(){{add(param1);add(param2);add(param3);add(param4);}};
+        System.out.println(minimumTotal(params));
     }
 }
