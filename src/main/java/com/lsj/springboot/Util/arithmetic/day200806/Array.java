@@ -40,6 +40,8 @@ import java.util.*;
  * 题目48:旋转图像
  *
  * 题目442:数组中重复的数据
+ *
+ * 题目119:杨辉三角 II
  */
 public class Array {
 
@@ -661,6 +663,31 @@ public class Array {
                 res.add(Math.abs(nums[i]));
             }
             nums[temp] = -nums[temp];
+        }
+        return res;
+    }
+
+    /**
+     * 119. 杨辉三角 II
+     * 输入: 3    输出: [1,3,3,1]
+     * 公式法：numVal = (n - i) / i * res.get(i - 1)
+     * @param rowIndex
+     * @return
+     */
+    public List<Integer> getRow(int rowIndex) {
+        List<Integer> pre = new ArrayList<>();
+        List<Integer> res = new ArrayList<>();
+        for(int i = 0; i <= rowIndex; i++){
+            res = new ArrayList<>();
+            for(int j = 0; j <= i; j++){
+                if(j == 0 || j == i){
+                    res.add(1);
+                }else{
+                    res.add(pre.get(j) + pre.get(j - 1));
+                }
+
+            }
+            pre = res;
         }
         return res;
     }
