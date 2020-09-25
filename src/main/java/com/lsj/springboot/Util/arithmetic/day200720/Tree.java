@@ -70,6 +70,8 @@ import java.util.LinkedList;
  * 113. 路径总和 II
  *
  * 145. 二叉树的后序遍历
+ *
+ * 1469. 寻找所有的独生节点
  */
 public class Tree {
 
@@ -915,6 +917,34 @@ public class Tree {
         res.add(root.val);
     }
 
+    /**
+     * 1469. 寻找所有的独生节点
+     * 二叉树中，如果一个节点是其父节点的唯一子节点，则称这样的节点为 “独生节点” 。二叉树的根节点不会是独生节点，因为它没有父节点。
+     * 给定一棵二叉树的根节点 root ，返回树中 所有的独生节点的值所构成的数组 。数组的顺序 不限 。
+     * 输入：root = [1,2,3,null,4] 输出：[4]
+     * 解释：浅蓝色的节点是唯一的独生节点。   节点 1 是根节点，不是独生的。    节点 2 和 3 有共同的父节点，所以它们都不是独生的。
+     * @param root
+     * @return
+     */
+    public List<Integer> getLonelyNodes(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        getLonelyNodes(root, res);
+        return res;
+    }
+    public void getLonelyNodes(TreeNode root, List<Integer> res) {
+        if(root == null || (root.left == null && root.right == null)){
+            return;
+        }else if(root.left == null && root.right != null){
+            res.add(root.right.val);
+            getLonelyNodes(root.right, res);
+        }else if(root.left != null && root.right == null){
+            res.add(root.left.val);
+            getLonelyNodes(root.left, res);
+        }else{
+            getLonelyNodes(root.right, res);
+            getLonelyNodes(root.left, res);
+        }
+    }
 
     public static void main(String[] args){
        /* Node a = new Node(1);
