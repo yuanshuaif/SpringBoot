@@ -38,6 +38,8 @@ import java.util.*;
  * 题目118:杨辉三角
  *
  * 题目48:旋转图像
+ *
+ * 题目442:数组中重复的数据
  */
 public class Array {
 
@@ -652,8 +654,15 @@ public class Array {
      * @return
      */
     public List<Integer> findDuplicates(int[] nums) {
-
-        return null;
+        List<Integer> res = new ArrayList<>();
+        for(int i = 0; i < nums.length; i++){
+            int temp = Math.abs(nums[i]) - 1;
+            if(nums[temp] < 0){
+                res.add(Math.abs(nums[i]));
+            }
+            nums[temp] = -nums[temp];
+        }
+        return res;
     }
 
     public static void main(String[] args){
