@@ -6,6 +6,8 @@ import java.util.Arrays;
  * 判断一个数是否是质数
  *
  *  169. 多数元素
+ *
+ *  1281. 整数的各位积和之差
  */
 public class Maths {
 
@@ -40,6 +42,24 @@ public class Maths {
     public int majorityElement(int[] nums) {
         Arrays.sort(nums);
         return nums[nums.length / 2];
+    }
+
+    /**
+     * 1281. 整数的各位积和之差
+     * 给你一个整数 n，请你帮忙计算并返回该整数「各位数字之积」与「各位数字之和」的差。
+     * 输入：n = 234       输出：15       解释：各位数之积 = 2 * 3 * 4 = 24   各位数之和 = 2 + 3 + 4 = 9   结果 = 24 - 9 = 15
+     * @param n
+     * @return
+     */
+    public int subtractProductAndSum(int n) {
+        int multiply = 1;
+        int sum = 0;
+        while(n != 0){
+            multiply *= n % 10;
+            sum += n % 10;
+            n /= 10;
+        }
+        return multiply - sum;
     }
 
 }
