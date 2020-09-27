@@ -36,6 +36,8 @@ import java.util.stream.Collectors;
  *
  *  62. 不同路径
  *
+ *  300. 最长上升子序列
+ *
  */
 public class DynamicPlanning {
 
@@ -407,6 +409,36 @@ public class DynamicPlanning {
         return dp[m - 1][n - 1];
     }
 
+    /**
+     * 300. 最长上升子序列
+     * 给定一个无序的整数数组，找到其中最长上升子序列的长度。
+     * 输入: [10,9,2,5,3,7,101,18]    输出: 4   解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。
+     * 可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。你算法的时间复杂度应该为 O(n2) 。
+     * 进阶: 你能将算法的时间复杂度降低到 O(n log n) 吗?
+     * @param nums
+     * @return
+     */
+    public static int lengthOfLIS(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return 0;
+        }
+        int[] dp = new int[nums.length];// 记录每个点的最长上升子序列
+        dp[0] = 1;
+        int ans = dp[0];
+        for(int i = 1; i < nums.length; i++){
+            int maxValue = 0;// 记录max(dp[0…i−1])
+            for(int j = 0; j < i; j++){
+                if(nums[i] > nums[j]){
+                    maxValue = Math.max(maxValue, dp[j]);
+                }
+            }
+            dp[i] = maxValue + 1;// dp[i]被选取
+            // dp[i] = max(dp[0…i−1]) + 1
+            ans = Math.max(ans, dp[i]);
+        }
+        return ans;
+    }
+
     public static void main(String[] args){
         /*int[][] costs = new int[3][3];
         costs[0][0] = 17;
@@ -422,11 +454,12 @@ public class DynamicPlanning {
         costs[2][2] = 19;
 //         [[3,5,3],[6,17,6],[7,13,18],[9,10,18]]
         System.out.println(minCost(costs));*/
-        List<Integer> param1 = new ArrayList(){{add(2);}};
+       /* List<Integer> param1 = new ArrayList(){{add(2);}};
         List<Integer> param2 = new ArrayList(){{add(3);add(4);}};
         List<Integer> param3 = new ArrayList(){{add(6);add(5);add(7);}};
         List<Integer> param4 = new ArrayList(){{add(4);add(1);add(8);add(3);}};
         List<List<Integer>> params = new ArrayList(){{add(param1);add(param2);add(param3);add(param4);}};
-        System.out.println(minimumTotal(params));
+        System.out.println(minimumTotal(params));*/
+        System.out.println(lengthOfLIS(new int[]{10,9,2,5,3,7,101,18}));
     }
 }
