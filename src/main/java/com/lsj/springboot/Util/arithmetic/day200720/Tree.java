@@ -77,6 +77,9 @@ import java.util.LinkedList;
  * 剑指 Offer 68 - I. 二叉搜索树的最近公共祖先
  *
  * 653. 两数之和 IV - 输入 BST
+ *
+ * 530. 二叉搜索树的最小绝对差
+ * 783. 二叉搜索树节点最小距离
  */
 public class Tree {
 
@@ -1013,7 +1016,7 @@ public class Tree {
         6.重复步骤一至三，直到左指针 l 大于右指针 r。
         7.如果左指针 l 到右指针 r 的右边，则返回 False。*/
         List<Integer> list = new ArrayList<>();
-        findTarget(root, list);
+        inorderTraversal(root, list);
         int left = 0;
         int right = list.size() - 1;
         while(left < right){
@@ -1028,12 +1031,37 @@ public class Tree {
         return false;
     }
 
-    public void findTarget(TreeNode root, List<Integer> list){
+    public void inorderTraversal(TreeNode root, List<Integer> list){
         if(root != null){
-            findTarget(root.left, list);
+            inorderTraversal(root.left, list);
             list.add(root.val);
-            findTarget(root.right, list);
+            inorderTraversal(root.right, list);
         }
+    }
+
+    /**
+     * 530. 二叉搜索树的最小绝对差
+     * 783. 二叉搜索树节点最小距离
+     * 给你一棵所有节点为非负值的二叉搜索树，请你计算树中任意两节点的差的绝对值的最小值。
+     * 输入：    输出：1     解释：最小绝对差为 1，其中 2 和 1 的差的绝对值为 1（或者 2 和 3）。
+     *    1
+     *     \
+     *      3
+     *     /
+     *    2
+     * @param root
+     * @return
+     */
+    public int getMinimumDifference(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        inorderTraversal(root, list);
+        int pre = list.get(0);
+        int min = Integer.MAX_VALUE;
+        for(int i = 1; i < list.size(); i++){
+            min = Math.min(min, list.get(i) - pre);
+            pre = list.get(i);
+        }
+        return min;
     }
 
     public static void main(String[] args){
