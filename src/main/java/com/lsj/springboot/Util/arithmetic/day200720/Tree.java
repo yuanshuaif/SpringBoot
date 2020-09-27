@@ -75,6 +75,8 @@ import java.util.LinkedList;
  *
  * 235. 二叉搜索树的最近公共祖先
  * 剑指 Offer 68 - I. 二叉搜索树的最近公共祖先
+ *
+ * 653. 两数之和 IV - 输入 BST
  */
 public class Tree {
 
@@ -979,6 +981,59 @@ public class Tree {
             }
         }
         return root;
+    }
+
+    /**
+     * 653. 两数之和 IV - 输入 BST
+     * 给定一个二叉搜索树和一个目标结果，如果 BST 中存在两个元素且它们的和等于给定的目标结果，则返回 true。
+     * 输入:              Target = 9               输出: True
+     *     5
+     *    / \
+     *   3   6
+     *  / \   \
+     * 2   4   7
+     *
+     * 输入:              Target = 28              输出: False
+     *     5
+     *    / \
+     *   3   6
+     *  / \   \
+     * 2   4   7
+     * @param root
+     * @param k
+     * @return
+     */
+    public boolean findTarget(TreeNode root, int k) {
+      /* 核心算法
+        1.在本方法中利用 BST 的性质，BST 的中序遍历结果是按升序排列的。因此，中序遍历给定的 BST，并将遍历结果存储到 list 中。
+        2.遍历完成后，使用两个指针 l 和 r 作为 list 的头部索引和尾部索引。然后执行以下操作：
+        3.检查 l 和 r 索引处两元素之和是否等于 k。如果是，立即返回 True。
+        4.如果当前两元素之和小于 k，则更新 l 指向下一个元素。这是因为当我们需要增大两数之和时，应该增大较小数。
+        5.如果当前两元素之和大于 k，则更新 r 指向上一个元素。这是因为当我们需要减小两数之和时，应该减小较大数。
+        6.重复步骤一至三，直到左指针 l 大于右指针 r。
+        7.如果左指针 l 到右指针 r 的右边，则返回 False。*/
+        List<Integer> list = new ArrayList<>();
+        findTarget(root, list);
+        int left = 0;
+        int right = list.size() - 1;
+        while(left < right){
+            if(list.get(left) + list.get(right) == k){
+                return true;
+            }else if(list.get(left) + list.get(right) > k){
+                right--;
+            }else if(list.get(left) + list.get(right) < k){
+                left++;
+            }
+        }
+        return false;
+    }
+
+    public void findTarget(TreeNode root, List<Integer> list){
+        if(root != null){
+            findTarget(root.left, list);
+            list.add(root.val);
+            findTarget(root.right, list);
+        }
     }
 
     public static void main(String[] args){
