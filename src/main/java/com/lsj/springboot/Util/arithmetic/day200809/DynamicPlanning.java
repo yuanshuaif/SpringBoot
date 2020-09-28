@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  *
  *  64. 最小路径和
  *
- *  粉刷房子的问题
+ *  256.粉刷房子
  *
  *  题目96:不同的二叉搜索树
  *
@@ -381,25 +381,23 @@ public class DynamicPlanning {
     }
 
     /**
-     * 粉刷房子的问题
-     * 输入: [[17,2,17],[16,16,5],[14,3,19]]     [[3,5,3],[6,17,6],[7,13,18],[9,10,18]]
-     * 输出: 10   26
-     * 解释: 将 0 号房子粉刷成蓝色，1 号房子粉刷成绿色，2 号房子粉刷成蓝色。最少花费: 2 + 5 + 3 = 10。(红蓝绿)
-     * 注：红蓝绿不能连续出现
+     * 256.粉刷房子
+     * [[17,2,17],
+     * [16,16,5],
+     * [14,3,19]]
+     * 输出: 10
+     * 解释: 将 0 号房子粉刷成蓝色，1 号房子粉刷成绿色，2 号房子粉刷成蓝色。最少花费: 2 + 5 + 3 = 10。(红蓝绿)注：红蓝绿不能连续出现
+     *
+     * [[3,5,3],
+     *  [6,17,6],
+     *  [7,13,18],
+     *  [9,10,18]]
+     * 输出: 26
      * @param costs
      * @return
      */
     public static int minCost(int[][] costs) {
-//        int min = 0;
-//        if(costs.length == 0) return min;
-//        for(int i = 0; i < costs.length; i++){
-//            int minTemp = costs[i].length == 0 ? 0 : costs[i][0];
-//            for(int j = 0; j < costs[i].length; j++){
-//                minTemp = Math.min(minTemp, costs[i][j]);
-//            }
-//            min += minTemp;
-//        }
-//        return min;
+
         return 0;
     }
 
