@@ -28,6 +28,8 @@ import java.util.stream.Collectors;
  *
  * 题目309:最佳买卖股票时机含冷冻期
  *
+ * 714. 买卖股票的最佳时机含手续费
+ *
  *  64. 最小路径和
  *
  *  粉刷房子的问题
@@ -236,6 +238,7 @@ public class DynamicPlanning {
 
     /**
      * 121. 买卖股票的最佳时机
+     * 剑指 Offer 63. 股票的最大利润
      * 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
      * 如果你最多只允许完成一笔交易（即买入和卖出一支股票一次），设计一个算法来计算你所能获取的最大利润。注意：你不能在买入股票前卖出股票。
      * 输入: [7,1,5,3,6,4]            输出: 5
@@ -310,6 +313,39 @@ public class DynamicPlanning {
             dp[i][2] = Math.max(dp[i - 1][1], dp[i - 1][2]);
         }
         return Math.max(dp[prices.length - 1][1], dp[prices.length - 1][2]);
+    }
+
+    /**
+     * 714. 买卖股票的最佳时机含手续费
+     * 给定一个整数数组 prices，其中第 i 个元素代表了第 i 天的股票价格 ；非负整数 fee 代表了交易股票的手续费用。
+     * 你可以无限次地完成交易，但是你每笔交易都需要付手续费。如果你已经购买了一个股票，在卖出它之前你就不能再继续购买股票了。返回获得利润的最大值。
+     * 注意：这里的一笔交易指买入持有并卖出股票的整个过程，每笔交易你只需要为支付一次手续费。
+     * 输入: prices = [1, 3, 2, 8, 3, 9], fee = 2         输出: 9
+     * 解释: 能够达到的最大利润: 在此处买入 prices[0] = 1;在此处卖出 prices[3] = 8;在此处买入 prices[4] = 3;在此处卖出 prices[5] = 9
+     * 总利润: ((8 - 1) - 2) + ((9 - 3) - 2) = 9.
+     * @param prices
+     * @param fee
+     * @return
+     */
+
+    /*我们维护两个变量cash 和 hold，前者表示当我们不持有股票时的最大利润，后者表示当我们持有股票时的最大利润。
+    在第 i 天时，我们需要根据第 i−1 天的状态来更新 cash 和 hold 的值。对于 cash，我们可以保持不变，或者将手上的股票卖出，状态转移方程为
+            cash = max(cash, hold + prices[i] - fee)
+    对于hold，我们可以保持不变，或者买入这一天的股票，状态转移方程为
+            hold = max(hold, cash - prices[i])*/
+    public int maxProfit3(int[] prices, int fee) {
+        if(prices == null || prices.length < 2){
+            return 0;
+        }
+        int cash = 0;
+        int hold = -prices[0];
+        for(int i = 1; i < prices.length; i++){
+            int cash0 = Math.max(cash, hold + prices[i] - fee);
+            int hold0 = Math.max(hold, cash - prices[i]);
+            cash= cash0;
+            hold = hold0;
+        }
+        return Math.max(cash, hold);
     }
 
 
