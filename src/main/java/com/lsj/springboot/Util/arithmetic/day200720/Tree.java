@@ -80,6 +80,8 @@ import java.util.LinkedList;
  *
  * 530. 二叉搜索树的最小绝对差
  * 783. 二叉搜索树节点最小距离
+ *
+ *  701. 二叉搜索树中的插入操作
  */
 public class Tree {
 
@@ -1062,6 +1064,44 @@ public class Tree {
             pre = list.get(i);
         }
         return min;
+    }
+
+    /**
+     * 701. 二叉搜索树中的插入操作
+     * 给定二叉搜索树（BST）的根节点和要插入树中的值，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。
+     * 输入数据保证：1.新值和原始二叉搜索树中的任意节点值都不同；2.每个节点都有一个唯一整数值
+     * 注意，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回任意有效的结果。
+     * 给定二叉搜索树:    和 插入的值: 5
+     *         4
+     *        / \
+     *       2   7
+     *      / \
+     *     1   3
+     * 你可以返回这个二叉搜索树:
+     *          4
+     *        /   \
+     *       2     7
+     *      / \   /
+     *     1   3 5
+     * @param root
+     * @param val
+     * @return
+     */
+
+   /* 思路与算法：
+    首先回顾二叉搜索树的性质：对于任意节点root 而言，左子树（如果存在）上所有节点的值均小于root.val，右子树（如果存在）上所有节点的值均大于root.val，且它们都是二叉搜索树。
+    因此，当将val 插入到以root 为根的子树上时，根据val 与 root.val 的大小关系，就可以确定要将 val 插入到哪个子树中。
+    如果该子树不为空，则问题转化成了将val 插入到对应子树上。否则，在此处新建一个以val 为值的节点，并链接到其父节点root 上。*/
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        if(root == null){
+            TreeNode newNode = new TreeNode(val);
+            return newNode;
+        }else if(root.val > val){
+            root.left = insertIntoBST(root.left, val);
+        }else if(root.val < val){
+            root.right = insertIntoBST(root.right, val);
+        }
+        return root;
     }
 
     public static void main(String[] args){
