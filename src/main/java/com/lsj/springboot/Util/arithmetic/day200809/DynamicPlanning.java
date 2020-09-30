@@ -382,23 +382,44 @@ public class DynamicPlanning {
 
     /**
      * 256.粉刷房子
+     * 假如有一排房子，共 n 个，每个房子可以被粉刷成红色、蓝色或者绿色这三种颜色中的一种，你需要粉刷所有的房子并且使其相邻的两个房子颜色不能相同。
+     * 当然，因为市场上不同颜色油漆的价格不同，所以房子粉刷成不同颜色的花费成本也是不同的。每个房子粉刷成不同颜色的花费是以一个 n x 3 的矩阵来表示的。
+     * 例如，costs[0][0] 表示第 0 号房子粉刷成红色的成本花费；costs[1][2] 表示第 1 号房子粉刷成绿色的花费，以此类推。请你计算出粉刷完所有房子最少的花费成本。注意：所有花费均为正整数。
      * [[17,2,17],
      * [16,16,5],
      * [14,3,19]]
      * 输出: 10
      * 解释: 将 0 号房子粉刷成蓝色，1 号房子粉刷成绿色，2 号房子粉刷成蓝色。最少花费: 2 + 5 + 3 = 10。(红蓝绿)注：红蓝绿不能连续出现
-     *
-     * [[3,5,3],
-     *  [6,17,6],
-     *  [7,13,18],
-     *  [9,10,18]]
-     * 输出: 26
      * @param costs
      * @return
      */
     public static int minCost(int[][] costs) {
-
-        return 0;
+        if(costs == null || costs.length == 0 || costs[0] == null || costs[0].length == 0){
+            return 0;
+        }
+        int[][] dp = new int[costs.length][costs[0].length];
+        for(int i = 0; i < costs.length; i++){
+            if(i == 0){
+                for(int j = 0; j < costs[0].length; j++){
+                    dp[0][j] = costs[0][j];
+                }
+            }else{
+                for(int j = 0; j < costs[i].length; j++){
+                    int minValue = Integer.MAX_VALUE;
+                    for(int k = 0; k < costs[i].length; k++){
+                        if(k != j) {
+                            minValue = Math.min(costs[i][j] + dp[i - 1][k], minValue);
+                        }
+                    }
+                    dp[i][j] = minValue;
+                }
+            }
+        }
+        int res = Integer.MAX_VALUE;
+        for(int i = 0; i < costs[0].length; i++){
+            res = Math.min(res, dp[costs.length - 1][i]);
+        }
+        return res;
     }
 
     /**
@@ -525,7 +546,7 @@ public class DynamicPlanning {
     }
 
     public static void main(String[] args){
-        /*int[][] costs = new int[3][3];
+        int[][] costs = new int[3][3];
         costs[0][0] = 17;
         costs[0][1] = 2;
         costs[0][2] = 17;
@@ -537,14 +558,13 @@ public class DynamicPlanning {
         costs[2][0] = 14;
         costs[2][1] = 3;
         costs[2][2] = 19;
-//         [[3,5,3],[6,17,6],[7,13,18],[9,10,18]]
-        System.out.println(minCost(costs));*/
+        System.out.println(minCost(costs));
        /* List<Integer> param1 = new ArrayList(){{add(2);}};
         List<Integer> param2 = new ArrayList(){{add(3);add(4);}};
         List<Integer> param3 = new ArrayList(){{add(6);add(5);add(7);}};
         List<Integer> param4 = new ArrayList(){{add(4);add(1);add(8);add(3);}};
         List<List<Integer>> params = new ArrayList(){{add(param1);add(param2);add(param3);add(param4);}};
         System.out.println(minimumTotal(params));*/
-        System.out.println(lengthOfLIS(new int[]{10,9,2,5,3,7,101,18}));
+//        System.out.println(lengthOfLIS(new int[]{10,9,2,5,3,7,101,18}));
     }
 }
