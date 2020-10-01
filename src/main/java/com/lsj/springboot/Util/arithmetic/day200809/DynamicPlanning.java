@@ -43,6 +43,8 @@ import java.util.stream.Collectors;
  *  198. 打家劫舍
  *
  * 300. 最长上升子序列
+ *
+ * LCP 19. 秋叶收藏集
  */
 public class DynamicPlanning {
 
@@ -570,6 +572,58 @@ public class DynamicPlanning {
             ans = Math.max(ans, dp[i]);
         }
         return ans;
+    }
+
+    /**
+     * LCP 19. 秋叶收藏集
+     * 小扣出去秋游，途中收集了一些红叶和黄叶，他利用这些叶子初步整理了一份秋叶收藏集 leaves， 字符串 leaves 仅包含小写字符 r 和 y，
+     * 其中字符 r 表示一片红叶，字符 y 表示一片黄叶。出于美观整齐的考虑，小扣想要将收藏集中树叶的排列调整成「红、黄、红」三部分。
+     * 每部分树叶数量可以不相等，但均需大于等于 1。每次调整操作，小扣可以将一片红叶替换成黄叶或者将一片黄叶替换成红叶。
+     * 请问小扣最少需要多少次调整操作才能将秋叶收藏集调整完毕。 leaves 中只包含字符 'r' 和字符 'y'
+     * 输入：leaves = "rrryyyrryyyrr"      输出：2        解释：调整两次，将中间的两片红叶替换成黄叶，得到 "rrryyyyyyyyrr"
+     * 输入：leaves = "ryr"                输出：0        解释：已符合要求，不需要额外操作
+     * @param leaves
+     * @return
+     */
+    /*由于我们想要将收藏集中树叶的排列调整成「红、黄、红」三部分，因此我们可以用 3 个状态分别表示其中的每一部分，即状态 0 和状态 2 分别表示前面和后面的红色部分，状态 1 表示黄色部分。
+    此时，我们就可以尝试使用动态规划解决本题了。我们用 f[i][j] 表示对于第 0 片到第 i 片叶子（记为 leaves[0..i]）进行调整操作，并且第 i 片叶子处于状态 j 时的最小操作次数。在推导状态转移方程时，我们可以分别对于每一种状态进行分析。
+    当 j=0时，我们需要将第 i 片叶子变成红色，并且第 i-1 片叶子也只能处于 j=0的状态（因为没有编号更小的状态了），因此有状态转移方程：
+    f[i][0]=f[i−1][0]+isYellow(i)
+    当 j=1 时，我们需要将第 i 片叶子变成黄色，而第 i-1 片叶子既可以处于 j=1 的状态，也可以处于 j=0 的状态，我们选择其中的较小值，因此有状态转移方程：
+    f[i][1]=min{f[i−1][0],f[i−1][1]}+isRed(i)
+    当 j=2 时，我们需要将第 i 片叶子变成红色，而第 i-1 片叶子即可以处于 j=2 的状态，也可以处于 j=1 的状态（注意这里不能处于 j=0 的状态，因为每一种状态包含的叶子数量必须至少为 1），我们选择其中的较小值，因此有状态转移方程：
+    f[i][2]=min{f[i−1][1],f[i−1][2]}+isYellow(i)
+    最终的答案即为 f[n−1][2]，其中 nn 是字符串leaves 的长度，也就是树叶的总数。*/
+    public int minimumOperations(String leaves) {
+        int n = leaves.length();
+        // 3个状态：黄色前的红色；黄色；黄色后的红色
+        // int[][] dp = new int[n][3];
+        // dp[0][0] = leaves.charAt(0) == 'y' ? 1 : 0;
+        // dp[0][1] = dp[0][2] = dp[1][2] = Integer.MAX_VALUE;
+        int redBefore = leaves.charAt(0) == 'y' ? 1 : 0;
+        int yellow = Integer.MAX_VALUE;
+        int redAfter = Integer.MAX_VALUE;
+        for(int i = 1; i < n; i++){
+            int isYellow = leaves.charAt(i) == 'y' ? 1 : 0;
+            int isRed = leaves.charAt(i) == 'r' ? 1 : 0;
+            // dp[i][0] = dp[i - 1][0] + isYellow;
+            // dp[i][1] = Math.min(dp[i - 1][0], dp[i - 1][1]) + isRed;
+            // if(i >= 2){
+            //     dp[i][2] = Math.min(dp[i - 1][1], dp[i - 1][2]) + isYellow;
+            // }
+            int redBeforeTemp = redBefore + isYellow;
+            int yellowTemp = Math.min(redBefore, yellow) + isRed;
+            int redAfterTemp;
+            if(i >= 2){
+                redAfterTemp = Math.min(yellow, redAfter) + isYellow;
+            }else{
+                redAfterTemp = redAfter;
+            }
+            redBefore = redBeforeTemp;
+            yellow = yellowTemp;
+            redAfter = redAfterTemp;
+        }
+        return redAfter;
     }
 
     public static void main(String[] args){
