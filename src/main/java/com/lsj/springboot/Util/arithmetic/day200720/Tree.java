@@ -72,6 +72,16 @@ import java.util.LinkedList;
  * 145. 二叉树的后序遍历
  *
  * 1469. 寻找所有的独生节点
+ *
+ * 235. 二叉搜索树的最近公共祖先
+ * 剑指 Offer 68 - I. 二叉搜索树的最近公共祖先
+ *
+ * 653. 两数之和 IV - 输入 BST
+ *
+ * 530. 二叉搜索树的最小绝对差
+ * 783. 二叉搜索树节点最小距离
+ *
+ *  701. 二叉搜索树中的插入操作
  */
 public class Tree {
 
@@ -946,6 +956,154 @@ public class Tree {
         }
     }
 
+    /**
+     * 235. 二叉搜索树的最近公共祖先
+     * 剑指 Offer 68 - I. 二叉搜索树的最近公共祖先
+     * 给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
+     * 最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+     * 例如，给定如下二叉搜索树: [6,2,8,0,4,7,9,null,null,3,5,null,null,null,null]
+     * 输入:p = 2, q = 8   输出: 6   解释: 节点 2 和节点 8 的最近公共祖先是 6。
+     * 输入:p = 2, q = 4   输出: 2   解释: 节点 2 和节点 4 的最近公共祖先是 2, 因为根据定义最近公共祖先节点可以为节点本身。
+     * 注：1.所有节点的值都是唯一的。2.p、q 为不同节点且均存在于给定的二叉搜索树中。
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+       /* 核心算法
+        1.我们从根节点开始遍历；
+        2.如果当前节点的值大于 p 和 q 的值，说明 p 和 q 应该在当前节点的左子树，因此将当前节点移动到它的左子节点；
+        3.如果当前节点的值小于 p 和 q 的值，说明 p 和 q 应该在当前节点的右子树，因此将当前节点移动到它的右子节点；
+        4.如果当前节点的值不满足上述两条要求，那么说明当前节点就是「分岔点」。此时，p 和 q 要么在当前节点的不同的子树中，要么其中一个就是当前节点。*/
+        while(root != null){
+            if(root.val > p.val && root.val > q.val){
+                root = root.left;
+            }else if(root.val < p.val && root.val < q.val){
+                root = root.right;
+            }else {
+                break;
+            }
+        }
+        return root;
+    }
+
+    /**
+     * 653. 两数之和 IV - 输入 BST
+     * 给定一个二叉搜索树和一个目标结果，如果 BST 中存在两个元素且它们的和等于给定的目标结果，则返回 true。
+     * 输入:              Target = 9               输出: True
+     *     5
+     *    / \
+     *   3   6
+     *  / \   \
+     * 2   4   7
+     *
+     * 输入:              Target = 28              输出: False
+     *     5
+     *    / \
+     *   3   6
+     *  / \   \
+     * 2   4   7
+     * @param root
+     * @param k
+     * @return
+     */
+    public boolean findTarget(TreeNode root, int k) {
+      /* 核心算法
+        1.在本方法中利用 BST 的性质，BST 的中序遍历结果是按升序排列的。因此，中序遍历给定的 BST，并将遍历结果存储到 list 中。
+        2.遍历完成后，使用两个指针 l 和 r 作为 list 的头部索引和尾部索引。然后执行以下操作：
+        3.检查 l 和 r 索引处两元素之和是否等于 k。如果是，立即返回 True。
+        4.如果当前两元素之和小于 k，则更新 l 指向下一个元素。这是因为当我们需要增大两数之和时，应该增大较小数。
+        5.如果当前两元素之和大于 k，则更新 r 指向上一个元素。这是因为当我们需要减小两数之和时，应该减小较大数。
+        6.重复步骤一至三，直到左指针 l 大于右指针 r。
+        7.如果左指针 l 到右指针 r 的右边，则返回 False。*/
+        List<Integer> list = new ArrayList<>();
+        inorderTraversal(root, list);
+        int left = 0;
+        int right = list.size() - 1;
+        while(left < right){
+            if(list.get(left) + list.get(right) == k){
+                return true;
+            }else if(list.get(left) + list.get(right) > k){
+                right--;
+            }else if(list.get(left) + list.get(right) < k){
+                left++;
+            }
+        }
+        return false;
+    }
+
+    public void inorderTraversal(TreeNode root, List<Integer> list){
+        if(root != null){
+            inorderTraversal(root.left, list);
+            list.add(root.val);
+            inorderTraversal(root.right, list);
+        }
+    }
+
+    /**
+     * 530. 二叉搜索树的最小绝对差
+     * 783. 二叉搜索树节点最小距离
+     * 给你一棵所有节点为非负值的二叉搜索树，请你计算树中任意两节点的差的绝对值的最小值。
+     * 输入：    输出：1     解释：最小绝对差为 1，其中 2 和 1 的差的绝对值为 1（或者 2 和 3）。
+     *    1
+     *     \
+     *      3
+     *     /
+     *    2
+     * @param root
+     * @return
+     */
+    public int getMinimumDifference(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        inorderTraversal(root, list);
+        int pre = list.get(0);
+        int min = Integer.MAX_VALUE;
+        for(int i = 1; i < list.size(); i++){
+            min = Math.min(min, list.get(i) - pre);
+            pre = list.get(i);
+        }
+        return min;
+    }
+
+    /**
+     * 701. 二叉搜索树中的插入操作
+     * 给定二叉搜索树（BST）的根节点和要插入树中的值，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。
+     * 输入数据保证：1.新值和原始二叉搜索树中的任意节点值都不同；2.每个节点都有一个唯一整数值
+     * 注意，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回任意有效的结果。
+     * 给定二叉搜索树:    和 插入的值: 5
+     *         4
+     *        / \
+     *       2   7
+     *      / \
+     *     1   3
+     * 你可以返回这个二叉搜索树:
+     *          4
+     *        /   \
+     *       2     7
+     *      / \   /
+     *     1   3 5
+     * @param root
+     * @param val
+     * @return
+     */
+
+   /* 思路与算法：
+    首先回顾二叉搜索树的性质：对于任意节点root 而言，左子树（如果存在）上所有节点的值均小于root.val，右子树（如果存在）上所有节点的值均大于root.val，且它们都是二叉搜索树。
+    因此，当将val 插入到以root 为根的子树上时，根据val 与 root.val 的大小关系，就可以确定要将 val 插入到哪个子树中。
+    如果该子树不为空，则问题转化成了将val 插入到对应子树上。否则，在此处新建一个以val 为值的节点，并链接到其父节点root 上。*/
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        if(root == null){
+            TreeNode newNode = new TreeNode(val);
+            return newNode;
+        }else if(root.val > val){
+            root.left = insertIntoBST(root.left, val);
+        }else if(root.val < val){
+            root.right = insertIntoBST(root.right, val);
+        }
+        return root;
+    }
+
     public static void main(String[] args){
        /* Node a = new Node(1);
         Node b = new Node(2);
@@ -963,53 +1121,55 @@ public class Tree {
 //        System.out.println(diameterOfBinaryTree(a));
     }
 
+    class TreeNode {
+
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(){}
+        TreeNode(int val){
+            this(val, null, null);
+        }
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+
+        public int getValue() {
+            return val;
+        }
+
+        public void setValue(int val) {
+            this.val = val;
+        }
+
+        public TreeNode getLeft() {
+            return left;
+        }
+
+        public void setLeft(TreeNode left) {
+            this.left = left;
+        }
+
+        public TreeNode getRight() {
+            return right;
+        }
+
+        public void setRight(TreeNode right) {
+            this.right = right;
+        }
+
+        @Override
+        public String toString() {
+            return "TreeNode{" +
+                    "val=" + val +
+                    ", left=" + left +
+                    ", right=" + right +
+                    '}';
+        }
+    }
+
 }
 
-class TreeNode {
 
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode(){}
-    TreeNode(int val){
-        this(val, null, null);
-    }
-    TreeNode(int val, TreeNode left, TreeNode right) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
-    }
-
-    public int getValue() {
-        return val;
-    }
-
-    public void setValue(int val) {
-        this.val = val;
-    }
-
-    public TreeNode getLeft() {
-        return left;
-    }
-
-    public void setLeft(TreeNode left) {
-        this.left = left;
-    }
-
-    public TreeNode getRight() {
-        return right;
-    }
-
-    public void setRight(TreeNode right) {
-        this.right = right;
-    }
-
-    @Override
-    public String toString() {
-        return "TreeNode{" +
-                "val=" + val +
-                ", left=" + left +
-                ", right=" + right +
-                '}';
-    }
-}
