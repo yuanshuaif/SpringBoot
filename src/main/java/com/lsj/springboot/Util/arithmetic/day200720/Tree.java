@@ -82,6 +82,8 @@ import java.util.LinkedList;
  * 783. 二叉搜索树节点最小距离
  *
  *  701. 二叉搜索树中的插入操作
+ *
+ *  429. N叉树的层序遍历
  */
 public class Tree {
 
@@ -1104,12 +1106,50 @@ public class Tree {
         return root;
     }
 
+    /**
+     * 429. N叉树的层序遍历
+     * 给定一个 N 叉树，返回其节点值的层序遍历。 (即从左到右，逐层遍历)。例如，给定一个 3叉树 :
+     *           1
+     *        / \ \
+     *       3  2  4
+     *      / \
+     *     5  6
+     * [[1],[3,2,4],[5,6]]
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrderN(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        List<List<Integer>> res = new ArrayList<>();
+        if(root == null){
+            return res;
+        }
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            int size = queue.size();
+            List<Integer> tempList = new ArrayList<>();
+            for(int i = 0; i < size; i++){
+                TreeNode tempNode = queue.poll();
+                tempList.add(tempNode.val);
+                List<TreeNode> children = tempNode.children;
+                if(children != null && children.size() != 0){
+                    for(int j = 0; j < children.size(); j++){
+                        queue.offer(children.get(j));
+                    }
+                }
+
+            }
+            res.add(tempList);
+        }
+        return res;
+    }
+
     public static void main(String[] args){
-       /* Node a = new Node(1);
-        Node b = new Node(2);
-        Node c = new Node(3);
-        Node d = new Node(4);
-        Node e = new Node(5);
+       /* TreeNode a = new TreeNode(1);
+        TreeNode b = new TreeNode(2);
+        TreeNode c = new TreeNode(3);
+        TreeNode d = new TreeNode(4);
+        TreeNode e = new TreeNode(5);
         a.next = b;
         b.next = c;
         c.next = d;
@@ -1126,14 +1166,16 @@ public class Tree {
         int val;
         TreeNode left;
         TreeNode right;
+        List<TreeNode> children;
         TreeNode(){}
         TreeNode(int val){
-            this(val, null, null);
+            this(val, null, null, null);
         }
-        TreeNode(int val, TreeNode left, TreeNode right) {
+        TreeNode(int val, TreeNode left, TreeNode right, List<TreeNode> children) {
             this.val = val;
             this.left = left;
             this.right = right;
+            this.children = children;
         }
 
         public int getValue() {
