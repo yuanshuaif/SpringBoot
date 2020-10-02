@@ -47,6 +47,8 @@ import java.util.stream.Collectors;
  * LCP 19. 秋叶收藏集
  *
  * 面试题 08.01. 三步问题
+ *
+ * 279. 完全平方数
  */
 public class DynamicPlanning {
 
@@ -655,6 +657,30 @@ public class DynamicPlanning {
             dp[i] = (int)(((long)dp[i - 3] + dp[i - 2] + dp[i - 1]) % 1000000007);
         }
         return dp[n - 1];
+    }
+
+    /**
+     * 279. 完全平方数
+     * 给定正整数 n，找到若干个完全平方数（比如 1, 4, 9, 16, ...）使得它们的和等于 n。你需要让组成和的完全平方数的个数最少。
+     * 输入: n = 12   输出: 3   解释: 12 = 4 + 4 + 4.
+     * 输入: n = 13   输出: 2   解释: 13 = 4 + 9.
+     * @param n
+     * @return
+     */
+  /*  首先初始化长度为 n+1 的数组 dp，每个位置都为 0
+    如果 n 为 0，则结果为 0
+    对数组进行遍历，下标为 i，每次都将当前数字先更新为最大的结果，即 dp[i]=i，比如 i=4，最坏结果为 4=1+1+1+1 即为 4 个数字
+    动态转移方程为：dp[i] = MIN(dp[i], dp[i - j * j] + 1)，i 表示当前数字，j*j 表示平方数
+    时间复杂度：O(n*sqrt(n))，sqrt 为平方根*/
+    public int numSquares(int n) {
+        int[] dp = new int[n + 1];
+        for(int i = 1; i <= n; i++){
+            dp[i] = i;// 最坏情况:1+1+1
+            for(int j = 1; i - j * j >= 0; j++){
+                dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
+            }
+        }
+        return dp[n];
     }
 
     public static void main(String[] args){
