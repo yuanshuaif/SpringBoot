@@ -45,6 +45,8 @@ import java.util.stream.Collectors;
  * 300. 最长上升子序列
  *
  * LCP 19. 秋叶收藏集
+ *
+ * 面试题 08.01. 三步问题
  */
 public class DynamicPlanning {
 
@@ -624,6 +626,35 @@ public class DynamicPlanning {
             redAfter = redAfterTemp;
         }
         return redAfter;
+    }
+
+    /**
+     * 面试题 08.01. 三步问题
+     * 三步问题。有个小孩正在上楼梯，楼梯有n阶台阶，小孩一次可以上1阶、2阶或3阶。
+     * 实现一种方法，计算小孩有多少种上楼梯的方式。结果可能很大，你需要对结果模1000000007。
+     * 输入：n = 3     输出：4       说明: 有四种走法
+     *  输入：n = 5    输出：13
+     * @param n
+     * @return
+     */
+    public int waysToStep(int n) {
+        int[] dp = new int[n];
+        dp[0] = 1;
+        if(n == 1){
+            return dp[0];
+        }
+        dp[1] = 2;
+        if(n == 2){
+            return dp[1];
+        }
+        dp[2] = 4;
+        if(n == 3){
+            return dp[2];
+        }
+        for(int i = 3; i < n; i++){
+            dp[i] = (int)(((long)dp[i - 3] + dp[i - 2] + dp[i - 1]) % 1000000007);
+        }
+        return dp[n - 1];
     }
 
     public static void main(String[] args){
