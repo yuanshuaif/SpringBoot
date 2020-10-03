@@ -84,6 +84,9 @@ import java.util.LinkedList;
  *  701. 二叉搜索树中的插入操作
  *
  *  429. N叉树的层序遍历
+ *
+ *  236. 二叉树的最近公共祖先
+ *  剑指 Offer 68 - II. 二叉树的最近公共祖先
  */
 public class Tree {
 
@@ -736,6 +739,7 @@ public class Tree {
 
     /**
      * 剑指 Offer 32 - III. 从上到下打印二叉树 III
+     * 103. 二叉树的锯齿形层次遍历
      * 请实现一个函数按照之字形顺序打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右到左的顺序打印，第三行再按照从左到右的顺序打印，其他行以此类推。
      * 给定二叉树: [3,9,20,null,null,15,7]           [[3],[20,9],[15,7]]
      * 给定二叉树: [1,2,3,4,null,null,5]             [[1],[3,2],[4,5]]
@@ -1142,6 +1146,37 @@ public class Tree {
             res.add(tempList);
         }
         return res;
+    }
+
+    /**
+     * 剑指 Offer 68 - II. 二叉树的最近公共祖先
+     * 236. 二叉树的最近公共祖先
+     * 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
+     * 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+     * 例如，给定如下二叉树:  root = [3,5,1,6,2,0,8,null,null,7,4]
+     * 输入: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1       输出: 3       解释: 节点 5 和节点 1 的最近公共祖先是节点 3。
+     * 输入: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4       输出: 5       解释: 节点 5 和节点 4 的最近公共祖先是节点 5。因为根据定义最近公共祖先节点可以为节点本身。
+     * 1.所有节点的值都是唯一的。2.p、q 为不同节点且均存在于给定的二叉树中。
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor1(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null || root == p || root == q){
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor1(root.left, p, q);
+        TreeNode right = lowestCommonAncestor1(root.right, p, q);
+        if(left == null && right == null){
+            return null;
+        }else if(left == null){
+            return right;
+        }else if(right == null){
+            return left;
+        }else{
+            return root;
+        }
     }
 
     public static void main(String[] args){
