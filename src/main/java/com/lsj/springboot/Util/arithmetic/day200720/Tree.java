@@ -87,6 +87,8 @@ import java.util.LinkedList;
  *
  *  236. 二叉树的最近公共祖先
  *  剑指 Offer 68 - II. 二叉树的最近公共祖先
+ *
+ *  面试题 04.05. 合法二叉搜索树
  */
 public class Tree {
 
@@ -1177,6 +1179,32 @@ public class Tree {
         }else{
             return root;
         }
+    }
+
+    /**
+     * 面试题 04.05. 合法二叉搜索树
+     * 实现一个函数，检查一棵二叉树是否为二叉搜索树。
+     * [1,1] false ;   [2,1,3]  true ;  [10,5,15,null,null,6,20]  false; [3,1,5,0,2,4,6] true;[-2147483648,null,2147483647]  false
+     *
+     * @param root
+     * @return
+     */
+    public boolean isValidBST(TreeNode root) {
+        if(root == null){
+            return true;
+        }
+        return isValidBST(root.left, (long)Integer.MIN_VALUE - 1, root.val) &&
+                isValidBST(root.right, root.val, (long)Integer.MAX_VALUE + 1);
+    }
+
+    public boolean isValidBST(TreeNode root, long min, long max) {
+        if(root == null){
+            return true;
+        }
+        if(root.val >= max || root.val <= min){
+            return false;
+        }
+        return isValidBST(root.left, min, root.val) && isValidBST(root.right, root.val, max);
     }
 
     public static void main(String[] args){
