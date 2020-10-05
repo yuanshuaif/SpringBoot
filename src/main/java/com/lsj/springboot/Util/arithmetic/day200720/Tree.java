@@ -89,10 +89,13 @@ import java.util.LinkedList;
  *  剑指 Offer 68 - II. 二叉树的最近公共祖先
  *
  *  面试题 04.05. 合法二叉搜索树
+ *  98. 验证二叉搜索树
  *
  *  面试题 17.12. BiNode
  *
  *  109. 有序链表转换二叉搜索树
+ *
+ *  1302. 层数最深叶子节点的和
  */
 public class Tree {
 
@@ -1187,6 +1190,7 @@ public class Tree {
 
     /**
      * 面试题 04.05. 合法二叉搜索树
+     * 98. 验证二叉搜索树
      * 实现一个函数，检查一棵二叉树是否为二叉搜索树。
      * [1,1] false ;   [2,1,3]  true ;  [10,5,15,null,null,6,20]  false; [3,1,5,0,2,4,6] true;[-2147483648,null,2147483647]  false
      *
@@ -1271,6 +1275,37 @@ public class Tree {
             slow = slow.next;
         }
         return slow;
+    }
+
+    /**
+     * 1302. 层数最深叶子节点的和
+     * 给你一棵二叉树，请你返回层数最深的叶子节点的和。                  bfs
+     * 输入：root = [1,2,3,4,5,null,6,7,null,null,null,null,8]         输出：15
+     * @param root
+     * @return
+     */
+    public int deepestLeavesSum(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+        int ans = 0;
+        while(queue.size() != 0){
+            int size = queue.size();
+            ans = 0;
+            for(int i = 0; i < size; i++){
+                TreeNode temp = queue.poll();
+                ans += temp.val;
+                if(temp.left != null){
+                    queue.offer(temp.left);
+                }
+                if(temp.right != null){
+                    queue.offer(temp.right);
+                }
+            }
+        }
+        return ans;
     }
 
     public static void main(String[] args){
