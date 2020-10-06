@@ -48,6 +48,10 @@ import java.util.*;
  * 题目66:加一
  *
  * 题目18:四数之和
+ *
+ * 题目54:螺旋矩阵
+ *
+ * 剑指 Offer 29. 顺时针打印矩阵
  */
 public class Array {
 
@@ -842,6 +846,85 @@ public class Array {
         return ans;
     }
 
+    /**
+     * 54. 螺旋矩阵
+     * 给定一个包含 m x n 个元素的矩阵（m 行, n 列），请按照顺时针螺旋顺序，返回矩阵中的所有元素。
+     * 输入:                                               输出: [1,2,3,4,8,12,11,10,9,5,6,7]
+     [[1, 2, 3, 4],
+     [5, 6, 7, 8],
+     [9,10,11,12]]
+     * @param matrix
+     * @return
+     */
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> ans = new ArrayList<>();
+        if(matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0){
+            return ans;
+        }
+        int rows = matrix.length, cols = matrix[0].length;
+        // 辅助矩阵，代表是否访问过
+        boolean[][] visited = new boolean[rows][cols];
+        // 定义方向数组以及初始方向
+        int directionIndex = 0;
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        // 定义当前位置
+        int row = 0, col = 0;
+        // 终止条件：总共需要走多少个节点
+        int total = rows * cols;
+        for(int i = 0; i < total; i++){
+            ans.add(matrix[row][col]);
+            visited[row][col] = true;// 标记该节点已经访问
+            // 获取在当前方向上移动后的下一个节点
+            int newRow = row + directions[directionIndex][0], newCol = col + directions[directionIndex][1];
+            // 判断新的节点是否符合转向
+            if(newRow < 0 || newRow >= rows || newCol < 0 || newCol >= cols || visited[newRow][newCol]){
+                directionIndex = (directionIndex + 1) % 4;
+            }
+            // 获取转向后新的行和列
+            row += directions[directionIndex][0];
+            col += directions[directionIndex][1];
+        }
+        return ans;
+    }
+
+    /**
+     * 剑指 Offer 29. 顺时针打印矩阵
+     * 输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字。
+     * 输入：matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]       输出：[1,2,3,4,8,12,11,10,9,5,6,7]
+     * @param matrix
+     * @return
+     */
+    public static int[] spiralOrder1(int[][] matrix) {
+        if(matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0){
+            return new int[0];
+        }
+        int rows = matrix.length, cols = matrix[0].length;
+        int[] ans = new int[rows * cols];
+        int curIndex = 0;
+        int left = 0, right = cols - 1, top = 0, bottom = rows - 1;
+        while(left <= right && top <= bottom){
+            for(int i = left; i <= right; i++){
+                ans[curIndex++] = matrix[top][i];
+            }
+            for(int i = top + 1; i <= bottom; i++){
+                ans[curIndex++] = matrix[i][right];
+            }
+            if(left < right && top < bottom){
+                for(int i = right - 1; i > left; i--){
+                    ans[curIndex++] = matrix[bottom][i];
+                }
+                for(int i = bottom; i > top; i--){
+                    ans[curIndex++] = matrix[i][left];
+                }
+            }
+            left++;
+            right--;
+            top++;
+            bottom--;
+        }
+        return ans;
+    }
+
     public static void main(String[] args){
       /*  int[] A = {1,2,3,0,0,0};
         int m = 3;
@@ -854,7 +937,9 @@ public class Array {
 //        int[] nums = new int[]{0,1,0,3,12};
 //        moveZeroes(nums);
 //        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
-        System.out.println(restoreString("aiohn", new int[]{3,1,4,2,0}));
+//        System.out.println(restoreString("aiohn", new int[]{3,1,4,2,0}));
+        int[][] a = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
+        System.out.println(spiralOrder1(a));
 
     }
 }
