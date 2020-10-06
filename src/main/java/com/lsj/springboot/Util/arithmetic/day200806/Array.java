@@ -38,6 +38,7 @@ import java.util.*;
  * 题目118:杨辉三角
  *
  * 题目48:旋转图像
+ * 面试题 01.07. 旋转矩阵
  *
  * 题目442:数组中重复的数据
  *
@@ -52,6 +53,8 @@ import java.util.*;
  * 题目54:螺旋矩阵
  *
  * 剑指 Offer 29. 顺时针打印矩阵
+ *
+ * 题目867:转置矩阵
  */
 public class Array {
 
@@ -921,6 +924,27 @@ public class Array {
             right--;
             top++;
             bottom--;
+        }
+        return ans;
+    }
+
+    /**
+     * 867. 转置矩阵
+     * 给定一个矩阵 A， 返回 A 的转置矩阵。矩阵的转置是指将矩阵的主对角线翻转，交换矩阵的行索引与列索引。
+     * 输入：[[1,2,3],[4,5,6],[7,8,9]]     输出：[[1,4,7],[2,5,8],[3,6,9]]
+     * @param A
+     * @return
+     */
+    public int[][] transpose(int[][] A) {
+        int temp = 0;
+        int row = A.length;
+        int col = A[0].length;
+        int[][] ans = new int[col][row];
+        // 转置矩阵
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                ans[j][i] = A[i][j];
+            }
         }
         return ans;
     }
