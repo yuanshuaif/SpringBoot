@@ -1,10 +1,8 @@
 package com.lsj.springboot.Util.arithmetic.day200809;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
-import java.util.stream.Collectors;
 
 /**
  * Created by 10326 on 2020/8/9.
@@ -51,6 +49,8 @@ import java.util.stream.Collectors;
  * 279. 完全平方数
  *
  * 746. 使用最小花费爬楼梯
+ *
+ * 542. 01 矩阵
  */
 public class DynamicPlanning {
 
@@ -704,6 +704,53 @@ public class DynamicPlanning {
             dp[i] = Math.min(dp[i - 2], dp[i - 1]) + cost[i];
         }
         return Math.min(dp[cost.length - 1], dp[cost.length - 2]);
+    }
+
+    /**
+     * 542. 01 矩阵
+     * 给定一个由 0 和 1 组成的矩阵，找出每个元素到最近的 0 的距离。两个相邻元素间的距离为 1 。
+     * 输入：[[0,0,0],[0,1,0],[1,1,1]]      输出：[[0,0,0],[0,1,0],[1,2,1]]
+     * 1.给定矩阵的元素个数不超过 10000。2.给定矩阵中至少有一个元素是 0。3.矩阵中的元素只在四个方向上相邻: 上、下、左、右。
+     * @param matrix
+     * @return
+     */
+    public int[][] updateMatrix(int[][] matrix) {
+        int row = matrix.length, col = matrix[0].length;
+        int[][] dp = new int[row][col];
+        for(int i = 0; i < row; i++){
+            Arrays.fill(dp[i], 10001);
+        }
+        //填充所有的0元素
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                if(matrix[i][j] == 0){
+                    dp[i][j] = 0;
+                }
+            }
+        }
+        // 从左上角遍历整个矩阵
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                if(i > 0){
+                    dp[i][j] = Math.min(dp[i][j], 1 + dp[i - 1][j]);
+                }
+                if(j > 0){
+                    dp[i][j] = Math.min(dp[i][j], 1 + dp[i][j - 1]);
+                }
+            }
+        }
+        // 从右下角遍历整个矩阵
+        for(int i = row - 1; i >= 0; i--){
+            for(int j = col - 1; j >= 0; j--){
+                if(i < row - 1){
+                    dp[i][j] = Math.min(dp[i][j], 1 + dp[i + 1][j]);
+                }
+                if(j < col - 1){
+                    dp[i][j] = Math.min(dp[i][j], 1 + dp[i][j + 1]);
+                }
+            }
+        }
+        return dp;
     }
 
     public static void main(String[] args){
