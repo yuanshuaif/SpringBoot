@@ -41,6 +41,8 @@ import java.util.*;
  *
  * 题目287:寻找重复数
  *
+ * 题目259:较小的三数之和
+ *
  */
 public class DoublePointer {
 
@@ -541,4 +543,41 @@ public class DoublePointer {
         }
         return slow;
     }
+
+    /**
+     * 259. 较小的三数之和
+     * 给定一个长度为 n 的整数数组和一个目标值 target，寻找能够使条件 nums[i] + nums[j] + nums[k] < target 成立的三元组  i, j, k 个数（0 <= i < j < k < n）。
+     * 输入: nums = [-2,0,1,3], target = 2        输出: 2       解释: 因为一共有两个三元组满足累加和小于 2:[-2,0,1][-2,0,3]
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int threeSumSmaller(int[] nums, int target) {
+        int ans = 0;
+        if(nums == null || nums.length < 3){
+            return ans;
+        }
+        Arrays.sort(nums);
+        for(int i = 0; i < nums.length - 2; i++){
+            // 该题允许重复结果的存在
+           /* if(i > 0 && nums[i] == nums[i - 1]){
+                continue;
+            }*/
+            if(nums[i] + nums[i + 1] + nums[i + 2] >= target){
+                break;
+            }
+            int start = i + 1;
+            int end = nums.length - 1;
+            while(start < end){
+                if(nums[i] + nums[start] + nums[end] >= target){
+                    end--;
+                }else{
+                    ans += end - start;
+                    start++;
+                }
+            }
+        }
+        return ans;
+    }
+
 }
