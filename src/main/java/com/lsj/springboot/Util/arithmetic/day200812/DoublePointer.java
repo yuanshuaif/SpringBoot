@@ -43,20 +43,11 @@ import java.util.*;
  *
  * 题目259:较小的三数之和
  *
+ * 题目16:最接近的三数之和
+ *
  */
 public class DoublePointer {
 
-    public static void main(String[] args){
-//        int[] A = new int[]{-4,-1,0,3,10};
-//        System.out.println(sortedSquares(A));
-//        System.out.println(backspaceCompare("ad#c", "ab#c"));
-     /*   int[] arr1 = {1,2,3,4,5};
-        int[] arr2 = {1,2,5,7,9};
-        int[] arr3 = {1,3,4,5,8};
-        System.out.println(arraysIntersection(arr1,  arr2, arr3));*/
-        System.out.println(isLongPressedName("leelee", "lleeelee"));
-
-    }
 
     /**
      * 26.删除排序数组中的重复项
@@ -580,4 +571,68 @@ public class DoublePointer {
         return ans;
     }
 
+    /**
+     * 16. 最接近的三数之和
+     * 给定一个包括 n 个整数的数组 nums 和 一个目标值 target。找出 nums 中的三个整数，使得它们的和与 target 最接近。返回这三个数的和。假定每组输入只存在唯一答案。
+     * 输入：nums = [-1,2,1,-4], target = 1        输出：2        解释：与 target 最接近的和是 2 (-1 + 2 + 1 = 2) 。
+     * 提示 1.3 <= nums.length <= 10^3   2.-10^3 <= nums[i] <= 10^3  3.-10^4 <= target <= 10^4
+     * @param nums
+     * @param target
+     * @return
+     */
+    public static int threeSumClosest(int[] nums, int target) {
+        int ans = Integer.MAX_VALUE;
+        int ansR = Integer.MAX_VALUE;
+        int ansL = Integer.MIN_VALUE;
+        Arrays.sort(nums);
+        for(int i = 0; i < nums.length - 2; i++){
+            if(i > 0 && nums[i] == nums[i - 1]){
+                continue;
+            }
+            int start = i + 1;
+            int end = nums.length - 1;
+            boolean flag = false;
+            while(start < end){
+                if(nums[i] + nums[start] + nums[end] == target){
+                    ans = target;
+                    flag = true;
+                    break;
+                }else if(nums[i] + nums[start] + nums[end] > target){
+                    ansR = Math.min(nums[i] + nums[start] + nums[end], ansR);
+                    end--;
+                }else{
+                    ansL = Math.max(nums[i] + nums[start] + nums[end], ansL);
+                    start++;
+                }
+            }
+            if(flag){
+                break;
+            }
+        }
+        if(ans != Integer.MAX_VALUE){
+            return ans;
+        }
+        if(ansR == Integer.MAX_VALUE){
+            ans = ansL;
+        }else if(ansL == Integer.MIN_VALUE){
+            ans = ansR;
+        }else if(ansR != Integer.MAX_VALUE && ansL != Integer.MIN_VALUE){
+            ans = Math.abs(ansL - target) > Math.abs(ansR - target) ? ansR : ansL;
+        }
+        return ans;
+    }
+
+    public static void main(String[] args){
+//        int[] A = new int[]{-4,-1,0,3,10};
+//        System.out.println(sortedSquares(A));
+//        System.out.println(backspaceCompare("ad#c", "ab#c"));
+     /*   int[] arr1 = {1,2,3,4,5};
+        int[] arr2 = {1,2,5,7,9};
+        int[] arr3 = {1,3,4,5,8};
+        System.out.println(arraysIntersection(arr1,  arr2, arr3));*/
+//        System.out.println(isLongPressedName("leelee", "lleeelee"));
+
+        System.out.println(threeSumClosest(new int[]{1,1,-1,-1,3},   -1));
+
+    }
 }
