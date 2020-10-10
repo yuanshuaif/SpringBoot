@@ -53,6 +53,8 @@ import java.util.Stack;
  * 542. 01 矩阵
  *
  * 845. 数组中的最长山脉
+ *
+ * 718. 最长重复子数组
  */
 public class DynamicPlanning {
 
@@ -789,8 +791,32 @@ public class DynamicPlanning {
         return ans;
     }
 
+    /**
+     * 718. 最长重复子数组
+     * 给两个整数数组 A 和 B ，返回两个数组中公共的、长度最长的子数组的长度。
+     * 输入： A: [1,2,3,2,1]    B: [3,2,1,4,7]     输出：3    解释：长度最长的公共子数组是 [3, 2, 1] 。
+     * 1.1 <= len(A), len(B) <= 1000        2.0 <= A[i], B[i] < 100
+     * @param A
+     * @param B
+     * @return
+     */
+    public static int findLength(int[] A, int[] B) {
+//        dp[i][j] 代表 i、j重复数组的长度； 转移方程  dp[i][j] = dp[i + 1][j + 1] + 1
+        int ans = 0;
+        int[][] dp = new int[A.length + 1][B.length + 1];
+        for(int i = A.length - 1; i >= 0; i--){
+            int temp = 0;
+            for(int j = B.length - 1; j >= 0; j--){
+                dp[i][j] = A[i] == B[j] ? dp[i + 1][j + 1] + 1: 0;
+                temp = Math.max(temp, dp[i][j]);
+            }
+            ans = Math.max(ans, temp);
+        }
+        return ans;
+    }
+
     public static void main(String[] args){
-        int[][] costs = new int[3][3];
+      /*  int[][] costs = new int[3][3];
         costs[0][0] = 17;
         costs[0][1] = 2;
         costs[0][2] = 17;
@@ -802,7 +828,7 @@ public class DynamicPlanning {
         costs[2][0] = 14;
         costs[2][1] = 3;
         costs[2][2] = 19;
-        System.out.println(minCost(costs));
+        System.out.println(minCost(costs));*/
        /* List<Integer> param1 = new ArrayList(){{add(2);}};
         List<Integer> param2 = new ArrayList(){{add(3);add(4);}};
         List<Integer> param3 = new ArrayList(){{add(6);add(5);add(7);}};
@@ -810,5 +836,6 @@ public class DynamicPlanning {
         List<List<Integer>> params = new ArrayList(){{add(param1);add(param2);add(param3);add(param4);}};
         System.out.println(minimumTotal(params));*/
 //        System.out.println(lengthOfLIS(new int[]{10,9,2,5,3,7,101,18}));
+        System.out.println(findLength(new int[]{1,2,3,2,1}, new int[]{3,2,1,4,7}));
     }
 }
