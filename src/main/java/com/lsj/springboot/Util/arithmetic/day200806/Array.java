@@ -57,6 +57,8 @@ import java.util.*;
  * 题目867:转置矩阵
  *
  * 题目566:重塑矩阵
+ *
+ * 题目560:和为K的子数组
  */
 public class Array {
 
@@ -980,6 +982,33 @@ public class Array {
         return ans;
     }
 
+    /**
+     * 560. 和为K的子数组
+     * 给定一个整数数组和一个整数 k，你需要找到该数组中和为 k 的连续的子数组的个数。
+     * 示例 1 :输入:nums = [1,1,1], k = 2   输出: 2 , [1,1] 与 [1,1] 为两种不同的情况。
+     * 1.数组的长度为 [1, 20,000]。    2.数组中元素的范围是 [-1000, 1000] ，且整数 k 的范围是 [-1e7, 1e7]。
+     * @param nums
+     * @param k
+     * @return
+     */
+    public static int subarraySum(int[] nums, int k) {
+        int len = nums.length;
+        int[] dp = new int[len + 1];
+        // 求前缀和
+        for(int i = 0; i < len; i++){
+            dp[i + 1] = dp[i] + nums[i];
+        }
+        int count = 0;
+        // 求区间和
+        for(int left = 0; left < len; left++){
+            for(int right = left + 1; right <= len; right++){
+                if(dp[right] - dp[left] == k){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
     public static void main(String[] args){
       /*  int[] A = {1,2,3,0,0,0};
         int m = 3;
@@ -993,8 +1022,9 @@ public class Array {
 //        moveZeroes(nums);
 //        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
 //        System.out.println(restoreString("aiohn", new int[]{3,1,4,2,0}));
-        int[][] a = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
-        System.out.println(spiralOrder1(a));
+       /* int[][] a = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
+        System.out.println(spiralOrder1(a));*/
+        System.out.println(subarraySum(new int[]{1,1,1}, 2));
 
     }
 }
