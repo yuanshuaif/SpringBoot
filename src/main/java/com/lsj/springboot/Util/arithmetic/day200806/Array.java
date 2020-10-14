@@ -59,6 +59,8 @@ import java.util.*;
  * 题目566:重塑矩阵
  *
  * 题目560:和为K的子数组
+ *
+ * 题目1480:一维数组的动态和
  */
 public class Array {
 
@@ -1021,6 +1023,21 @@ public class Array {
        }
        return count;
     }
+
+    /**
+     * 1480. 一维数组的动态和
+     * 给你一个数组 nums 。数组「动态和」的计算公式为：runningSum[i] = sum(nums[0]…nums[i]) 。请返回 nums 的动态和。
+     * 输入：nums = [1,2,3,4]  输出：[1,3,6,10]   解释：动态和计算过程为 [1, 1+2, 1+2+3, 1+2+3+4] 。
+     * @param nums
+     * @return
+     */
+    public int[] runningSum(int[] nums) {
+        for(int i = 1; i < nums.length; i++){
+            nums[i] = nums[i - 1] + nums[i];
+        }
+        return nums;
+    }
+
     public static void main(String[] args){
       /*  int[] A = {1,2,3,0,0,0};
         int m = 3;
