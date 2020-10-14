@@ -992,7 +992,7 @@ public class Array {
      * @return
      */
     public static int subarraySum(int[] nums, int k) {
-        int len = nums.length;
+       /* int len = nums.length;
         int[] dp = new int[len + 1];
         // 求前缀和
         for(int i = 0; i < len; i++){
@@ -1007,7 +1007,19 @@ public class Array {
                 }
             }
         }
-        return count;
+        return count;*/
+       int count = 0;
+       int pre = 0;
+       Map<Integer, Integer> map = new HashMap<>();
+       map.put(0, 1);
+       for(int i = 0; i < nums.length; i++){
+           pre += nums[i];
+           if(map.containsKey(pre - k)){
+               count += map.get(pre - k);
+           }
+           map.put(pre, map.getOrDefault(pre, 0) + 1);
+       }
+       return count;
     }
     public static void main(String[] args){
       /*  int[] A = {1,2,3,0,0,0};
