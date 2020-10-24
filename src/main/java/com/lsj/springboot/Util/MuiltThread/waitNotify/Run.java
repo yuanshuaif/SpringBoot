@@ -1,7 +1,7 @@
-package com.lsj.springboot.Util.MuiltThread.manyToMany;
+package com.lsj.springboot.Util.MuiltThread.waitNotify;
 
-import com.lsj.springboot.Util.MuiltThread.manyToMany.thread.ThreadC;
-import com.lsj.springboot.Util.MuiltThread.manyToMany.thread.ThreadP;
+import com.lsj.springboot.Util.MuiltThread.waitNotify.thread.ThreadC;
+import com.lsj.springboot.Util.MuiltThread.waitNotify.thread.ThreadP;
 
 /**
  * Created by 10326 on 2019/5/12.

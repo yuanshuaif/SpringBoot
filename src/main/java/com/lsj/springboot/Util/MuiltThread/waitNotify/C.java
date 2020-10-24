@@ -1,7 +1,7 @@
-package com.lsj.springboot.Util.MuiltThread.manyToMany;
+package com.lsj.springboot.Util.MuiltThread.waitNotify;
 
 
-import com.lsj.springboot.Util.MuiltThread.manyToMany.entity.ValueObject;
+import com.lsj.springboot.Util.MuiltThread.waitNotify.entity.ValueObject;
 
 /**
  * Created by 10326 on 2019/5/12.
