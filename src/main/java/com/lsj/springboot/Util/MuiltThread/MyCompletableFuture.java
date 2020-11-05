@@ -1,4 +1,4 @@
-package com.lsj.springboot.Util;
+package com.lsj.springboot.Util.MuiltThread;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.concurrent.*;
 /**
  * Created by 10326 on 2020/2/12.
  */
-public class day200212 {
+public class MyCompletableFuture {
 
     public static void main(String[] args){
         ExecutorService executor = Executors.newFixedThreadPool(2);
