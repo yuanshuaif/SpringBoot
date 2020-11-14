@@ -57,6 +57,8 @@ import java.util.Stack;
  * 718. 最长重复子数组
  *
  * 238. 除自身以外数组的乘积
+ *
+ * 面试题 17.16. 按摩师
  */
 public class DynamicPlanning {
 
@@ -843,6 +845,39 @@ public class DynamicPlanning {
         }
         return ans;
     }
+
+    /**
+     * 面试题 17.16. 按摩师
+     * 一个有名的按摩师会收到源源不断的预约请求，每个预约都可以选择接或不接。在每次预约服务之间要有休息时间，因此她不能接受相邻的预约。给定一个预约请求序列，替按摩师找到最优的预约集合（总预约时间最长），返回总的分钟数。
+     * 输入： [1,2,3,1]    输出： 4       解释： 选择 1 号预约和 3 号预约，总时长 = 1 + 3 = 4。
+     * 输入： [2,7,9,3,1]  输出： 12      解释： 选择 1 号预约、 3 号预约和 5 号预约，总时长 = 2 + 9 + 1 = 12。
+     * 输入： [2,1,4,5,3,1,1,3]      输出： 12    解释： 选择 1 号预约、 3 号预约、 5 号预约和 8 号预约，总时长 = 2 + 4 + 3 + 3 = 12。
+     * @param nums
+     * @return
+     */
+    public static int massage(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return 0;
+        }
+        int[] ans = new int[nums.length];
+        ans[0] = nums[0];
+        if(nums.length == 1){
+            return ans[0];
+        }
+        ans[1] = nums[1];
+        if(nums.length == 2){
+            return Math.max(ans[0], ans[1]);
+        }
+        ans[2] = nums[0] + nums[2];
+        if(nums.length == 2){
+            return Math.max(ans[1], ans[2]);
+        }
+        for(int i = 3; i < nums.length; i++){
+            ans[i] = Math.max(ans[i - 3], ans[i - 2]) + nums[i];
+        }
+        return Math.max(ans[nums.length - 2], ans[nums.length - 1]);
+    }
+
     public static void main(String[] args){
       /*  int[][] costs = new int[3][3];
         costs[0][0] = 17;
@@ -865,6 +900,15 @@ public class DynamicPlanning {
         System.out.println(minimumTotal(params));*/
 //        System.out.println(lengthOfLIS(new int[]{10,9,2,5,3,7,101,18}));
        /* System.out.println(findLength(new int[]{1,2,3,2,1}, new int[]{3,2,1,4,7}));*/
-        System.out.println(productExceptSelf(new int[]{1,2,3,4}));
+//        System.out.println(productExceptSelf(new int[]{1,2,3,4}));
+        System.out.println(massage(new int[]{2,7,9,3,1}));
+
+        for(int i = 0; i < 5; i++){
+            if(i == 3){
+                return;
+            }
+            System.out.println(i);
+        }
+        System.out.println(11111);
     }
 }
