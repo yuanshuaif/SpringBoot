@@ -68,6 +68,10 @@ public class ClassUtil {
 
     /**
      * 从包package中获取所有的Class
+     * 1.有的web server在部署运行时会解压jar包，因此class文件会在普通的文件目录下。
+     * 2.如果web server不解压jar包，则class文件会直接存在于Jar包中。
+     * 3.对于前者，只需定位到class文件所在目录，然后将class文件名读取出即可；
+     * 4.对于后者，则需先定位到jar包所在目录，然后使用JarInputStream读取Jar包，得到class类名。
      * @param packageName
      * @return
      */
