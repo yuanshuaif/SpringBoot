@@ -8,6 +8,9 @@ package com.lsj.springboot.Util.arithmetic.day200812;
  * https://mp.weixin.qq.com/s/ZygPOjMMcwtOgLSVVzJlIw
  * 插入排序：直接插入排序和希尔排序两种
  *
+ * https://mp.weixin.qq.com/s/QG5gmGHpqzNrkltVwbb0yQ
+ * 交换排序：冒泡排序和快速排序（如果发现两个记录的次序相反时即进行交换，直到没有反序位置）
+ *
  *
  */
 public class SortAlgorithm2 {
@@ -45,6 +48,7 @@ public class SortAlgorithm2 {
      * 把待排序的数据元素分成若干个小组，对同一小组内的数据元素用直接插入排序进行排序；
      * 小组的个数逐次缩小，当完成了所有的数据元素都在一个小组内的排序后，排序过程结束。所以希尔排序又称作缩小增量排序。
      * 希尔排序的前提是在直接插入排序之上，是对直接插入排序的一个升级版。属于不稳定算法。
+     * 时间复杂度O(n3/2)
      * @param arrays
      */
     private static void sort2(int[] arrays){
@@ -65,6 +69,16 @@ public class SortAlgorithm2 {
                 arrays[j + k] = temp;
             }
         }
+    }
+
+    /**
+     * 3.冒泡排序
+     * 通过相邻元素之间比较和交换，使较小移向顶部，从后往前两两比较。
+     * 时间复杂度：O(n^2) 空间复杂度：O(1)  稳定性：稳定
+     * @param arrays
+     */
+    private static void sort3(int[] arrays){
+
     }
 
 }
