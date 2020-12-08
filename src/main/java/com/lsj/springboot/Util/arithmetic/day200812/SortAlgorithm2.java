@@ -16,7 +16,10 @@ package com.lsj.springboot.Util.arithmetic.day200812;
 public class SortAlgorithm2 {
 
     public static void main(String[] args){
-        int[] array = new int[]{9, 3, 8, 7, 5, 9, 1, 2, 10, 9};
+       /* int[] array = new int[]{9, 3, 8, 7, 5, 9, 1, 2, 10, 9};
+        sort4(array);*/
+
+        int[] array = new int[]{11, 7, 1, 33, 2, 22};
         sort4(array);
 
         for (int i = 0; i < array.length; i++) {
@@ -104,8 +107,10 @@ public class SortAlgorithm2 {
      * @param arrays
      */
     private static void sort4(int[] arrays){
-        sort4(arrays, 0, arrays.length - 1);
+//        sort4(arrays, 0, arrays.length - 1);
+        quickSort(arrays, 0, arrays.length - 1);
     }
+
 
     private static void sort4(int[] arrays, int left, int right){
         int l = left;
@@ -133,5 +138,41 @@ public class SortAlgorithm2 {
             sort4(arrays, r + 1, right);
         }
     }
+
+    public static void quickSort(int[] arr, int low, int high) {
+        int i, j, temp, t;
+        i = low;
+        j = high;
+        //基准位
+        temp = arr[low];
+
+        while (i < j) {
+            //从右边开始，依次往左递减
+            while (temp <= arr[j] && i < j) {
+                j--;
+            }
+            //从左边开始，依次往右递增
+            while (temp >= arr[i] && i < j) {
+                i++;
+            }
+            //如果满足条件则交换
+            if (i < j) {
+                t = arr[j];
+                arr[j] = arr[i];
+                arr[i] = t;
+            }
+
+        }
+        //最后将基准为与i和j相等位置的数字交换
+        arr[low] = arr[i];
+        arr[i] = temp;
+        if(low < i) {
+            quickSort(arr, low, j - 1);
+        }
+        if(j < high) {
+            quickSort(arr, j + 1, high);
+        }
+    }
+
 
 }
