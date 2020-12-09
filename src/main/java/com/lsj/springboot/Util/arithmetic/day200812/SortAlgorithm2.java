@@ -11,6 +11,8 @@ package com.lsj.springboot.Util.arithmetic.day200812;
  * https://mp.weixin.qq.com/s/QG5gmGHpqzNrkltVwbb0yQ
  * 交换排序：冒泡排序和快速排序（如果发现两个记录的次序相反时即进行交换，直到没有反序位置）
  *
+ * https://mp.weixin.qq.com/s?__biz=MzIwNDgxNDM0MQ==&mid=2247488326&idx=1&sn=588db1a91cf33a180dc074a80688e1a5&chksm=973b322ca04cbb3a6037850c5bd6dc876011f17a3c2eca62392ad724a85f9512fc3f2b0758f1&scene=21#wechat_redirect
+ * 选择排序：直接选择排序和堆排序(每一趟从待排序的记录中选出关键字最小的记录，顺序放在已排好序的子文件的最后，直到全部记录排序完毕)
  *
  */
 public class SortAlgorithm2 {
@@ -19,8 +21,11 @@ public class SortAlgorithm2 {
        /* int[] array = new int[]{9, 3, 8, 7, 5, 9, 1, 2, 10, 9};
         sort4(array);*/
 
-        int[] array = new int[]{11, 7, 1, 33, 2, 22};
-        sort4(array);
+       /* int[] array = new int[]{11, 7, 1, 33, 2, 22};
+        sort5(array);*/
+
+        int[] array = new int[]{10, 15, 56, 25, 30, 70};
+        sort6(array);
 
         for (int i = 0; i < array.length; i++) {
             System.out.println(array[i]);
@@ -174,5 +179,103 @@ public class SortAlgorithm2 {
         }
     }
 
+    /**
+     * 5.直接选择排序
+     * 数组分成有序区和无序区，初始时整个数组都是无序区，然后每次从无序区选一个最小的元素直接放到有序区的最后，直到整个数组变有序区。
+     * 注意，第1趟排序开始时，无序区为R[1..n]，有序区为空。
+     *
+     * 第i趟排序开始时，当前有序区和无序区分别为R[1..i-1]和R[i..n](1≤i≤n-1)，该趟排序则是从当前无序区中选出关键字最小的记录R[k]，
+     * 将它与无序区的第1个记录R[i]交换，使R[1..i]和R[i+1..n]分别变为新的有序区和新的无序区。因为每趟排序均使有序区中增加了一个记录，
+     * 且有序区中的记录关键字均不大于无序区中记录的关键字，即第i趟排序之后R[1..i].keys≤R[i+1..n].keys，
+     * 所以进行n-1趟排序之后有R[1..n-1].keys≤R[n].key，也就是说，经过n-1趟排序之后，整个文件R[1..n]递增有序。
+     *
+     * 时间复杂度：O(n^2) 空间复杂度：O(1)  稳定性：不稳定
+     * @param arrays
+     */
+    private static void sort5(int[] arrays){
+        int i, j, temp, minIndex;
+        for(i = 0; i < arrays.length - 1; i++){// 冒泡排序、直接插入排序、直接选择排序 进行 n - 1 次循环
+            minIndex = i;//初始化将第一个值设置成最小值的下标
+            for(j = i + 1; j < arrays.length; j++){// 从i + 1中选取最小值
+                if(arrays[minIndex] > arrays[j]){
+                    minIndex = j;
+                }
+            }
+            if(minIndex != i) {
+                temp = arrays[minIndex];
+                arrays[minIndex] = arrays[i];
+                arrays[i] = temp;
+            }
+        }
+    }
+
+    /**
+     * 6.堆排序
+     * 直接选择排序中，为了从R[1..n]中选出关键字最小的记录，必须进行n-1次比较，然后在R[2..n]中选出关键字最小的记录，又需要做n-2次比较。
+     * 事实上，后面这n-2次比较中，有许多比较可能在前面的n-1次比较中已经做过，但由于前一趟排序时未保留这些比较的结果，所以后一趟排序时又重复执行了这些比较操作。堆排序可以克服这一缺点。
+     * 堆排序( Heap Sort)是一树形选择排序，特点：在排序过程中，将R[1..n]看成是一棵完全二叉树的顺序存储结构，利用完全二叉树中双亲结点和孩子结点之间的内在关系，在当前无序区中选择关键字最大(或最小)的记录。
+     *
+     * 基本思想是：
+     * 1、将带排序的序列构造成一个大顶堆，根据大顶堆的性质，当前堆的根节点（堆顶）就是序列中最大的元素；
+     * 2、将堆顶元素和最后一个元素交换，然后将剩下的节点重新构造成一个大顶堆；
+     * 3、重复步骤2，如此反复，从第一次构建大顶堆开始，每一次构建，我们都能获得一个序列的最大值，然后把它放到大顶堆的尾部。最后，就得到一个有序的序列了
+     *
+     * 时间复杂度：O(nlogn)   空间复杂度：O(1)  稳定性：不稳定
+     * @param arrays
+     */
+    private static void sort6(int[] arrays){
+        if(arrays == null || arrays.length == 0){
+            return;
+        }
+        int len = arrays.length;
+        //构建最大堆, 这里其实就是把待排序序列，变成一个大顶堆结构的数组
+        buildMaxHeap(arrays, len);
+        // 交换堆顶和当前末尾的节点，重置大顶堆
+        for(int i = len - 1; i > 0; i--){
+            swap (arrays, 0, i);// 堆顶元素与最后一个值互换
+            len--;
+            heapify(arrays, 0, len);
+        }
+    }
+
+    /**
+     * 构建最大堆
+     */
+    private static void buildMaxHeap(int[] arrays, int len){
+        //从第一个非叶子节点向前遍历，调整节点的位置，使之成为最大堆
+        for(int i = (int)Math.floor(len / 2) - 1; i >= 0; i--){
+            heapify(arrays, i, len);
+        }
+    }
+
+    /**
+     * 堆化
+     * @param arrays
+     * @param cur
+     * @param len
+     */
+    private static void heapify(int[] arrays, int cur, int len){
+        int left = cur * 2 + 1;
+        int right = cur * 2 + 2;
+        int maxIndex = cur;//初始化当前下标为最大值的下标
+        if(left < len && arrays[left] > arrays[maxIndex]){
+            maxIndex = left;
+        }
+        if(right < len && arrays[right] > arrays[maxIndex]){
+            maxIndex = right;
+        }
+        if(maxIndex != cur){
+            swap (arrays, maxIndex, cur);
+            // 因为互换之后，子节点的值变了，如果该子节点也有自己的子节点，仍需要再次调整
+            heapify(arrays, maxIndex, len);
+        }
+    }
+
+
+    private static void swap (int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
 
 }
