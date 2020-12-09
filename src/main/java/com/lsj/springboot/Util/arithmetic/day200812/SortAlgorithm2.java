@@ -1,5 +1,7 @@
 package com.lsj.springboot.Util.arithmetic.day200812;
 
+import java.util.Arrays;
+
 /**
  * Created by 10326 on 2020/11/25.
  *
@@ -14,6 +16,9 @@ package com.lsj.springboot.Util.arithmetic.day200812;
  * https://mp.weixin.qq.com/s?__biz=MzIwNDgxNDM0MQ==&mid=2247488326&idx=1&sn=588db1a91cf33a180dc074a80688e1a5&chksm=973b322ca04cbb3a6037850c5bd6dc876011f17a3c2eca62392ad724a85f9512fc3f2b0758f1&scene=21#wechat_redirect
  * 选择排序：直接选择排序和堆排序(每一趟从待排序的记录中选出关键字最小的记录，顺序放在已排好序的子文件的最后，直到全部记录排序完毕)
  *
+ * https://mp.weixin.qq.com/s?__biz=MzIwNDgxNDM0MQ==&mid=2247488381&idx=1&sn=cda39697c65cd7d567982fe122dd00b5&chksm=973b3217a04cbb01539e3545617243f43118ebba533bffd0e1022f45d9c225d56fc14e78c715&scene=21#wechat_redirect
+ * 归并排序：（Merge sort）是建立在归并操作上的一种有效的排序算法。该算法是采用分治法（Divide and Conquer）的一个非常典型的应用。
+ *
  */
 public class SortAlgorithm2 {
 
@@ -25,7 +30,7 @@ public class SortAlgorithm2 {
         sort5(array);*/
 
         int[] array = new int[]{10, 15, 56, 25, 30, 70};
-        sort6(array);
+        sort7(array);
 
         for (int i = 0; i < array.length; i++) {
             System.out.println(array[i]);
@@ -276,6 +281,73 @@ public class SortAlgorithm2 {
         int temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
+    }
+
+    /**
+     *  7.归并排序
+     *  归并排序的实现由两种方法：自上而下的递归（所有递归的方法都可以用迭代重写，所以就有了第 2 种方法）；自下而上的迭代;
+     *  算法步骤：
+     *  1、申请空间，使其大小为两个已经排序序列之和，该空间用来存放合并后的序列；
+     *  2、设定两个指针，最初位置分别为两个已经排序序列的起始位置；
+     *  3、比较两个指针所指向的元素，选择相对小的元素放入到合并空间，并移动指针到下一位置；
+     *  4、重复步骤 3 直到某一指针达到序列尾；
+     *  5、将另一序列剩下的所有元素直接复制到合并序列尾。
+     *  时间复杂度：O(nlogn)  空间复杂度：O(n)  稳定性：稳定
+     * @param arrays
+     */
+    private static int[] sort7(int[] arrays){
+        return sort(arrays, 0, arrays.length - 1);// 归并排序需要将结果返回
+    }
+
+    /**
+     * 不断的拆分
+     * @param arrays
+     * @param start
+     * @param end
+     * @return
+     */
+    private static int[] sort(int[] arrays, int start, int end){
+        if(start == end){
+            return Arrays.copyOfRange(arrays, start, end + 1);// 该函数含头不含尾
+        }
+        int mid = (end - start) / 2 + start;
+        int[] left = sort(arrays, start, mid);
+        int[] right = sort(arrays, mid + 1, end);
+        return merge(left, right);
+    }
+
+    /**
+     * 归并
+     * @param left
+     * @param right
+     * @return
+     */
+    private static int[] merge(int[] left, int[] right){
+        int[] merge = new int[left.length + right.length];
+        int lIndex = 0;
+        int rIndex = 0;
+        int cur = 0;
+        while(lIndex < left.length && rIndex < right.length){
+            if(left[lIndex] > right[rIndex]){
+                merge[cur++] = right[rIndex++];
+            }else if(left[lIndex] < right[rIndex]){
+                merge[cur++] = left[lIndex++];
+            }else{
+                merge[cur++] = left[lIndex++];
+                merge[cur++] = right[rIndex++];
+            }
+        }
+        if(lIndex < left.length){
+            while (lIndex < left.length){
+                merge[cur++] = left[lIndex++];
+            }
+        }
+        if(rIndex < right.length){
+            while (rIndex < right.length){
+                merge[cur++] = right[rIndex++];
+            }
+        }
+        return merge;
     }
 
 }
