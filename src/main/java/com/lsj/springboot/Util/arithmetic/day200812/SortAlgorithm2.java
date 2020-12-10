@@ -19,18 +19,24 @@ import java.util.Arrays;
  * https://mp.weixin.qq.com/s?__biz=MzIwNDgxNDM0MQ==&mid=2247488381&idx=1&sn=cda39697c65cd7d567982fe122dd00b5&chksm=973b3217a04cbb01539e3545617243f43118ebba533bffd0e1022f45d9c225d56fc14e78c715&scene=21#wechat_redirect
  * 归并排序：（Merge sort）是建立在归并操作上的一种有效的排序算法。该算法是采用分治法（Divide and Conquer）的一个非常典型的应用。
  *
+ * https://mp.weixin.qq.com/s?__biz=MzIwNDgxNDM0MQ==&mid=2247488426&idx=1&sn=dd45be7db35c0184359451dc22004c95&chksm=973b32c0a04cbbd619417c97b60c6b6721db22aac8014ed11e0e09be71271b7d99f1a12d06b4&scene=21#wechat_redirect
+ * 分配排序：桶排序和基数排序
+ *
  */
 public class SortAlgorithm2 {
 
     public static void main(String[] args){
-       /* int[] array = new int[]{9, 3, 8, 7, 5, 9, 1, 2, 10, 9};
-        sort4(array);*/
+      /*  int[] array = new int[]{9, 3, 8, 7, 5, 1, 2, 10, 9};
+        array = sort8(array);*/
 
        /* int[] array = new int[]{11, 7, 1, 33, 2, 22};
         sort5(array);*/
 
-        int[] array = new int[]{10, 15, 56, 25, 30, 70};
-        sort7(array);
+   /*     int[] array = new int[]{10, 15, 56, 25, 30, 70};
+        sort(array);*/
+
+        int[] array = new int[]{4, 154, 56, 5, 34, 75};
+        sort9(array);
 
         for (int i = 0; i < array.length; i++) {
             System.out.println(array[i]);
@@ -349,5 +355,153 @@ public class SortAlgorithm2 {
         }
         return merge;
     }
+
+    /**
+     * 8.桶排序
+     * 桶排序（箱排序 (Bucket sort)），工作的原理是将数组分到有限数量的桶子里。
+     * 每个桶子再个别排序（有可能再使用别的排序算法或是以递归方式继续使用桶排序进行排序。
+     *
+     * 算法步骤：
+     * 假设有一组长度为N的待排关键字序列K[1....n]。
+     * 1、首先将这个序列划分成M个的子区间(桶)。
+     * 2、然后基于某种映射函数 ，将待排序列的关键字k映射到第i个桶中(即桶数组B的下标 i) ，那么该关键字k就作为B[i]中的元素(每个桶B[i]都是一组大小为N/M的序列)。
+     * 3、对每个桶B[i]中的所有元素进行比较排序(可以使用快排)。
+     * 4、然后依次枚举输出B[0]....B[M]中的全部内容即是一个有序序列
+     *
+     * 前面所讨论的排序算法均是基于关键字之间的比较来实现的，而理论上已证明：
+     * 对于这样的排序，无论用何方法都至少要进行[lgn]次关键字的比较。由 Stirling公式可知lgn≈nlgn-1.44n+0(lgn)，所以基于关键字比较的排序时间下界是O(nlgn)。
+     * 但是，若不通过比较关键字来排序，则可能突破此下界。
+     * 分配排序正是如此，排序过程无须比较关键字，而是通过“分配”和“收集”过程来实现排序，它们的时间复杂度可达到线性阶：O(n)
+     *
+     * 时间复杂度：O(n+k) 空间复杂度：O(n+k)    稳定性：稳定
+     * @param arrays
+     */
+    private static int[] sort8(int[] arrays){
+        return bucketsort(arrays, 5);
+    }
+
+    private static int[] bucketsort(int[] arrays, int bucketSize){
+        if(arrays == null || arrays.length == 0){
+            return arrays;
+        }
+        // 1.根据最大值、最小值计算桶的长度
+        int minVal = arrays[0];
+        int maxVal = arrays[0];
+        for(int arr : arrays){
+            if(arr < minVal){
+                minVal = arr;
+            }else if(arr > maxVal){
+                maxVal = arr;
+            }
+        }
+        int bucketCount = (int)Math.floor((maxVal - minVal) / bucketSize) + 1;
+
+        // 初始化桶
+        int[][] buckets = new int[bucketCount][0];
+
+        for (int arr : arrays){
+            // 2.计算每个元素桶里面的下标
+            int bucketIndex = (int)Math.floor((arr - minVal) / bucketSize);
+            buckets[bucketIndex] = arrayAppend(buckets[bucketIndex], arr);
+        }
+
+        // 3.每个桶进行排序，并合并成新的数组
+        int sortIndex = 0;
+        for(int[] bucket : buckets){
+            if(bucket == null || bucket.length == 0){// 桶为空
+                continue;
+            }
+            sort6(bucket);// 使用堆排序对每个桶进行排序
+            for(int arr : bucket){
+                arrays[sortIndex++] = arr;
+            }
+        }
+        return arrays;
+    }
+
+    /**
+     * 数组扩容，并记录对应的值
+     * @param arrays
+     * @param arr
+     */
+    private static int[] arrayAppend(int[] arrays, int arr){
+        arrays = Arrays.copyOf(arrays, arrays.length + 1);
+        arrays[arrays.length - 1] = arr;
+        return arrays;
+    }
+
+    /**
+     * 9.基数排序
+     * 基数排序(Radix Sort)是桶排序的扩展，它的基本思想是：
+     * 将整数按位数切割成不同的数字，然后按每个位数分别比较。
+     * 具体做法：将所有待比较数值统一为同样的数位长度，数位较短的数前面补零。然后，从最低位开始，依次进行一次排序。
+     * 这样从最低位排序一直到最高位排序完成以后, 数列就变成一个有序序列。
+     *
+     * 算法步骤
+     * 1、将所有待比较数值（正整数）统一为同样的数位长度，数位较短的数前面补零。
+     * 2、从最低位开始，依次进行一次排序。
+     * 3、这样从最低位排序一直到最高位排序完成以后, 数列就变成一个有序序列。
+     *
+     * 时间复杂度：O(n*k) 空间复杂度：O(n+k)    稳定性：稳定
+     * @param sourceArray
+     * @return
+     */
+    public static int[] sort9(int[] sourceArray){
+        int maxDigit = getMaxDigit(sourceArray);// 获取最大值的位数
+        return radixSort(sourceArray, maxDigit);
+    }
+
+    /**
+     * 获取最高位数
+     */
+    private static int getMaxDigit(int[] arr) {
+        int maxValue = getMaxValue(arr);
+        return getNumLenght(maxValue);
+    }
+
+    private static int getMaxValue(int[] arr) {
+        int maxValue = arr[0];
+        for (int value : arr) {
+            if (maxValue < value) {
+                maxValue = value;
+            }
+        }
+        return maxValue;
+    }
+
+    protected static int getNumLenght(long num) {
+        if (num == 0) {
+            return 1;
+        }
+        int lenght = 0;
+        for (long temp = num; temp != 0; temp /= 10) {
+            lenght++;
+        }
+        return lenght;
+    }
+
+    private static int[] radixSort(int[] arrays, int maxDigit) {
+        // 用于取出某个位数上的值 arr % mod / dev
+        int mod = 10;// 用于取余数
+        int dev = 1;// 用于取整数
+        for(int i = 0; i < maxDigit; i++, mod *= 10, dev *= 10){
+            int[][] buckets = new int[mod * 2][0];// *2 用于存储负数
+            for(int arr : arrays){
+                int bucketIndex = (arr % mod) / dev + mod;
+                buckets[bucketIndex] = arrayAppend(buckets[bucketIndex], arr);
+            }
+            int bucketIndex = 0;
+            for(int[] bucket : buckets){
+                if(bucket == null || bucket.length == 0){
+                    continue;
+                }
+                for(int arr : bucket){
+                    arrays[bucketIndex++] =  arr;
+                }
+            }
+        }
+        return arrays;
+    }
+
 
 }
