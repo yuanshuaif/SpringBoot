@@ -1,4 +1,4 @@
-package com.lsj.springboot.Util.arithmetic.day200812;
+package com.lsj.springboot.Util.arithmetic.day200812.sort;
 
 import java.util.Arrays;
 import java.util.Comparator;
