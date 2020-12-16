@@ -3,6 +3,9 @@ package com.lsj.springboot.Util.arithmetic.day200812.search;
 /**
  * https://mp.weixin.qq.com/s?__biz=MzIwNDgxNDM0MQ==&mid=2247488478&idx=1&sn=c0dcff11a8a7f097b21d6da448e80bcb&chksm=973b32b4a04cbba2b1c2ba59120d38e13cabf3bbe3529ec92100831315d0f7ff91347df014a7&scene=21#wechat_redirect
  * 线性表的查找
+ *
+ * https://mp.weixin.qq.com/s?__biz=MzIwNDgxNDM0MQ==&mid=2247488518&idx=1&sn=2ccff20c9efa7f247be4fa1412cbf831&chksm=973b356ca04cbc7a7c94ee7a6ecd27364d2e6ecf52705c4fc45f18a3758df238845c76f3f8c6&scene=21#wechat_redirect
+ * 树的查找
  */
 
 public class Search {
@@ -96,6 +99,41 @@ public class Search {
 //        System.out.println(binarySearch(integers, 6));
 
         System.out.println(blocksearch(new int[]{3, 6, 9}, new int[]{3, 1, 6, 4, 8, 9}, 8, 2));
+    }
+
+    /**
+      * 树的查找
+     */
+    class TreeSearch {
+
+        public class BiTreeNode {
+            int value;
+            BiTreeNode left;
+            BiTreeNode right;
+        }
+
+
+        /**
+         * 1.二叉排序树（二叉搜索树）的查找
+         * 二叉排序树( Binary Sort Tree称二叉查找(搜索) Binary Search Tree，
+         * 定义：二叉排序树或者是空树，或者是满足如下性质的二叉树：
+         * ①若它的左子树非空，则左子树上所有结点的值均小于根结点的值；
+         * ②若它的右子树非空，则右子树上所有结点的值均大于根结点的值；
+         * ③左、右子树本身又各是一棵二叉排序树。
+         */
+        //二叉排序树，二叉查找树，二查搜索树，是一颗具有如下特点的树，树的左边都比它小，树的右边都比它大。
+        public BiTreeNode BinaryBiSearch(BiTreeNode pHead, int b) {
+            if (pHead == null)
+                return null;
+            if (pHead.value == b) {
+                return pHead;
+            } else if (pHead.value > b) {
+                return BinaryBiSearch(pHead.left, b);
+            } else if (pHead.value < b) {
+                return BinaryBiSearch(pHead.right, b);
+            }
+            return null;
+        }
     }
 
 }
