@@ -1,7 +1,9 @@
 package com.lsj.springboot.Util.arithmetic.day200812.sort;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  *  1491. 去掉最低工资和最高工资后的工资平均值
@@ -15,6 +17,10 @@ import java.util.Comparator;
  *  976. 三角形的最大周长
  *
  *  56. 合并区间
+ *
+ *  57. 插入区间
+ *
+ *  1288. 删除被覆盖区间
  *
  *  面试题 17.14. 最小K个数
  *
@@ -60,6 +66,13 @@ public class Sort {
      * 输入一个整型数组，数组中的一个或连续多个整数组成一个子数组。求所有子数组的和的最大值。
      * 输入: nums = [-2,1,-3,4,-1,2,1,-5,4]   输出: 6   解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
      * 动态规划时间复杂度O(n)  分治算法时间复杂度O(nlogn)
+     *
+     * 思路：连续子序列的最大和主要由这三部分子区间里元素的最大和得到：
+     *      第 1 部分：子区间 [left, mid]；
+     *      第 2 部分：子区间 [mid + 1, right]；
+     *      第 3 部分：包含子区间 [mid , mid + 1] 的子区间，即 nums[mid] 与 nums[mid + 1] 一定会被选取。
+     *      对这三个部分求最大值即可。
+     *      说明：考虑第 3 部分跨越两个区间的连续子数组的时候，由于 nums[mid] 与 nums[mid + 1] 一定会被选取，可以从中间向两边扩散，扩散到底 选出最大值。
      * @param nums
      * @return
      */
@@ -100,43 +113,47 @@ public class Sort {
      * 输入：[4,2,5,7]     输出：[4,5,2,7]    解释：[4,7,2,5]，[2,5,4,7]，[2,7,4,5] 也会被接受。
      * 2 <= A.length <= 20000       A.length % 2 == 0       0 <= A[i] <= 1000
      *
+     * 双指针
      * @param A
      * @return
      */
     public static int[] sortArrayByParityII(int[] A) {
         int temp = 0;
-        int j = 1;
-        for(int i = 0; i < A.length; i = i + 2){
-            if(A[i] % 2 == 1){// 偶数位如果是奇数
-                for(; i < A.length; j = j + 2){
-                    if(A[j] % 2 != 1){// 奇数位如果是偶数
-                        temp = A[j];
-                        A[j] = A[i];
-                        A[i] = temp;
+        int even = 0;
+        int odd = 1;
+        for(; even < A.length; even = even + 2){
+            if(A[even] % 2 == 1){// 偶数位如果是奇数
+                for(; odd < A.length; odd = odd + 2){
+                    if(A[odd] % 2 != 1){// 奇数位如果是偶数
+                        temp = A[odd];
+                        A[odd] = A[even];
+                        A[even] = temp;
                         break;
                     }
                 }
             }
         }
         return A;
-    }
-
-    /**
-     * 252. 会议室
-     * 给定一个会议时间安排的数组，每个会议时间都会包括开始和结束的时间 [[s1,e1],[s2,e2],...] (si < ei)，请你判断一个人是否能够参加这里面的全部会议。
-     * 输入: [[0,30],[5,10],[15,20]]   输出: false
-     * 输入: [[7,10],[2,4]]   输出: true
-     * @param intervals
-     * @return
-     */
-    public boolean canAttendMeetings(int[][] intervals) {
-        Arrays.sort(intervals, (a1, a2) -> a1[0] - a2[0]);// 对第一列进行排序
-        for(int i = 0; i < intervals.length - 1; i++){
-            if(intervals[i][1] > intervals[i + 1][0]){
-                return false;
+        /*int temp = 0;
+        int even = 0;// 偶数
+        int odd = 1;// 奇数
+        for(; even < A.length && odd < A.length; ){
+            if(A[even] % 2 == 1 && A[odd] % 2 != 1){// 偶数位如果是奇数 && 奇数位如果是偶数
+                temp = A[odd];
+                A[odd] = A[even];
+                A[even] = temp;
+                even = even + 2;
+                odd = odd + 2;
+            }else if(A[even] % 2 == 1){// 偶数位如果是奇数
+                odd = odd + 2;
+            }else if(A[odd] % 2 != 1){// 奇数位如果是偶数
+                even = even + 2;
+            }else {
+                even = even + 2;
+                odd = odd + 2;
             }
         }
-        return true;
+        return A;*/
     }
 
     /**
@@ -159,52 +176,195 @@ public class Sort {
     }
 
     /**
-     * 56. 合并区间
-     * 输入: intervals = [[1,3],[2,6],[8,10],[15,18]]     输出: [[1,6],[8,10],[15,18]]
-     * 输入: intervals = [[1,4],[4,5]]    输出: [[1,5]]
-     * 输入: intervals = [[1,4],[2,3],[4,5],[6,7]]    输出: [[1,5]],[6,7]]
-     * @param intervals
-     * @return
+     * 区间算法的相关题目
      */
-    public int[][] merge(int[][] intervals) {
-        // [[1,4],[2,3],[4,5],[6,7]]
-        // [[1,3],[2,6],[8,10],[15,18]]
-        if(intervals.length == 0){
+    static class Interval{
+
+
+        /**
+         * 252. 会议室
+         * 给定一个会议时间安排的数组，每个会议时间都会包括开始和结束的时间 [[s1,e1],[s2,e2],...] (si < ei)，请你判断一个人是否能够参加这里面的全部会议。
+         * 输入: [[0,30],[5,10],[15,20]]   输出: false
+         * 输入: [[7,10],[2,4]]   输出: true
+         * @param intervals
+         * @return
+         */
+        public boolean canAttendMeetings(int[][] intervals) {
+            Arrays.sort(intervals, (a1, a2) -> a1[0] - a2[0]);// 对第一列进行排序
+            for(int i = 0; i < intervals.length - 1; i++){
+                if(intervals[i][1] > intervals[i + 1][0]){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /**
+         * 56. 合并区间
+         * 输入: intervals = [[1,3],[2,6],[8,10],[15,18]]     输出: [[1,6],[8,10],[15,18]]
+         * 输入: intervals = [[1,4],[4,5]]    输出: [[1,5]]
+         * 输入: intervals = [[1,4],[2,3],[4,5],[6,7]]    输出: [[1,5]],[6,7]]
+         *
+         *  （区间问题：重叠区间、合并区间、插入区间）（相交一部分；全部相交；不相交）
+         *  核心算法：1.先根据区间的起始位置排序；2.再进行 n -1n−1 次 两两合并。
+         * @param intervals
+         * @return
+         */
+        public int[][] merge(int[][] intervals) {
+            if(intervals == null && intervals.length < 2){
+                return intervals;
+            }
+            // 1.对二维数组第一列进行排序
+            Arrays.sort(intervals, (a1, a2) -> a1[0] -a2[0]);
+            int[][] res = new int[intervals.length][2];
+            int index = -1;
+            for(int[] interval : intervals){
+                if(index == -1 || interval[0] > res[index][1]){// 2.1返回列表为空或者2者不相交时，直接放入返回数组
+                    res[++index] = interval;
+                }else{// 2.2部分相交或者全部相交
+                    res[index][1] = Math.max(res[index][1], interval[1]);
+                }
+            }
+            return Arrays.copyOf(res, index + 1);
+        }
+
+        /**
+         * 57. 插入区间
+         * 给出一个无重叠的 ，按照区间起始端点排序的区间列表。
+         * 在列表中插入一个新的区间，你需要确保列表中的区间仍然有序且不重叠（如果有必要的话，可以合并区间）。
+         * 输入：intervals = [[1,3],[6,9]], newInterval = [2,5]    输出：[[1,5],[6,9]]
+         *
+         * 输入：intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]       输出：[[1,2],[3,10],[12,16]]
+         * 解释：这是因为新的区间 [4,8] 与 [3,5],[6,7],[8,10] 重叠。
+         * https://mp.weixin.qq.com/s/ioUlNa4ZToCrun3qb4y4Ow           区间的相关问题
+         *
+         * 本题中的区间已经按照起始端点升序排列，因此我们直接遍历区间列表，寻找新区间的插入位置即可。具体步骤如下：
+         * 1.首先将新区间左边且相离的区间加入结果集（遍历时，如果当前区间的结束位置小于新区间的开始位置，说明当前区间在新区间的左边且相离）；
+         * 2.接着判断当前区间是否与新区间重叠，重叠的话就进行合并，直到遍历到当前区间在新区间的右边且相离，将最终合并后的新区间加入结果集；
+         * 3.最后将新区间右边且相离的区间加入结果集。
+         *
+         * 滑动窗口思想
+         * @param intervals
+         * @param newInterval
+         * @return
+         */
+        public int[][] insert(int[][] intervals, int[] newInterval) {
+       /* if(intervals == null){
+            intervals = new int[][]{newInterval};
             return intervals;
         }
-        Arrays.sort(intervals, (a1, a2) -> a1[0] - a2[0]);
-        int[][] ans = new int[intervals.length][2];
-        int start = 0;
-        int end = 0;
-        int cur = 0;// 返回结果指针
-        boolean flag = false;
-        for(int i = 0; i < intervals.length; i++){
-            end = Math.max(intervals[i][1], end);
-            if(i != intervals.length - 1){
-                if(end < intervals[i + 1][0]){
-                    ans[cur][0] = flag ? start : intervals[i][0];
-                    ans[cur][1] = end;
-                    cur++;
-                    start = 0;
-                    flag = false;
-                }else{
-                    if(!flag){
-                        start = intervals[i][0];
-                        flag = true;
-                    }
-                }
-            }else{
-                ans[cur][0] = flag ? start : intervals[i][0];
-                ans[cur][1] = end;
+        intervals = Arrays.copyOf(intervals, intervals.length + 1);
+        intervals[intervals.length - 1] = newInterval;
+
+        // 1.对二维数组第一列进行排序
+        Arrays.sort(intervals, (a1, a2) -> a1[0] -a2[0]);
+        int[][] res = new int[intervals.length][2];
+        int index = -1;
+        for(int[] interval : intervals){
+            if(index == -1 || interval[0] > res[index][1]){// 2.1返回列表为空或者2者不相交时，直接放入返回数组
+                res[++index] = interval;
+            }else{// 2.2部分相交或者全部相交
+                res[index][1] = Math.max(res[index][1], interval[1]);
             }
         }
-        return Arrays.copyOfRange(ans, 0, cur + 1);
+        return Arrays.copyOf(res, index + 1);*/
+            if(intervals == null){
+                intervals = new int[][]{newInterval};
+                return intervals;
+            }
+            int length = intervals.length;
+            int[][] res = new int[length + 1][2];
+            int idx = 0;
+            int i = 0;
+            // 1.将新区间左边且相离的区间加入结果集
+            while(i < length && intervals[i][1] < newInterval[0]){
+                res[idx++] = intervals[i++];
+            }
+            // 2.接着判断当前区间是否与新区间重叠，重叠的话就进行合并，直到遍历到当前区间在新区间的右边且相离，将最终合并后的新区间加入结果集；
+            while(i < length && intervals[i][0] <= newInterval[1]){
+                newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
+                newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
+                i++;
+            }
+            res[idx++] = newInterval;
+            // 3.最后将新区间右边且相离的区间加入结果集。
+            while(i < length){
+                res[idx++] = intervals[i++];
+            }
+            return Arrays.copyOf(res, idx);
+        }
+
+        /**
+         * 1288. 删除被覆盖区间
+         * 给你一个区间列表，请你删除列表中被其他区间所覆盖的区间。只有当 c <= a 且 b <= d 时，我们才认为区间 [a,b) 被区间 [c,d) 覆盖。
+         * 在完成所有删除操作后，请你返回列表中剩余区间的数目。
+         * 输入：intervals = [[1,4],[3,6],[2,8]]   输出：2    解释：区间 [3,6] 被区间 [2,8] 覆盖，所以它被删除了。
+         * 1 <= intervals.length <= 1000    0 <= intervals[i][0] < intervals[i][1] <= 10^5  对于所有的 i != j：intervals[i] != intervals[j]
+         *
+         * 1.先对原始数组进行排序，左边界升序，右边界降序，这样遍历比较时只需要考虑右边界即可。以此保证左边界相同时，右边的都是可以删除的。
+         * 2.用一个符号max记录当前最大的有边界，当左边界不同时，当前右边界的若小于前一个，则可删除，否则就比较当前右边界和上一个哪一个较大，替换max。
+         * @param intervals
+         * @return
+         */
+        public int removeCoveredIntervals(int[][] intervals) {
+            Arrays.sort(intervals, (a, b) -> a[0] == b[0] ? b[1] - a[1] : a[0] - b[0]);// 开始位置升序，结束位置降序
+            int length = intervals.length;
+            int count = length;
+            int max = intervals[0][1];
+            for(int i = 1; i < length; i++){
+                if(intervals[i][1] <= max){
+                    count--;
+                }else {
+                    max = intervals[i][1];
+                }
+            }
+            return count;
+        }
+
+        /**
+         * 228. 汇总区间
+         * 给定一个无重复元素的有序整数数组 nums 。
+         * 返回 恰好覆盖数组中所有数字 的 最小有序 区间范围列表。也就是说，nums 的每个元素都恰好被某个区间范围所覆盖，并且不存在属于某个范围但不属于 nums 的数字 x 。
+         * 列表中的每个区间范围 [a,b] 应该按如下格式输出："a->b" ，如果 a != b          "a" ，如果 a == b
+         *
+         * 输入：nums = [0,1,2,4,5,7]  输出：["0->2","4->5","7"]
+         * 解释：区间范围是：[0,2] --> "0->2"     [4,5] --> "4->5"    [7,7] --> "7"
+         *
+         * 输入：nums = [0,2,3,4,6,8,9]    输出：["0","2->4","6","8->9"]
+         * 解释：区间范围是：[0,0] --> "0"   [2,4] --> "2->4"    [6,6] --> "6"   [8,9] --> "8->9"
+         *
+         * 输入：nums = []     输出：[]
+         * 输入：nums = [-1]   输出：["-1"]
+         * 输入：nums = [0]    输出：["0"]
+         *
+         * 0 <= nums.length <= 20       -231 <= nums[i] <= 231 - 1      nums 中的所有值都 互不相同
+         *
+         * 双指针
+         * @param nums
+         * @return
+         */
+        public static List<String> summaryRanges(int[] nums) {
+            List<String> result = new ArrayList<>();
+            int start = 0;
+            for(int cur = 0; cur < nums.length; cur++){
+                if(cur + 1 == nums.length || nums[cur] + 1 != nums[cur + 1]){// 结束了或者不连续则输出
+                    result.add(nums[start] + (cur == start ? "" : "->" + nums[cur]));
+                    start = cur + 1;
+                }
+            }
+            return result;
+        }
+
+        public static void main(String[] args){
+            System.out.println(summaryRanges(new int[]{0,1,2,4,5,7}));
+        }
     }
 
     /**
      * 面试题 17.14. 最小K个数
      * 设计一个算法，找出数组中最小的k个数。以任意顺序返回这k个数均可。
      * 示例：输入： arr = [1,3,5,7,2,4,6,8], k = 4    输出： [1,2,3,4]
+     * 快排思想
      * @param arr
      * @param k
      * @return
@@ -252,6 +412,7 @@ public class Sort {
      * 给定一个包含红色、白色和蓝色，一共 n 个元素的数组，原地对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。
      * 此题中，我们使用整数 0、 1 和 2 分别表示红色、白色和蓝色。
      * 输入: [2,0,2,1,1,0]    输出: [0,0,1,1,2,2]
+     * 三指针
      * @param nums
      */
     public void sortColors(int[] nums) {
@@ -338,6 +499,7 @@ public class Sort {
      */
     public static int[] relativeSortArray(int[] arr1, int[] arr2) {
         int cur = 0;
+        // 对在arr2里出现的元素进行排序
         for(int i = 0; i < arr2.length; i++){
             for(int j = cur; j < arr1.length; j++){
                 if(arr1[j] == arr2[i]){
@@ -347,6 +509,7 @@ public class Sort {
                 }
             }
         }
+        // 对没在arr2里出现的元素进行排序
         int[] temp = Arrays.copyOfRange(arr1, cur, arr1.length);
         Arrays.sort(temp);
         for(int i = 0; i < temp.length; i++){
@@ -372,7 +535,7 @@ public class Sort {
         Arrays.sort(piles);
         int ans = 0;
         for(int i = 0; i < piles.length / 3; i++){
-            ans += piles[piles.length - 2 * (i + 1)];
+            ans += piles[piles.length - 2 * (i + 1)];// 本人每次都取倒数第二个，才能保证规则内，利益最大化
         }
         return ans;
     }
@@ -386,6 +549,7 @@ public class Sort {
      * @return
      */
     public String largestNumber(int[] nums) {
+        // 使用temp的原因是, Arrays.sort(),使用封装类
         Integer[] temp = new Integer[nums.length];
         for(int i = 0; i < nums.length; i++){
             temp[i] = nums[i];
@@ -398,32 +562,6 @@ public class Sort {
                 return s2.compareTo(s1);
             }
         });
-        /*Arrays.sort(temp, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer n1, Integer n2) {
-                int len1 = (n1 + "").length();
-                int len2 = (n2 + "").length();
-                if (len1 == len2) {
-                    if (n1 > n2) {
-                        return -1;
-                    } else if (n1 < n2) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
-                }
-                // [10,2]
-                int combination1 = (int) (n1 * Math.pow(10, len2)) + n2;// 10 * 10 + 2 = 102
-                int combination2 = (int) (n2 * Math.pow(10, len1)) + n1;// 2* 10 * 10 + 10 = 210
-                if (combination1 > combination2) {
-                    return -1;
-                } else if (combination1 < combination2) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            }
-        });*/
         StringBuilder sb = new StringBuilder();
         for (int num : temp){
             sb.append(num);
@@ -440,13 +578,6 @@ public class Sort {
      * @param nums
      */
     public static void wiggleSort(int[] nums) {
-        /*// 时间复杂度 : O(nlogn)。
-        Arrays.sort(nums);
-        // 从第二个元素开始，两两交换
-        for(int i = 1; i < nums.length - 1; i += 2){
-            swap(nums, i, i + 1);
-        }*/
-
         // 偶数位的值 > 下一个奇数位的值 交换2个值
         // 奇数位的值 < 下一个偶数位的值 交换2个值
         for(int i = 0; i < nums.length - 1; i++){
