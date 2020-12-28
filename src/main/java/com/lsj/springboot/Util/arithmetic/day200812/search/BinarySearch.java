@@ -261,22 +261,21 @@ public class BinarySearch {
     /**
      * 1150. 检查一个数是否在数组中占绝大多数
      * 给出一个按 非递减 顺序排列的数组 nums，和一个目标数值 target。
-     * 假如数组 nums 中绝大多数元素的数值都等于 target，则返回 True，否则请返回 False。
-     * 所谓占绝大多数，是指在长度为 N 的数组中出现必须 超过 N/2 次。
+     * 假如数组 nums 中绝大多数元素的数值都等于 target，则返回 True，否则请返回 False。所谓占绝大多数，是指在长度为 N 的数组中出现必须 超过 N/2 次。
      *
-     * 输入：nums = [2,4,5,5,5,5,5,6,6], target = 5    输出：true
-     * [2,4,5,5,5,5,5,6]
+     * 输入：nums = [2,4,5,5,5,5,5,6,6], target = 5    输出：true   [2,4,5,5,5,5,5,6]
      * 解释：数字 5 出现了 5 次，而数组的长度为 9。所以，5 在数组中占绝大多数，因为 5 次 > 9/2。
-     *
      * 输入：nums = [10,100,101,101], target = 101     输出：false
      * 解释：数字 101 出现了 2 次，而数组的长度是 4。所以，101 不是 数组占绝大多数的元素，因为 2 次 = 4/2。
+     *
+     * 核心算法：1.中间位置不是查找的元素直接返回；2.分成左右2个区间，查找左边的第一个元素，跟右边的最后一个元素；3.元素总个数 * 2 <= length 返回false
      * @param nums
      * @param target
      * @return
      */
     public static boolean isMajorityElement(int[] nums, int target) {
-        int start0 = 0;
-        int end0 = 0;
+        int startIndex = 0;
+        int endIndex = 0;
         int start = 0;
         int end = nums.length - 1;
         int mid = (start + end) / 2;
@@ -290,7 +289,7 @@ public class BinarySearch {
                 if(nums[mid] < target){
                     start = mid + 1;
                 }else if(nums[mid] == target){
-                    start0 = mid;
+                    startIndex = mid;
                     leftEnd = mid - 1;
                 }
             }
@@ -299,11 +298,11 @@ public class BinarySearch {
                 if(nums[mid] > target){
                     end = mid - 1;
                 }else if(nums[mid] == target){
-                    end0 = mid;
+                    endIndex = mid;
                     rightStart = mid + 1;
                 }
             }
-            if(((end0 - start0 + 1) << 1) <= nums.length){
+            if(((endIndex - startIndex + 1) << 1) <= nums.length){
                 return false;
             }
         }
@@ -323,15 +322,15 @@ public class BinarySearch {
         int start = 0;
         int end = words.length - 1;
         while(start <= end){
-            // 左边第一个不为空的字符
+            // 1.左边第一个不为空的字符
             while(start <= end && words[start].length() == 0){
                 start++;
             }
-            // 右边第一个不为空的字符
+            // 2.右边第一个不为空的字符
             while(start <= end && words[end].length() == 0){
                 end--;
             }
-            // 找到不为空的中间字符
+            // 3.找到不为空的中间字符
             int mid = (start + end) / 2;
             while(mid >= start && words[mid].length() == 0){
                 mid--;
@@ -358,8 +357,8 @@ public class BinarySearch {
      * @return
      */
     public int peakIndexInMountainArray(int[] arr) {
-        int start = 0;
-        int end = arr.length - 1;
+        int start = 1;
+        int end = arr.length - 2;
         while(start <= end){
             int mid = (start + end) / 2;
             if(arr[mid] > arr[mid + 1] && arr[mid] > arr[mid - 1]){
@@ -367,8 +366,7 @@ public class BinarySearch {
             }else if(arr[mid - 1] < arr[mid] && arr[mid] < arr[mid + 1]){
                 start = mid + 1;
             }else if(arr[mid - 1] > arr[mid] && arr[mid] > arr[mid + 1]){
-                // [3,5,3,2,0]  end = mid - 1;
-                end = mid;
+                end = mid - 1;
             }
         }
         return -1;
@@ -378,8 +376,8 @@ public class BinarySearch {
      * 面试题 08.03. 魔术索引
      * 魔术索引。 在数组A[0...n-1]中，有所谓的魔术索引，满足条件A[i] = i。
      * 给定一个有序整数数组，编写一种方法找出魔术索引，若有的话，在数组A中找出一个魔术索引，如果没有，则返回-1。若有多个魔术索引，返回索引值最小的一个。
-     *  输入：nums = [0, 2, 3, 4, 5]   输出：0    说明: 0下标的元素为0
-     *  输入：nums = [0, 0，2]   输出：0
+     * 输入：nums = [0, 2, 3, 4, 5]   输出：0    说明: 0下标的元素为0             输入：nums = [0, 0，2]   输出：0
+     * 核心算法：左中右的顺序判断是否有满足条件 （左右需要递归）
      * @param nums
      * @return
      */
@@ -406,6 +404,7 @@ public class BinarySearch {
      * 编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有如下特性：
      * 每行中的整数从左到右按升序排列。每行的第一个整数大于前一行的最后一个整数。
      * 输入:matrix = [[1,   3,  5,  7],[10, 11, 16, 20],[23, 30, 34, 50]] target = 3  输出: true
+     * 核心算法：先使用二分查找找出在哪一行里，再使用二分查找找出在哪一列里    也可以使用：240. 搜索二维矩阵的算法
      * @param matrix
      * @param target
      * @return
@@ -510,11 +509,11 @@ public class BinarySearch {
      * 输入：[-10,-5,0,3,7]    输出：3    解释：对于给定的数组，A[0] = -10，A[1] = -5，A[2] = 0，A[3] = 3，因此输出为 3 。
      * 输入：[0,2,5,8,17]      输出：0    示例：A[0] = 0，因此输出为 0 。
      * 输入：[-10,-5,3,4,7,9]  输出：-1   解释：不存在这样的 i 满足 A[i] = i，因此输出为 -1 。
-     * [-10,-5,-2,0,4,5,6,7,8,9,10]  4
+     * 与面试题 08.03. 魔术索引的区别为该题中的元素不重复
      * @param A
      * @return
      */
-    public int fixedPoint(int[] A) {
+    public static int fixedPoint(int[] A) {
         int start = 0;
         int end = A.length - 1;
         int ans = -1;
@@ -549,8 +548,8 @@ public class BinarySearch {
         // return ans == n ? i - 1 : i  - 2;
 
         // 行数和硬 币数有如下对应关系：
-        // [0, 1, 2, 3, 4,......,n]
-        // [0,1,3,6,10,...... ((n+1)×n)/2]
+        // [ 1, 2, 3, 4,......,n]
+        // [ 1, 3, 6, 10,...... ((n+1)×n)/2]
         int start = 1;
         int end = n;
         while(start <= end){
@@ -578,11 +577,6 @@ public class BinarySearch {
      * @return
      */
     public static int minArray(int[] numbers) {
-        /*if(numbers == null || numbers.length == 0){
-            return 0;
-        }
-        Arrays.sort(numbers);
-        return numbers[0];*/
         int low = 0;
         int high = numbers.length - 1;
         while (low < high) {
@@ -602,6 +596,7 @@ public class BinarySearch {
 
     public static void main(String[] args){
 //        System.out.println(isMajorityElement(new int[]{1,2,3,4,5}, 3));
-        System.out.println(minArray(new int[]{10,1,10,10,10}));
+//        System.out.println(minArray(new int[]{10,1,10,10,10}));
+        System.out.println(fixedPoint(new int[]{0, 0, 2}));
     }
 }
