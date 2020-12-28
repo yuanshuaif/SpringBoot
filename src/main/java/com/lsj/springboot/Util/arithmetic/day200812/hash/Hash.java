@@ -1,4 +1,4 @@
-package com.lsj.springboot.Util.arithmetic.day200812;
+package com.lsj.springboot.Util.arithmetic.day200812.hash;
 
 import com.lsj.springboot.Util.arithmetic.day200818.Maths;
 
