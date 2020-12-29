@@ -52,6 +52,7 @@ public class Hash {
      * 给定两个数组，编写一个函数来计算它们的交集。
      * 输入：nums1 = [1,2,2,1], nums2 = [2,2]  输出：[2,2]
      * 时间复杂度：O(m+n)         空间复杂度：O(\min(m,n))
+     * 说明：输出结果中每个元素出现的次数，应与元素在两个数组中出现次数的最小值一致。我们可以不考虑输出结果的顺序。
      * @param nums1
      * @param nums2
      * @return
@@ -66,14 +67,13 @@ public class Hash {
             Integer count = hash.getOrDefault(integer, 0) + 1;
             hash.put(integer, count);
         }
-        int[] ans = new int[nums1.length];
+        int[] ans = new int[nums2.length];
         int k = 0;
         for(int i = 0; i < nums2.length; i++){
             Integer count = hash.getOrDefault(nums2[i], 0);
             if(count > 0){
                 ans[k++] = nums2[i];
-                count--;
-                hash.put(nums2[i], count);
+                hash.put(nums2[i], --count);
             }
         }
         return Arrays.copyOf(ans, k);
@@ -208,6 +208,7 @@ public class Hash {
      * 204. 计数质数
      * 统计所有小于非负整数 n 的质数的数量。
      * 输入: 10   输出: 4   解释: 小于 10 的质数一共有 4 个, 它们是 2, 3, 5, 7 。
+     * 核心算法：1.2是质数；2.只有奇数可能是质数，这个奇数能否被小于等于平方根的奇数除尽
      * @param n
      * @return
      */
@@ -216,7 +217,7 @@ public class Hash {
         if (n > 2) {// n>2，一定会有2这个质数
             count++;
         }
-        for(int i = 1; i < n; i = i + 2){// 偶数不是质数，判断奇数是不是质数
+        for(int i = 3; i < n; i = i + 2){// 偶数不是质数，判断奇数是不是质数
             if(isPrime(i)){
                 count++;
             }
@@ -226,9 +227,6 @@ public class Hash {
 
     public static boolean isPrime(int src) {
         double sqrt = Math.sqrt(src);
-        if (src == 3) {
-            return true;
-        }
         for (int i = 3; i <= sqrt; i += 2) {
             if (src % i == 0) {
                 return false;
@@ -241,26 +239,20 @@ public class Hash {
     /**
      * 219. 存在重复元素 II
      * 给定一个整数数组和一个整数 k，判断数组中是否存在两个不同的索引 i 和 j，使得 nums [i] = nums [j]，并且 i 和 j 的差的 绝对值 至多为 k。
-     * 输入: nums = [1,2,3,1], k = 3  输出: true
-     * 输入: nums = [1,0,1,1], k = 1  输出: true
-     * 输入: nums = [1,2,3,1,2,3], k = 2  输出: false
+     * 输入: nums = [1,2,3,1], k = 3  输出: true ;  输入: nums = [1,0,1,1], k = 1  输出: true;  输入: nums = [1,2,3,1,2,3], k = 2  输出: false
      * @param nums
      * @param k
      * @return
      */
     public boolean containsNearbyDuplicate(int[] nums, int k) {
-//        维护一个哈希表，里面始终最多包含 k 个元素，当出现重复值时则说明在 k 距离内存在重复元素
-//        每次遍历一个元素则将其加入哈希表中，如果哈希表的大小大于 k，则移除最前面的数字
-//        时间复杂度：O(n)，n 为数组长度
-
         Set<Integer> set = new HashSet<>();
         for(int i = 0; i < nums.length; i++){
-            if(set.contains(nums[i])){
+            if(set.add(nums[i])){// 1.添加成功
+                if(set.size() > k){// 3.保持队列长度最大为k
+                    set.remove(nums[i - k]);// 移除最前面的数字
+                }
+            }else {// 2.添加失败，距离范围内存在重复元素
                 return true;
-            }
-            set.add(nums[i]);
-            if(set.size() > k){
-                set.remove(nums[i - k]);// 移除最前面的数字
             }
         }
         return false;
@@ -309,10 +301,8 @@ public class Hash {
 
     /**
      * 594. 最长和谐子序列
-     * 和谐数组是指一个数组里元素的最大值和最小值之间的差别正好是1。
-     * 现在，给定一个整数数组，你需要在所有可能的子序列中找到最长的和谐子序列的长度。
-     * 输入: [1,3,2,2,5,2,3,7]    输出: 5
-     * 原因: 最长的和谐数组是：[3,2,2,2,3].
+     * 和谐数组是指一个数组里元素的最大值和最小值之间的差别正好是1。现在，给定一个整数数组，你需要在所有可能的子序列中找到最长的和谐子序列的长度。
+     * 输入: [1,3,2,2,5,2,3,7]    输出: 5   原因: 最长的和谐数组是：[3,2,2,2,3].
      * @param nums
      * @return
      */
@@ -330,11 +320,6 @@ public class Hash {
                 value += hash.get(key + 1);
                 ans = Math.max(ans, value);
             }
-            value = entry.getValue();
-            if(hash.containsKey(key - 1)){
-                value += hash.get(key - 1);
-                ans = Math.max(ans, value);
-            }
         }
         return ans;
 
@@ -343,14 +328,11 @@ public class Hash {
     /**
      * 624. 数组列表中的最大距离
      * 给定 m 个数组，每个数组都已经按照升序排好序了。现在你需要从两个不同的数组中选择两个整数（每个数组选一个）并且计算它们的距离。两个整数 a 和 b 之间的距离定义为它们差的绝对值 |a-b| 。你的任务就是去找到最大距离
-     * 输入： [[1,2,3],[4,5],[1,2,3]]
-     * 输出： 4
+     * 输入： [[1,2,3],[4,5],[1,2,3]]      输出： 4
      * 解释：一种得到答案 4 的方法是从第一个数组或者第三个数组中选择 1，同时从第二个数组中选择 5 。
      *
-     * 1.每个给定数组至少会有 1 个数字。列表中至少有两个非空数组。
-     * 2.所有 m 个数组中的数字总数目在范围 [2, 10000] 内。
-     * 3.m 个数组中所有整数的范围在 [-10000, 10000] 内。
-     *
+     * 1.每个给定数组至少会有 1 个数字。列表中至少有两个非空数组。2.所有 m 个数组中的数字总数目在范围 [2, 10000] 内。3.m 个数组中所有整数的范围在 [-10000, 10000] 内。
+     * 核心算法：1。找出不为空的行i内的最大值、最小值作为历史最小行，历史最大行；2.从i+1开始不为空的行，计算最大值、历史最小行，历史最大行
      * @param arrays
      * @return
      */
@@ -385,8 +367,7 @@ public class Hash {
      * 集合 S 包含从1到 n 的整数。不幸的是，因为数据错误，导致集合里面某一个元素复制了成了集合里面的另外一个元素的值，导致集合丢失了一个整数并且有一个元素重复。
      * 给定一个数组 nums 代表了集合 S 发生错误后的结果。你的任务是首先寻找到重复出现的整数，再找到丢失的整数，将它们以数组的形式返回。
      * 输入: nums = [1,2,2,4] 输出: [2,3]
-     * 1.给定数组的长度范围是 [2, 10000]。
-     * 2.给定的数组是无序的。
+     * 1.给定数组的长度范围是 [2, 10000]。     2.给定的数组是无序的。
      * @param nums
      * @return
      */
@@ -411,10 +392,8 @@ public class Hash {
     /**
      * 1002. 查找常用字符
      * 给定仅有小写字母组成的字符串数组 A，返回列表中的每个字符串中都显示的全部字符（包括重复字符）组成的列表。
-     * 例如，如果一个字符在每个字符串中出现 3 次，但不是 4 次，则需要在最终答案中包含该字符 3 次。
-     * 你可以按任意顺序返回答案。
-     * 输入：["bella","label","roller"]    输出：["e","l","l"]
-     * 输入：["cool","lock","cook"]    输出：["c","o"]
+     * 例如，如果一个字符在每个字符串中出现 3 次，但不是 4 次，则需要在最终答案中包含该字符 3 次。你可以按任意顺序返回答案。
+     * 输入：["bella","label","roller"]    输出：["e","l","l"]；       输入：["cool","lock","cook"]    输出：["c","o"]
      * @param A
      * @return
      */
@@ -426,13 +405,10 @@ public class Hash {
         Map<Character, Integer> temp = new HashMap<>();
         for(int i = 1; i < A.length; i++){
             for(int j = 0; j < A[i].length(); j++) {
-                if(hash.containsKey(A[i].charAt(j))){
-                    if(hash.get(A[i].charAt(j)) - 1 > 0) {
-                        hash.put(A[i].charAt(j), hash.get(A[i].charAt(j)) - 1);
-                    }else{
-                       hash.remove(A[i].charAt(j));
-                    }
-                    temp.put(A[i].charAt(j), temp.getOrDefault(A[i].charAt(j), 0) + 1);
+                Character value = A[i].charAt(j);
+                if(hash.containsKey(value) && hash.get(value) > 0){
+                    hash.put(value, hash.get(value) - 1);
+                    temp.put(value, temp.getOrDefault(value, 0) + 1);
                 }
             }
             hash = temp;
@@ -476,12 +452,7 @@ public class Hash {
      *「快乐数」定义为：对于一个正整数，每一次将该数替换为它每个位置上的数字的平方和，
      * 然后重复这个过程直到这个数变为 1，也可能是 无限循环 但始终变不到 1。如果 可以变为  1，那么这个数就是快乐数。
      * 如果 n 是快乐数就返回 True ；不是，则返回 False 。
-     * 输入：19    输出：true
-     * 解释：
-     * 12 + 92 = 82
-     * 82 + 22 = 68
-     * 62 + 82 = 100
-     * 12 + 02 + 02 = 1
+     * 输入：19    输出：true     解释：1^2 + 9^2 = 82; 8^2 + 2^2 = 68; 6^2 + 8^2 = 100; 1^2 + 0^2 + 0^2 = 1
      * @param n
      * @return
      */
@@ -492,7 +463,7 @@ public class Hash {
             num += (n % 10) * (n % 10);
             n = n / 10;
         }
-        if(!set.add(num)){
+        if(!set.add(num)){//递归终止符，防止陷入死循环
             return false;
         }
         if(num == 1){
