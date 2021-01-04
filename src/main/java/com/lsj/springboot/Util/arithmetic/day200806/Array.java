@@ -5,15 +5,9 @@ import java.util.*;
 /**
  * 题目1:2数之和
  *
- * 题目88 (10.01). 合并排序的数组
- *
  * 题目485:最大连续1的个数
  *
- * 题目15:三数之和
- *
  * 题目495:中毒总时长
- *
- * 题目21:合并两个有序链表（数组）
  *
  * 剑指 Offer 53 - I. 在排序数组中查找数字 I
  *
@@ -47,8 +41,6 @@ import java.util.*;
  * 题目448:找到所有数组中消失的数字
  *
  * 题目66:加一
- *
- * 题目18:四数之和
  *
  * 题目54:螺旋矩阵
  *
@@ -105,49 +97,6 @@ public class Array {
         }
     }
 
-
-
-    /**
-     * 题目88 (10.01). 合并排序的数组
-     * 输入: A = [1,2,3,0,0,0], m = 3;  B = [2,5,6],  n = 3 输出: [1,2,2,3,5,6] 先将A数组中的m个元素移动到末尾；
-     * 然后利用归并排序的merge思想，每次取出A和B数组头元素中的最小值逐个放到A数组中。
-     * 以上说法有点抽象，我们举个例子吧。假设A = [1,2,3,0,0,0], B = [2,5,6] A=[1,2,3,0,0,0],B=[2,5,6]。A数组元素的变化过程如下：
-     * [0,0,0,1,2,3][1,0,0,1,2,3][1,2,0,0,0,3][1,2,2,0,0,3][1,2,2,3,0,0][1,2,2,3,5,0][1,2,2,3,5,6]
-     * 说明：以上元素被移动到正确的位置上后，其实无需置0（为了演示看起来更加直观，置0）。
-     * @param A
-     * @param m
-     * @param B
-     * @param n
-     */
-    public static void merge(int[] A, int m, int[] B, int n) {
-      /* public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
-        Object src : 原数组
-        int srcPos : 从元数据的起始位置开始
-    　　Object dest : 目标数组
-    　　int destPos : 目标数组的开始起始位置
-    　　int length  : 要copy的数组的长度*/
-        // 先将A右移到末尾
-        System.arraycopy(A, 0, A, n, m);
-        int index = 0;
-        int indexA, indexB;
-        // 归并排序 merge
-        for(indexA = n, indexB = 0; indexA < m + n && indexB < n;){
-            if(A[indexA] >= B[indexB]){
-                A[index++] = B[indexB++];
-            }else{
-                A[index++] = A[indexA++];
-            }
-        }
-        // A中还有剩余元素
-        while(indexA < m + n){
-            A[index++] = A[indexA++];
-        }
-        // B中还有剩余元素
-        while(indexB < n){
-            A[index++] = B[indexB++];
-        }
-    }
-
     /**
      * 485. 最大连续1的个数
      * 给定一个二进制数组， 计算其中最大连续1的个数。
@@ -171,68 +120,6 @@ public class Array {
         }
         return max;
     }
-
-    /**
-     * 15. 三数之和
-     * 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？
-     * 请你找出所有满足条件且不重复的三元组。
-     * 给定数组 nums = [-1, 0, 1, 2, -1, -4]，满足要求的三元组集合为：[[-1, 0, 1],[-1, -1, 2]]
-     * @param nums
-     * @return
-     */
-    public static List<List<Integer>> threeSum(int[] nums) {
-        Arrays.sort(nums);
-        List<List<Integer>> result = new ArrayList<>();
-        int target = 0;
-        for(int i = 0; i < nums.length; i++){
-            // 不能包含重复的3元组
-            if(i > 0 && nums[i] == nums[i - 1]){
-                continue;
-            }
-            target = -nums[i];
-            // 求子数组
-            int[] subNums = Arrays.copyOfRange(nums, i + 1, nums.length);
-            List<List<Integer>> twoSumList = twoSum(subNums, target);
-            if(twoSumList.size() != 0) {
-                result.addAll(twoSumList);
-            }
-        }
-        return result;
-
-    }
-
-    // 求2数之和
-    public static List<List<Integer>> twoSum(int[] nums, int target){
-        List<List<Integer>> sumZeros = new ArrayList<>();
-        int start = 0;
-        int end = nums.length - 1;
-        while (start < end){
-            // 解决 [0,0,0,0] 测试用例的问题
-            if(start > 0 && nums[start] == nums[start - 1]){
-                start++;
-                continue;
-            }else if(end < nums.length - 1 && nums[end] == nums[end + 1]){
-                end--;
-                continue;
-            }
-            List<Integer> sumZero = new ArrayList<>();
-            if(nums[start] + nums[end] == target){
-                sumZero.add(-target);
-                sumZero.add(nums[start]);
-                sumZero.add(nums[end]);
-                start++;
-            }else if(nums[start] + nums[end] < target){
-                start++;
-            }else {
-                end--;
-            }
-            if(sumZero.size() > 0) {
-                sumZeros.add(sumZero);
-            }
-        }
-        return sumZeros;
-    }
-
 
     /**
      * 495.中毒总时长
@@ -264,39 +151,6 @@ public class Array {
         }
         total += duration;
         return total;
-    }
-
-    /**
-     * 21.合并两个有序链表(链表合并的数组版)
-     * 将2个升序链表合并为一个新的升序链表并返回
-     * 1->5->6, 1->3->4->6
-     * @param firstList
-     * @param secondList
-     * @return
-     */
-    public static Integer[] combine(Integer[] firstList, Integer[] secondList){
-        if(firstList == null || firstList.length == 0){
-            return secondList;
-        }else if(secondList == null || secondList.length == 0){
-            return firstList;
-        }
-        List<Integer> combine = new ArrayList<>();
-        for(int i = 0, j = 0; i < firstList.length && j < secondList.length;){
-            if(firstList[i] == secondList[j]){
-                combine.add(firstList[i]);
-                i++;j++;
-            }else {
-                int max = Math.max(firstList[i], secondList[j]);
-                if(firstList[i] == max){
-                    combine.add(secondList[j]);
-                    j++;
-                }else if(secondList[j] == max){
-                    combine.add(firstList[i]);
-                    i++;
-                }
-            }
-        }
-        return combine.toArray(new Integer[combine.size()]);
     }
 
     /**
@@ -791,68 +645,6 @@ public class Array {
             }
         }
         return digits;
-    }
-
-    /**
-     * 18. 四数之和
-     * 给定一个包含 n 个整数的数组 nums 和一个目标值 target，判断 nums 中是否存在四个元素 a，b，c 和 d ，使得 a + b + c + d 的值与 target 相等？找出所有满足条件且不重复的四元组。
-     * 注意：答案中不可以包含重复的四元组。
-     * 给定数组 nums = [1, 0, -1, 0, -2, 2]，和 target = 0。满足要求的四元组集合为：[[-1,  0, 0, 1],[-2, -1, 1, 2],[-2,  0, 0, 2]]
-     * @param nums
-     * @param target
-     * @return
-     */
-    public List<List<Integer>> fourSum(int[] nums, int target) {
-        List<List<Integer>> ans = new ArrayList<>();
-        if(nums == null || nums.length < 4){
-            return ans;
-        }
-        Arrays.sort(nums);
-        int len = nums.length;
-        // 不能重复：1.当前层的当前元素不能与同层的前一个元素相同；2.1.当前层的当前元素不能小于上一层的元素；
-        for(int i = 0; i < len - 3; i++){
-            if(i > 0 && nums[i] == nums[i - 1]){
-                continue;
-            }
-            if(nums[i] + nums[i + 1] + nums[i + 2] + nums[i + 3] > target){//最小大于target
-                break;
-            }
-            if(nums[i] + nums[len - 1] + nums[len - 2] + nums[len - 3] < target){
-                continue;
-            }
-            for(int j = i + 1; j < len - 2; j++){
-                if(j > i + 1 && nums[j] == nums[j - 1]){
-                    continue;
-                }
-                if(nums[i] + nums[j] + nums[j + 1] + nums[j + 2] > target){//最小大于target
-                    break;
-                }
-                if(nums[i] + nums[j] + nums[len - 1] + nums[len - 2] < target){
-                    continue;
-                }
-                int left = j + 1;
-                int right = len - 1;
-                while(left < right){
-                    int sum = nums[i] + nums[j] + nums[left] + nums[right];
-                    if(sum < target){
-                        left++;
-                    }else if(sum > target){
-                        right--;
-                    }else{
-                        ans.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));
-                        while(left < right && nums[left] == nums[left + 1]){
-                            left++;
-                        }
-                        left++;
-                        while(left < right && nums[right] == nums[right - 1]){
-                            right--;
-                        }
-                        right--;
-                    }
-                }
-            }
-        }
-        return ans;
     }
 
     /**
