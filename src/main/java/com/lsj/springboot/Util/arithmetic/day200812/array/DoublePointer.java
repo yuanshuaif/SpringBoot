@@ -1,4 +1,4 @@
-package com.lsj.springboot.Util.arithmetic.day200812.doublePointer;
+package com.lsj.springboot.Util.arithmetic.day200812.array;
 
 import java.util.*;
 
