@@ -124,14 +124,11 @@ public class Array {
     /**
      * 495.中毒总时长
      * 输入: [1,4], 2  输出: 4
-     原因: 第 1 秒初，提莫开始对艾希进行攻击并使其立即中毒。中毒状态会维持 2 秒钟，直到第 2 秒末结束。
-     第 4 秒初，提莫再次攻击艾希，使得艾希获得另外 2 秒中毒时间。
-     所以最终输出 4 秒。
-     输入: [1,2], 2 输出: 3
-     原因: 第 1 秒初，提莫开始对艾希进行攻击并使其立即中毒。中毒状态会维持 2 秒钟，直到第 2 秒末结束。
-     但是第 2 秒初，提莫再次攻击了已经处于中毒状态的艾希。
-     由于中毒状态不可叠加，提莫在第 2 秒初的这次攻击会在第 3 秒末结束。
-     所以最终输出 3 。
+     * 原因: 第 1 秒初，提莫开始对艾希进行攻击并使其立即中毒。中毒状态会维持 2 秒钟，直到第 2 秒末结束。
+     * 第 4 秒初，提莫再次攻击艾希，使得艾希获得另外 2 秒中毒时间。所以最终输出 4 秒。
+     * 输入: [1,2], 2 输出: 3
+     * 原因: 第 1 秒初，提莫开始对艾希进行攻击并使其立即中毒。中毒状态会维持 2 秒钟，直到第 2 秒末结束。
+     * 但是第 2 秒初，提莫再次攻击了已经处于中毒状态的艾希。由于中毒状态不可叠加，提莫在第 2 秒初的这次攻击会在第 3 秒末结束。所以最终输出 3 。
      * @param timeSeries
      * @param duration
      * @return
@@ -142,11 +139,6 @@ public class Array {
         }
         int total = 0;
         for(int i = 0; i < timeSeries.length - 1; i++){
-            // if(timeSeries[i] + duration < timeSeries[i + 1]){
-            //     total += duration;
-            // } else{
-            //     total += timeSeries[i + 1] - timeSeries[i];
-            // }
             total += Math.min(timeSeries[i + 1] - timeSeries[i], duration);
         }
         total += duration;
@@ -178,17 +170,14 @@ public class Array {
     /**
      * 剑指 Offer 53 - II. 0～n-1中缺失的数字
      * 一个长度为n-1的递增排序数组中的所有数字都是唯一的，并且每个数字都在范围0～n-1之内。在范围0～n-1内的n个数字中有且只有一个数字不在该数组中，请找出这个数字。
-     * 输入: [0,1,3]  输出: 2
-     * 输入: [0,1,2,3,4,5,6,7,9]  输出: 8
-     * 输入: [1,2,3]  输出: 0
-     *  输入: [0,1,2,3]  输出: 4
+     * 输入: [1,2,3]  输出: 0;   输入: [0,1,2,3,4,5,6,7,9]  输出: 8;  输入: [0,1,2,3]  输出: 4
      * @param nums
      * @return
      */
     public int missingNumber(int[] nums) {
         // 类似于贪心算法的种花问题
         int target = 0;
-        if(nums[0] == 1){// 如果跳过了0
+        if(nums[0] == 1){// 1.如果跳过了0
             return target;
         }
         for(int i = 0; i < nums.length; i++){
@@ -196,10 +185,10 @@ public class Array {
                     (i == nums.length - 1 || nums[i + 1] - nums[i] == 1)){
                 continue;
             }
-            target = nums[i] + 1;
+            target = nums[i] + 1;//6,7,9
             break;
         }
-        if(target == 0){// 如果是连续(跳过最后一个)
+        if(target == 0){// 3.如果是连续(跳过最后一个)
             target = nums[nums.length - 1] + 1;
         }
         return target;
@@ -208,9 +197,8 @@ public class Array {
     /**
      * 34. 在排序数组中查找元素的第一个和最后一个位置
      * 给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。
-     *  你的算法时间复杂度必须是 O(log n) 级别。
-     *  如果数组中不存在目标值，返回 [-1, -1]。
-     *  输入: nums = [5,7,7,8,8,10], target = 8   输出: [3,4]
+     * 你的算法时间复杂度必须是 O(log n) 级别。如果数组中不存在目标值，返回 [-1, -1]。
+     * 输入: nums = [5,7,7,8,8,10], target = 8   输出: [3,4]
      * @param nums
      * @param target
      * @return
@@ -240,27 +228,16 @@ public class Array {
      * 189. 旋转数组
      * 给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。
      * 输入: [1,2,3,4,5,6,7] 和 k = 3   输出: [5,6,7,1,2,3,4]
-         解释:
-         向右旋转 1 步: [7,1,2,3,4,5,6]
-         向右旋转 2 步: [6,7,1,2,3,4,5]
-         向右旋转 3 步: [5,6,7,1,2,3,4]
+     * 解释:向右旋转 1 步: [7,1,2,3,4,5,6]     向右旋转 2 步: [6,7,1,2,3,4,5]   向右旋转 3 步: [5,6,7,1,2,3,4]
      * @param nums
      * @param k
      */
     public void rotate(int[] nums, int k) {
-        // for(int i = 1; i <= k; i++){//移动k次
-        //     int temp = nums[nums.length - 1];
-        //     for(int j = nums.length - 1; j > 0; j--){
-        //         nums[j] = nums[j - 1];
-        //     }
-        //     nums[0] = temp;
-        // }
-
         k %= nums.length;
         if(k == 0) return;
-        reverse(nums, 0, nums.length - 1);// 所有数组反转
-        reverse(nums, 0, k - 1);// 前k个数组反转
-        reverse(nums, k, nums.length - 1);// 后n - k个数组反转
+        reverse(nums, 0, nums.length - 1);// 1.所有数组反转
+        reverse(nums, 0, k - 1);// 2.前k个数组反转
+        reverse(nums, k, nums.length - 1);// 3.后n - k个数组反转
     }
 
     // 数组反转
@@ -276,10 +253,8 @@ public class Array {
 
     /**
      * 1099. 小于 K 的两数之和
-     * 给你一个整数数组 A 和一个整数 K，请在该数组中找出两个元素，使它们的和小于 K 但尽可能地接近 K，返回这两个元素的和。
-     如不存在这样的两个元素，请返回 -1。
-     输入：A = [34,23,1,24,75,33,54,8], K = 60  输出：58
-     解释： 34 和 24 相加得到 58，58 小于 60，满足题意。
+     * 给你一个整数数组 A 和一个整数 K，请在该数组中找出两个元素，使它们的和小于 K 但尽可能地接近 K，返回这两个元素的和。如不存在这样的两个元素，请返回 -1。
+     * 输入：A = [34,23,1,24,75,33,54,8], K = 60  输出：58    解释： 34 和 24 相加得到 58，58 小于 60，满足题意。
      * @param A
      * @param K
      * @return
@@ -302,8 +277,7 @@ public class Array {
 
     /**
      * 905. 按奇偶排序数组
-     * 给定一个非负整数数组 A，返回一个数组，在该数组中， A 的所有偶数元素之后跟着所有奇数元素。
-     * 你可以返回满足此条件的任何数组作为答案。
+     * 给定一个非负整数数组 A，返回一个数组，在该数组中， A 的所有偶数元素之后跟着所有奇数元素。你可以返回满足此条件的任何数组作为答案。
      * 输入：[3,1,2,4] 输出：[2,4,3,1]     输出 [4,2,3,1]，[2,4,1,3] 和 [4,2,1,3] 也会被接受。
      * @param A
      * @return
@@ -331,9 +305,7 @@ public class Array {
     /**
      * 1287. 有序数组中出现次数超过25%的元素
      * 给你一个非递减的 有序 整数数组，已知这个数组中恰好有一个整数，它的出现次数超过数组元素总数的 25%。
-     * 请你找到并返回这个整数
-     * 输入：arr = [1,2,2,6,6,6,6,7,10]    输出：6
-     * [1,2,3,3] 3
+     * 输入：arr = [1,2,2,6,6,6,6,7,10]    输出：6；    [1,2,3,3] 3
      * @param arr
      * @return
      */
@@ -348,9 +320,6 @@ public class Array {
         //         return entry.getKey();
         //     }
         // }
-        if(arr.length == 1){
-            return arr.length;
-        }
         int temp = 1;
         for(int i = 1; i < arr.length; i++){
             if(arr[i] == arr[i - 1]){
@@ -483,19 +452,13 @@ public class Array {
      * 48. 旋转图像
      * 给定一个 n × n 的二维矩阵表示一个图像。将图像顺时针旋转 90 度。
      * 说明：你必须在原地旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要使用另一个矩阵来旋转图像。
-     * 给定 matrix =
-     * [
-     *   [1,2,3],
-     *   [4,5,6],
-     *   [7,8,9]
-     * ],
-     * 原地旋转输入矩阵，使其变为:
-     * [
-     *   [7,4,1],
-     *   [8,5,2],
-     *   [9,6,3]
-     * ]
-     * 算法核心：先转置矩阵，然后翻转每一行
+     * 给定 matrix =                 原地旋转输入矩阵，使其变为:
+     * [                            [
+     *   [1,2,3],                       [7,4,1],
+     *   [4,5,6],                       [8,5,2],
+     *   [7,8,9]                        [9,6,3]
+     * ],                           ]
+     * 算法核心：先转置矩阵（对角线），然后翻转每一行
      * @param matrix
      */
     public void rotate(int[][] matrix) {
@@ -522,13 +485,11 @@ public class Array {
      * 给定一个整数数组 a，其中1 ≤ a[i] ≤ n （n为数组长度）, 其中有些元素出现两次而其他元素出现一次。找到所有出现两次的元素。
      * 你可以不用到任何额外空间并在O(n)时间复杂度内解决这个问题吗？
      * 输入:[4,3,2,7,8,2,3,1]            输出:[2,3]
-     * 核心算法：
-     *      找到数字i时，将位置i-1处的数字翻转为负数。
-     *      如果位置i-1 上的数字已经为负，则i是出现两次的数字。
+     * 核心算法：1.找到数字i时，将位置i-1处的数字翻转为负数。   2.如果位置i-1 上的数字已经为负，则i是出现两次的数字。
      * @param nums
      * @return
      */
-    public List<Integer> findDuplicates(int[] nums) {
+    public static List<Integer> findDuplicates(int[] nums) {
         List<Integer> res = new ArrayList<>();
         for(int i = 0; i < nums.length; i++){
             int temp = Math.abs(nums[i]) - 1;
@@ -547,7 +508,7 @@ public class Array {
      * @param rowIndex
      * @return
      */
-    public List<Integer> getRow(int rowIndex) {
+    public static List<Integer> getRow(int rowIndex) {
         List<Integer> pre = new ArrayList<>();
         List<Integer> res = new ArrayList<>();
         for(int i = 0; i <= rowIndex; i++){
@@ -568,13 +529,13 @@ public class Array {
     /**
      * 448. 找到所有数组中消失的数字
      * 给定一个范围在  1 ≤ a[i] ≤ n ( n = 数组大小 ) 的 整型数组，数组中的元素一些出现了两次，另一些只出现一次。
-     * 找到所有在 [1, n] 范围之间没有出现在数组中的数字。
-     * 您能在不使用额外空间且时间复杂度为O(n)的情况下完成这个任务吗? 你可以假定返回的数组不算在额外空间内。
+     * 找到所有在 [1, n] 范围之间没有出现在数组中的数字。您能在不使用额外空间且时间复杂度为O(n)的情况下完成这个任务吗? 你可以假定返回的数组不算在额外空间内。
      * 输入:[4,3,2,7,8,2,3,1]     输出:[5,6]
+     * 核心算法：1.找到数字i时，将位置i-1处的数字翻转为负数。 2.大于0的位置+1就是缺失的数字
      * @param nums
      * @return
      */
-    public List<Integer> findDisappearedNumbers(int[] nums) {
+    public static List<Integer> findDisappearedNumbers(int[] nums) {
         List<Integer> res = new ArrayList<>();
         for(int i = 0; i < nums.length; i++){
             int index = Math.abs(nums[i]) - 1;
@@ -593,10 +554,8 @@ public class Array {
     /**
      * 66. 加一
      * 给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。
-     * 最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。
-     * 你可以假设除了整数 0 之外，这个整数不会以零开头。
-     * 输入: [1,2,3]      输出: [1,2,4]     解释: 输入数组表示数字 123。
-     * [9,9]  [1,0,0]
+     * 最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。你可以假设除了整数 0 之外，这个整数不会以零开头。
+     * 输入: [1,2,3]      输出: [1,2,4]     解释: 输入数组表示数字 123。           [9,9]  [1,0,0]
      * @param digits
      * @return
      */
@@ -623,6 +582,7 @@ public class Array {
         // }
         // return res;
 
+        //1.找到最后一个不为9的数字下标
         int index = -1;
         for(int i = 0; i < digits.length; i++){
             if(digits[i] != 9){
@@ -630,12 +590,12 @@ public class Array {
             }
         }
         int[] res;
-        if(index == -1){// 全是9
+        if(index == -1){// 2.全是9
             res = new int[digits.length + 1];
             res[0] = 1;
             digits = res;
 
-        }else{
+        }else{//3.不为9的下标+1，后面的全是0
             for(int i = 0; i < digits.length; i++){
                 if(i == index){
                     digits[i] += 1;
@@ -650,10 +610,9 @@ public class Array {
     /**
      * 54. 螺旋矩阵
      * 给定一个包含 m x n 个元素的矩阵（m 行, n 列），请按照顺时针螺旋顺序，返回矩阵中的所有元素。
-     * 输入:                                               输出: [1,2,3,4,8,12,11,10,9,5,6,7]
-     [[1, 2, 3, 4],
-     [5, 6, 7, 8],
-     [9,10,11,12]]
+     * 输入:   [[1, 2, 3, 4],
+     *          [5, 6, 7, 8],
+     *          [9,10,11,12]]           输出: [1,2,3,4,8,12,11,10,9,5,6,7]
      * @param matrix
      * @return
      */
@@ -689,9 +648,12 @@ public class Array {
     }
 
     /**
-     * 剑指 Offer 29. 顺时针打印矩阵
+     * 剑指 Offer 29. 顺时针打印矩阵(54. 螺旋矩阵)
      * 输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字。
-     * 输入：matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]       输出：[1,2,3,4,8,12,11,10,9,5,6,7]
+     * 输入：matrix = [[1,2,3,4],
+     *                 [5,6,7,8],
+     *                 [9,10,11,12]]       输出：[1,2,3,4,8,12,11,10,9,5,6,7]
+     * 核心思想：一层一层的打
      * @param matrix
      * @return
      */
@@ -704,20 +666,20 @@ public class Array {
         int curIndex = 0;
         int left = 0, right = cols - 1, top = 0, bottom = rows - 1;
         while(left <= right && top <= bottom){
-            for(int i = left; i <= right; i++){
+            for(int i = left; i <= right; i++){//1,2,3,4
                 ans[curIndex++] = matrix[top][i];
             }
-            for(int i = top + 1; i <= bottom; i++){
+            for(int i = top + 1; i <= bottom; i++){//8,12
                 ans[curIndex++] = matrix[i][right];
             }
-            if(left < right && top < bottom){
-                for(int i = right - 1; i > left; i--){
+//            if(left < right && top < bottom){// 一条直线或一个点时没必要进行后面的操作
+                for(int i = right - 1; i > left; i--){//11,10
                     ans[curIndex++] = matrix[bottom][i];
                 }
-                for(int i = bottom; i > top; i--){
+                for(int i = bottom; i > top; i--){//9,5
                     ans[curIndex++] = matrix[i][left];
                 }
-            }
+//            }
             left++;
             right--;
             top++;
@@ -843,9 +805,10 @@ public class Array {
 //        moveZeroes(nums);
 //        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
 //        System.out.println(restoreString("aiohn", new int[]{3,1,4,2,0}));
-       /* int[][] a = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
+       /* int[][] a = new int[][]{{1,2,3,4},{5,6,7,8},{9,10,11,12}};
         System.out.println(spiralOrder1(a));*/
         System.out.println(subarraySum(new int[]{1,1,1}, 2));
+//        System.out.println(findDisappearedNumbers(new int[]{4,3,2,7,8,2,3,1}));
 
     }
 }
