@@ -1,5 +1,6 @@
 package com.lsj.springboot.Util.arithmetic.day200720;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.LinkedList;
 
@@ -1376,6 +1377,46 @@ public class Tree {
         }
     }
 
+    class ListNode implements Serializable {
+        int val;
+        ListNode next;
+        ListNode(int val){
+            this.val = val;
+            this.next = null;
+        }
+
+        ListNode(int val, ListNode next){
+            this.val = val;
+            this.next = next;
+        }
+
+        public int getValue() {
+            return val;
+        }
+
+        public void setValue(int val) {
+            this.val = val;
+        }
+
+        public ListNode getNext() {
+            return next;
+        }
+
+        public void setNext(ListNode next) {
+            this.next = next;
+        }
+
+        @Override
+        public String toString() {
+            return "ListNode{" +
+                    "val=" + val +
+                    ", next=" + next +
+                    '}';
+        }
+    }
+
 }
+
+
 
 

@@ -1,4 +1,4 @@
-package com.lsj.springboot.Util.arithmetic.day200720;
+package com.lsj.springboot.Util.arithmetic.day200720.ListNode;
 
 
 import java.io.*;
@@ -30,7 +30,7 @@ import java.util.*;
  * 160. 相交链表
  *
  * Offer 22(面试题 02.02)返回倒数第 k 个节点
- * 双指针
+ * 双指针、滑动窗口
  *
  * Offer 06. 从尾到头打印链表
  *
@@ -39,19 +39,17 @@ import java.util.*;
  * 876. 链表的中间结点
  * 快慢指针
  *
- * 86. 分隔链表
- *
- * 1474. 删除链表 M 个节点之后的 N 个节点
- *
- * 92. 反转链表 II
- *
  * 148. 排序链表（归并排序）
  *
  * 147. 对链表进行插入排序
  *
- * 19. 删除链表的倒数第N个节点
+ * 86. 分隔链表
  *
- * 142. 环形链表 II
+ * 1474. 删除链表 M 个节点之后的 N 个节点
+ *
+ * 1290. 二进制链表转整数
+ *
+ * 19. 删除链表的倒数第N个节点
  *
  * 61. 旋转链表
  *
@@ -63,15 +61,48 @@ import java.util.*;
  *
  * 369. 给单链表加一
  *
- * 328. 奇偶链表
- *
  * 143. 重排链表
  *
+ * 328. 奇偶链表
+ *
+ * 142. 环形链表 II
+ *
+ * 92. 反转链表 II
  */
 public class LinkedList {
 
     /**
-     * 21.链表合并(剑指 Offer 25. 合并两个排序的链表)
+     * 题目2：2数相加
+     * 2个非空的非负整数，逆序存储，一个节点只能存储一位，2数相加得到一个新的链表。(2->4->3) + (5->6->4) 输出 7->0->8 342+465=807
+     * @param a
+     * @param b
+     * @return
+     */
+    public static ListNode addNode(ListNode a, ListNode b){
+        ListNode mergeNode = new ListNode(0);
+        ListNode curNode = mergeNode;
+        int culValue = 0;
+        while(a != null || b != null || culValue > 0){// curValue > 0 解决相加进位的问题
+            curNode.next = new ListNode(0);
+            curNode = curNode.next;
+            if(a != null){
+                culValue += a.val;
+                a = a.next;
+            }
+            if(b != null){
+                culValue += b.val;
+                b = b.next;
+            }
+
+            int cur = culValue % 10;
+            culValue /= 10;
+            curNode.val = cur;
+        }
+        return mergeNode.next;
+    }
+
+    /**
+     * 21.有序链表合并(剑指 Offer 25. 合并两个排序的链表)
      * 返回一个有序的Node
      * 1.创建一个对象，给定2个指针，一个指针负责移动（先给下一个节点赋值，然后指针执行下一个节点），一个指针指向原来的位置确保输出改变后的对象
      * 空间复杂度O(1),时间复杂度O(m+n)
@@ -80,7 +111,6 @@ public class LinkedList {
      * @return
      */
     public static ListNode mergeNode(ListNode a, ListNode b){
-        // TODO
         ListNode mergeNode = new ListNode(0);
         ListNode curNode = mergeNode;
         while(a != null || b != null){
@@ -107,42 +137,6 @@ public class LinkedList {
                 curNode = curNode.next;
                 b = b.next;
             }
-        }
-
-        return mergeNode.next;
-    }
-
-
-    /**
-     * 题目2：2数相加
-     * 2个非空的非负整数，逆序存储，一个节点只能存储一位，2数相加得到一个新的链表
-     * (2->4->3) + (5->6->4) 输出 7->0->8 342+465=807
-     * @param a
-     * @param b
-     * @return
-     */
-    public static ListNode addNode(ListNode a, ListNode b){
-        // TODO
-        ListNode mergeNode = new ListNode(0);
-        ListNode curNode = mergeNode;
-        int curValue = 0;
-        while(a != null || b != null || curValue > 0){
-            curNode.next = new ListNode(0);
-            curNode = curNode.next;
-
-            if(a != null){
-                curValue += a.val;
-                a = a.next;
-            }
-
-            if(b != null){
-                curValue += b.val;
-                b = b.next;
-            }
-
-            int cur = curValue % 10;
-            curValue = curValue / 10;
-            curNode.val = cur;
         }
 
         return mergeNode.next;
@@ -175,16 +169,11 @@ public class LinkedList {
 
     /**
      * 203. 移除链表元素
-     * 删除链表中等于给定值 val 的所有节点。
-     * 输入: 1->2->6->3->4->5->6, val = 6
-     * 输出: 1->2->3->4->5
-     * 执行用时：1 ms, 在所有 Java 提交中击败了99.72%的用户
-     * 内存消耗：40.7 MB, 在所有 Java 提交中击败了58.55%的用户
+     * 删除链表中等于给定值 val 的所有节点。    输入: 1->2->6->3->4->5->6, val = 6     输出: 1->2->3->4->5
      * @param head
      * @param val
      */
     public static ListNode removeElements(ListNode head, int val) {
-
         // 把头节点匹配到的元素全部删掉
         while (head != null){
             if(head.val == val){
@@ -193,10 +182,8 @@ public class LinkedList {
                 break;
             }
         }
-
-        ListNode temp = head;
-
         // 比较头节点的下一个节点的元素值是否能匹配到
+        ListNode temp = head;
         while(head != null){
             if(head.next != null && head.next.val == val){
                 head.next = head.next.next;
@@ -210,9 +197,7 @@ public class LinkedList {
 
     /**
      * 234. 回文链表
-     *  请判断一个链表是否为回文链表。
-     *  输入: 1->2 输出: false
-     *  输入: 1->2->2->1 输出: true
+     * 请判断一个链表是否为回文链表。输入: 1->2 输出: false；       输入: 1->2->2->1 输出: true
      * @param head
      * @return
      */
@@ -270,8 +255,7 @@ public class LinkedList {
 
     /**
      * 83. 删除排序链表中的重复元素
-     * 给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
-     * 输入: 1->1->2 输出: 1->2;    输入: 1->1->2->3->3 输出: 1->2->3
+     * 给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。输入: 1->1->2 输出: 1->2;    输入: 1->1->2->3->3 输出: 1->2->3
      * @param head
      * @return
      */
@@ -318,7 +302,7 @@ public class LinkedList {
     }
 
     /**
-     * 141. 环形链表
+     * 141. 环形链表（数值相等）
      * 给定一个链表，判断链表中是否有环。
      * 为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。
      * @param head
@@ -346,7 +330,11 @@ public class LinkedList {
 
     /**
      * 160. 相交链表
-     * 找到两个单链表相交的起始节点。（引用是否相等）
+     * 找到两个单链表相交的起始节点。（引用是否相等）（默认一定相交）
+     * 输入：intersectVal = 8, listA = [4,1,8,4,5], listB = [5,0,1,8,4,5], skipA = 2, skipB = 3
+     * 输出：Reference of the node with value = 8
+     * 输入解释：相交节点的值为 8 （注意，如果两个链表相交则不能为 0）。从各自的表头开始算起，链表 A 为 [4,1,8,4,5]，链表 B 为 [5,0,1,8,4,5]。在 A 中，相交节点前有 2 个节点；在 B 中，相交节点前有 3 个节点。
+
      * 让两个链表从同距离末尾同等距离的位置开始遍历。这个位置只能是较短链表的头结点位置。为此，我们必须消除两个链表的长度差
      * 1.指针 pA 指向 A 链表，指针 pB 指向 B 链表，依次往后遍历
      * 2.如果 pA 到了末尾，则 pA = headB 继续遍历
@@ -371,7 +359,8 @@ public class LinkedList {
 
     /**
      * 面试题 02.02. 返回倒数第 k 个节点
-     *
+     * 实现一种算法，找出单向链表中倒数第 k 个节点。返回该节点的值。输入： 1->2->3->4->5 和 k = 2    输出： 4
+     * 解题思路：类似于滑动窗口
      * @param head
      * @param k
      * @return
@@ -413,15 +402,14 @@ public class LinkedList {
     public int[] reversePrint(ListNode head) {
         // 第一步将链表中的节点依次压入栈中
         Stack<ListNode> stack = new Stack<>();
-        int len = 0;
         while(head != null){
             ListNode next = head.next;
             head.next = null;
             stack.push(head);
-            len++;
             head = next;
         }
         // 第二步依次取出节点的值组成数组返回
+        int len = stack.size();
         int[] reverse = new int[len];
         for(int i = 0; i < len; i++){
             reverse[i] = stack.pop().val;
@@ -431,8 +419,7 @@ public class LinkedList {
 
     /**
      * 面试题 02.01. 移除重复节点
-     * 编写代码，移除未排序链表中的重复节点。保留最开始出现的节点。
-     * 输入：[1, 2, 3, 3, 2, 1] 输出：[1, 2, 3]
+     * 编写代码，移除未排序链表中的重复节点。保留最开始出现的节点。输入：[1, 2, 3, 3, 2, 1] 输出：[1, 2, 3]
      * @param head
      * @return
      */
@@ -464,8 +451,7 @@ public class LinkedList {
     /**
      * 876. 链表的中间结点
      * 给定一个带有头结点 head 的非空单链表，返回链表的中间结点。 如果有两个中间结点，则返回第二个中间结点。
-     * 输入：[1,2,3,4,5]   输出：此列表中的结点 3 (序列化形式：[3,4,5])
-     * 输入：[1,2,3,4,5,6] 输出：此列表中的结点 4 (序列化形式：[4,5,6])
+     * 输入：[1,2,3,4,5]   输出：此列表中的结点 3 (序列化形式：[3,4,5]);   输入：[1,2,3,4,5,6] 输出：此列表中的结点 4 (序列化形式：[4,5,6])
      * @param head
      * @return
      */
@@ -473,12 +459,12 @@ public class LinkedList {
         // 快慢指针
         ListNode p = head;
         ListNode q = head.next;
-        while(q != null){
+        while(q != null){// 奇数结束
             p = p.next;
-            if(q.next == null){// 偶数
+            if(q.next == null){// 偶数结束
                 return p;
-            }else {// 奇数
-                q= q.next.next;
+            }else {
+                q = q.next.next;
             }
         }
         return p;
@@ -486,19 +472,18 @@ public class LinkedList {
 
     /**
      * 148. 排序链表(归并排序)
-     * 在 O(n log n) 时间复杂度和常数级空间复杂度下，对链表进行排序。
-     * 输入: -1->5->3->4->0       输出: -1->0->3->4->5
+     * 在 O(n log n) 时间复杂度和常数级空间复杂度下，对链表进行排序。输入: -1->5->3->4->0       输出: -1->0->3->4->5
      * @param head
      * @return
      */
-    public ListNode sortList(ListNode head) {
+    public static ListNode sortList(ListNode head) {
         // 归并排序
         if(head == null || head.next == null){
             return head;
         }
         // 使用快慢指针找到分割点
-        ListNode fast = head.next;
         ListNode soft = head;
+        ListNode fast = head.next;
         while(fast != null && fast.next != null){
             soft = soft.next;
             fast = fast.next.next;
@@ -527,6 +512,9 @@ public class LinkedList {
 
     /**
      * 147. 对链表进行插入排序
+     * 插入排序算法：
+     * 1.插入排序是迭代的，每次只移动一个元素，直到所有元素可以形成一个有序的输出列表。
+     * 2.每次迭代中，插入排序只从输入数据中移除一个待排序的元素，找到它在序列中适当的位置，并将其插入。重复直到所有输入数据插入完为止。
      * @param head
      * @return
      */
@@ -540,17 +528,19 @@ public class LinkedList {
         ListNode ans = new ListNode(0);
         ans.next = head;
         while(cur != null){
-            if(pre.val <= cur.val){
+            if(pre.val <= cur.val){//1.不需要移动
                 pre = pre.next;
                 cur = cur.next;
             }else{
                 ListNode temp = ans;
-                while(temp.next.val < cur.val){
+                while(temp.next.val < cur.val){// temp.next就是插入的位置
                     temp = temp.next;
                 }
-                pre.next = cur.next;
+                pre.next = cur.next;// 断开原来的位置
+                // 链接到新的位置
                 cur.next = temp.next;
                 temp.next = cur;
+                // cur指针向下移动
                 cur = pre.next;
             }
         }
@@ -577,7 +567,7 @@ public class LinkedList {
             if(head.next.val < x){
                 ListNode next = head.next;
                 head.next = head.next.next;
-                next.next = null;
+                next.next = null;// 拿到next
                 cur.next = next;
                 cur = cur.next;
             }else{
@@ -591,11 +581,7 @@ public class LinkedList {
     /**
      * 1474. 删除链表 M 个节点之后的 N 个节点
      * 给定链表 head 和两个整数 m 和 n. 遍历该链表并按照如下方式删除节点:
-         开始时以头节点作为当前节点.
-         保留以当前节点开始的前 m 个节点.
-         删除接下来的 n 个节点.
-         重复步骤 2 和 3, 直到到达链表结尾.
-         在删除了指定结点之后, 返回修改过后的链表的头节点.
+     * 开始时以头节点作为当前节点；保留以当前节点开始的前 m 个节点；删除接下来的 n 个节点；重复步骤 2 和 3, 直到到达链表结尾；在删除了指定结点之后, 返回修改过后的链表的头节点.
 
          输入: head = [1,2,3,4,5,6,7,8,9,10,11,12,13], m = 2, n = 3
          输出: [1,2,6,7,11,12]
@@ -619,17 +605,17 @@ public class LinkedList {
     public ListNode deleteNodes(ListNode head, int m, int n) {
         ListNode ans = head;
         while(head != null){
-            for(int i = 0; i < m - 1 && head != null; i++){
+            for(int i = 0; i < m - 1 && head != null; i++){// 移动m-1（head == null m还没走完）
                 head = head.next;
             }
             for(int j = 0; j < n && head != null; j++){
                 if(head.next != null){
                     head.next = head.next.next;
-                }else{
+                }else{// n没走完结束
                     head.next = null;
                 }
             }
-            if(head != null){
+            if(head != null){// 进入下一次循环
                 head = head.next;
             }
         }
@@ -638,8 +624,7 @@ public class LinkedList {
 
     /**
      * 1290. 二进制链表转整数
-     * 给你一个单链表的引用结点 head。链表中每个结点的值不是 0 就是 1。已知此链表是一个整数数字的二进制表示形式。
-     * 请你返回该链表所表示数字的 十进制值 。
+     * 给你一个单链表的引用结点 head。链表中每个结点的值不是 0 就是 1。已知此链表是一个整数数字的二进制表示形式。请你返回该链表所表示数字的 十进制值 。
      * 输入：head = [1,0,1]      输出：5      解释：二进制数 (101) 转化为十进制数 (5)
      * 输入：head = [0]    输出：0        输入：head = [1]    输出：1
      * @param head
@@ -655,76 +640,15 @@ public class LinkedList {
     }
 
     /**
-     * 92. 反转链表 II
-     * 反转从位置 m 到 n 的链表。请使用一趟扫描完成反转。
-     * 说明:1 ≤ m ≤ n ≤ 链表长度。
-     * 输入: 1->2->3->4->5->NULL, m = 2, n = 4    输出: 1->4->3->2->5->NULL
-     * @param head
-     * @param m
-     * @param n
-     * @return
-     */
-    public ListNode reverseBetween(ListNode head, int m, int n) {
-
-        int i = 1;
-        ListNode cur = head;
-        ListNode before = cur;
-        ListNode temp = null;
-        ListNode last = null;
-        boolean hasHead = false;
-        while(head != null){
-            if(i < m){
-                if(i != m - 1){//记录头结点
-                    cur = cur.next;
-                }
-                head = head.next;
-                i++;
-                hasHead = true;
-                continue;
-            }
-            if(i <= n){// 链表反转
-                ListNode next = head.next;
-                head.next = temp;
-                temp = head;
-                if(i == m){
-                    last = temp;
-                }
-                head = next;
-                if(i == n && head == null){// 没有后节点
-                    if(hasHead){
-                        cur.next = temp;
-                    }else{
-                        before = temp;
-                    }
-                }
-                i++;
-            }else{
-                last.next = head;// 挂反转后的节点
-                if(hasHead){// 从开始位置翻转，不需要进行头结点的挂载
-                    cur.next = temp;
-                }else{
-                    before = temp;
-                }
-                break;
-            }
-        }
-        return before;
-
-    }
-
-    /**
      * 19. 删除链表的倒数第N个节点
      * 给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
-     * 示例：给定一个链表: 1->2->3->4->5, 和 n = 2.
-     * 当删除了倒数第二个节点后，链表变为 1->2->3->5.
-     * 给定的 n 保证是有效的。 n->(1,5)
+     * 示例：给定一个链表: 1->2->3->4->5, 和 n = 2. 当删除了倒数第二个节点后，链表变为 1->2->3->5. 给定的 n 保证是有效的。 n->(1,5)
      * @param head
      * @param n
      * @return
      */
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        
-        ListNode safe = head;
+        /*ListNode safe = head;
         ListNode fast = head;
         int i = 1;
         int len = 0;// 记录链表长度
@@ -745,50 +669,24 @@ public class LinkedList {
         if(len == n){// 头节点删除
             head = head.next;
         }
-        
+
         return head;
-
-    }
-
-    /**
-     * 142. 环形链表 II
-     * 给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
-     * 为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。
-     * 说明：不允许修改给定的链表。
-     * 输入：head = [3,2,0,-4], pos = 1    输出：tail connects to node index 1    解释：链表中有一个环，其尾部连接到第二个节点。
-     * 输入：head = [1,2], pos = 0         输出：tail connects to node index 0    解释：链表中有一个环，其尾部连接到第一个节点。
-     * 输入：head = [1], pos = -1          输出：no cycle                         解释：链表中没有环。
-     * @param head
-     * @return
-     */
-    public ListNode detectCycle(ListNode head) {
-        // 快慢指针
-        // a(开始位置->入环口) b（入环口走多少步相遇） c（再走多少步到达入环口） l（环长）
-        // b + c = kl; 2(b + a) = a + b + kl   ==> a = c
-        if(head == null || head.next == null){
-            return null;
+        */
+        ListNode ans = new ListNode(0);
+        ans.next = head;
+        ListNode soft = ans;
+        ListNode fast = ans;
+        for(int i = 0; i <= n; i++){
+            fast = fast.next;
         }
-        ListNode first = head.next;
-        ListNode second = head.next.next;
-        while(first != null && second != null){
-            if(first == second){
-                break;
-            }
-            first = first.next;
-            if(second.next == null){
-                return null;
-            }
-            second = second.next.next;
+        while(fast != null){
+            soft = soft.next;
+            fast = fast.next;
         }
-        first = head;
-        while(first != second){
-            first = first.next;
-            if(second == null) {
-                return null;
-            }
-            second = second.next;
+        if(soft.next != null) {
+            soft.next = soft.next.next;
         }
-        return first;
+        return ans.next;
     }
 
     /**
@@ -827,7 +725,7 @@ public class LinkedList {
 
     /**
      * 445. 两数相加 II
-     * 给你两个 非空 链表来代表两个非负整数。数字最高位位于链表开始位置。它们的每个节点只存储一位数字。将这两数相加会返回一个新的链表。
+     * 给你两个非空链表来代表两个非负整数。数字最高位位于链表开始位置。它们的每个节点只存储一位数字。将这两数相加会返回一个新的链表。
      * 你可以假设除了数字 0 之外，这两个数字都不会以零开头。
      * 进阶：如果输入链表不能修改该如何处理？换句话说，你不能对列表中的节点进行翻转。
      * 输入：(7 -> 2 -> 4 -> 3) + (5 -> 6 -> 4)    输出：7 -> 8 -> 0 -> 7
@@ -857,10 +755,11 @@ public class LinkedList {
             curValue += !s1.isEmpty() ? s1.pop() : 0;
             curValue += !s2.isEmpty() ? s2.pop() : 0;
             ListNode curNode = new ListNode(0);
-            curNode.next = mergeNode.next;
-            mergeNode.next = curNode;
             curNode.val = curValue % 10;
             curValue = curValue / 10;
+            // 将curNode挂到mergeNode节点上
+            curNode.next = mergeNode.next;
+            mergeNode.next = curNode;
         }
         return  mergeNode.next;
     }
@@ -893,8 +792,7 @@ public class LinkedList {
     /**
      * 82. 删除排序链表中的重复元素 II
      * 给定一个排序链表，删除所有含有重复数字的节点，只保留原始链表中 没有重复出现 的数字。
-     * 输入: 1->2->3->3->4->4->5      输出: 1->2->5
-     * 输入: 1->1->1->2->3            输出: 2->3
+     * 输入: 1->2->3->3->4->4->5   输出: 1->2->5；        输入: 1->1->1->2->3     输出: 2->3
      * @param head
      * @return
      */
@@ -916,8 +814,8 @@ public class LinkedList {
                     head = head.next;
                     flag = false;
                 }else{
-                    head = head.next;
                     cur = cur.next;
+                    head = head.next;
                 }
             }
         }
@@ -929,9 +827,8 @@ public class LinkedList {
 
     /**
      * 369. 给单链表加一
-     * 用一个 非空 单链表来表示一个非负整数，然后将这个整数加一。你可以假设这个整数除了 0 本身，没有任何前导的 0。
-     * 这个整数的各个数位按照 高位在链表头部、低位在链表尾部 的顺序排列。
-     * 输入: [1,2,3]  输出: [1,2,4]
+     * 用一个非空单链表来表示一个非负整数，然后将这个整数加一。你可以假设这个整数除了 0 本身，没有任何前导的 0。
+     * 这个整数的各个数位按照 高位在链表头部、低位在链表尾部 的顺序排列。       输入: [1,2,3]  输出: [1,2,4]
      * @param head
      * @return
      */
@@ -955,53 +852,13 @@ public class LinkedList {
             curNode.val = 0;
             curNode = curNode.next;
         }
-        return sentinel.val == 0 ? sentinel.next : sentinel;
-    }
-
-    /**
-     * 328. 奇偶链表
-     * 给定一个单链表，把所有的奇数节点和偶数节点分别排在一起。请注意，这里的奇数节点和偶数节点指的是节点编号的奇偶性，而不是节点的值的奇偶性。
-     * 请尝试使用原地算法完成。你的算法的空间复杂度应为 O(1)，时间复杂度应为 O(nodes)，nodes 为节点总数。
-     * 输入: 1->2->3->4->5->NULL          输出: 1->3->5->2->4->NULL
-     * 输入: 2->1->3->5->6->4->7->NULL    输出: 2->3->6->7->1->5->4->NULL
-     * 注意：
-     * 1.应当保持奇数节点和偶数节点的相对顺序。
-     * 2.链表的第一个节点视为奇数节点，第二个节点视为偶数节点，以此类推。
-     * @param head
-     * @return
-     */
-    public ListNode oddEvenList(ListNode head) {
-        // 使用一个新链表装偶数节点
-        ListNode evenAns = new ListNode(0);
-        ListNode evenCur = evenAns;
-        // 使用一个新链表装奇数节点
-        ListNode oddAns = new ListNode(0);
-        oddAns.next = head;
-        while(head != null && head.next != null){
-            ListNode next = head.next;
-            head.next = head.next.next;
-            next.next = null;
-            evenCur.next = next;
-            if(head.next == null){// 偶数结尾
-                head.next = evenAns.next;
-                break;
-            }else if(head.next.next == null){// 奇数结尾
-                head.next.next = evenAns.next;
-                break;
-            }else {
-                head = head.next;
-                evenCur = evenCur.next;
-            }
-        }
-        return oddAns.next;
+        return sentinel.val == 0 ? sentinel.next : sentinel;// 是否发生了进位
     }
 
     /**
      * 143. 重排链表
-     * 给定一个单链表 L：L0→L1→…→Ln-1→Ln ，将其重新排列后变为： L0→Ln→L1→Ln-1→L2→Ln-2→…
-     * 你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
-     * 给定链表 1->2->3->4, 重新排列为 1->4->2->3.
-     * 给定链表 1->2->3->4->5, 重新排列为 1->5->2->4->3.
+     * 给定一个单链表 L：L0→L1→…→Ln-1→Ln ，将其重新排列后变为： L0→Ln→L1→Ln-1→L2→Ln-2→…    你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+     * 给定链表 1->2->3->4, 重新排列为 1->4->2->3.   给定链表 1->2->3->4->5, 重新排列为 1->5->2->4->3.
      * @param head
      */
     public static void reorderList(ListNode head) {
@@ -1037,15 +894,136 @@ public class LinkedList {
             cur = next;
         }
         if(cur == stack.peek()){// 奇数最后节点的处理
+            cur.next = null;
             temp.next = cur;
-            temp.next.next = null;
         }
         head = ans.next;
     }
 
+    /**
+     * 328. 奇偶链表
+     * 给定一个单链表，把所有的奇数节点和偶数节点分别排在一起。请注意，这里的奇数节点和偶数节点指的是节点编号的奇偶性，而不是节点的值的奇偶性。
+     * 请尝试使用原地算法完成。你的算法的空间复杂度应为 O(1)，时间复杂度应为 O(nodes)，nodes 为节点总数。
+     * 输入: 1->2->3->4->5->NULL          输出: 1->3->5->2->4->NULL
+     * 输入: 2->1->3->5->6->4->7->NULL    输出: 2->3->6->7->1->5->4->NULL
+     * 注意：1.应当保持奇数节点和偶数节点的相对顺序。2.链表的第一个节点视为奇数节点，第二个节点视为偶数节点，以此类推。
+     * @param head
+     * @return
+     */
+    public ListNode oddEvenList(ListNode head) {
+        // 使用一个新链表装偶数节点
+        ListNode evenAns = new ListNode(0);
+        ListNode evenCur = evenAns;
+        // 使用一个新链表装奇数节点
+        ListNode oddAns = new ListNode(0);
+        oddAns.next = head;
+        while(head != null && head.next != null){
+            ListNode next = head.next;
+            head.next = head.next.next;
+            next.next = null;
+            evenCur.next = next;
+            if(head.next == null){// 偶数结尾
+                head.next = evenAns.next;
+                break;
+            }else if(head.next.next == null){// 奇数结尾
+                head.next.next = evenAns.next;
+                break;
+            }else {
+                head = head.next;
+                evenCur = evenCur.next;
+            }
+        }
+        return oddAns.next;
+    }
+
+    /**
+     * 142. 环形链表 II
+     * 给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
+     * 为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。
+     * 说明：不允许修改给定的链表。
+     * 输入：head = [3,2,0,-4], pos = 1    输出：tail connects to node index 1    解释：链表中有一个环，其尾部连接到第二个节点。
+     * 输入：head = [1,2], pos = 0         输出：tail connects to node index 0    解释：链表中有一个环，其尾部连接到第一个节点。
+     * 输入：head = [1], pos = -1          输出：no cycle                         解释：链表中没有环。
+     * https://leetcode-cn.com/problems/linked-list-cycle-ii/solution/yi-yan-jiu-kan-dong-de-ti-jie-shuang-zhi-4sag/
+     * @param head
+     * @return
+     */
+    public ListNode detectCycle(ListNode head) {
+        // 快慢指针
+        // a(开始位置->入环口) b（入环口走多少步相遇） c（再走多少步到达入环口） l（环长）
+       /* 快慢指针相遇的节点，此时快指针走的距离：a+(b+c)n+b
+        很容易理解b+c为环的长度，a为直线距离，b为绕了n圈之后又走了一段距离才相遇，所以相遇时走的总路程为a+(b+c)n+b，合并同类项得a+(n+1)b+nc。
+        慢指针走的距离：a+(b+c)m+b,m代表圈数。
+        然后我们设快指针得速度是慢指针的2倍,含义为相同时间内，快指针走过的距离是慢指针的2倍。
+        **a+(n+1)b+nc=2[a+(m+1)b+mc]整理得a+b=(n-2m)(b+c)，**那么我们可以从这个等式上面发现什么呢？b+c
+        为一圈的长度。也就是说a+b等于n-2m个环的长度。为了便于理解我们看一种特殊情况，当n-2m（l）等于1，那么a+b=b+c整理得，a=c此时我们只需重新释放两个指针，
+        一个从head释放，一个从相遇点释放，速度相同，因为a=c所以他俩必会在环入口处相遇，则求得入口节点索引。*/
+
+        if(head == null || head.next == null){
+            return null;
+        }
+        // 1.设置快慢指针，快指针速度为慢指针的2倍,找出相遇点
+        ListNode first = head.next;
+        ListNode second = head.next.next;
+        while(first != null && second != null){
+            if(first == second){
+                break;
+            }
+            first = first.next;
+            if(second.next == null){
+                return null;
+            }
+            second = second.next.next;
+        }
+        //  2.在head处和相遇点同时释放相同速度且速度为1的指针，两指针必会在环入口处相遇
+        first = head;
+        while(first != second){
+            first = first.next;
+            if(second == null) {
+                return null;
+            }
+            second = second.next;
+        }
+        return first;
+    }
+
+    /**
+     * 92. 反转链表 II
+     * 反转从位置 m 到 n 的链表。请使用一趟扫描完成反转。说明:1 ≤ m ≤ n ≤ 链表长度。
+     * 输入: 1->2->3->4->5->NULL, m = 2, n = 4    输出: 1->4->3->2->5->NULL
+     * @param head
+     * @param m
+     * @param n
+     * @return
+     */
+    public static ListNode reverseBetween(ListNode head, int m, int n) {
+        ListNode ans = new ListNode(0);
+        ans.next = head;
+        ListNode cur = ans;
+        int i = 1;
+        while(head != null){
+            if(i < m){// 移动前m - 1个节点
+                head = head.next;
+                cur = cur.next;
+                i++;
+                continue;
+            }
+            if(i < n){
+                ListNode next = head.next;
+                head.next = head.next.next;
+                next.next = cur.next;
+                cur.next = next;
+                i++;
+            }else{
+                break;
+            }
+        }
+        return ans.next;
+    }
+
     public static void main(String[] args){
 
-        ListNode a = new ListNode(1);
+    /*    ListNode a = new ListNode(1);
         ListNode b = new ListNode(2);
         ListNode c = new ListNode(3);
         ListNode d = new ListNode(4);
@@ -1056,7 +1034,7 @@ public class LinkedList {
         c.next = d;
         d.next = e;
         e.next = f;
-        reorderList(a);
+        reorderList(a);*/
 
 //        ListNode a = new ListNode(1, new ListNode(4, new ListNode(3, new ListNode(2, new ListNode(5, new ListNode(2))))));
 //        System.out.println(partition(a, 3));
@@ -1104,6 +1082,12 @@ public class LinkedList {
 //        b.next = c;
 //        c.next = d;
         System.out.println(isPalindrome(a));*/
+
+       /* ListNode a = new ListNode(-1, new ListNode(5, new ListNode(3, new ListNode(4, new ListNode(0)))));
+        System.out.println(sortList(a));*/
+
+        ListNode a = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
+        System.out.println(reverseBetween(a, 1, 5));
 
     }
 }
