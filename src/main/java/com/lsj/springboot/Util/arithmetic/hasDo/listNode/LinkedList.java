@@ -1,4 +1,4 @@
-package com.lsj.springboot.Util.arithmetic.day200812.listNode;
+package com.lsj.springboot.Util.arithmetic.hasDo.listNode;
 
 
 import java.io.*;

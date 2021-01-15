@@ -1,4 +1,4 @@
-package com.lsj.springboot.Util.arithmetic.day200818;
+package com.lsj.springboot.Util.arithmetic.toDo;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,8 +1,7 @@
-package com.lsj.springboot.Util.arithmetic.day200818;
+package com.lsj.springboot.Util.arithmetic.toDo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**

@@ -1,4 +1,4 @@
-package com.lsj.springboot.Util.arithmetic.day200818;
+package com.lsj.springboot.Util.arithmetic.toDo.other;
 
 /**
  * Created by 10326 on 2020/8/22.

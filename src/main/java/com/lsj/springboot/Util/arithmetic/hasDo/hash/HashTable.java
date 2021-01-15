@@ -1,4 +1,4 @@
-package com.lsj.springboot.Util.arithmetic.day200812.hash;
+package com.lsj.springboot.Util.arithmetic.hasDo.hash;
 
 public class HashTable<K, V> {
 

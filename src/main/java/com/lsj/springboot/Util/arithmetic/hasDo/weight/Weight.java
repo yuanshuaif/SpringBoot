@@ -1,4 +1,4 @@
-package com.lsj.springboot.Util.arithmetic.day200812.weight;
+package com.lsj.springboot.Util.arithmetic.hasDo.weight;
 
 import java.util.ArrayList;
 import java.util.List;
