@@ -1,4 +1,4 @@
-package com.lsj.springboot.Util.arithmetic.hasDo.weight;
+package com.lsj.springboot.Util.arithmetic.toDo.other;
 
 import java.util.ArrayList;
 import java.util.List;
