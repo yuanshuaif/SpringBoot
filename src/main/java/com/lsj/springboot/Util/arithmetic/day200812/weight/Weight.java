@@ -39,8 +39,10 @@ public class Weight {
             if(id == employee.id){
                 importance += employee.importance;
                 subordinates= employee.subordinates;
-                for(int subordinate : subordinates){
-                    getSubImportance(employees, subordinate);
+                if(subordinates != null) {
+                    for (int subordinate : subordinates) {
+                        getSubImportance(employees, subordinate);
+                    }
                 }
                 break;
             }
