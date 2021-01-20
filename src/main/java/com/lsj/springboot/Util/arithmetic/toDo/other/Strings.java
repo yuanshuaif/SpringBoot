@@ -7,89 +7,84 @@ import java.util.*;
 /**
  * Created by 10326 on 2020/8/9.
  *
- *  面试题 01.01. 判定字符是否唯一
+ * 面试题 01.01. 判定字符是否唯一
  *
- *  题目13:罗马数字转整数
+ * 题目13:罗马数字转整数
  *
- *  Linux语法简化规则(字节 13题的变种)
+ * 题目14:最长公共前缀
  *
- *  题目14:最长公共前缀
+ * 题目20:查找正确的括号
  *
- *  题目20:查找正确的括号
+ * 题目3:无重复字符的最长子串
+ * 滑动窗口
  *
- *  题目3:无重复字符的最长子串
- *  滑动窗口
+ * 题目28:实现indexOf()
+ * 滑动窗口
  *
- *  题目28:实现indexOf()
- *  滑动窗口
+ * 1071.字符串的最大公因子
+ * 辗转相除法
  *
- *  1071.字符串的最大公因子
- *  辗转相除法
- *
- *  409. 最长回文串
- *
- *  剑指 Offer 03. 数组中重复的数字
- *
- *  415. 字符串相加
- *
- *  67. 二进制求和（思想同上）
- *
- *  58. 最后一个单词的长度
- *
- *  557. 反转字符串中的单词 III
- *
- *  459. 重复的子字符串
- *
- * 面试题 01.06. 字符串压缩
- *
- * 541. 反转字符串 II
- *
- * 1119. 删去字符串中的元音
+ * 409. 最长回文串
  *
  * 680. 验证回文字符串 Ⅱ
  *
- * 1446. 连续字符
+ * 剑指 Offer 03. 数组中重复的数字
  *
- * 面试题 01.02. 判定是否互为字符重排
+ * 415. 字符串相加
+ *
+ * 67. 二进制求和（思想同上）
+ *
+ * 58. 最后一个单词的长度
+ *
+ * 557. 反转字符串中的单词 III
+ *
+ * 459. 重复的子字符串
  *
  * 面试题 01.09. 字符串轮转
  *
- * 917. 仅仅反转字母
- *
- * 434. 字符串中的单词数
- *
- * 151. 翻转字符串里的单词
- *
- * 剑指 Offer 58 - I. 翻转单词顺序
+ * 1119. 删去字符串中的元音
  *
  * 657. 机器人能否返回原点
  *
  * 771. 宝石与石头
  *
  * 剑指 Offer 58 - II. 左旋转字符串
+ *
+ * 151. 翻转字符串里的单词
+ * 剑指 Offer 58 - I. 翻转单词顺序
+ *
+ * 434. 字符串中的单词数
+ *
+ * 面试题 01.02. 判定是否互为字符重排
+ *
+ * 1446. 连续字符
+ *
+ * 541. 反转字符串 II
+ *
+ * 面试题 01.06. 字符串压缩
+ *
+ * 917. 仅仅反转字母
+ *
+ * Linux语法简化规则(字节 13题的变种)
  */
 public class Strings {
-
-    private static final Map<Character,Character> map = new HashMap(){{
-        put('{','}'); put('[',']'); put('(',')');
-    }};
 
     public static void main(String[] args){
      /*   System.out.println(integerInversion(-123));
         System.out.println(integerInversion(1534236469));*/
 //        System.out.println(isPalindrome(-232));
 //        System.out.println(roman2Int("MCMXCIV"));
-      /*  System.out.println(linuxRules("/c/d/////././../e/."));
+//        System.out.println(linuxRules("/c/d/////././../e/."));
         System.out.println(linuxRules("/c/d/////././../e/"));
-        System.out.println(linuxRules("/c/d/////././../e/.."));
-        System.out.println(linuxRules("/c/d/////././../ed/.."));
-        System.out.println(linuxRules("/c/d/////././../ed/."));*/
-//        String[] strs = new String[]{"flower","flow","flight","flosh"};
-//        System.out.println(longestCommonPrefix(strs));
-        System.out.println( findRealParentheses("()[]{}"));
+//        System.out.println(linuxRules("/c/d/////././../e/.."));
+//        System.out.println(linuxRules("/c/d/////././../ed/.."));
+//        System.out.println(linuxRules("/c/d/////././../ed/."));
+       /* String[] strs = new String[]{"flower","ooow","flight","flosh"};
+        System.out.println(longestCommonPrefix(strs));*/
+       /* System.out.println( findRealParentheses("()[]{}"));
         System.out.println( findRealParentheses("))[]{}"));
         System.out.println( findRealParentheses("()[]{(}"));
-        System.out.println( findRealParentheses("[()[]]{}"));
+        System.out.println( findRealParentheses("[()[]]{}"));*/
         /*Integer[] firstList = new Integer[]{1, 5, 6};
         Integer[] secondList = new Integer[]{1, 3, 4, 6};
         int i = 0;
@@ -105,7 +100,7 @@ public class Strings {
 //        System.out.println(indexOf("hello", "ll"));
 //        System.out.println(indexOf("aaaaa", "aab"));
 
-          /* System.out.println(longest("abcabcbb"));
+      /*  System.out.println(longest("abcabcbb"));
         System.out.println(longest("bbbbb"));
         System.out.println(longest("pwwkew"));*/
 
@@ -118,20 +113,19 @@ public class Strings {
        /* 输入: A = [1,2,3,0,0,0], m = 3;  B = [2,5,6],  n = 3
       输出: [1,2,2,3,5,6]*/
 
-        //        System.out.println(validPalindrome("lcuppucul") );
+//       System.out.println(validPalindrome("lcuppucul") );
 //        System.out.println(maxPower("t") );
 //        System.out.println(CheckPermutation("abc", "bca") );
 //        System.out.println(reverseOnlyLetters("Test1ng-Leet=code-Q!") );
 //        System.out.println(countSegments(", , , ,        a, eaefa") );
 
-        System.out.println(reverseWords("the sky is blue") );
+//        System.out.println(reverseWords("the sky is blue") );
     }
 
     /**
      * 面试题 01.01. 判定字符是否唯一
-     * 实现一个算法，确定一个字符串 s 的所有字符是否全都不同。
+     * 实现一个算法，确定一个字符串 s 的所有字符是否全都不同。不使用额外的数据结构
      * 输入: s = "leetcode" 输出: false ;   输入: s = "abc"  输出: true
-     * 不使用额外的数据结构
      * @param astr
      * @return
      */
@@ -148,15 +142,10 @@ public class Strings {
 
     /**
      * 13.罗马数字转整数
-     * 罗马数字包含以下7种字符:I、V、X、L、C、D、M
+     * 罗马数字包含以下7种字符:I、V、X、L、C、D、M， 给定一个罗马数字转化成整数（1-3999）
      * 数字值I->1,V->5,X->10,L->50,C->100,D->500,M->1000
      * 例如：罗马数字2写作II,罗马数字27写作XXVII    LVIII->58   MCMXCIV->1994
-     * 6个特殊情况：
-     *      I放到 V和X的左边，表示4，9
-     *      X放到 L和C的左边，表示40，90
-     *      C放到 D和M的右边，表示400,900
-     *
-     * 给定一个罗马数字转化成整数（1-3999）
+     * 6个特殊情况： I放到 V和X的左边，表示4，9；    X放到 L和C的左边，表示40，90;     C放到 D和M的右边，表示400,900
      * @return
      */
     public static int roman2Int(String str){
@@ -250,62 +239,8 @@ public class Strings {
     }
 
     /**
-     * Linux语法简化规则(字节 13题的变种)
-     * /c/d/////././../e/
-     * /c/d/././../e/
-     * /c/e
-     * @param orignalStr
-     * @return
-     */
-    public static String linuxRules(String orignalStr){
-        while(orignalStr.contains("//")){
-            orignalStr = orignalStr.replaceAll("//", "/");
-        }
-        char[] chars = orignalStr.toCharArray();
-        String targetStr = "";
-        for(int i = 0; i < chars.length ; i++){
-            switch (chars[i]){
-                case '/':
-                    if(chars.length > 1 && i != chars.length - 1){
-                        switch (chars[i + 1]){
-                            case '.':
-                                if(chars.length > 2 && i != chars.length - 2){
-                                    switch (chars[i + 2]) {
-                                        case '.':
-                                            i += 2;
-                                            int lastIndex = targetStr.lastIndexOf("/");
-                                            if (lastIndex > 0) {
-                                                targetStr = targetStr.substring(0, lastIndex);
-                                            }
-                                            break;
-                                        default:
-                                            i++;
-                                            break;
-                                    }
-                                    break;
-                                }else {
-                                    i++;
-                                    break;
-                                }
-                            default:
-                                targetStr += chars[i];
-                                break;
-                        }
-                    }
-                    break;
-                default:
-                    targetStr += chars[i];
-                    break;
-            }
-        }
-        return targetStr;
-    }
-
-    /**
      * 14.查找字符串数组中的最长公共前缀
-     * 如果不存在公共前缀，返回空字符串
-     * 所有输入只包含小写字母a-z
-     * 例如：输入{"flower","flow","flight","flosh"} 输出"fl"
+     * 如果不存在公共前缀，返回空字符串,所有输入只包含小写字母a-z  例如：输入{"flower","flow","flight","flosh"} 输出"fl"
      * @param strs
      * @return
      */
@@ -315,27 +250,19 @@ public class Strings {
         }else if(strs.length == 1){
             return strs[0];
         }
-        String common = "";
-        for(int i = 0; i < strs.length - 1; i++){
-            String first = "";
-            String second = "";
-            if(StringUtils.isEmpty(common)){// 第一个跟第二个数取公共前缀
-                first = strs[i];
-                second = strs[i + 1];
-            }else{
-                first = common;
-                second = strs[i + 1];
-            }
-            int minLength = Math.min(first.length(), second.length());
-            StringBuffer commonChars = new StringBuffer();
+        String common = strs[0];
+        for(int i = 1; i < strs.length; i++){
+            String cur = strs[i];
+            int minLength = Math.min(common.length(), cur.length());
+            int commonIndex = 0;
             for(int j = 0; j < minLength; j++){
-                if(first.charAt(j) != second.charAt(j)){
+                if(common.charAt(j) != cur.charAt(j)){
                     break;
                 }
-                commonChars = commonChars.append(first.charAt(j));
+                commonIndex++;
             }
-            common = String.valueOf(commonChars);
-            if(StringUtils.isEmpty(common)){
+            common = common.substring(0, commonIndex);
+            if("".equals(common)){
                 break;
             }
         }
@@ -344,8 +271,7 @@ public class Strings {
 
     /**
      * 20.寻找正确的括号
-     * 给定一个括号的字符串，必须以正确的顺序闭合
-     * ()[]{}  ([{}]) 分为并排、嵌套2种
+     * 给定一个括号的字符串，必须以正确的顺序闭合,()[]{}  ([{}]) 分为并排、嵌套2种
      * @param parentheses
      * @return
      */
@@ -372,27 +298,28 @@ public class Strings {
 //        内存消耗：37.7 MB, 在所有 Java 提交中击败了 5.48% 的用户
         // 思路：初始化栈；一次处理一个括号；如果是开括号入栈；如果是必括号从栈中取出一个判断是否是对，
         //  如果是一对继续，不是终止，结束后判断栈中是否还有元素，有返回false
+        Map<Character,Character> map = new HashMap(){{
+            put('{','}'); put('[',']'); put('(',')');
+        }};
+        char[] chars = parentheses.toCharArray();
         if("".equals(parentheses)){// 空串认为是有效字符串
             return true;
-        }else if(parentheses.length() % 2 != 0){// 奇数直接返回
+        }else if(parentheses.length() % 2 != 0 || !map.containsKey(chars[0])){// 奇数或者以)]}开始直接返回
             return false;
         }
         Stack<Character> stack = new Stack<>();
-        char[] chars = parentheses.toCharArray();
-        if(!map.containsKey(chars[0])){
-            return false;
-        }
         for(int i = 0; i < chars.length; i++){
             if(map.containsKey(chars[i])){
                 stack.push(chars[i]);
             }else{
-                if(map.get(stack.isEmpty() ? '?' : stack.pop()) != chars[i]){
+                if(stack.isEmpty() || map.get(stack.pop()) != chars[i]){
                     return false;
                 }
             }
         }
         return stack.isEmpty();
     }
+
     /**
      * 题目3：无重复字符的最长子串
      * abcabcbb 最长字串abc; bbbbb 最长字串b; pwwkew 最长字串wke
@@ -405,18 +332,13 @@ public class Strings {
         int start = 0;
         int end = 0;
         int max = 0;
-        for(int i = 0; i < length; i++){
-            // 删掉前一个元素
-            start = i;
-            if(start != 0){
+        for(;start < length; start++){
+            if(start > 0){
                 set.remove(str.charAt(start - 1));
             }
-            // 后面的指针指向的元素在集合中不存在加入到集合中
             while(end < length && !set.contains(str.charAt(end))){
-                set.add(str.charAt(end));
-                end ++;
+                set.add(str.charAt(end++));
             }
-            // 获取最大值
             max = Math.max(max, end - start);
         }
         return max;
@@ -432,28 +354,26 @@ public class Strings {
      * @param findStr
      */
     private static int indexOf(String orignal, String findStr){
-        if(findStr == null || orignal == null){
-            throw new RuntimeException("参数不能为空");
-        }
         if("".equals(findStr)){
             return 0;
-        }else if(findStr.length() > orignal.length() || "".equals(orignal)){
+        }else if(findStr.length() > orignal.length() || "".equals(orignal) || !orignal.contains(findStr)){
             return -1;
         }
-        char[] orignalChar = orignal.toCharArray();
-        char[] findChar = findStr.toCharArray();
         int index = -1;
         // 1.滑动窗口
-        for(int i = 0; i <= orignalChar.length - findChar.length; i++){
+        for(int i = 0; i <= orignal.length() - findStr.length(); i++){
             int num = 0;
-            for(int j = 0; j < findChar.length; j++){
-                if(orignalChar[i + j] != findChar[j]){
+            if(orignal.charAt(i) != findStr.charAt(0)){
+                continue;
+            }
+            for(int j = 0; j < findStr.length(); j++){
+                if(orignal.charAt(i + j) != findStr.charAt(j)){
                     break;
                 }else{
                     num++;
                 }
             }
-            if(num == findChar.length){
+            if(num == findStr.length()){
                 index = i;
                 break;
             }
@@ -463,8 +383,7 @@ public class Strings {
 
     /**
      * 1071.字符串的最大公因子
-     * 对于字符串 S 和 T，只有在 S = T + ... + T（T 与自身连接 1 次或多次）时，我们才认定 “T 能除尽 S”。
-     返回最长字符串 X，要求满足 X 能除尽 str1 且 X 能除尽 str2。
+     * 对于字符串 S 和 T，只有在 S = T + ... + T（T 与自身连接 1 次或多次）时，我们才认定 “T 能除尽 S”。返回最长字符串 X，要求满足 X 能除尽 str1 且 X 能除尽 str2。
      * @param str1
      * @param str2
      * @return
@@ -491,10 +410,8 @@ public class Strings {
 
     /**
      * 409. 最长回文串
-     * 给定一个包含大写字母和小写字母的字符串，找到通过这些字母构造成的最长的回文串。
-     在构造过程中，请注意区分大小写。比如 "Aa" 不能当做一个回文字符串。
-     输入: "abccccdd" 输出: 7
-     解释: 我们可以构造的最长的回文串是"dccaccd", 它的长度是 7。
+     * 给定一个包含大写字母和小写字母的字符串，找到通过这些字母构造成的最长的回文串。在构造过程中，请注意区分大小写。比如 "Aa" 不能当做一个回文字符串。
+     * 输入: "abccccdd" 输出: 7         解释: 我们可以构造的最长的回文串是"dccaccd", 它的长度是 7。
      * @param s
      * @return
      */
@@ -511,6 +428,38 @@ public class Strings {
             ans += x - (x & 1);
         }
         return ans < s.length() ? (ans + 1) : ans;
+    }
+
+    /**
+     * 680. 验证回文字符串 Ⅱ
+     * 给定一个非空字符串 s，最多删除一个字符。判断是否能成为回文字符串。
+     * 输入: "aba"    输出: True
+     * 输入: "abca"   输出: True    解释: 你可以删除c字符。
+     * @param s
+     * @return
+     */
+    public static boolean validPalindrome(String s) {
+        char[] chars = s.toCharArray();
+        int start = 0;
+        int end = chars.length - 1;
+        while(start < end){
+            if(chars[start] == chars[end]){
+                start++;
+                end--;
+            }else{
+                return isPalindrome(chars, start + 1, end) || isPalindrome(chars, start, end - 1);
+            }
+        }
+        return true;
+    }
+
+    public static boolean isPalindrome(char[] chars, int i, int j) {
+        while (i < j) {
+            if (chars[i++] != chars[j--]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -534,10 +483,8 @@ public class Strings {
     /**
      * 415. 字符串相加
      *  给定两个字符串形式的非负整数 num1 和num2 ，计算它们的和。
-        num1 和num2 的长度都小于 5100
-        num1 和num2 都只包含数字 0-9
-        num1 和num2 都不包含任何前导零
-        你不能使用任何內建 BigInteger 库， 也不能直接将输入的字符串转换为整数形式
+     *  num1 和num2 的长度都小于 5100; num1 和num2 都只包含数字 0-9;  num1 和num2 都不包含任何前导零
+     *  你不能使用任何內建 BigInteger 库， 也不能直接将输入的字符串转换为整数形式
      * @param num1
      * @param num2
      * @return
@@ -582,7 +529,6 @@ public class Strings {
             str.append(carry);
         }
         return str.reverse().toString();
-
     }
 
     /**
@@ -648,11 +594,8 @@ public class Strings {
      * 给定一个非空的字符串，判断它是否可以由它的一个子串重复多次构成。给定的字符串只含有小写英文字母，并且长度不超过10000。
      * 输入: "abab"  输出: True     输入: "aba"   输出: False
      * 如果您的字符串S包含一个重复的子字符串，那么这意味着您可以多次“移位和换行”您的字符串，并使其与原始字符串匹配。(移动1-（n-1）)
-         例如:abcabc
-         移位一次:cabcab
-         移位两次:bcabca
-         移位三次:abcabc
-         所以可以直接判断str中去除首尾元素之后，是否包含自身元素。如果包含。则表明存在重复子串。
+     * 例如:abcabc: 移位一次:cabcab; 移位两次:bcabca; 移位三次:abcabc;
+     * 核心算法：所以可以直接判断str中去除首尾元素之后，是否包含自身元素。如果包含。则表明存在重复子串。
      * @param s
      * @return
      */
@@ -662,95 +605,19 @@ public class Strings {
     }
 
     /**
-     * 面试题 01.06. 字符串压缩
-     * 字符串压缩。利用字符重复出现的次数，编写一种方法，实现基本的字符串压缩功能。比如，字符串aabcccccaaa会变为a2b1c5a3。
-     * 若“压缩”后的字符串没有变短，则返回原先的字符串。你可以假设字符串中只包含大小写英文字母（a至z）。
-     * 输入："aabcccccaaa" 输出："a2b1c5a3"
-     *  输入："abbccd" 输出："abbccd" 解释："abbccd"压缩后为"a1b2c2d1"，比原字符串长度更长。
-     * @param S
+     * 面试题 01.09. 字符串轮转
+     * 字符串轮转。给定两个字符串s1和s2，请编写代码检查s2是否为s1旋转而成（比如，waterbottle是erbottlewat旋转后的字符串）。
+     * 输入：s1 = "waterbottle", s2 = "erbottlewat"    输出：True
+     * 输入：s1 = "aa", s2 = "aba" 输出：False
+     * @param s1
+     * @param s2
      * @return
      */
-    public String compressString(String S) {
-        /*Stack<String> stack = new Stack();
-        int num = 0;
-        for(int i = 0; i < S.length(); i++){
-            if(stack.isEmpty()){
-                stack.push(S.charAt(i) + "");
-                num++;
-            }else if((S.charAt(i) + "").equals(stack.peek())){
-                num++;
-            }else{
-                stack.push(String.valueOf(num));
-                stack.push(S.charAt(i) + "");
-                num = 1;
-            }
+    public boolean isFlipedString(String s1, String s2) {
+        if(s1.length() != s2.length()){
+            return false;
         }
-        stack.push(String.valueOf(num));
-        if(S.length() <= stack.size()){
-            return S;
-        }else{
-            StringBuilder sb = new StringBuilder();
-            while(!stack.isEmpty()){
-                if(sb.length() == 0){
-                    sb.append(stack.pop());
-                }else{
-                    sb.insert(0, stack.pop());
-                }
-            }
-            return sb.toString();
-        }*/
-
-        StringBuilder sb = new StringBuilder();
-        if(S.equals("")){
-            return S;
-        }
-        char cur = S.charAt(0);
-        int num = 1;
-        sb.append(cur + "");
-        for(int i = 1; i < S.length(); i++){
-            if(S.charAt(i) == cur){
-                num++;
-            }else{
-                sb.append(String.valueOf(num));
-                sb.append(S.charAt(i) + "");
-                num = 1;
-                cur = S.charAt(i);
-            }
-        }
-        sb.append(String.valueOf(num));
-        if(S.length() <= sb.length()){
-            return S;
-        }else{
-            return sb.toString();
-        }
-    }
-
-    /**
-     * 541. 反转字符串 II
-     * 给定一个字符串 s 和一个整数 k，你需要对从字符串开头算起的每隔 2k 个字符的前 k 个字符进行反转。
-     * 如果剩余字符少于 k 个，则将剩余字符全部反转。
-     * 如果剩余字符小于 2k 但大于或等于 k 个，则反转前 k 个字符，其余字符保持原样。
-     * 输入: s = "abcdefg", k = 2    输出: "bacdfeg"
-     * @param s
-     * @param k
-     * @return
-     */
-    public String reverseStr(String s, int k) {
-        // 每个k个字符转换k个字符
-        char[] chars = s.toCharArray();
-        char temp = 0;
-        for(int i = 0; i < chars.length; i += 2 * k){
-            int left = i;
-            int right = i + k - 1 < chars.length ? i + k - 1 : chars.length - 1;
-            while(left < right){
-                temp = chars[left];
-                chars[left] = chars[right];
-                chars[right] = temp;
-                left++;
-                right--;
-            }
-        }
-        return String.valueOf(chars);
+        return (s1 + s1).contains(s2);
     }
 
     /**
@@ -771,276 +638,6 @@ public class Strings {
             }
         }
         return sb.toString();
-    }
-
-    /**
-     * 680. 验证回文字符串 Ⅱ
-     * 给定一个非空字符串 s，最多删除一个字符。判断是否能成为回文字符串。
-     * 输入: "aba"    输出: True
-     * 输入: "abca"   输出: True    解释: 你可以删除c字符。
-     * @param s
-     * @return
-     */
-    public static boolean validPalindrome(String s) {
-        char[] chars = s.toCharArray();
-        int start = 0;
-        int end = chars.length - 1;
-        while(start < end){
-            if(chars[start] == chars[end]){
-                start++;
-                end--;
-            }else{
-                return isPalindrome(chars, start + 1, end) || isPalindrome(chars, start, end - 1);
-            }
-        }
-        return true;
-    }
-
-    public static boolean isPalindrome(char[] chars, int i, int j) {
-        while (i < j) {
-            if (chars[i++] != chars[j--]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * 551. 学生出勤记录 I
-     * 给定一个字符串来代表一个学生的出勤记录，这个记录仅包含以下三个字符：
-     * 'A' : Absent，缺勤      'L' : Late，迟到       'P' : Present，到场
-     * 如果一个学生的出勤记录中不超过一个'A'(缺勤)并且不超过两个连续的'L'(迟到),那么这个学生会被奖赏。
-     * 你需要根据这个学生的出勤记录判断他是否会被奖赏。
-     * 输入: "PPALLP"     输出: True
-     * 输入: "PPALLL"     输出: False
-     * @param s
-     * @return
-     */
-    public boolean checkRecord(String s) {
-        return false;
-    }
-
-    /**
-     * 1446. 连续字符
-     * 给你一个字符串 s ，字符串的「能量」定义为：只包含一种字符的最长非空子字符串的长度。请你返回字符串的能量。
-     * 输入：s = "leetcode"    输出：2    解释：子字符串 "ee" 长度为 2 ，只包含字符 'e' 。
-     * 输入：s = "abbcccddddeeeeedcba" 输出：5    解释：子字符串 "eeeee" 长度为 5 ，只包含字符 'e' 。
-     * 输入：s = "triplepillooooow"    输出：5
-     * @param s
-     * @return
-     */
-    public static int maxPower(String s) {
-        char[] chars = s.toCharArray();
-        int ans = 1;
-        int temp = 1;
-        int start = 0;
-        int end = 1;
-        while(end < chars.length){
-            if(chars[start] == chars[end]){
-                start++;
-                end++;
-                temp++;
-                ans = Math.max(temp, ans);
-            }else{
-                start++;
-                end++;
-                temp = 1;
-            }
-        }
-        return ans;
-    }
-
-    /**
-     * 面试题 01.02. 判定是否互为字符重排
-     * 给定两个字符串 s1 和 s2，请编写一个程序，确定其中一个字符串的字符重新排列后，能否变成另一个字符串。
-     * 输入: s1 = "abc", s2 = "bca"   输出: true
-     * 输入: s1 = "abc", s2 = "bad"   输出: false
-     * @param s1
-     * @param s2
-     * @return
-     */
-    public static boolean CheckPermutation(String s1, String s2) {
-        if(s1.length() != s2.length()){
-            return false;
-        }
-        Map<Character, Integer> hash = new HashMap<>();
-        for(int i = 0; i < s1.length(); i++){
-            hash.put(s1.charAt(i), hash.getOrDefault(s1.charAt(i), 0) + 1);
-        }
-        for(int i = 0; i < s2.length(); i++){
-            if(hash.containsKey(s2.charAt(i))){
-                hash.put(s2.charAt(i), hash.get(s2.charAt(i)) - 1);
-                if(hash.get(s2.charAt(i)) == 0){
-                    hash.remove(s2.charAt(i));
-                }
-            }else{
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * 面试题 01.09. 字符串轮转
-     * 字符串轮转。给定两个字符串s1和s2，请编写代码检查s2是否为s1旋转而成（比如，waterbottle是erbottlewat旋转后的字符串）。
-     * 输入：s1 = "waterbottle", s2 = "erbottlewat"    输出：True
-     * 输入：s1 = "aa", s2 = "aba" 输出：False
-     * @param s1
-     * @param s2
-     * @return
-     */
-    public boolean isFlipedString(String s1, String s2) {
-        if(s1.length() != s2.length()){
-            return false;
-        }
-        return (s1 + s1).contains(s2);
-    }
-
-    /**
-     * 917. 仅仅反转字母
-     * 给定一个字符串 S，返回 “反转后的” 字符串，其中不是字母的字符都保留在原地，而所有字母的位置发生反转。
-     * 输入："ab-cd"   输出："dc-ba"
-     * 输入："Test1ng-Leet=code-Q!"    输出："Qedo1ct-eeLg=ntse-T!"
-     * 输入："a-bC-dEf-ghIj"   输出："j-Ih-gfE-dCba"
-     * @param S
-     * @return
-     */
-    public static String reverseOnlyLetters(String S) {
-        /*Set<Character> sets = new HashSet(){{
-            add('a');add('b');add('c');add('d');add('e');add('f');add('g');add('h');
-            add('i');add('j');add('k');add('l');add('m');add('n');add('o');add('p');
-            add('q');add('r');add('s');add('t');add('u');add('v');add('w');add('x');
-            add('y');add('z');
-            add('A');add('B');add('C');add('D');add('E');add('F');add('G');add('H');
-            add('I');add('J');add('K');add('L');add('M');add('N');add('O');add('P');
-            add('Q');add('R');add('S');add('T');add('U');add('V');add('W');add('X');
-            add('Y');add('Z');}};
-        char temp;
-        int start = 0;
-        int end = S.length() - 1;
-        char[] chars = S.toCharArray();
-        while (start < end){
-            if(sets.contains(chars[start]) && sets.contains(chars[end])){
-                temp = chars[start];
-                chars[start++] = chars[end];
-                chars[end--] = temp;
-            }else if(!sets.contains(chars[start]) && sets.contains(chars[end])){
-                start++;
-                continue;
-            }else if(sets.contains(chars[start]) && !sets.contains(chars[end])){
-                end--;
-                continue;
-            }else{
-                start++;
-                end--;
-            }
-        }
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < chars.length; i++){
-            sb.append(chars[i]);
-        }
-        return sb.toString();*/
-
-        // A-Z 65-90; a-z 97-122
-        //((chars[start] - 'A' >= 0 && chars[start] - 'A' <= 25) || (chars[start] - 'A' >= 32 && chars[start] - 'A' <= 57))
-
-        char temp;
-        int start = 0;
-        int end = S.length() - 1;
-        char[] chars = S.toCharArray();
-        while (start < end){
-            if(isLetter(chars[start]) && isLetter(chars[end])){
-                temp = chars[start];
-                chars[start++] = chars[end];
-                chars[end--] = temp;
-            }else if(!isLetter(chars[start]) && isLetter(chars[end])){
-                start++;
-                continue;
-            }else if(isLetter(chars[start]) && !isLetter(chars[end])){
-                end--;
-                continue;
-            }else{
-                start++;
-                end--;
-            }
-        }
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < chars.length; i++){
-            sb.append(chars[i]);
-        }
-        return sb.toString();
-    }
-
-    public static boolean isLetter(char letter){
-        return (letter - 'A' >= 0 && letter - 'A' <= 25) || (letter - 'a' >= 0 && letter - 'a' <= 25);
-    }
-
-    /**
-     * 434. 字符串中的单词数
-     * 统计字符串中的单词个数，这里的单词指的是连续的不是空格的字符。请注意，你可以假定字符串里不包括任何不可打印的字符。
-     * 输入: "Hello, my name is John"     输出: 5
-     * 解释: 这里的单词是指连续的不是空格的字符，所以 "Hello," 算作 1 个单词。
-     *
-     * @param s
-     * @return
-     */
-    public static int countSegments(String s) {
-        s = s.trim();
-        if(s.equals("")){
-            return 0;
-        }
-        char[] chars = s.toCharArray();
-        int ans = 0;
-        for(int i = 0; i < chars.length; i++){
-            if((i < chars.length - 1 && (chars[i] != ' ' && chars[i + 1] == ' '))
-                    || (i == chars.length - 1 && chars[i] != ' ')){
-                ans++;
-            }
-        }
-        return ans;
-    }
-
-    /**
-     * 151. 翻转字符串里的单词
-     * 剑指 Offer 58 - I. 翻转单词顺序
-     * 给定一个字符串，逐个翻转字符串中的每个单词。
-     * 输入: "the sky is blue"    输出: "blue is sky the"
-     * 输入: "  hello world!  "   输出: "world! hello"      解释: 输入字符串可以在前面或者后面包含多余的空格，但是反转后的字符不能包括。
-     * 输入: "a good   example"   输出: "example good a"    解释: 如果两个单词间有多余的空格，将反转后单词间的空格减少到只含一个。
-     *
-     * 1.无空格字符构成一个单词。
-     * 2.输入字符串可以在前面或者后面包含多余的空格，但是反转后的字符不能包括。
-     * 3.如果两个单词间有多余的空格，将反转后单词间的空格减少到只含一个。
-     * @param s
-     * @return
-     */
-    public static String reverseWords(String s) {
-        s = s.trim();
-        if("".equals(s)){
-            return "";
-        }
-        int start = 0;
-        int end = 0;
-        String ans = "";
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < s.length(); i++){
-            if(' ' != s.charAt(i)){
-                end++;
-            }else{
-                if(start != end) {
-                    sb.insert(0, " " + s.substring(start, end));
-                }
-                end++;
-                start = end;
-
-            }
-        }
-        if(start != end) {
-            sb.insert(0, " " + s.substring(start, end));
-        }
-        ans = sb.substring(1);
-        return ans;
     }
 
     /**
@@ -1115,5 +712,362 @@ public class Strings {
         String head = s.substring(0, n);
         String tail = s.substring(n);
         return tail + head;
+    }
+
+    /**
+     * 151. 翻转字符串里的单词
+     * 剑指 Offer 58 - I. 翻转单词顺序
+     * 给定一个字符串，逐个翻转字符串中的每个单词。
+     * 输入: "the sky is blue"    输出: "blue is sky the"
+     * 输入: "  hello world!  "   输出: "world! hello"      解释: 输入字符串可以在前面或者后面包含多余的空格，但是反转后的字符不能包括。
+     * 输入: "a good   example"   输出: "example good a"    解释: 如果两个单词间有多余的空格，将反转后单词间的空格减少到只含一个。
+     *
+     * 1.无空格字符构成一个单词。
+     * 2.输入字符串可以在前面或者后面包含多余的空格，但是反转后的字符不能包括。
+     * 3.如果两个单词间有多余的空格，将反转后单词间的空格减少到只含一个。
+     * @param s
+     * @return
+     */
+    public static String reverseWords(String s) {
+        s = s.trim();
+        if("".equals(s)){
+            return "";
+        }
+        while (s.contains("  ")) {
+            s = s.replaceAll("  ", " ");
+        }
+        String[] strs = s.split(" ");
+        StringBuilder ans = new StringBuilder();
+        for(int i = strs.length - 1; i >= 0; i--){
+            ans.append(strs[i]).append(" ");
+        }
+        return ans.deleteCharAt(ans.length() - 1).toString();
+       /* s = s.trim();
+        if("".equals(s)){
+            return "";
+        }
+        int start = 0;
+        int end = 0;
+        String ans = "";
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < s.length(); i++){
+            if(' ' != s.charAt(i)){
+                end++;
+            }else{
+                if(start != end) {
+                    sb.insert(0, " " + s.substring(start, end));
+                }
+                end++;
+                start = end;
+
+            }
+        }
+        if(start != end) {
+            sb.insert(0, " " + s.substring(start, end));
+        }
+        ans = sb.substring(1);
+        return ans;*/
+    }
+
+    /**
+     * 434. 字符串中的单词数
+     * 统计字符串中的单词个数，这里的单词指的是连续的不是空格的字符。请注意，你可以假定字符串里不包括任何不可打印的字符。
+     * 输入: "Hello, my name is John"     输出: 5
+     * 解释: 这里的单词是指连续的不是空格的字符，所以 "Hello," 算作 1 个单词。
+     * @param s
+     * @return
+     */
+    public static int countSegments(String s) {
+        s = s.trim();
+        if(s.equals("")){
+            return 0;
+        }
+        char[] chars = s.toCharArray();
+        int ans = 0;
+        for(int i = 0; i < chars.length; i++){
+            if((i < chars.length - 1 && (chars[i] != ' ' && chars[i + 1] == ' '))
+                    || (i == chars.length - 1 && chars[i] != ' ')){
+                ans++;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 面试题 01.02. 判定是否互为字符重排
+     * 给定两个字符串 s1 和 s2，请编写一个程序，确定其中一个字符串的字符重新排列后，能否变成另一个字符串。
+     * 输入: s1 = "abc", s2 = "bca"   输出: true
+     * 输入: s1 = "abc", s2 = "bad"   输出: false
+     * @param s1
+     * @param s2
+     * @return
+     */
+    public static boolean CheckPermutation(String s1, String s2) {
+        if(s1.length() != s2.length()){
+            return false;
+        }
+        Map<Character, Integer> hash = new HashMap<>();
+        for(int i = 0; i < s1.length(); i++){
+            hash.put(s1.charAt(i), hash.getOrDefault(s1.charAt(i), 0) + 1);
+        }
+        for(int i = 0; i < s2.length(); i++){
+            if(hash.containsKey(s2.charAt(i))){
+                hash.put(s2.charAt(i), hash.get(s2.charAt(i)) - 1);
+                if(hash.get(s2.charAt(i)) == 0){
+                    hash.remove(s2.charAt(i));
+                }
+            }else{
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 1446. 连续字符
+     * 给你一个字符串 s ，字符串的「能量」定义为：只包含一种字符的最长非空子字符串的长度。请你返回字符串的能量。
+     * 输入：s = "leetcode"    输出：2    解释：子字符串 "ee" 长度为 2 ，只包含字符 'e' 。
+     * 输入：s = "abbcccddddeeeeedcba" 输出：5    解释：子字符串 "eeeee" 长度为 5 ，只包含字符 'e' 。
+     * 输入：s = "triplepillooooow"    输出：5
+     * @param s
+     * @return
+     */
+    public static int maxPower(String s) {
+        char[] chars = s.toCharArray();
+        int ans = 1;
+        int start = 0;
+        int end = 1;
+        while(end < chars.length){
+            if(chars[start] == chars[end]){
+                ans = Math.max(end - start + 1, ans);
+                end++;
+            }else{
+                start = end;
+                end++;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 541. 反转字符串 II
+     * 给定一个字符串 s 和一个整数 k，你需要对从字符串开头算起的每隔 2k 个字符的前 k 个字符进行反转。
+     * 如果剩余字符少于 k 个，则将剩余字符全部反转。
+     * 如果剩余字符小于 2k 但大于或等于 k 个，则反转前 k 个字符，其余字符保持原样。
+     * 输入: s = "abcdefg", k = 2    输出: "bacdfeg"
+     * @param s
+     * @param k
+     * @return
+     */
+    public String reverseStr(String s, int k) {
+        // 每个k个字符转换k个字符
+        char[] chars = s.toCharArray();
+        char temp = 0;
+        for(int i = 0; i < chars.length; i += 2 * k){
+            int left = i;
+            int right = i + k - 1 < chars.length ? i + k - 1 : chars.length - 1;
+            while(left < right){
+                temp = chars[left];
+                chars[left] = chars[right];
+                chars[right] = temp;
+                left++;
+                right--;
+            }
+        }
+        return String.valueOf(chars);
+    }
+
+    /**
+     * 面试题 01.06. 字符串压缩
+     * 字符串压缩。利用字符重复出现的次数，编写一种方法，实现基本的字符串压缩功能。比如，字符串aabcccccaaa会变为a2b1c5a3。
+     * 若“压缩”后的字符串没有变短，则返回原先的字符串。你可以假设字符串中只包含大小写英文字母（a至z）。
+     * 输入："aabcccccaaa" 输出："a2b1c5a3"
+     * 输入："abbccd" 输出："abbccd" 解释："abbccd"压缩后为"a1b2c2d1"，比原字符串长度更长。
+     * @param S
+     * @return
+     */
+    public String compressString(String S) {
+        StringBuilder sb = new StringBuilder();
+        if(S.equals("")){
+            return S;
+        }
+        char cur = S.charAt(0);
+        int num = 1;
+        sb.append(cur + "");
+        for(int i = 1; i < S.length(); i++){
+            if(S.charAt(i) == cur){
+                num++;
+            }else{
+                sb.append(String.valueOf(num));
+                sb.append(S.charAt(i) + "");
+                num = 1;
+                cur = S.charAt(i);
+            }
+        }
+        sb.append(String.valueOf(num));
+        if(S.length() <= sb.length()){
+            return S;
+        }else{
+            return sb.toString();
+        }
+        /*Stack<String> stack = new Stack();
+        int num = 0;
+        for(int i = 0; i < S.length(); i++){
+            if(stack.isEmpty()){
+                stack.push(S.charAt(i) + "");
+                num++;
+            }else if((S.charAt(i) + "").equals(stack.peek())){
+                num++;
+            }else{
+                stack.push(String.valueOf(num));
+                stack.push(S.charAt(i) + "");
+                num = 1;
+            }
+        }
+        stack.push(String.valueOf(num));
+        if(S.length() <= stack.size()){
+            return S;
+        }else{
+            StringBuilder sb = new StringBuilder();
+            while(!stack.isEmpty()){
+                if(sb.length() == 0){
+                    sb.append(stack.pop());
+                }else{
+                    sb.insert(0, stack.pop());
+                }
+            }
+            return sb.toString();
+        }*/
+    }
+
+    /**
+     * 917. 仅仅反转字母
+     * 给定一个字符串 S，返回 “反转后的” 字符串，其中不是字母的字符都保留在原地，而所有字母的位置发生反转。
+     * 输入："ab-cd"   输出："dc-ba"
+     * 输入："Test1ng-Leet=code-Q!"    输出："Qedo1ct-eeLg=ntse-T!"
+     * 输入："a-bC-dEf-ghIj"   输出："j-Ih-gfE-dCba"
+     * @param S
+     * @return
+     */
+    public static String reverseOnlyLetters(String S) {
+        char temp;
+        int start = 0;
+        int end = S.length() - 1;
+        char[] chars = S.toCharArray();
+        while (start < end){
+            if(isLetter(chars[start]) && isLetter(chars[end])){
+                temp = chars[start];
+                chars[start++] = chars[end];
+                chars[end--] = temp;
+            }else if(!isLetter(chars[start]) && isLetter(chars[end])){
+                start++;
+                continue;
+            }else if(isLetter(chars[start]) && !isLetter(chars[end])){
+                end--;
+                continue;
+            }else{
+                start++;
+                end--;
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < chars.length; i++){
+            sb.append(chars[i]);
+        }
+        return sb.toString();
+        /*Set<Character> sets = new HashSet(){{
+            add('a');add('b');add('c');add('d');add('e');add('f');add('g');add('h');
+            add('i');add('j');add('k');add('l');add('m');add('n');add('o');add('p');
+            add('q');add('r');add('s');add('t');add('u');add('v');add('w');add('x');
+            add('y');add('z');
+            add('A');add('B');add('C');add('D');add('E');add('F');add('G');add('H');
+            add('I');add('J');add('K');add('L');add('M');add('N');add('O');add('P');
+            add('Q');add('R');add('S');add('T');add('U');add('V');add('W');add('X');
+            add('Y');add('Z');}};
+        char temp;
+        int start = 0;
+        int end = S.length() - 1;
+        char[] chars = S.toCharArray();
+        while (start < end){
+            if(sets.contains(chars[start]) && sets.contains(chars[end])){
+                temp = chars[start];
+                chars[start++] = chars[end];
+                chars[end--] = temp;
+            }else if(!sets.contains(chars[start]) && sets.contains(chars[end])){
+                start++;
+                continue;
+            }else if(sets.contains(chars[start]) && !sets.contains(chars[end])){
+                end--;
+                continue;
+            }else{
+                start++;
+                end--;
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < chars.length; i++){
+            sb.append(chars[i]);
+        }
+        return sb.toString();*/
+
+        // A-Z 65-90; a-z 97-122
+        //((chars[start] - 'A' >= 0 && chars[start] - 'A' <= 25) || (chars[start] - 'A' >= 32 && chars[start] - 'A' <= 57))
+    }
+
+    public static boolean isLetter(char letter){
+        return (letter - 'A' >= 0 && letter - 'A' <= 25) || (letter - 'a' >= 0 && letter - 'a' <= 25);
+    }
+
+    /**
+     * Linux语法简化规则(字节 13题的变种)
+     * /c/d/////././../e/
+     * /c/d/././../e/
+     * /c/e
+     * @param orignalStr
+     * @return
+     */
+    public static String linuxRules(String orignalStr){
+        while(orignalStr.contains("//")){
+            orignalStr = orignalStr.replaceAll("//", "/");
+        }
+        char[] chars = orignalStr.toCharArray();
+        String targetStr = "";
+        for(int i = 0; i < chars.length ; i++){
+            switch (chars[i]){
+                case '/':
+                    if(chars.length > 1 && i != chars.length - 1){
+                        switch (chars[i + 1]){
+                            case '.':
+                                if(chars.length > 2 && i != chars.length - 2){
+                                    switch (chars[i + 2]) {
+                                        case '.':
+                                            i += 2;
+                                            int lastIndex = targetStr.lastIndexOf("/");
+                                            if (lastIndex > 0) {
+                                                targetStr = targetStr.substring(0, lastIndex);
+                                            }
+                                            break;
+                                        default: // 以/.
+                                            i++;
+                                            break;
+                                    }
+                                    break;
+                                }else {// 以/.结束的
+                                    i++;
+                                    break;
+                                }
+                            default:
+                                targetStr += chars[i];
+                                break;
+                        }
+                    }
+                    break;
+                default:
+                    targetStr += chars[i];
+                    break;
+            }
+        }
+        return targetStr;
     }
 }
