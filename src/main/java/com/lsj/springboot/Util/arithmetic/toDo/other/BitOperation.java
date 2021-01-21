@@ -3,7 +3,7 @@ package com.lsj.springboot.Util.arithmetic.toDo.other;
 /**
  * Created by 10326 on 2020/8/22.
  *
- * 371. 两整数之和
+ * 371. 两整数之和(看不懂)
  *
  * 61. 汉明距离
  *
@@ -15,8 +15,7 @@ package com.lsj.springboot.Util.arithmetic.toDo.other;
 public class BitOperation {
 
     /**
-     * 不使用运算符 + 和 - ​​​​​​​，计算两整数 ​​​​​​​a 、b ​​​​​​​之和。
-        示例 1:    输入: a = 1, b = 2   输出: 3
+     * 不使用运算符 + 和 - ，计算两整数 ​a 、b 之和。示例 1:    输入: a = 1, b = 2   输出: 3
      * @param a
      * @param b
      * @return
