@@ -24,16 +24,16 @@ public class Maths {
 
     // 判断一个数是否是质数
     public static boolean isPrime(int src) {
-        double sqrt = Math.sqrt(src);
-        if (src < 2) {
+        if (src < 2) {//1不是质数
             return false;
         }
-        if (src == 2 || src == 3) {
+        if (src == 2 || src == 3) {//2,3是质数
             return true;
         }
         if (src % 2 == 0) {// 先判断是否为偶数，若偶数就直接结束程序
             return false;
         }
+        double sqrt = Math.sqrt(src);
         for (int i = 3; i <= sqrt; i += 2) {
             if (src % i == 0) {
                 return false;
@@ -45,8 +45,7 @@ public class Maths {
     /**
      * 169. 多数元素
      * 给定一个大小为 n 的数组，找到其中的多数元素。多数元素是指在数组中出现次数大于 ⌊ n/2 ⌋ 的元素。
-     *  你可以假设数组是非空的，并且给定的数组总是存在多数元素。
-     * 输入: [2,2,1,1,1,2,2]  输出: 2
+     * 你可以假设数组是非空的，并且给定的数组总是存在多数元素。输入: [2,2,1,1,1,2,2]  输出: 2
      * @param nums
      * @return
      */
@@ -76,8 +75,7 @@ public class Maths {
 
     /**
      * 7.整数反转
-     * 1234->4321; -123->-321; 1200->21; 1301->1031
-     * int 的存储范围 [−2^31,  2^31 − 1],如果反转后整数溢出那么就返回 0。
+     * 1234->4321; -123->-321; 1200->21; 1301->1031     int 的存储范围 [−2^31,  2^31 − 1],如果反转后整数溢出那么就返回 0。
      * @param orignal
      * @return
      */
@@ -92,8 +90,8 @@ public class Maths {
         return (int)target;
     }
     /**
-     * 9.是否是回文数：借助整数反转的思路，判断反转前与反转后的值是否相等
-     * 121->true;
+     * 9.是否是回文数
+     * 借助整数反转的思路，判断反转前与反转后的值是否相等    121->true;
      * 输入: -121 输出: false 解释: 从左向右读, 为 -121 。 从右向左读, 为 121- 。因此它不是一个回文数。
      * @param orignal
      * @return
@@ -165,8 +163,8 @@ public class Maths {
       矩形如果不重叠，从x轴和y轴上看两个矩形就变成了两条线段，这两条线段肯定是不相交的，
       也就是说左边的矩形的最右边小于右边矩形的最左边， 也就是rec1[2] < rec2[0] || rec2[2] < rec1[0]；
       y轴同理，下面的矩形的最上边小于上面矩形的最下边，也就是rec1[3] < rec2[1] || rec2[3] < rec1[1]*/
-//    [7,8,13,15][10,8,12,20]
     public static boolean isRectangleOverlap(int[] rec1, int[] rec2) {
+        //    [7,8,13,15][10,8,12,20]
         return !((rec1[2] <= rec2[0] || rec2[2] <= rec1[0]) || (rec1[3] <= rec2[1] || rec2[3] <= rec1[1]));
     }
 }
