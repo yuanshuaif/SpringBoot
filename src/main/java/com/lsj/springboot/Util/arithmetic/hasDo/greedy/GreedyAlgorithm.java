@@ -1,4 +1,4 @@
-package com.lsj.springboot.Util.arithmetic.toDo;
+package com.lsj.springboot.Util.arithmetic.hasDo.greedy;
 
 import java.util.Arrays;
 
@@ -200,7 +200,6 @@ public class GreedyAlgorithm {
      * 解释：你可以用 4 个空酒瓶兑换 1 瓶酒。   所以最多能喝到 15 + 3 + 1 = 19 瓶酒。
      * 输入：numBottles = 5, numExchange = 5           输出：6
      * 输入：numBottles = 2, numExchange = 3           输出：2
-     *
      * @param numBottles
      * @param numExchange
      * @return
