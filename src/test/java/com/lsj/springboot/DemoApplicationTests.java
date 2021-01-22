@@ -1,6 +1,6 @@
 package com.lsj.springboot;
 
-import com.lsj.springboot.Controller.HelloController;
+import com.lsj.springboot.controller.HelloController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,8 +1,7 @@
 package com.lsj.springboot.async;
 
-import com.lsj.springboot.Entity.UserAnnotation;
+import com.lsj.springboot.entity.UserAnnotation;
 import org.springframework.aop.framework.AopContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

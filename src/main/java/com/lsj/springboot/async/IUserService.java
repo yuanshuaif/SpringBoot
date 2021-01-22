@@ -1,6 +1,6 @@
 package com.lsj.springboot.async;
 
-import com.lsj.springboot.Entity.UserAnnotation;
+import com.lsj.springboot.entity.UserAnnotation;
 
 /**
  * Created by 10326 on 2020/4/4.

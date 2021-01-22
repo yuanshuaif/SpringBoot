@@ -87,7 +87,7 @@
      
 18.双指针、滑动窗口、字符串的匹配、加权随机下标、入栈法 、hash算法、链表、树、dfs、bfs、回溯算法、贪心算法、动态规划
 
-com.lsj.springboot.Util.arithmetic 目录下所有题目均来源：力扣（LeetCode）
+com.lsj.springboot.arithmetic 目录下所有题目均来源：力扣（LeetCode）
 * 链接：https://leetcode-cn.com/problems/find-all-duplicates-in-an-array
 * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 

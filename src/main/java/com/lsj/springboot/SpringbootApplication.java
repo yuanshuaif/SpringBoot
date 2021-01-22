@@ -1,6 +1,6 @@
 package com.lsj.springboot;
 
-import com.lsj.springboot.ApplicationEventListener.MyApplicationStartedEventListener;
+import com.lsj.springboot.applicationEventListener.MyApplicationStartedEventListener;
 import org.apache.coyote.http11.AbstractHttp11Protocol;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

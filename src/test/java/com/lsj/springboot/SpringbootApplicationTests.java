@@ -1,6 +1,5 @@
 package com.lsj.springboot;
-import com.lsj.springboot.Controller.HelloController;
-import com.lsj.springboot.Entity.UserAnnotation;
+import com.lsj.springboot.entity.UserAnnotation;
 import com.lsj.springboot.async.IUserService;
 import com.lsj.springboot.rabbitMQ.springRabbitMQ.sender.FanoutSender;
 import com.lsj.springboot.rabbitMQ.springRabbitMQ.sender.SimpleSender;
@@ -8,19 +7,12 @@ import com.lsj.springboot.rabbitMQ.springRabbitMQ.sender.TopicSender;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
