@@ -85,11 +85,53 @@
      FastDFS:分布式文件存储系统
      
      
-18.双指针、滑动窗口、字符串的匹配、加权随机下标、入栈法(适合22匹配的算法)  
+18.双指针、滑动窗口、字符串的匹配、加权随机下标、入栈法 、hash算法、链表、树、dfs、bfs、回溯算法、贪心算法、动态规划
 
 com.lsj.springboot.Util.arithmetic 目录下所有题目均来源：力扣（LeetCode）
 * 链接：https://leetcode-cn.com/problems/find-all-duplicates-in-an-array
 * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+19.RabbitMQ
+    1.简单使用
+        1）导jar包
+        2）properties 配置连接MQ的信息，自动创建连接、建立管道
+        3）配置类：配置Queue
+        4）发送者使用AmqpTemplate发送消息
+        5）消费者
+                @RabbitListener(queues = "lsj")——监听队列
+                @RabbitHandler——处理消息
+    
+    2.多对多模式
+        1）一对多模式，默认采用轮询的模式，每个消费者接收到的消息数量是一致的。
+            可以设置能者多劳模式，让处理快的消费者处理更多的消息。
+    
+    3.高级使用
+        1）对对象的支持：
+            springboot以及完美的支持对象的发送和接收，不需要格外的配置。
+        2）TopicExchange、DirectExchange
+            配置类：队列、Topic交换机、队列与交换机Binding
+            消费者：监听哪个队列、消费消息
+            发送者：通过交换机发送消息
+        3) FanoutExchange
+            配置类：队列、Fanout交换机、队列与交换机Binding(Bean的名称不能重复)
+                （队列可以绑定到不同类型的交换机上）
+            消费者：监听哪个队列、消费消息
+            发送者：通过交换机发送消息
+    
+    
+    --  常规RabbitMQ的使用
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-amqp</artifactId>
+            </dependency>
+            集成了
+            <!--rabbitmq 依赖的启动包 -->
+            <dependency>
+                <groupId>com.rabbitmq</groupId>
+                <artifactId>amqp-client</artifactId>
+                <version>5.1.2</version>
+            </dependency>
+            的功能
    
    
    

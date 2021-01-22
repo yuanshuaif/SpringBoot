@@ -2,6 +2,9 @@ package com.lsj.springboot;
 import com.lsj.springboot.Controller.HelloController;
 import com.lsj.springboot.Entity.UserAnnotation;
 import com.lsj.springboot.async.IUserService;
+import com.lsj.springboot.rabbitMQ.springRabbitMQ.sender.FanoutSender;
+import com.lsj.springboot.rabbitMQ.springRabbitMQ.sender.SimpleSender;
+import com.lsj.springboot.rabbitMQ.springRabbitMQ.sender.TopicSender;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -61,6 +64,28 @@ public class SpringbootApplicationTests {
 		cache.put(new Element("key1", "value1"));
 		Element element = cache.get("key1");
 		System.out.println(element.getObjectKey()+" : "+element.getObjectValue());
+	}
+
+	@Autowired
+	private SimpleSender simpleSender;
+	@Autowired
+	private TopicSender topicSender;
+	@Autowired
+	private FanoutSender fanoutSender;
+
+	@Test
+	public void simpleSender() throws Exception {
+		simpleSender.send();
+	}
+
+	@Test
+	public void topicSender() throws Exception {
+		topicSender.send2();
+	}
+
+	@Test
+	public void fanoutSender() throws Exception {
+		fanoutSender.send1();
 	}
 
 }
