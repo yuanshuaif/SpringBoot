@@ -835,7 +835,7 @@ public class DynamicPlanning {
         int[] left = new int[n];
         int[] ans = new int[n];
         left[0] = 1;
-        for(int i = 1; i < n; i++){
+        for(int i = 1; i < n; i++){// 记录每个节点的左侧乘积
             left[i] = left[i - 1] * nums[i - 1];
         }
         int rightAns = 1;
@@ -849,7 +849,6 @@ public class DynamicPlanning {
     /**
      * 面试题 17.16. 按摩师
      * 一个有名的按摩师会收到源源不断的预约请求，每个预约都可以选择接或不接。在每次预约服务之间要有休息时间，因此她不能接受相邻的预约。给定一个预约请求序列，替按摩师找到最优的预约集合（总预约时间最长），返回总的分钟数。
-     * 输入： [1,2,3,1]    输出： 4       解释： 选择 1 号预约和 3 号预约，总时长 = 1 + 3 = 4。
      * 输入： [2,7,9,3,1]  输出： 12      解释： 选择 1 号预约、 3 号预约和 5 号预约，总时长 = 2 + 9 + 1 = 12。
      * 输入： [2,1,4,5,3,1,1,3]      输出： 12    解释： 选择 1 号预约、 3 号预约、 5 号预约和 8 号预约，总时长 = 2 + 4 + 3 + 3 = 12。
      * @param nums
@@ -857,6 +856,18 @@ public class DynamicPlanning {
      */
     public static int massage(int[] nums) {
         if(nums == null || nums.length == 0){
+            return 0;
+        }
+        int[][] dp = new int[nums.length][2];
+        dp[0][0] = 0;// 不接
+        dp[0][1] = nums[0];// 接
+        for(int i = 1; i < nums.length; i++){
+            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1]);// 不接时，取前一个接或不接的最大值
+            dp[i][1] = dp[i - 1][0] + nums[i];//接时，取前一个的不接的值+当前值
+        }
+        return Math.max(dp[nums.length - 1][0], dp[nums.length - 1][1]);
+
+       /* if(nums == null || nums.length == 0){
             return 0;
         }
         int[] ans = new int[nums.length];
@@ -875,7 +886,7 @@ public class DynamicPlanning {
         for(int i = 3; i < nums.length; i++){
             ans[i] = Math.max(ans[i - 3], ans[i - 2]) + nums[i];
         }
-        return Math.max(ans[nums.length - 2], ans[nums.length - 1]);
+        return Math.max(ans[nums.length - 2], ans[nums.length - 1]);*/
     }
 
     public static void main(String[] args){
@@ -902,13 +913,14 @@ public class DynamicPlanning {
        /* System.out.println(findLength(new int[]{1,2,3,2,1}, new int[]{3,2,1,4,7}));*/
 //        System.out.println(productExceptSelf(new int[]{1,2,3,4}));
         System.out.println(massage(new int[]{2,7,9,3,1}));
+        System.out.println(massage(new int[]{2,1,4,5,3,1,1,3}));
 
-        for(int i = 0; i < 5; i++){
+      /*  for(int i = 0; i < 5; i++){
             if(i == 3){
                 return;
             }
             System.out.println(i);
         }
-        System.out.println(11111);
+        System.out.println(11111);*/
     }
 }
