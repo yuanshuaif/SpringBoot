@@ -867,6 +867,21 @@ public class DynamicPlanning {
         }
         return Math.max(dp[nums.length - 1][0], dp[nums.length - 1][1]);
 
+      /*  if(nums == null || nums.length == 0){
+            return 0;
+        }
+        int preUp = nums[0];// 接
+        int preDontUp = 0;// 不接
+        int curUp = nums[0];// 接
+        int curDontUp = 0;// 不接
+        for(int i = 1; i < nums.length; i++){
+            curDontUp = Math.max(preUp, preDontUp);// 不接时，取前一个接或不接的最大值
+            curUp = preDontUp + nums[i];//接时，取前一个的不接的值+当前值
+            preUp = curUp;
+            preDontUp = curDontUp;
+        }
+        return Math.max(curDontUp, curUp);*/
+
        /* if(nums == null || nums.length == 0){
             return 0;
         }
