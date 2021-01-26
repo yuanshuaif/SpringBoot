@@ -1,4 +1,4 @@
-package com.lsj.springboot.arithmetic.hasDo.backtracking;
+package com.lsj.springboot.arithmetic.backtracking;
 
 import java.util.ArrayList;
 import java.util.Arrays;

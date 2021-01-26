@@ -1,4 +1,4 @@
-package com.lsj.springboot.arithmetic.hasDo.other;
+package com.lsj.springboot.arithmetic.other;
 
 /**
  * Created by 10326 on 2020/8/22.

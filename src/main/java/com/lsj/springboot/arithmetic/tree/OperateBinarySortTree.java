@@ -1,4 +1,4 @@
-package com.lsj.springboot.arithmetic.hasDo.tree;
+package com.lsj.springboot.arithmetic.tree;
 
 /**
  * Created by 10326 on 2020/3/15.

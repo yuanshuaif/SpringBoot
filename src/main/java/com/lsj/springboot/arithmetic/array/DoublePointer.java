@@ -1,4 +1,4 @@
-package com.lsj.springboot.arithmetic.hasDo.array;
+package com.lsj.springboot.arithmetic.array;
 
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package com.lsj.springboot.arithmetic.toDo;
+package com.lsj.springboot.arithmetic.dynamicPlanning;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,32 +13,33 @@ import java.util.Stack;
  *
  * 题目53: 最大子序和
  *
+ * 题目392： 判断子序列
+ * 入栈法
+ *
  * 题目70：爬楼梯
- * （剑指 Offer 10- II. 青蛙跳台阶问题、剑指 Offer 10- I. 斐波那契数列）
+ *（剑指 Offer 10- II. 青蛙跳台阶问题、剑指 Offer 10- I. 斐波那契数列）
  * 递归、迭代、动态规划
  *
  * 1137. 第 N 个泰波那契数
  *
- *  题目392： 判断子序列
- *  入栈法
- *
- *  题目121：买卖股票的最佳时机
+ * 题目121：买卖股票的最佳时机
+ * 剑指 Offer 63. 股票的最大利润
  *
  * 题目309:最佳买卖股票时机含冷冻期
  *
  * 714. 买卖股票的最佳时机含手续费
  *
- *  64. 最小路径和
+ * 64. 最小路径和
  *
- *  256.粉刷房子
+ * 256.粉刷房子
  *
- *  题目96:不同的二叉搜索树
+ *题目96:不同的二叉搜索树（看不懂）
  *
- *  120. 三角形最小路径和
+ * 120. 三角形最小路径和
  *
- *  62. 不同路径
+ * 62. 不同路径
  *
- *  198. 打家劫舍
+ * 198. 打家劫舍
  *
  * 300. 最长上升子序列
  *
@@ -151,10 +152,10 @@ public class DynamicPlanning {
      * @return
      */
     public int maxSubArray(int[] nums) {
-//        动态规划的是首先对数组进行遍历，当前最大连续子序列和为 sum，结果为 ans
-//        如果 hsum > 0，则说明 hsum 对结果有增益效果，则 sum 保留并加上当前遍历数字
-//        如果 hsum <= 0，则说明 hsum 对结果无增益效果，需要舍弃，则 sum 直接更新为当前遍历数字
-//        每次比较 sum 和 ans的大小，将最大值置为ans，遍历结束返回结果       时间复杂度：O(n)
+        /*动态规划的是首先对数组进行遍历，当前最大连续子序列和为 sum，结果为 ans
+        如果 hsum > 0，则说明 hsum 对结果有增益效果，则 sum 保留并加上当前遍历数字
+        如果 hsum <= 0，则说明 hsum 对结果无增益效果，需要舍弃，则 sum 直接更新为当前遍历数字
+        每次比较 sum 和 ans的大小，将最大值置为ans，遍历结束返回结果       时间复杂度：O(n)*/
         int hSum = 0;// 历史和
         int sum = 0;// 当前和
         int ans = nums[0];// 最大和
@@ -171,35 +172,10 @@ public class DynamicPlanning {
     }
 
     /**
-     * 70.爬楼梯
-     * 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
-     * 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
-     * 本问题其实常规解法可以分成多个子问题，爬第n阶楼梯的方法数量，等于 2 部分之和
-        爬上 n-1 阶楼梯的方法数量。因为再爬1阶就能到第n阶
-        爬上 n-2 阶楼梯的方法数量，因为再爬2阶就能到第n阶
-        所以我们得到公式 dp[n] = dp[n-1] + dp[n-2] ； 同时需要初始化 dp[0]=1d 和 dp[1]=1
-     * 类似于斐波那契数
-     * @param n
-     * @return
-     */
-    public int climbStairs(int n) {
-        if(n < 2)  return n;
-        // 初始化
-        int[] ints = new int[n + 1];
-        ints[0] = 1;
-        ints[1] = 1;
-        for(int i = 2; i <= n; i++){
-            ints[i] = ints[i - 2] + ints[i - 1];
-        }
-        return ints[n];
-    }
-
-    /**
      * 392. 判断子序列
-     * 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
-        你可以认为 s 和 t 中仅包含英文小写字母。字符串 t 可能会很长（长度 ~= 500,000），而 s 是个短字符串（长度 <=100）。
-        字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
-        示例 1:s = "abc", t = "ahbgdc"    返回 true.    示例 2:s = "axc", t = "ahbgdc" 返回 false.
+     * 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。你可以认为 s 和 t 中仅包含英文小写字母。字符串 t 可能会很长（长度 ~= 500,000），而 s 是个短字符串（长度 <=100）。
+     * 字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
+     * 示例 1:s = "abc", t = "ahbgdc"    返回 true.    示例 2:s = "axc", t = "ahbgdc" 返回 false.
      * @param s
      * @param t
      * @return
@@ -224,6 +200,30 @@ public class DynamicPlanning {
             }
         }
         return compile == s.length();
+    }
+
+    /**
+     * 70.爬楼梯
+     * 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
+     * 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+     * 本问题其实常规解法可以分成多个子问题，爬第n阶楼梯的方法数量，等于 2 部分之和
+     爬上 n-1 阶楼梯的方法数量。因为再爬1阶就能到第n阶
+     爬上 n-2 阶楼梯的方法数量，因为再爬2阶就能到第n阶
+     所以我们得到公式 dp[n] = dp[n-1] + dp[n-2] ； 同时需要初始化 dp[0]=1d 和 dp[1]=1
+     * 类似于斐波那契数
+     * @param n
+     * @return
+     */
+    public int climbStairs(int n) {
+        if(n < 2)  return n;
+        // 初始化
+        int[] ints = new int[n + 1];
+        ints[0] = 1;
+        ints[1] = 1;
+        for(int i = 2; i <= n; i++){
+            ints[i] = ints[i - 2] + ints[i - 1];
+        }
+        return ints[n];
     }
 
     /**
@@ -259,8 +259,7 @@ public class DynamicPlanning {
      * 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
      * 如果你最多只允许完成一笔交易（即买入和卖出一支股票一次），设计一个算法来计算你所能获取的最大利润。注意：你不能在买入股票前卖出股票。
      * 输入: [7,1,5,3,6,4]            输出: 5
-     * 解释: 在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。
-     *      注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。
+     * 解释: 在第 2 天的时候买入，在第 5 天的时候卖出，最大利润 = 6-1 = 5 。注意利润不能是 7-1 = 6, 因为你不能在买入前卖出股票。
      * 输入: [7,6,4,3,1]              输出: 0
      * 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
      * @param prices
@@ -283,7 +282,6 @@ public class DynamicPlanning {
         return ans;
     }
 
-
     /**
      * 309. 最佳买卖股票时机含冷冻期
      * 给定一个整数数组，其中第 i 个元素代表了第 i 天的股票价格 。​
@@ -294,7 +292,7 @@ public class DynamicPlanning {
      * @param prices
      * @return
      */
-/*  我们用 f[i] 表示第 i 天结束之后的「累计最大收益」。根据题目描述，由于我们最多只能同时买入（持有）一支股票，并且卖出股票后有冷冻期的限制，因此我们会有三种不同的状态：
+    /*我们用 f[i] 表示第 i 天结束之后的「累计最大收益」。根据题目描述，由于我们最多只能同时买入（持有）一支股票，并且卖出股票后有冷冻期的限制，因此我们会有三种不同的状态：
     我们目前持有一支股票，对应的「累计最大收益」记为 f[i][0]；
     我们目前不持有任何股票，并且不处于冷冻期中，对应的「累计最大收益」记为 f[i][1]；
     我们目前不持有任何股票，并且处于冷冻期中，对应的「累计最大收益」记为 f[i][2]。
@@ -310,9 +308,9 @@ public class DynamicPlanning {
     4.这样我们就得到了所有的状态转移方程。如果一共有 n 天，那么最终的答案即为：max(f[n−1][0],f[n−1][1],f[n−1][2])
     5.注意到如果在最后一天（第 n-1 天）结束之后，手上仍然持有股票，那么显然是没有任何意义的。因此更加精确地，最终的答案实际上是 f[n-1][1] 和 f[n-1][2] 中的较大值，即：max(f[n−1][1],f[n−1][2])
 
-    我们可以将第 0 天的情况作为动态规划中的边界条件：f[0][0] = −prices[0]   f[0][1] = 0   f[0][2] = 0*/
+    我们可以将第 0 天的情况作为动态规划中的边界条件：f[0][0] = −prices[0]   f[0][1] = 0   f[0][2] = 0
 
-    /*注意到上面的状态转移方程中，f[i][..] 只与f[i−1][..] 有关，
+    注意到上面的状态转移方程中，f[i][..] 只与f[i−1][..] 有关，
     而与 f[i−2][..] 及之前的所有状态都无关，因此我们不必存储这些无关的状态。也就是说，我们只需要将 f[i−1][0]，f[i−1][1]，f[i−1][2] 存放在三个变量中，
     通过它们计算出 f[i][0]，f[i][1]，f[i][2] 并存回对应的变量。*/
     public int maxProfit2(int[] prices) {
@@ -344,13 +342,13 @@ public class DynamicPlanning {
      * @param fee
      * @return
      */
-
-    /*我们维护两个变量cash 和 hold，前者表示当我们不持有股票时的最大利润，后者表示当我们持有股票时的最大利润。
-    在第 i 天时，我们需要根据第 i−1 天的状态来更新 cash 和 hold 的值。对于 cash，我们可以保持不变，或者将手上的股票卖出，状态转移方程为
+    public static int maxProfit3(int[] prices, int fee) {
+        /*核心算法：
+            我们维护两个变量cash 和 hold，前者表示当我们不持有股票时的最大利润，后者表示当我们持有股票时的最大利润。
+            在第 i 天时，我们需要根据第 i−1 天的状态来更新 cash 和 hold 的值。对于 cash，我们可以保持不变，或者将手上的股票卖出，状态转移方程为
             cash = max(cash, hold + prices[i] - fee)
-    对于hold，我们可以保持不变，或者买入这一天的股票，状态转移方程为
+            对于hold，我们可以保持不变，或者买入这一天的股票，状态转移方程为
             hold = max(hold, cash - prices[i])*/
-    public int maxProfit3(int[] prices, int fee) {
         if(prices == null || prices.length < 2){
             return 0;
         }
@@ -364,7 +362,6 @@ public class DynamicPlanning {
         }
         return Math.max(cash, hold);
     }
-
 
     /**
      * 64. 最小路径和
@@ -401,7 +398,8 @@ public class DynamicPlanning {
      * 256.粉刷房子
      * 假如有一排房子，共 n 个，每个房子可以被粉刷成红色、蓝色或者绿色这三种颜色中的一种，你需要粉刷所有的房子并且使其相邻的两个房子颜色不能相同。
      * 当然，因为市场上不同颜色油漆的价格不同，所以房子粉刷成不同颜色的花费成本也是不同的。每个房子粉刷成不同颜色的花费是以一个 n x 3 的矩阵来表示的。
-     * 例如，costs[0][0] 表示第 0 号房子粉刷成红色的成本花费；costs[1][2] 表示第 1 号房子粉刷成绿色的花费，以此类推。请你计算出粉刷完所有房子最少的花费成本。注意：所有花费均为正整数。
+     * 例如，costs[0][0] 表示第 0 号房子粉刷成红色的成本花费；costs[1][2] 表示第 1 号房子粉刷成绿色的花费，以此类推。
+     * 请你计算出粉刷完所有房子最少的花费成本。注意：所有花费均为正整数。
      * [[17,2,17],
      * [16,16,5],
      * [14,3,19]]
@@ -505,9 +503,7 @@ public class DynamicPlanning {
      * 62. 不同路径
      * 一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
      * 机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。问总共有多少条不同的路径？
-     * 输入: m = 3, n = 2     输出: 3
-     * 解释:从左上角开始，总共有 3 条路径可以到达右下角。
-     * 1. 向右 -> 向右 -> 向下      2. 向右 -> 向下 -> 向右     3. 向下 -> 向右 -> 向右
+     * 输入: m = 3, n = 2  输出: 3  解释:从左上角开始，总共有 3 条路径可以到达右下角。 1. 向右 -> 向右 -> 向下 ；2. 向右 -> 向下 -> 向右；3. 向下 -> 向右 -> 向右
      * @param m
      * @param n
      * @return
@@ -541,7 +537,25 @@ public class DynamicPlanning {
      * @param nums
      * @return
      */
-    public int rob(int[] nums) {
+    public static int rob(int[] nums) {
+       /* // 我一定选的场景
+        if(nums == null || nums.length == 0){
+            return 0;
+        }else if(nums.length == 1){
+            return nums[0];
+        }else if(nums.length == 2){
+            return Math.max(nums[0], nums[1]);
+        }
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        dp[1] = nums[1];
+        dp[2] = Math.max(dp[0] + nums[2], dp[1]);
+        for(int i = 3; i < nums.length; i++){
+            dp[i] = Math.max(dp[i - 3], dp[i - 2]) + nums[i];
+        }
+        return Math.max(dp[nums.length - 1], dp[nums.length - 2]);*/
+
+        // 我不一定选的场景
         if(nums == null || nums.length == 0){
             return 0;
         }
@@ -562,8 +576,7 @@ public class DynamicPlanning {
      * 300. 最长上升子序列
      * 给定一个无序的整数数组，找到其中最长上升子序列的长度。
      * 输入: [10,9,2,5,3,7,101,18]    输出: 4   解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。
-     * 可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。你算法的时间复杂度应该为 O(n2) 。
-     * 进阶: 你能将算法的时间复杂度降低到 O(n log n) 吗?
+     * 可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。你算法的时间复杂度应该为 O(n2) 。进阶: 你能将算法的时间复杂度降低到 O(n log n) 吗?
      * @param nums
      * @return
      */
@@ -599,16 +612,17 @@ public class DynamicPlanning {
      * @param leaves
      * @return
      */
-    /*由于我们想要将收藏集中树叶的排列调整成「红、黄、红」三部分，因此我们可以用 3 个状态分别表示其中的每一部分，即状态 0 和状态 2 分别表示前面和后面的红色部分，状态 1 表示黄色部分。
-    此时，我们就可以尝试使用动态规划解决本题了。我们用 f[i][j] 表示对于第 0 片到第 i 片叶子（记为 leaves[0..i]）进行调整操作，并且第 i 片叶子处于状态 j 时的最小操作次数。在推导状态转移方程时，我们可以分别对于每一种状态进行分析。
-    当 j=0时，我们需要将第 i 片叶子变成红色，并且第 i-1 片叶子也只能处于 j=0的状态（因为没有编号更小的状态了），因此有状态转移方程：
-    f[i][0]=f[i−1][0]+isYellow(i)
-    当 j=1 时，我们需要将第 i 片叶子变成黄色，而第 i-1 片叶子既可以处于 j=1 的状态，也可以处于 j=0 的状态，我们选择其中的较小值，因此有状态转移方程：
-    f[i][1]=min{f[i−1][0],f[i−1][1]}+isRed(i)
-    当 j=2 时，我们需要将第 i 片叶子变成红色，而第 i-1 片叶子即可以处于 j=2 的状态，也可以处于 j=1 的状态（注意这里不能处于 j=0 的状态，因为每一种状态包含的叶子数量必须至少为 1），我们选择其中的较小值，因此有状态转移方程：
-    f[i][2]=min{f[i−1][1],f[i−1][2]}+isYellow(i)
-    最终的答案即为 f[n−1][2]，其中 nn 是字符串leaves 的长度，也就是树叶的总数。*/
-    public int minimumOperations(String leaves) {
+    public static int minimumOperations(String leaves) {
+         /*核心算法:
+         由于我们想要将收藏集中树叶的排列调整成「红、黄、红」三部分，因此我们可以用 3 个状态分别表示其中的每一部分，即状态 0 和状态 2 分别表示前面和后面的红色部分，状态 1 表示黄色部分。
+        此时，我们就可以尝试使用动态规划解决本题了。我们用 f[i][j] 表示对于第 0 片到第 i 片叶子（记为 leaves[0..i]）进行调整操作，并且第 i 片叶子处于状态 j 时的最小操作次数。在推导状态转移方程时，我们可以分别对于每一种状态进行分析。
+        当 j=0时，我们需要将第 i 片叶子变成红色，并且第 i-1 片叶子也只能处于 j=0的状态（因为没有编号更小的状态了），因此有状态转移方程：
+        f[i][0]=f[i−1][0]+isYellow(i)
+        当 j=1 时，我们需要将第 i 片叶子变成黄色，而第 i-1 片叶子既可以处于 j=1 的状态，也可以处于 j=0 的状态，我们选择其中的较小值，因此有状态转移方程：
+        f[i][1]=min{f[i−1][0],f[i−1][1]}+isRed(i)
+        当 j=2 时，我们需要将第 i 片叶子变成红色，而第 i-1 片叶子即可以处于 j=2 的状态，也可以处于 j=1 的状态（注意这里不能处于 j=0 的状态，因为每一种状态包含的叶子数量必须至少为 1），我们选择其中的较小值，因此有状态转移方程：
+        f[i][2]=min{f[i−1][1],f[i−1][2]}+isYellow(i)
+        最终的答案即为 f[n−1][2]，其中 nn 是字符串leaves 的长度，也就是树叶的总数。*/
         int n = leaves.length();
         // 3个状态：黄色前的红色；黄色；黄色后的红色
         // int[][] dp = new int[n][3];
@@ -630,7 +644,7 @@ public class DynamicPlanning {
             int redAfterTemp;
             if(i >= 2){
                 redAfterTemp = Math.min(yellow, redAfter) + isYellow;
-            }else{
+            }else{// 第二个元素不可能是后面的那一个红色
                 redAfterTemp = redAfter;
             }
             redBefore = redBeforeTemp;
@@ -644,8 +658,7 @@ public class DynamicPlanning {
      * 面试题 08.01. 三步问题
      * 三步问题。有个小孩正在上楼梯，楼梯有n阶台阶，小孩一次可以上1阶、2阶或3阶。
      * 实现一种方法，计算小孩有多少种上楼梯的方式。结果可能很大，你需要对结果模1000000007。
-     * 输入：n = 3     输出：4       说明: 有四种走法
-     *  输入：n = 5    输出：13
+     * 输入：n = 3     输出：4       说明: 有四种走法        输入：n = 5    输出：13
      * @param n
      * @return
      */
@@ -672,17 +685,15 @@ public class DynamicPlanning {
     /**
      * 279. 完全平方数
      * 给定正整数 n，找到若干个完全平方数（比如 1, 4, 9, 16, ...）使得它们的和等于 n。你需要让组成和的完全平方数的个数最少。
-     * 输入: n = 12   输出: 3   解释: 12 = 4 + 4 + 4.
-     * 输入: n = 13   输出: 2   解释: 13 = 4 + 9.
+     * 输入: n = 12   输出: 3   解释: 12 = 4 + 4 + 4.                    输入: n = 13   输出: 2   解释: 13 = 4 + 9.
      * @param n
      * @return
      */
-  /*  首先初始化长度为 n+1 的数组 dp，每个位置都为 0
-    如果 n 为 0，则结果为 0
-    对数组进行遍历，下标为 i，每次都将当前数字先更新为最大的结果，即 dp[i]=i，比如 i=4，最坏结果为 4=1+1+1+1 即为 4 个数字
-    动态转移方程为：dp[i] = MIN(dp[i], dp[i - j * j] + 1)，i 表示当前数字，j*j 表示平方数
-    时间复杂度：O(n*sqrt(n))，sqrt 为平方根*/
-    public int numSquares(int n) {
+    public static int numSquares(int n) {
+        /*首先初始化长度为 n+1 的数组 dp，每个位置都为 0，如果 n 为 0，则结果为 0
+        对数组进行遍历，下标为 i，每次都将当前数字先更新为最大的结果，即 dp[i]=i，比如 i=4，最坏结果为 4=1+1+1+1 即为 4 个数字
+        动态转移方程为：dp[i] = MIN(dp[i], dp[i - j * j] + 1)，i 表示当前数字，j*j 表示平方数
+        时间复杂度：O(n*sqrt(n))，sqrt 为平方根*/
         int[] dp = new int[n + 1];
         for(int i = 1; i <= n; i++){
             dp[i] = i;// 最坏情况:1+1+1
@@ -773,22 +784,21 @@ public class DynamicPlanning {
      * @return
      */
     public static int longestMountain(int[] A) {
-        int n = A.length;
-        int[] left = new int[n];// 左边递增的个数
-        int[] right = new int[n];// 右边递减的个数
-        for(int i = 1; i < n - 1; i++){
+        int ans = 0;
+        int[] left = new int[A.length];
+        int[] right = new int[A.length];
+        for(int i = 1; i < A.length; i++){// 左边递增个数
             if(A[i] > A[i - 1]){
                 left[i] = left[i - 1] + 1;
             }
         }
-        for(int i = n - 2; i > 0; i--){
+        for(int i = A.length - 2; i >= 0; i--){// 右边递增个数
             if(A[i] > A[i + 1]){
                 right[i] = right[i + 1] + 1;
             }
         }
-        int ans = 0;
-        for(int i = 1; i < n - 1; i++){
-            if(left[i] > 0 && right[i] > 0){
+        for(int i = 0; i < A.length; i++){
+            if(left[i] > 0 && right[i] > 0) {//必须形成波峰
                 ans = Math.max(ans, left[i] + right[i] + 1);
             }
         }
@@ -805,7 +815,7 @@ public class DynamicPlanning {
      * @return
      */
     public static int findLength(int[] A, int[] B) {
-//        dp[i][j] 代表 i、j重复数组的长度； 转移方程  dp[i][j] = dp[i + 1][j + 1] + 1
+        // dp[i][j] 代表 i、j重复数组的长度； 转移方程  dp[i][j] = dp[i + 1][j + 1] + 1
         int ans = 0;
         int[][] dp = new int[A.length + 1][B.length + 1];
         for(int i = A.length - 1; i >= 0; i--){
@@ -818,7 +828,6 @@ public class DynamicPlanning {
         }
         return ans;
     }
-
 
     /**
      * 238. 除自身以外数组的乘积
@@ -910,10 +919,14 @@ public class DynamicPlanning {
         List<List<Integer>> params = new ArrayList(){{add(param1);add(param2);add(param3);add(param4);}};
         System.out.println(minimumTotal(params));*/
 //        System.out.println(lengthOfLIS(new int[]{10,9,2,5,3,7,101,18}));
-       /* System.out.println(findLength(new int[]{1,2,3,2,1}, new int[]{3,2,1,4,7}));*/
+        System.out.println(findLength(new int[]{1,2,3,2,1}, new int[]{3,2,1,4,7}));
 //        System.out.println(productExceptSelf(new int[]{1,2,3,4}));
-        System.out.println(massage(new int[]{2,7,9,3,1}));
-        System.out.println(massage(new int[]{2,1,4,5,3,1,1,3}));
+      /*  System.out.println(massage(new int[]{2,7,9,3,1}));
+        System.out.println(massage(new int[]{2,1,4,5,3,1,1,3}));*/
+//        System.out.println(numSquares(12));
+//        System.out.println(rob(new int[]{1,2,3,1,1,3}));
+//        System.out.println(maxProfit3(new int[]{1, 3, 2, 8, 3, 9}, 2));
+//        System.out.println(minimumOperations("rryrr"));
 
       /*  for(int i = 0; i < 5; i++){
             if(i == 3){

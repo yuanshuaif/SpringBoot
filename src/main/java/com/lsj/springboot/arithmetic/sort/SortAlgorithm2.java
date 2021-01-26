@@ -1,4 +1,4 @@
-package com.lsj.springboot.arithmetic.hasDo.sort;
+package com.lsj.springboot.arithmetic.sort;
 
 import java.util.Arrays;
 

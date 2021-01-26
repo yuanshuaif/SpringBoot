@@ -1,4 +1,4 @@
-package com.lsj.springboot.arithmetic.hasDo.other;
+package com.lsj.springboot.arithmetic.other;
 
 import java.util.ArrayList;
 import java.util.List;

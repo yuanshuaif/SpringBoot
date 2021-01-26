@@ -1,4 +1,4 @@
-package com.lsj.springboot.arithmetic.hasDo.tree;
+package com.lsj.springboot.arithmetic.tree;
 
 import java.io.Serializable;
 import java.util.*;

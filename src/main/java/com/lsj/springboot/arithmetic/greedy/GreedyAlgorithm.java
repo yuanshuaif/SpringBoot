@@ -1,4 +1,4 @@
-package com.lsj.springboot.arithmetic.hasDo.greedy;
+package com.lsj.springboot.arithmetic.greedy;
 
 import java.util.Arrays;
 

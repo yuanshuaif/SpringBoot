@@ -1,4 +1,4 @@
-package com.lsj.springboot.arithmetic.hasDo.hash;
+package com.lsj.springboot.arithmetic.hash;
 
 import java.util.*;
 

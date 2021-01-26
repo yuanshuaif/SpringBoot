@@ -1,4 +1,4 @@
-package com.lsj.springboot.arithmetic.hasDo.dfs;
+package com.lsj.springboot.arithmetic.dfs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
