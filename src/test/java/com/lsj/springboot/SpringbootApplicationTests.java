@@ -4,6 +4,7 @@ import com.lsj.springboot.async.IUserService;
 import com.lsj.springboot.rabbitMQ.springRabbitMQ.sender.FanoutSender;
 import com.lsj.springboot.rabbitMQ.springRabbitMQ.sender.SimpleSender;
 import com.lsj.springboot.rabbitMQ.springRabbitMQ.sender.TopicSender;
+import com.lsj.springboot.redis.PcInformationService;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -78,6 +79,36 @@ public class SpringbootApplicationTests {
 	@Test
 	public void fanoutSender() throws Exception {
 		fanoutSender.send1();
+	}
+
+	@Autowired
+	private PcInformationService pcInformationService;
+
+	@Test
+	public void addRedisLock() throws Exception {
+
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					pcInformationService.add();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
+		Thread.sleep(12000);
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					pcInformationService.add();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
+		Thread.currentThread().join();
 	}
 
 }

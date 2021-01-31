@@ -70,7 +70,7 @@ public class TestStaticBlock {
         // 由于我们打破了双亲委派模型，所以父类的加载（Object）也会交由我们自自定义的类加载器加载。而很明显在我们自定义的加载目录下是不会有Object.class这个文件的。
         // 如果不想打破双亲委派模型，就重写ClassLoader类中的findClass()方法即可，无法被父类加载器加载的类最终会通过这个方法被加载。
         // 而如果想打破双亲委派模型则需要重写loadClass()方法（当然其中的坑也不会少）。典型的打破双亲委派模型的框架和中间件有tomcat与osgi,如果相对java的类加载过程有更深入的了解学习这两个框架的源码会是不错的选择。
-        @Override
+       /* @Override
         public Class<?> loadClass(String name)  throws ClassNotFoundException {
             String myPath = "D:/dk/lsj/SpringBoot/target/classes/" + name.replace(".","/") + ".class";
             System.out.println(myPath);
@@ -94,6 +94,6 @@ public class TestStaticBlock {
             }
             Class<?> clazz = defineClass(name, classBytes, 0, classBytes.length);
             return clazz;
-        }
+        }*/
     }
 }
