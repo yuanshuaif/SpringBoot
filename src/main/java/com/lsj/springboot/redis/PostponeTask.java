@@ -7,7 +7,7 @@ public class PostponeTask implements Runnable {
     private String key;
     private String value;
     private long expireTime;
-    private volatile boolean isRunning;
+    private boolean isRunning;
     private DistributedLock distributedLock;
 
     public PostponeTask() {
