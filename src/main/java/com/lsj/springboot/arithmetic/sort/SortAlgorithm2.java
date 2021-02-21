@@ -26,8 +26,8 @@ import java.util.Arrays;
 public class SortAlgorithm2 {
 
     public static void main(String[] args){
-      /*  int[] array = new int[]{9, 3, 8, 7, 5, 1, 2, 10, 9};
-        array = sort8(array);*/
+        int[] array = new int[]{9, 3, 8, 7, 5, 1, 2, 10, 9};
+        array = sort8(array);
 
        /* int[] array = new int[]{11, 7, 1, 33, 2, 22};
         sort5(array);*/
@@ -35,8 +35,17 @@ public class SortAlgorithm2 {
    /*     int[] array = new int[]{10, 15, 56, 25, 30, 70};
         sort(array);*/
 
-        int[] array = new int[]{4, 154, 56, 5, 34, 75};
-        sort9(array);
+     /*   int[] array = new int[]{4, 154, 56, 5, 34, 75};
+        sort9(array);*/
+
+      /*  int[] array = new int[]{9, 3, 9, 7, 5, 1, 2, 10, 9};
+        sort4(array);*/
+
+       /* int[] array = new int[]{43, 13, 91, 23, 24, 16, 5, 88};
+        sort6(array);*/
+/*
+        int[] array = new int[]{43, 13, 91, 23, 24, 16, 5, 88};
+        array = sort7(array);*/
 
         for (int i = 0; i < array.length; i++) {
             System.out.println(array[i]);
@@ -129,17 +138,18 @@ public class SortAlgorithm2 {
 
 
     private static void sort4(int[] arrays, int left, int right){
+        // 9, 3, 9, 7, 5, 1, 2, 10, 9
         int l = left;
         int r = right;
         int x = arrays[l];
         while(l < r){
-            while(l < r && arrays[r] > x){
+            while(l < r && arrays[r] >= x){// >
                 r--;
             }
             if(l < r){
                 arrays[l++] = arrays[r];
             }
-            while(l < r && arrays[l] < x){
+            while(l < r && arrays[l] <= x){// <
                 l++;
             }
             if(l < r){
@@ -223,8 +233,9 @@ public class SortAlgorithm2 {
     /**
      * 6.堆排序
      * 直接选择排序中，为了从R[1..n]中选出关键字最小的记录，必须进行n-1次比较，然后在R[2..n]中选出关键字最小的记录，又需要做n-2次比较。
-     * 事实上，后面这n-2次比较中，有许多比较可能在前面的n-1次比较中已经做过，但由于前一趟排序时未保留这些比较的结果，所以后一趟排序时又重复执行了这些比较操作。堆排序可以克服这一缺点。
-     * 堆排序( Heap Sort)是一树形选择排序，特点：在排序过程中，将R[1..n]看成是一棵完全二叉树的顺序存储结构，利用完全二叉树中双亲结点和孩子结点之间的内在关系，在当前无序区中选择关键字最大(或最小)的记录。
+     * 事实上，后面这n-2次比较中，有许多比较可能在前面的n-1次比较中已经做过，但由于前一趟排序时未保留这些比较的结果，所以后一趟排序时又重复执行了这些比较操作。
+     * 堆排序可以克服这一缺点。堆排序( Heap Sort)是一树形选择排序，特点：在排序过程中，将R[1..n]看成是一棵完全二叉树的顺序存储结构，
+     * 利用完全二叉树中双亲结点和孩子结点之间的内在关系，在当前无序区中选择关键字最大(或最小)的记录。
      *
      * 基本思想是：
      * 1、将带排序的序列构造成一个大顶堆，根据大顶堆的性质，当前堆的根节点（堆顶）就是序列中最大的元素；
@@ -381,6 +392,7 @@ public class SortAlgorithm2 {
     }
 
     private static int[] bucketsort(int[] arrays, int bucketSize){
+        // 9, 3, 8, 7, 5, 1, 2, 10, 9
         if(arrays == null || arrays.length == 0){
             return arrays;
         }
