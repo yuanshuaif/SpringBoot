@@ -12,7 +12,11 @@ public class Hash {
                 treeMap.put((s + "--服务器---" + i).hashCode(), s);
         }
         int clientHash = client.hashCode();
-        // 获取一个子集。其所有对象的 key 的值大于等于 fromKey
+        // fisrtKey()	K	获取第一个（排在最低的）对象的 Key
+        //lastKey()	K	获取最后个（排在最高的）对象的 Key
+        //headMap(K toKey)	SortedMap<K,V>	获取一个子集。其所有对象的 key 的值小于 toKey
+        //subMap(K fromKey, K toKey)	SortedMap<K,V>	获取一个子集。其所有对象的 key 的值小于 toKey ，大于等于 fromKey
+        //tailMap(K fromKey)	SortedMap<K,V>	获取一个子集。其所有对象的 key 的值大于等于 fromKey
         SortedMap<Integer, String> subMap = treeMap.tailMap(clientHash);
         Integer firstHash;
         if (subMap.size() > 0) {
