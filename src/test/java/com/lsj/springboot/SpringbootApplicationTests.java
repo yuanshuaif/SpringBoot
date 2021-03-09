@@ -11,6 +11,7 @@ import net.sf.ehcache.Element;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,6 +23,7 @@ public class SpringbootApplicationTests {
 	private MockMvc mvc;
 
 	@Autowired
+	@Qualifier("userServiceImpl2")
 	private IUserService iUserService;
 /*
 	//初始化执行

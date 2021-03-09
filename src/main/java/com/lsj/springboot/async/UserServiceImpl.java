@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Created by 10326 on 2020/4/4.
  */
-@Service
+@Service("userServiceImpl2")
 public class UserServiceImpl implements IUserService {
 
     // ((IUserService)AopContext.currentProxy()).senMsg(user);解决自定义调用失效
