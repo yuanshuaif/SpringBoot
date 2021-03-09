@@ -128,7 +128,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<fork>true</fork>  <!--必须的配置-->
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+                <!-- springboot在打包时给需要加载的类多加了2层文件夹BOOT-INF.classes -->
+<!--				<fork>true</fork>  &lt;!&ndash;必须的配置&ndash;&gt;-->
 			</plugin>
 		</plugins>
 	</build>
