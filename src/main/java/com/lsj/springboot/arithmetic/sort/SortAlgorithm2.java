@@ -26,8 +26,9 @@ import java.util.Arrays;
 public class SortAlgorithm2 {
 
     public static void main(String[] args){
-        int[] array = new int[]{9, 3, 8, 7, 5, 1, 2, 10, 9};
-        array = sort8(array);
+      /*  int[] array = new int[]{9, 3, 8, 7, 5, 1, 2, 10, 9};
+        array = new int[]{9, 9, 8, 7, 1, 7, 8, 10, 9};
+        array = sort8(array);*/
 
        /* int[] array = new int[]{11, 7, 1, 33, 2, 22};
         sort5(array);*/
@@ -35,8 +36,8 @@ public class SortAlgorithm2 {
    /*     int[] array = new int[]{10, 15, 56, 25, 30, 70};
         sort(array);*/
 
-     /*   int[] array = new int[]{4, 154, 56, 5, 34, 75};
-        sort9(array);*/
+        int[] array = new int[]{4, 154, 56, 5, 34, 75};
+        sort9(array);
 
       /*  int[] array = new int[]{9, 3, 9, 7, 5, 1, 2, 10, 9};
         sort4(array);*/
@@ -502,13 +503,13 @@ public class SortAlgorithm2 {
                 int bucketIndex = (arr % mod) / dev + mod;
                 buckets[bucketIndex] = arrayAppend(buckets[bucketIndex], arr);
             }
-            int bucketIndex = 0;
+            int sortIndex = 0;
             for(int[] bucket : buckets){
                 if(bucket == null || bucket.length == 0){
                     continue;
                 }
                 for(int arr : bucket){
-                    arrays[bucketIndex++] =  arr;
+                    arrays[sortIndex++] =  arr;
                 }
             }
         }

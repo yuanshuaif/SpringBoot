@@ -581,7 +581,8 @@ public class LinkedList {
     /**
      * 1474. 删除链表 M 个节点之后的 N 个节点
      * 给定链表 head 和两个整数 m 和 n. 遍历该链表并按照如下方式删除节点:
-     * 开始时以头节点作为当前节点；保留以当前节点开始的前 m 个节点；删除接下来的 n 个节点；重复步骤 2 和 3, 直到到达链表结尾；在删除了指定结点之后, 返回修改过后的链表的头节点.
+     * 开始时以头节点作为当前节点；保留以当前节点开始的前 m 个节点；删除接下来的 n 个节点；重复步骤 2 和 3, 直到到达链表结尾；在删除了指定结点之后,
+     *  返回修改过后的链表的头节点.
 
          输入: head = [1,2,3,4,5,6,7,8,9,10,11,12,13], m = 2, n = 3
          输出: [1,2,6,7,11,12]
@@ -611,8 +612,6 @@ public class LinkedList {
             for(int j = 0; j < n && head != null; j++){
                 if(head.next != null){
                     head.next = head.next.next;
-                }else{// n没走完结束
-                    head.next = null;
                 }
             }
             if(head != null){// 进入下一次循环
@@ -713,9 +712,9 @@ public class LinkedList {
             n++;
         }
         oldTail.next = head;
-        ListNode newTail = head;
-        ListNode newHead = head.next;
-        for(int i = 0; i < n - k % n -1; i++){
+        ListNode newTail = oldTail;
+        ListNode newHead = head;
+        for(int i = 0; i < n - k % n; i++){
             newTail = newTail.next;
             newHead = newHead.next;
         }
@@ -857,7 +856,8 @@ public class LinkedList {
 
     /**
      * 143. 重排链表
-     * 给定一个单链表 L：L0→L1→…→Ln-1→Ln ，将其重新排列后变为： L0→Ln→L1→Ln-1→L2→Ln-2→…    你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+     * 给定一个单链表 L：L0→L1→…→Ln-1→Ln ，将其重新排列后变为： L0→Ln→L1→Ln-1→L2→Ln-2→…
+     * 你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
      * 给定链表 1->2->3->4, 重新排列为 1->4->2->3.   给定链表 1->2->3->4->5, 重新排列为 1->5->2->4->3.
      * @param head
      */
@@ -1083,11 +1083,11 @@ public class LinkedList {
 //        c.next = d;
         System.out.println(isPalindrome(a));*/
 
-       /* listNode a = new listNode(-1, new listNode(5, new listNode(3, new listNode(4, new listNode(0)))));
-        System.out.println(sortList(a));*/
+        ListNode a = new ListNode(-1, new ListNode(5, new ListNode(3, new ListNode(4, new ListNode(0)))));
+        System.out.println(sortList(a));
 
-        ListNode a = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
-        System.out.println(reverseBetween(a, 1, 5));
+      /*  ListNode a = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
+        System.out.println(reverseBetween(a, 1, 5));*/
 
     }
 }

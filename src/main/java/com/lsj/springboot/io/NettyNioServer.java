@@ -40,6 +40,7 @@ public class NettyNioServer {
                         }
                     });
             // 第四步，开启监听
+            // 阻塞直到绑定完成
             ChannelFuture f = b.bind().sync();// ChannelFuture：注解回调方法
             f.channel().closeFuture().sync();
         } finally {

@@ -20,4 +20,46 @@
           destroy-method="myDestory" scope="singleton" p:name="张三" p:address="广州"
           p:phone="1590000000" />
 
+    <!--kafka 生产者的配置-->
+    <bean id="producerFactory" class = "org.springframework.kafka.core.DefaultKafkaProducerFactory">
+        <constructor-arg name="configs">
+            <map>
+                <entry key = "bootstrap.servers" value="localhost:9092"></entry>
+                <entry key = "zk.connect" value="127.0.0.1:2181"></entry>
+                <entry key = "key.serializer" value="org.apache.kafka.common.serialization.StringSerializer"></entry>
+                <entry key = "value.serializer" value="org.apache.kafka.common.serialization.StringSerializer"></entry>
+                <entry key = "key.deserializer" value="org.apache.kafka.common.serialization.StringDeserializer"></entry>
+                <entry key = "value.deserializer" value="org.apache.kafka.common.serialization.StringDeserializer"></entry>
+            </map>
+        </constructor-arg>
+    </bean>
+    <bean id = "kafkaTemplate" class="org.springframework.kafka.core.KafkaTemplate">
+        <constructor-arg ref = "producerFactory"></constructor-arg>
+        <constructor-arg name = "autoFlush" value="true"></constructor-arg>
+    </bean>
+
+    <bean id = "consumerFacory" class = "org.springframework.kafka.core.DefaultKafkaConsumerFactory">
+        <constructor-arg name = "configs">
+            <map>
+                <entry key = "bootstrap.servers" value="localhost:9092"></entry>
+                <entry key = "group.id" value="testGroup2"></entry>
+           <!--     <entry key = "enable.auto.commit" value="true"></entry>-->
+                <entry key = "key.serializer" value="org.apache.kafka.common.serialization.StringSerializer"></entry>
+                <entry key = "value.serializer" value="org.apache.kafka.common.serialization.StringSerializer"></entry>
+                <entry key = "key.deserializer" value="org.apache.kafka.common.serialization.StringDeserializer"></entry>
+                <entry key = "value.deserializer" value="org.apache.kafka.common.serialization.StringDeserializer"></entry>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <bean id = "consumerListener" class = "com.lsj.springboot.kafka.spring.KafkaConsumerListener"></bean>
+    <bean id = "containerPropertis" class = "org.springframework.kafka.listener.ContainerProperties">
+        <constructor-arg value="kafka-topic"></constructor-arg>
+        <property name="messageListener" ref = "consumerListener"></property>
+    </bean>
+    <bean id = "messageListenerContainer" class="org.springframework.kafka.listener.KafkaMessageListenerContainer">
+        <constructor-arg ref = "consumerFacory"></constructor-arg>
+        <constructor-arg ref = "containerPropertis"></constructor-arg>
+    </bean>
+
 </beans>
