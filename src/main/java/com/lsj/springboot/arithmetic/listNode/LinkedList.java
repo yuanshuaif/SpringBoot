@@ -1021,6 +1021,49 @@ public class LinkedList {
         return ans.next;
     }
 
+    /**
+     * 143. 重排链表
+     * n1->n2->...n(k-1)->n(k) ;          n1->n(k)->n2->n(k-1)....
+     * 1-2-3-4      1-4-2-3  ;            1-2-3-4-5     1-5-2-4-3
+     * @param head
+     * @return
+     */
+    public static ListNode meituan(ListNode head) {
+        if(head == null){
+            return head;
+        }
+        // 1.快慢指针链表断开
+        ListNode before = head;
+        ListNode after = head.next;
+        while(after != null && after.next != null){
+            before = before.next;
+            after = after.next.next;
+        }
+        after = before.next;
+        before.next = null;
+        before = head;
+
+        // 2.后半部分链表反转
+        ListNode temp = null;
+        while(after != null){
+            ListNode next = after.next;
+            after.next = temp;
+            temp = after;
+            after = next;
+        }
+        after = temp;
+
+        // 3.链表合并
+        while(after != null){
+            ListNode next = after.next;
+            after.next = before.next;
+            before.next = after;
+            after = next;
+            before = before.next.next;
+        }
+        return head;
+    }
+
     public static void main(String[] args){
 
     /*    listNode a = new listNode(1);
@@ -1083,8 +1126,10 @@ public class LinkedList {
 //        c.next = d;
         System.out.println(isPalindrome(a));*/
 
-        ListNode a = new ListNode(-1, new ListNode(5, new ListNode(3, new ListNode(4, new ListNode(0)))));
-        System.out.println(sortList(a));
+/*        ListNode a = new ListNode(-1, new ListNode(5, new ListNode(3, new ListNode(4, new ListNode(0)))));
+        System.out.println(sortList(a));*/
+        ListNode a = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5,new ListNode(6, new ListNode(7)))))));
+        System.out.println(meituan(a));
 
       /*  ListNode a = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
         System.out.println(reverseBetween(a, 1, 5));*/
