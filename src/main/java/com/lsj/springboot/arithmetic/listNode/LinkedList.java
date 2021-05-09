@@ -79,26 +79,24 @@ public class LinkedList {
      * @return
      */
     public static ListNode addNode(ListNode a, ListNode b){
-        ListNode mergeNode = new ListNode(0);
+        ListNode mergeNode = new ListNode(0);// 挂载节点
         ListNode curNode = mergeNode;
-        int culValue = 0;
-        while(a != null || b != null || culValue > 0){// curValue > 0 解决相加进位的问题
+        int curValue = 0;
+        while(a != null || b != null || curValue != 0){// 进位
             curNode.next = new ListNode(0);
-            curNode = curNode.next;
             if(a != null){
-                culValue += a.val;
+                curValue += a.val;
                 a = a.next;
             }
             if(b != null){
-                culValue += b.val;
+                curValue += b.val;
                 b = b.next;
             }
-
-            int cur = culValue % 10;
-            culValue /= 10;
-            curNode.val = cur;
+            curNode.next.val = curValue % 10;
+            curValue = curValue / 10;
+            curNode = curNode.next;
         }
-        return mergeNode.next;
+        return  mergeNode.next;
     }
 
     /**
@@ -113,15 +111,8 @@ public class LinkedList {
     public static ListNode mergeNode(ListNode a, ListNode b){
         ListNode mergeNode = new ListNode(0);
         ListNode curNode = mergeNode;
-        while(a != null || b != null){
-            if(b == null){
-                curNode.next = a;
-                break;
-            }else if(a == null){
-                curNode.next = b;
-                break;
-            }
-            if(a.val > b.val) {
+        while(a != null && b != null){
+            if(a.val > b.val){
                 curNode.next = b;
                 curNode = curNode.next;
                 b = b.next;
@@ -129,21 +120,27 @@ public class LinkedList {
                 curNode.next = a;
                 curNode = curNode.next;
                 a = a.next;
-            }else if(a.val == b.val){
-                curNode.next = a;
-                curNode = curNode.next;
-                a = a.next;
+            }else{
                 curNode.next = b;
                 curNode = curNode.next;
                 b = b.next;
+                curNode.next = a;
+                curNode = curNode.next;
+                a = a.next;
             }
         }
-
-        return mergeNode.next;
+        if(a != null){
+            curNode.next = a;
+        }
+        if(b != null){
+            curNode.next = b;
+        }
+        return  mergeNode.next;
     }
 
     /**
      * 206.链表翻转
+     * 1234 4321 不使用额外空间
      * @param head
      * @return
      */
@@ -160,8 +157,8 @@ public class LinkedList {
         ListNode temp = null;
         while(head != null){
             ListNode next = head.next;
-            head.next = temp;// 对象关联
-            temp = head;// 指针移动
+            head.next = temp;
+            temp = head;
             head = next;
         }
         return temp;
@@ -174,25 +171,17 @@ public class LinkedList {
      * @param val
      */
     public static ListNode removeElements(ListNode head, int val) {
-        // 把头节点匹配到的元素全部删掉
-        while (head != null){
-            if(head.val == val){
-                head = head.next;
-            }else {
-                break;
-            }
-        }
-        // 比较头节点的下一个节点的元素值是否能匹配到
-        ListNode temp = head;
-        while(head != null){
-            if(head.next != null && head.next.val == val){
+        ListNode curNode = new ListNode(0);
+        curNode.next = head;
+        head = curNode;
+        while(head.next != null){
+            if(head.next.val == val){
                 head.next = head.next.next;
-            }else{
+            }else {
                 head = head.next;
             }
         }
-
-        return temp;
+        return  curNode.next;
     }
 
     /**
@@ -313,17 +302,14 @@ public class LinkedList {
         if(head == null || head.next == null){
             return false;
         }
-        ListNode first = head.next;
-        ListNode second = head.next.next;
-        while(first != null && second != null){
-            if(first.val == second.val){
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while(fast != null && fast.next != null){
+            if(slow.val == fast.val){
                 return true;
             }
-            first = first.next;
-            if(second.next == null){
-                return false;
-            }
-            second = second.next.next;
+            slow = slow.next;
+            fast = fast.next.next;
         }
         return false;
     }
@@ -400,7 +386,7 @@ public class LinkedList {
      * @return
      */
     public int[] reversePrint(ListNode head) {
-        // 第一步将链表中的节点依次压入栈中
+       /* // 第一步将链表中的节点依次压入栈中
         Stack<ListNode> stack = new Stack<>();
         while(head != null){
             ListNode next = head.next;
@@ -413,6 +399,22 @@ public class LinkedList {
         int[] reverse = new int[len];
         for(int i = 0; i < len; i++){
             reverse[i] = stack.pop().val;
+        }
+        return reverse;*/
+
+        ListNode temp = null;
+        int len = 0;
+        while(head != null){
+            len++;
+            ListNode next = head.next;
+            head.next = temp;
+            temp = head;
+            head = next;
+        }
+        int[] reverse = new int[len];
+        for(int i = 0; i < len; i++){
+            reverse[i] = temp.val;
+            temp = temp.next;
         }
         return reverse;
     }
@@ -427,25 +429,18 @@ public class LinkedList {
         if(head == null || head.next == null){
             return head;
         }
-        int before, after = 0;
+        ListNode ans = new ListNode(0);
+        ans.next = head;
+        head = ans;
         Set<Integer> set = new HashSet<>();
-        ListNode result = new ListNode(0);
-        ListNode temp = result;
-        while(head != null){
-            before = set.size();
-            set.add(head.val);
-            after = set.size();
-            if(before != after){
-                ListNode next = head.next;
-                head.next = null;
-                temp.next = head;
-                head = next;
-                temp = temp.next;
-            }else{
+        while(head.next != null){
+            if(set.add(head.next.val)){
                 head = head.next;
+            }else{
+                head.next = head.next.next;
             }
         }
-        return result.next;
+        return ans.next;
     }
 
     /**
@@ -459,13 +454,12 @@ public class LinkedList {
         // 快慢指针
         ListNode p = head;
         ListNode q = head.next;
-        while(q != null){// 奇数结束
+        while(q != null && q.next != null){
             p = p.next;
-            if(q.next == null){// 偶数结束
-                return p;
-            }else {
-                q = q.next.next;
-            }
+            q = q.next.next;
+        }
+        if(q != null && q.next == null){// 偶数结束再移动一位
+            p = p.next;
         }
         return p;
     }
@@ -477,36 +471,50 @@ public class LinkedList {
      * @return
      */
     public static ListNode sortList(ListNode head) {
-        // 归并排序
         if(head == null || head.next == null){
             return head;
         }
-        // 使用快慢指针找到分割点
-        ListNode soft = head;
-        ListNode fast = head.next;
-        while(fast != null && fast.next != null){
-            soft = soft.next;
-            fast = fast.next.next;
+        // 1.快慢指针找到中间节点
+        ListNode p = head;
+        ListNode q = head.next;
+        while(q != null && q.next != null){
+            p = p.next;
+            q = q.next.next;
         }
-        ListNode mid = soft.next;
-        soft.next = null;
-        // 左右递归至终结点
+        ListNode mid = p.next;
+        p.next = null;
+
+        // 拆分
         ListNode left = sortList(head);
         ListNode right = sortList(mid);
-        // 左右2边进行merge合并
-        ListNode ans = new ListNode(0);
-        ListNode temp = ans;
+
+        // 合并
+        ListNode mergeNode = new ListNode(0);
+        ListNode ans = mergeNode;
         while(left != null && right != null){
-            if(left.val < right.val){
-                temp.next = left;
+            if(left.val > right.val){
+                mergeNode.next = right;
+                mergeNode = mergeNode.next;
+                right = right.next;
+            }else if(left.val < right.val){
+                mergeNode.next = left;
+                mergeNode = mergeNode.next;
                 left = left.next;
             }else{
-                temp.next = right;
+                mergeNode.next = right;
+                mergeNode = mergeNode.next;
                 right = right.next;
+                mergeNode.next = left;
+                mergeNode = mergeNode.next;
+                left = left.next;
             }
-            temp = temp.next;
         }
-        temp.next = left != null ? left : right;
+        if(left != null){
+            mergeNode.next = left;
+        }
+        if(right != null){
+            mergeNode.next = right;
+        }
         return ans.next;
     }
 
@@ -604,21 +612,22 @@ public class LinkedList {
      * @return
      */
     public ListNode deleteNodes(ListNode head, int m, int n) {
-        ListNode ans = head;
-        while(head != null){
-            for(int i = 0; i < m - 1 && head != null; i++){// 移动m-1（head == null m还没走完）
-                head = head.next;
+        ListNode ans = new ListNode(0);
+        ans.next = head;
+        head = ans;
+        while(head != null && head.next != null){
+            for(int i = 0; i < m; i++){
+                if(head != null){
+                    head = head.next;
+                }
             }
-            for(int j = 0; j < n && head != null; j++){
-                if(head.next != null){
+            for(int i = 0; i < n; i++){
+                if(head != null && head.next != null){
                     head.next = head.next.next;
                 }
             }
-            if(head != null){// 进入下一次循环
-                head = head.next;
-            }
         }
-        return ans;
+        return ans.next;
     }
 
     /**
@@ -862,42 +871,35 @@ public class LinkedList {
      * @param head
      */
     public static void reorderList(ListNode head) {
-        if(head == null || head.next == null){
-            return;
+        // 1.快慢指针链表断开
+        ListNode before = head;
+        ListNode after = head.next;
+        while(after != null && after.next != null){
+            before = before.next;
+            after = after.next.next;
         }
-        Stack<ListNode> stack = new Stack<>();
-        ListNode cur = head;
-        while(cur != null){
-            stack.push(cur);
-            cur = cur.next;
-        }
-        cur = head;
-        ListNode temp = new ListNode(0);
-        ListNode ans = temp;
-        while(cur != stack.peek()){
-            if(cur.next == stack.peek()){// 偶数最后节点的处理
-                cur.next.next = null;
-                temp.next = cur;
-                break;
-            }
-            // 头节点塞值
-            ListNode next = cur.next;
-            cur.next = null;
-            temp.next = cur;
-            temp = temp.next;
-            // 尾节点塞值
-            ListNode end = stack.pop();
-            end.next = null;
-            temp.next = end;
-            temp = temp.next;
+        after = before.next;
+        before.next = null;
+        before = head;
 
-            cur = next;
+        // 2.后半部分链表反转
+        ListNode temp = null;
+        while(after != null){
+            ListNode next = after.next;
+            after.next = temp;
+            temp = after;
+            after = next;
         }
-        if(cur == stack.peek()){// 奇数最后节点的处理
-            cur.next = null;
-            temp.next = cur;
+        after = temp;
+
+        // 3.链表合并
+        while(after != null){
+            ListNode next = after.next;
+            after.next = before.next;
+            before.next = after;
+            after = next;
+            before = before.next.next;
         }
-        head = ans.next;
     }
 
     /**
