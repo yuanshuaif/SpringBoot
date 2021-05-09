@@ -302,8 +302,8 @@ public class LinkedList {
         if(head == null || head.next == null){
             return false;
         }
-        ListNode slow = head;
-        ListNode fast = head.next;
+        ListNode slow = head.next;
+        ListNode fast = head.next.next;
         while(fast != null && fast.next != null){
             if(slow.val == fast.val){
                 return true;
@@ -813,18 +813,17 @@ public class LinkedList {
         ListNode cur = ans;
         boolean flag = false;
         while(head != null && head.next != null){
-            if(head.val == head.next.val){
+            while(head.next != null && head.val == head.next.val) {
                 head.next = head.next.next;
                 flag = true;
+            }
+            if(flag){
+                cur.next = head.next;
+                head = head.next;
+                flag = false;
             }else{
-                if(flag){
-                    cur.next = head.next;
-                    head = head.next;
-                    flag = false;
-                }else{
-                    cur = cur.next;
-                    head = head.next;
-                }
+                cur = cur.next;
+                head = head.next;
             }
         }
         if(flag){
@@ -950,7 +949,7 @@ public class LinkedList {
      * @param head
      * @return
      */
-    public ListNode detectCycle(ListNode head) {
+    public static ListNode detectCycle(ListNode head) {
         // 快慢指针
         // a(开始位置->入环口) b（入环口走多少步相遇） c（再走多少步到达入环口） l（环长）
        /* 快慢指针相遇的节点，此时快指针走的距离：a+(b+c)n+b
@@ -967,14 +966,11 @@ public class LinkedList {
         // 1.设置快慢指针，快指针速度为慢指针的2倍,找出相遇点
         ListNode first = head.next;
         ListNode second = head.next.next;
-        while(first != null && second != null){
+        while(second != null && second.next != null){
             if(first == second){
                 break;
             }
             first = first.next;
-            if(second.next == null){
-                return null;
-            }
             second = second.next.next;
         }
         //  2.在head处和相遇点同时释放相同速度且速度为1的指针，两指针必会在环入口处相遇
@@ -1130,8 +1126,18 @@ public class LinkedList {
 
 /*        ListNode a = new ListNode(-1, new ListNode(5, new ListNode(3, new ListNode(4, new ListNode(0)))));
         System.out.println(sortList(a));*/
-        ListNode a = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5,new ListNode(6, new ListNode(7)))))));
-        System.out.println(meituan(a));
+       /* ListNode a = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5,new ListNode(6, new ListNode(7)))))));
+        System.out.println(meituan(a));*/
+
+        ListNode a = new ListNode(3);
+        ListNode b = new ListNode(2);
+        ListNode c = new ListNode(0);
+        ListNode d = new ListNode(4);
+        a.next = b;
+        b.next = c;
+        c.next = d;
+        d.next = b;
+        System.out.println(detectCycle(a));
 
       /*  ListNode a = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
         System.out.println(reverseBetween(a, 1, 5));*/
