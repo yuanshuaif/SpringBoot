@@ -427,6 +427,7 @@ public class Tree {
             int ans = 0;
             while(queue.size() != 0){
                 int size = queue.size();
+                ans = 0;
                 for(int i = 0; i < size; i++){
                     TreeNode temp = queue.poll();
                     ans += temp.val;
@@ -437,7 +438,6 @@ public class Tree {
                         queue.offer(temp.right);
                     }
                 }
-                ans = 0;
             }
             return ans;
         }
