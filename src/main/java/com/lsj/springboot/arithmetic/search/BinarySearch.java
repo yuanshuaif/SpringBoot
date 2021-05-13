@@ -551,7 +551,7 @@ public class BinarySearch {
     public static int minArray(int[] numbers) {
         int low = 0;
         int high = numbers.length - 1;
-        while (low < high) {
+        while (low <= high) {
             int pivot = low + (high - low) / 2;
             if (numbers[pivot] < numbers[high]) {//舍弃右边部分
                 high = pivot;
