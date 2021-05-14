@@ -475,6 +475,8 @@ public class Tree {
 
         /**
          * 572. 另一个树的子树
+         * 给定两个非空二叉树 s 和 t，检验 s 中是否包含和 t 具有相同结构和节点值的子树。
+         * s 的一个子树包括 s 的一个节点和这个节点的所有子孙。s 也可以看做它自身的一棵子树。
          * @param s
          * @param t
          * @return
@@ -493,17 +495,12 @@ public class Tree {
          */
         private int ans = 0;
         public int diameterOfBinaryTree(TreeNode root) {
-            if(root == null || (root.right == null && root.left == null)){
-                return 0;
-            }
+            if(root == null || (root.left == null && root.right == null)) return 0;
             diameter(root);
             return ans;
         }
-
         public int diameter(TreeNode root) {
-            if(root == null){
-                return 0;
-            }
+            if(root == null) return 0;
             int left = diameter(root.left);
             int right = diameter(root.right);
             ans = Math.max(ans, left + right);// 每个节点都需要参与计算
@@ -518,11 +515,8 @@ public class Tree {
          * @return
          */
         public boolean isBalanced(TreeNode root) {
-            if(root == null){
-                return true;
-            }
-            return Math.abs(maxDepth(root.left) - maxDepth(root.right)) <= 1
-                    && isBalanced(root.left) && isBalanced(root.right);
+            if(root == null) return true;
+            return Math.abs(maxDepth(root.left) - maxDepth(root.right)) <= 1 && isBalanced(root.left) && isBalanced(root.right);
         }
 
         /**
