@@ -148,23 +148,50 @@ public class BinarySearch {
      */
     public int mySqrt(int x) {
         // k2<=x （求k的最大整数）
-        long start = 0;
-        long end = x;
+        int start = 0;
+        int end = x;
         int k = 0;
         while(start <= end){
-            // 此处注意使用long类型
-            long mid = (start + end) / 2;
-            if(mid * mid < x){
+            int mid = (end - start) / 2 + start;
+            if((long)mid * mid < x){// 此处注意使用long类型
                 start = mid + 1;
-                k = (int)mid;// 最接近的值，小于的话也可以
-            }else if( mid * mid > x){
+                k = mid;// 最接近的值，小于的话也可以
+            }else if((long)mid * mid > x){
                 end = mid - 1;
             }else{
-                k = (int)mid;
+                k = mid;
                 break;
             }
         }
         return k;
+    }
+
+    /**
+     * 367. 有效的完全平方数
+     * 给定一个正整数 num，编写一个函数，如果 num 是一个完全平方数，则返回 True，否则返回 False。
+     说明：不要使用任何内置的库函数，如  sqrt。
+     输入：16 输出：True    输入：14 输出：false
+     * @param num
+     * @return
+     */
+    public boolean isPerfectSquare(int num) {
+        // k2=num 使用二分查找法找到一个k使得等式成立
+        int start = 0;
+        int end = num;
+        boolean flag = false;
+        while(start <= end){
+            // 注意int的最大值问题 2147483647
+            int mid = (start + end) / 2;
+            if((long)mid * mid > num){
+                end = mid - 1;
+            }else if((long)mid * mid < num){
+                start = mid + 1;
+            }else{
+                flag = true;
+                break;
+            }
+        }
+        return flag;
     }
 
     /**
@@ -203,34 +230,6 @@ public class BinarySearch {
     }
 
     /**
-     * 367. 有效的完全平方数
-     * 给定一个正整数 num，编写一个函数，如果 num 是一个完全平方数，则返回 True，否则返回 False。
-        说明：不要使用任何内置的库函数，如  sqrt。
-        输入：16 输出：True    输入：14 输出：false
-     * @param num
-     * @return
-     */
-    public boolean isPerfectSquare(int num) {
-        // k2=num 使用二分查找法找到一个k使得等式成立
-        long start = 0;
-        long end = num;
-        boolean flag = false;
-        while(start <= end){
-            // 注意int的最大值问题 2147483647
-            long mid = (start + end) / 2;
-            if(mid * mid > num){
-                end = mid - 1;
-            }else if(mid * mid < num){
-                start = mid + 1;
-            }else{
-                flag = true;
-                break;
-            }
-        }
-        return flag;
-    }
-
-    /**
      * 240. 搜索二维矩阵 II(剑指 Offer 04. 二维数组中的查找)
      * 面试题 10.09. 排序矩阵查找
      * 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：
@@ -256,6 +255,54 @@ public class BinarySearch {
             }
         }
         return false;
+    }
+
+    /**
+     * 74. 搜索二维矩阵
+     * 编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有如下特性：
+     * 每行中的整数从左到右按升序排列。每行的第一个整数大于前一行的最后一个整数。
+     * 输入:matrix = [[1,   3,  5,  7],[10, 11, 16, 20],[23, 30, 34, 50]] target = 3  输出: true
+     * 核心算法：先使用二分查找找出在哪一行里，再使用二分查找找出在哪一列里    也可以使用：240. 搜索二维矩阵的算法
+     * @param matrix
+     * @param target
+     * @return
+     */
+    public boolean searchMatrix0(int[][] matrix, int target) {
+        if(matrix.length == 0 || matrix[0].length == 0){
+            return false;
+        }
+        int len = matrix[0].length;
+        int first = 0;
+        int last = matrix.length - 1;
+        int cur = -1;
+        while(first <= last){
+            int mid = (first + last) / 2;
+            if(matrix[mid][0] > target){
+                last = mid - 1;
+            }else if(matrix[mid][len - 1] < target){
+                first = mid + 1;
+            }else{
+                cur = mid;
+                break;
+            }
+        }
+        if(cur == -1){
+            return false;
+        }else{
+            int start = 0;
+            int end = matrix[0].length - 1;
+            while(start <= end){
+                int mid = (start + end) / 2;
+                if(matrix[cur][mid] > target){
+                    end = mid - 1;
+                }else if(matrix[cur][mid] < target){
+                    start = mid + 1;
+                }else{
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     /**
@@ -370,81 +417,6 @@ public class BinarySearch {
             }
         }
         return -1;
-    }
-
-    /**
-     * 面试题 08.03. 魔术索引
-     * 魔术索引。 在数组A[0...n-1]中，有所谓的魔术索引，满足条件A[i] = i。
-     * 给定一个有序整数数组，编写一种方法找出魔术索引，若有的话，在数组A中找出一个魔术索引，如果没有，则返回-1。若有多个魔术索引，返回索引值最小的一个。
-     * 输入：nums = [0, 2, 3, 4, 5]   输出：0    说明: 0下标的元素为0             输入：nums = [0, 0，2]   输出：0
-     * 核心算法：左中右的顺序判断是否有满足条件 （左右需要递归）
-     * @param nums
-     * @return
-     */
-    public static int findMagicIndex(int[] nums) {
-        return findMagicIndex(nums, 0, nums.length - 1);
-    }
-
-    public static int findMagicIndex(int[] nums, int start, int end) {
-        if(start > end){
-            return -1;
-        }
-        int mid = (start + end) / 2;
-        int left = findMagicIndex(nums, start, mid - 1);
-        if(left != -1){
-            return left;
-        }else if(mid == nums[mid]){
-            return mid;
-        }
-        return findMagicIndex(nums, mid + 1, end);
-    }
-
-    /**
-     * 74. 搜索二维矩阵
-     * 编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有如下特性：
-     * 每行中的整数从左到右按升序排列。每行的第一个整数大于前一行的最后一个整数。
-     * 输入:matrix = [[1,   3,  5,  7],[10, 11, 16, 20],[23, 30, 34, 50]] target = 3  输出: true
-     * 核心算法：先使用二分查找找出在哪一行里，再使用二分查找找出在哪一列里    也可以使用：240. 搜索二维矩阵的算法
-     * @param matrix
-     * @param target
-     * @return
-     */
-    public boolean searchMatrix0(int[][] matrix, int target) {
-        if(matrix.length == 0 || matrix[0].length == 0){
-            return false;
-        }
-        int len = matrix[0].length;
-        int first = 0;
-        int last = matrix.length - 1;
-        int cur = -1;
-        while(first <= last){
-            int mid = (first + last) / 2;
-            if(matrix[mid][0] > target){
-                last = mid - 1;
-            }else if(matrix[mid][len - 1] < target){
-                first = mid + 1;
-            }else{
-                cur = mid;
-                break;
-            }
-        }
-        if(cur == -1){
-            return false;
-        }else{
-            int start = 0;
-            int end = matrix[0].length - 1;
-            while(start <= end){
-                int mid = (start + end) / 2;
-                if(matrix[cur][mid] > target){
-                    end = mid - 1;
-                }else if(matrix[cur][mid] < target){
-                    start = mid + 1;
-                }else{
-                    return true;
-                }
-            }
-            return false;
-        }
     }
 
     /**
@@ -579,7 +551,7 @@ public class BinarySearch {
     public static int minArray(int[] numbers) {
         int low = 0;
         int high = numbers.length - 1;
-        while (low < high) {
+        while (low <= high) {
             int pivot = low + (high - low) / 2;
             if (numbers[pivot] < numbers[high]) {//舍弃右边部分
                 high = pivot;
@@ -592,6 +564,33 @@ public class BinarySearch {
             }
         }
         return numbers[low];
+    }
+
+    /**
+     * 面试题 08.03. 魔术索引
+     * 魔术索引。 在数组A[0...n-1]中，有所谓的魔术索引，满足条件A[i] = i。
+     * 给定一个有序整数数组，编写一种方法找出魔术索引，若有的话，在数组A中找出一个魔术索引，如果没有，则返回-1。若有多个魔术索引，返回索引值最小的一个。
+     * 输入：nums = [0, 2, 3, 4, 5]   输出：0    说明: 0下标的元素为0             输入：nums = [0, 0，2]   输出：0
+     * 核心算法：左中右的顺序判断是否有满足条件 （左右需要递归）
+     * @param nums
+     * @return
+     */
+    public static int findMagicIndex(int[] nums) {
+        return findMagicIndex(nums, 0, nums.length - 1);
+    }
+
+    public static int findMagicIndex(int[] nums, int start, int end) {
+        if(start > end){
+            return -1;
+        }
+        int mid = (start + end) / 2;
+        int left = findMagicIndex(nums, start, mid - 1);
+        if(left != -1){
+            return left;
+        }else if(mid == nums[mid]){
+            return mid;
+        }
+        return findMagicIndex(nums, mid + 1, end);
     }
 
     public static void main(String[] args){

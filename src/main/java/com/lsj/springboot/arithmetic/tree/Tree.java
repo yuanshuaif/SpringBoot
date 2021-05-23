@@ -427,6 +427,7 @@ public class Tree {
             int ans = 0;
             while(queue.size() != 0){
                 int size = queue.size();
+                ans = 0;
                 for(int i = 0; i < size; i++){
                     TreeNode temp = queue.poll();
                     ans += temp.val;
@@ -437,7 +438,6 @@ public class Tree {
                         queue.offer(temp.right);
                     }
                 }
-                ans = 0;
             }
             return ans;
         }
@@ -475,6 +475,8 @@ public class Tree {
 
         /**
          * 572. 另一个树的子树
+         * 给定两个非空二叉树 s 和 t，检验 s 中是否包含和 t 具有相同结构和节点值的子树。
+         * s 的一个子树包括 s 的一个节点和这个节点的所有子孙。s 也可以看做它自身的一棵子树。
          * @param s
          * @param t
          * @return
@@ -493,17 +495,12 @@ public class Tree {
          */
         private int ans = 0;
         public int diameterOfBinaryTree(TreeNode root) {
-            if(root == null || (root.right == null && root.left == null)){
-                return 0;
-            }
+            if(root == null || (root.left == null && root.right == null)) return 0;
             diameter(root);
             return ans;
         }
-
         public int diameter(TreeNode root) {
-            if(root == null){
-                return 0;
-            }
+            if(root == null) return 0;
             int left = diameter(root.left);
             int right = diameter(root.right);
             ans = Math.max(ans, left + right);// 每个节点都需要参与计算
@@ -518,11 +515,8 @@ public class Tree {
          * @return
          */
         public boolean isBalanced(TreeNode root) {
-            if(root == null){
-                return true;
-            }
-            return Math.abs(maxDepth(root.left) - maxDepth(root.right)) <= 1
-                    && isBalanced(root.left) && isBalanced(root.right);
+            if(root == null) return true;
+            return Math.abs(maxDepth(root.left) - maxDepth(root.right)) <= 1 && isBalanced(root.left) && isBalanced(root.right);
         }
 
         /**
@@ -533,19 +527,19 @@ public class Tree {
          * @return
          */
         public int minDepth(TreeNode root) {
-            if(root == null){
-                return 0;
-            }else if(root.left == null && root.right == null){
-                return 1;
-            }
-            int min = Integer.MAX_VALUE;
-            if(root.left != null){
-                min = Math.min(1 + minDepth(root.left), min);
-            }
-            if(root.right != null){
-                min = Math.min(1 + minDepth(root.right), min);
-            }
-            return min;
+           if (root == null){
+               return 0;
+           }else if (root.left == null && root.right == null){
+               return 1;
+           }
+           int min = Integer.MAX_VALUE;
+           if(root.left != null){
+               min = Math.min(min, minDepth(root.left) + 1);
+           }
+           if(root.right != null){
+               min = Math.min(min, minDepth(root.right) + 1);
+           }
+           return min;
         }
 
         /**
@@ -560,16 +554,15 @@ public class Tree {
             // 核心算法：以中间节点或者中间节点的左节点作为根节点
             return sortedArrayToBST(nums, 0, nums.length - 1);
         }
-
         public TreeNode sortedArrayToBST(int[] nums, int start, int end) {
             if(start > end){
                 return null;
             }
-            int mid = (start + end) / 2;
-            TreeNode node = new TreeNode(nums[mid]);
-            node.left = sortedArrayToBST(nums, start, mid - 1);
-            node.right = sortedArrayToBST(nums, mid + 1, end);
-            return node;
+            int mid = (end -start) / 2 + start;
+            TreeNode root = new TreeNode(nums[mid]);
+            root.left = sortedArrayToBST(nums, start, mid - 1);
+            root.right = sortedArrayToBST(nums, mid + 1, end);
+            return root;
         }
 
         /**
@@ -592,7 +585,6 @@ public class Tree {
             ans.left = buildBST(left, mid);
             ans.right = buildBST(mid.next, right);
             return ans;
-
         }
         // 链表使用快慢指针找到中间节点
         public ListNode getMid(ListNode left, ListNode right){
@@ -623,13 +615,9 @@ public class Tree {
          */
         public boolean hasPathSum(TreeNode root, int sum) {
             // 核心算法：根节点到叶子节点的总和为sum, 下一个子节点到叶子节点的总和 sum - 当前节点的值
-            if(root == null){
-                return false;
-            }
-            if(root.left == null && root.right == null){
-                return sum == root.val;
-            }
-            return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+            if(root == null) return false;
+            if(root.left == null && root.right == null) return root.val == sum;
+            return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum -root.val);
         }
 
         /**
@@ -645,21 +633,30 @@ public class Tree {
          */
         private Map<Integer, Integer> mapping;
         public TreeNode buildTree(int[] preorder, int[] inorder) {
-            // [ 根节点, [左子树的前序遍历结果], [右子树的前序遍历结果] ]，  [ [左子树的中序遍历结果], 根节点, [右子树的中序遍历结果] ]
-            mapping = new HashMap<>();
-            int len = inorder.length;
-            for(int i = 0; i < len; i++){
-                mapping.put(inorder[i], i);// 中序节点的值在哪个位置
+           /* if(preorder == null || preorder.length == 0) return null;
+            int rootVal = preorder[0];
+            TreeNode root = new TreeNode(rootVal);
+            int rootIndex = -1;
+            for(int i = 0; i < inorder.length; i++){
+                if(rootVal == inorder[i]){
+                    rootIndex = i;
+                }
             }
-            return buildTree(preorder, inorder, 0, len - 1, 0, len - 1);
+            root.left = buildTree(Arrays.copyOfRange(preorder, 1, 1 + rootIndex), Arrays.copyOfRange(inorder, 0, rootIndex));
+            root.right = buildTree(Arrays.copyOfRange(preorder, 1 + rootIndex, preorder.length), Arrays.copyOfRange(inorder, rootIndex + 1, inorder.length));
+            return root;*/
+           // 1.通过map解决循环匹配的问题; 2.通过指针解决数组复制的问题;
+           mapping = new HashMap<>();
+           int len = preorder.length;
+           for(int i = 0; i < inorder.length; i++){
+               mapping.put(inorder[i], i);
+           }
+           return buildTree(preorder, inorder, 0, len - 1, 0, len - 1);
         }
-
         public TreeNode buildTree(int[] preorder, int[] inorder, int preorderLeft, int preorderRight, int inorderLeft, int inorderRight) {
-            if(preorderLeft > preorderRight){
-                return null;
-            }
+            if(preorderLeft > preorderRight)    return null;
             int rootVal = preorder[preorderLeft];// 根节点的值
-            TreeNode root = new TreeNode(preorder[preorderLeft]);//构造根节点
+            TreeNode root = new TreeNode(rootVal);//构造根节点
             int inorderIndex = mapping.get(rootVal);// 中序节点的位置
             int leftNum = inorderIndex - inorderLeft;// 左子树的数量
             root.left = buildTree(preorder, inorder, preorderLeft + 1, preorderLeft + leftNum, inorderLeft, inorderIndex - 1);
@@ -778,6 +775,8 @@ public class Tree {
 
         /**
          * 404. 左叶子之和
+         * [-9,-3,2,null,4,4,0,-6,null,-5]
+         * [1,2,3,4,5]
          *       3
          *      / \
          *     9  20
@@ -788,17 +787,10 @@ public class Tree {
          * @return
          */
         public int sumOfLeftLeaves(TreeNode root) {
-            if(root == null){
-                return 0;
-            }
+            if (root == null) return 0;
             int ans = 0;
-            if(root.left != null && root.left.left == null && root.left.right == null){
-                ans += root.left.val;
-            }
-            int leftValue = sumOfLeftLeaves(root.left);
-            int rightValue = sumOfLeftLeaves(root.right);
-            ans += leftValue + rightValue;
-            return ans;
+            if(root.left != null && root.left.left == null && root.left.right == null) ans += root.left.val;
+            return ans + sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right);
         }
 
         /**
@@ -813,71 +805,69 @@ public class Tree {
          * @param root
          * @return
          */
-        // 递归
-        // public List<Integer> inorderTraversal(TreeNode root) {
-        //     List<Integer> res = new ArrayList<>();
-        //     inorderTraversal(root, res);
-        //     return res;
-        // }
-        // public void inorderTraversal(TreeNode root, List<Integer> res) {
-        //     if(root == null){
-        //         return;
-        //     }
-        //     inorderTraversal(root.left, res);
-        //     res.add(root.val);
-        //     inorderTraversal(root.right, res);
-        // }
-
+       /*  递归
+         public List<Integer> inorderTraversal(TreeNode root) {
+             List<Integer> res = new ArrayList<>();
+             inorderTraversal(root, res);
+             return res;
+         }
+         public void inorderTraversal(TreeNode root, List<Integer> res) {
+             if(root == null){
+                 return;
+             }
+             inorderTraversal(root.left, res);
+             res.add(root.val);
+             inorderTraversal(root.right, res);
+         }*/
         public List<Integer> inorderTraversal(TreeNode root) {
-            List<Integer> res = new ArrayList<>();
+            List<Integer> ans = new ArrayList<>();
             Stack<TreeNode> stack = new Stack<>();
-            while(root != null || !stack.isEmpty()){
+            while(stack.size() != 0 || root != null){
                 while(root != null){
                     stack.push(root);
                     root = root.left;
                 }
-                TreeNode temp = stack.pop();
-                res.add(temp.val);
-                root = temp.right;
+                TreeNode left = stack.pop();
+                ans.add(left.val);
+                root = root.right;
             }
-            return res;
+            return ans;
         }
 
         /**
          *  144. 二叉树的前序遍历
          *  给定一个二叉树，返回它的前序 遍历。
-         *  输入: [1,null,2,3]                 输出: [1,3,2]
+         *  输入: [1,null,2,3]                 输出: [1,2,3]
          * @param root
          * @return
          */
-        //    public List<Integer> preorderTraversal(TreeNode root) {
-        //        List<Integer> res = new ArrayList<>();
-        //        preorderTraversal(root, res);
-        //        return res;
-        //    }
-        //
-        //    public void preorderTraversal(TreeNode root, List<Integer> res) {
-        //        if(root == null){
-        //            return;
-        //        }
-        //        res.add(root.val);
-        //        preorderTraversal(root.left, res);
-        //        preorderTraversal(root.right, res);
-        //    }
+        /*    public List<Integer> preorderTraversal(TreeNode root) {
+                List<Integer> res = new ArrayList<>();
+                preorderTraversal(root, res);
+                return res;
+            }
 
+            public void preorderTraversal(TreeNode root, List<Integer> res) {
+                if(root == null){
+                    return;
+                }
+                res.add(root.val);
+                preorderTraversal(root.left, res);
+                preorderTraversal(root.right, res);
+            }*/
         public List<Integer> preorderTraversal(TreeNode root) {
-            List<Integer> res = new ArrayList<>();
+            List<Integer> ans = new ArrayList<>();
             Stack<TreeNode> stack = new Stack<>();
-            while(root != null || !stack.isEmpty()){
+            while(stack.size() != 0 || root != null){
                 while(root != null){
-                    res.add(root.val);
+                    ans.add(root.val);
                     stack.push(root);
                     root = root.left;
                 }
                 TreeNode temp = stack.pop();
                 root = temp.right;
             }
-            return res;
+            return ans;
         }
 
         /**
@@ -892,7 +882,6 @@ public class Tree {
             postorderTraversal(root, res);
             return res;
         }
-
         public void postorderTraversal(TreeNode root, List<Integer> res) {
             if(root == null){
                 return;
@@ -915,9 +904,9 @@ public class Tree {
          *   /   \
          * 20     13
          */
-        // 核心算法：逆序中序遍历
         int sum = 0;
         public TreeNode convertBST(TreeNode root) {
+            // 核心算法：逆序中序遍历
             if(root == null){
                 return root;
             }
@@ -926,14 +915,6 @@ public class Tree {
             root.val = sum;
             convertBST(root.left);
             return root;
-        }
-
-        public void inorderTraversal(TreeNode root, List<Integer> list){
-            if(root != null){
-                inorderTraversal(root.left, list);
-                list.add(root.val);
-                inorderTraversal(root.right, list);
-            }
         }
 
         /**
@@ -960,12 +941,23 @@ public class Tree {
             }
             return min;
         }
+        public void inorderTraversal(TreeNode root, List<Integer> list){
+            if(root != null){
+                inorderTraversal(root.left, list);
+                list.add(root.val);
+                inorderTraversal(root.right, list);
+            }
+        }
 
         /**
          * 701. 二叉搜索树中的插入操作
          * 给定二叉搜索树（BST）的根节点和要插入树中的值，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。
          * 输入数据保证：1.新值和原始二叉搜索树中的任意节点值都不同；2.每个节点都有一个唯一整数值
          * 注意，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回任意有效的结果。
+         * 思路与算法：
+         *         首先回顾二叉搜索树的性质：对于任意节点root 而言，左子树（如果存在）上所有节点的值均小于root.val，右子树（如果存在）上所有节点的值均大于root.val，且它们都是二叉搜索树。
+         *         因此，当将val 插入到以root 为根的子树上时，根据val 与 root.val 的大小关系，就可以确定要将 val 插入到哪个子树中。
+         *         如果该子树不为空，则问题转化成了将val 插入到对应子树上。否则，在此处新建一个以val 为值的节点，并链接到其父节点root 上。
          * 给定二叉搜索树:    和 插入的值: 5
          *         4
          *        / \
@@ -982,10 +974,6 @@ public class Tree {
          * @param val
          * @return
          */
-        /* 思路与算法：
-        首先回顾二叉搜索树的性质：对于任意节点root 而言，左子树（如果存在）上所有节点的值均小于root.val，右子树（如果存在）上所有节点的值均大于root.val，且它们都是二叉搜索树。
-        因此，当将val 插入到以root 为根的子树上时，根据val 与 root.val 的大小关系，就可以确定要将 val 插入到哪个子树中。
-        如果该子树不为空，则问题转化成了将val 插入到对应子树上。否则，在此处新建一个以val 为值的节点，并链接到其父节点root 上。*/
         public TreeNode insertIntoBST(TreeNode root, int val) {
             if(root == null){
                 TreeNode newNode = new TreeNode(val);
@@ -1008,20 +996,23 @@ public class Tree {
          * @return
          */
         public boolean isValidBST(TreeNode root) {
-            if(root == null){
-                return true;
+           /* List<Integer> list = new ArrayList<>();
+            inorderTraversal(root, list);
+            int pre = list.get(0);
+            for(int i = 1; i < list.size(); i++){
+                if(list.get(i) <= pre){
+                    return false;
+                }
+                pre = list.get(i);
             }
+            return true;*/
+            if(root == null)     return true;
             return isValidBST(root.left, (long)Integer.MIN_VALUE - 1, root.val) &&
                     isValidBST(root.right, root.val, (long)Integer.MAX_VALUE + 1);
         }
-
         public boolean isValidBST(TreeNode root, long min, long max) {
-            if(root == null){
-                return true;
-            }
-            if(root.val >= max || root.val <= min){
-                return false;
-            }
+            if(root == null)    return true;
+            if(root.val >= max || root.val <= min)  return false;
             return isValidBST(root.left, min, root.val) && isValidBST(root.right, root.val, max);
         }
 
@@ -1036,37 +1027,37 @@ public class Tree {
          * [1,null,2,null,3,null,4,null,5,null,6]
          * @param root
          */
-        // public void flatten(TreeNode root) {
-        //     List<TreeNode> temp = new ArrayList<>();
-        //     preorderTraversal(root, temp);
-        //     for(int i = 1; i < temp.size(); i++){
-        //         TreeNode prev = temp.get(i - 1);
-        //         prev.left = null;
-        //         prev.right = temp.get(i);
-        //     }
-        // }
-        //  public void preorderTraversal(TreeNode root, List<TreeNode> temp) {
-        //      if(root != null){
-        //          temp.add(root);
-        //          preorderTraversal(root.left, temp);
-        //          preorderTraversal(root.right, temp);
-        //      }
-        // }
-        // 1.对于当前节点，如果其左子节点不为空，则在其左子树中找到最右边的节点，作为前驱节点，将当前节点的右子节点赋给前驱节点的右子节点。
-        // 2.然后将当前节点的左子节点赋给当前节点的右子节点，并将当前节点的左子节点设为空。
-        // 3.对当前节点处理结束后，继续处理链表中的下一个节点，直到所有节点都处理结束。
+       /*  public void flatten(TreeNode root) {
+             List<TreeNode> temp = new ArrayList<>();
+             preorderTraversal(root, temp);
+             for(int i = 1; i < temp.size(); i++){
+                 TreeNode prev = temp.get(i - 1);
+                 prev.left = null;
+                 prev.right = temp.get(i);
+             }
+         }
+          public void preorderTraversal(TreeNode root, List<TreeNode> temp) {
+              if(root != null){
+                  temp.add(root);
+                  preorderTraversal(root.left, temp);
+                  preorderTraversal(root.right, temp);
+              }
+         }*/
         public void flatten(TreeNode root) {
+            // 1.对于当前节点，如果其左子节点不为空，则在其左子树中找到最右边的节点，作为前驱节点，将当前节点的右子节点赋给前驱节点的右子节点。
+            // 2.然后将当前节点的左子节点赋给当前节点的右子节点，并将当前节点的左子节点设为空。
+            // 3.对当前节点处理结束后，继续处理链表中的下一个节点，直到所有节点都处理结束。
             TreeNode cur = root;
-            while(cur != null){
-                if(cur.left != null){
-                    TreeNode next = cur.left;
-                    TreeNode preorder = next;
-                    while(preorder.right != null){
-                        preorder = preorder.right;
+            while (cur != null){
+                TreeNode left = cur.left;
+                TreeNode next = left;
+                if(left != null){
+                    while(left.right != null){
+                        left = left.right;
                     }
-                    preorder.right = cur.right;
-                    cur.left = null;
+                    left.right = cur.right;
                     cur.right = next;
+                    cur.left = null;
                 }
                 cur = cur.right;
             }
