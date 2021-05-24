@@ -1259,7 +1259,19 @@ public class Tree {
     /**
      * 回溯算法
      */
-    class Recall{
+    static class Recall{
+
+        public static void main(String[] args) {
+            TreeNode a = new TreeNode(1);
+            TreeNode b = new TreeNode(2);
+            TreeNode c = new TreeNode(3);
+            TreeNode d = new TreeNode(5);
+            a.left = b;
+            a.right = c;
+            b.right = d;
+            System.out.println(binaryTreePaths(a));
+        }
+
         /**
          * 257. 二叉树的所有路径
          * 回溯算法
@@ -1273,20 +1285,18 @@ public class Tree {
          * @param root
          * @return
          */
-
-        public List<String> binaryTreePaths(TreeNode root) {
-            List<String> res = new ArrayList<>();
+        public static List<String> binaryTreePaths(TreeNode root) {
+            List<String> ans = new ArrayList<>();
             if(root == null){
-                return res;
+                return ans;
             }
-            binaryTreePaths(root, res, new StringBuilder());
-            return res;
+            binaryTreePaths(root, ans, new StringBuilder());
+            return ans;
         }
-
-        public void binaryTreePaths(TreeNode root, List<String> res, StringBuilder sb) {
+        public static void binaryTreePaths(TreeNode root, List<String> res, StringBuilder sb) {
             if(root.left == null && root.right == null){
                 sb.append(root.val);
-                res.add(new StringBuilder(sb).toString());
+                res.add(sb.toString());
                 return;
             }
             sb.append(root.val);
@@ -1300,7 +1310,6 @@ public class Tree {
                 binaryTreePaths(root.right, res, sb);
                 sb.delete(sb.length() - 2 - String.valueOf(root.right.val).length(), sb.length());
             }
-            return;
         }
 
         /**
@@ -1325,15 +1334,12 @@ public class Tree {
         }
 
         public void hasPathSum(TreeNode root, int sum, List<List<Integer>> res, List<Integer> temp) {
-            // 根节点到叶子节点的总和为sum, 下一个子节点到叶子节点的总和 sum - 当前节点的值
-            if(root == null){
-                return;
-            }
-            if(root.left == null && root.right == null){// 叶子节点
-                if(sum == root.val){
-                    List<Integer> temp0 = new ArrayList<>(temp);
-                    temp0.add(root.val);
-                    res.add(temp0);
+            if(root == null) return;
+            if(root.left == null && root.right == null){
+                if(root.val == sum) {
+                    temp.add(root.val);
+                    res.add(new ArrayList<>(temp));
+                    temp.remove(temp.size() - 1);
                 }
                 return;
             }
@@ -1347,7 +1353,7 @@ public class Tree {
     public static void main(String[] args){
     }
 
-    class TreeNode {
+    static class TreeNode {
 
         int val;
         TreeNode left;
