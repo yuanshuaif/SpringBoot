@@ -69,10 +69,9 @@ public class Backtracking {
         subsets(0, ans, nums, new ArrayList<>());
         return ans;
     }
-
     public static void subsets(int k, List<List<Integer>> ans, int[] nums, List<Integer> temp) {
         ans.add(new ArrayList<>(temp));
-        // 第一层4种选择；第二层3种选择；第三层2种选择；第四层1种选择
+        // 第一层3种选择；第二层2种选择；第三层1种选择
         for(int j = k; j < nums.length; j++){
             temp.add(nums[j]);// 本层做出选择
             subsets(j + 1, ans, nums, temp);// 进入下一层做出选择
@@ -93,7 +92,6 @@ public class Backtracking {
         subsets2(0, ans, nums, new ArrayList<>());
         return ans;
     }
-
     public void subsets2(int k, List<List<Integer>> ans, int[] nums, List<Integer> temp) {
         ans.add(new ArrayList<>(temp));
         // 第一层4种选择；第二层3种选择；第三层2种选择；第四层1种选择
@@ -118,27 +116,24 @@ public class Backtracking {
      * @return
      */
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        if(candidates.length == 0){
-            return new ArrayList<>();
-        }
         List<List<Integer>> res = new ArrayList<>();
+        if(candidates == null || candidates.length == 0) return res;
         Arrays.sort(candidates);
-        combinationSum(candidates, target, 0, res, new ArrayList<>());
+        combinationSum(candidates, target, 0,   res, new ArrayList<>());
         return res;
     }
-
     public void combinationSum(int[] candidates, int target, int start,
                                List<List<Integer>> res, List<Integer> temp) {
-        if(target == 0){
+        if(0 == target){
             res.add(new ArrayList<>(temp));
             return;
         }
         for(int i = start; i < candidates.length; i++){
-            if(target - candidates[i] < 0){
-                return;
+            if(candidates[i] > target){
+                break;
             }
             temp.add(candidates[i]);
-            combinationSum(candidates, target - candidates[i], i, res, temp);
+            combinationSum(candidates, target -candidates[i], start, res,  temp);
             temp.remove(temp.size() - 1);
         }
     }
@@ -152,23 +147,18 @@ public class Backtracking {
      * @return
      */
     public static List<List<Integer>> permute(int[] nums) {
-        if(nums.length == 0){
-            return new ArrayList<>();
-        }
         List<List<Integer>> res = new ArrayList<>();
+        if(nums.length == 0)    return res;
         permute(nums, res, new ArrayList<>());
         return res;
     }
-
     public static void permute(int[] nums, List<List<Integer>> res, List<Integer> temp){
         if(temp.size() == nums.length){
             res.add(new ArrayList<>(temp));
             return;
         }
         for(int i = 0; i < nums.length; i++){
-            if(temp.contains(nums[i])){
-                continue;
-            }
+            if(temp.contains(nums[i])) continue;
             temp.add(nums[i]);
             permute(nums, res, temp);
             temp.remove(temp.size() - 1);
@@ -191,14 +181,13 @@ public class Backtracking {
         permuteUnique(nums, res, new ArrayList<>(), new boolean[nums.length]);
         return res;
     }
-
     public static void permuteUnique(int[] nums, List<List<Integer>> res, List<Integer> temp, boolean[] used){
         if(temp.size() == nums.length){
             res.add(new ArrayList<>(temp));
             return;
         }
         for(int i = 0; i < nums.length; i++){
-            // 剪枝的核心算法：1)已经使用过的元素剪掉 2）某一个元素与前一个的元素是否相等，相等且上层没有使用前一个元素，说明前一个元素在本层使用了，剪掉当前元素
+            // 剪枝的核心算法：1)已经使用过的元素剪掉 2）某一个元素与前一个的元素是否相等，相等且没有使用前一个元素，说明前一个元素在本层使用了，剪掉当前元素
             // （上层没有使用过的本层重复元素需要剪掉）
             if(used[i] || (i > 0 && nums[i] == nums[i - 1] && !used[i - 1])){
                 continue;
@@ -253,7 +242,6 @@ public class Backtracking {
         permutation(S.toCharArray(), ans, new String(), new boolean[S.length()]);
         return ans.toArray(new String[0]);
     }
-
     public static void permutation(char[] ch, List<String> ans, String cur, boolean[] used) {
         if(cur.length() == ch.length){
             ans.add(cur);
@@ -283,7 +271,6 @@ public class Backtracking {
         permutation2(ch, ans, new String(), new boolean[S.length()]);
         return ans.toArray(new String[0]);
     }
-
     public static void permutation2(char[] ch, List<String> ans, String cur, boolean[] used) {
         if(cur.length() == ch.length){
             ans.add(cur);
