@@ -299,10 +299,9 @@ public class Backtracking {
         generateParenthesis(res, n, new StringBuilder(), 0, 0);
         return res;
     }
-
     public void generateParenthesis(List<String> res, int n, StringBuilder s, int open, int close) {
         if(n * 2 == s.length()){
-            res.add(new StringBuilder(s).toString());
+            res.add(s.toString());
             return;
         }
         if(open < n){
