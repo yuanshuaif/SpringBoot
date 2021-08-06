@@ -6,11 +6,13 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ResourceLoaderAware;
+import org.springframework.core.io.ResourceLoader;
 
 /**
  * @author qsk
  */
-public class Person implements BeanFactoryAware, BeanNameAware,
+public class Person implements BeanFactoryAware, BeanNameAware,ResourceLoaderAware,
         InitializingBean, DisposableBean {
 
     private String name;
@@ -85,6 +87,10 @@ public class Person implements BeanFactoryAware, BeanNameAware,
         System.out.println("【DiposibleBean接口】调用DiposibleBean.destory()");
     }
 
+    @Override
+    public void setResourceLoader(ResourceLoader var1){
+        System.out.println("【ResourceLoader接口】ResourceLoader.setResourceLoader()");
+    }
     // 通过<bean>的init-method属性指定的初始化方法
     public void myInit() {
         System.out.println("【init-method】调用<bean>的init-method属性指定的初始化方法");
