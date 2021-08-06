@@ -6,7 +6,7 @@ import com.lsj.springboot.designMode.structural.bridge.service.ITargetService;
  * Created by 10326 on 2019/8/25.
  * 抽象部分
  */
-public abstract class AbstractBridge {
+public abstract class AbstractBridge implements Bridge {
 
     private ITargetService iTargetService;
 
