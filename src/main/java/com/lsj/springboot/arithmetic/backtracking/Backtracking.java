@@ -28,6 +28,9 @@ import java.util.List;
  *
  * 77. 组合
  *
+ * 51.N皇后
+ * 52.N皇后II
+ *
  */
 public class Backtracking {
 
@@ -348,6 +351,94 @@ public class Backtracking {
             temp.remove(temp.size() - 1);
         }
         return;
+    }
+
+    /**
+     * 51.N皇后
+     * n?皇后问题 研究的是如何将 n?个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。给你一个整数 n ，返回所有不同的?n?皇后问题 的解决方案。
+     * 每一种解法包含一个不同的?n 皇后问题 的棋子放置方案，该方案中 'Q' 和 '.' 分别代表了皇后和空位。
+     *
+     * 输入：n = 4
+     * 输出：[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+     * 解释：如上图所示，4 皇后问题存在两个不同的解法。
+     * 示例 2：
+     *
+     * 输入：n = 1
+     * 输出：[["Q"]]
+     *
+     * 1 <= n <= 9
+     * 皇后彼此不能相互攻击，也就是说：任何两个皇后都不能处于同一条横行、纵行或斜线上。
+     *
+     * 核心思路：每一层代表每一行；used数组维护每一列是否选择过；第k行需要判断前k-1行对角线上有没有取过值（k-1，前后1位；k-2，前后2位）
+     * @param n
+     * @return
+     */
+    public static List<List<String>> solveNQueens(int n) {
+        int[] nums = new int[n];
+        for(int i = 1; i <= n; i++){
+            nums[i - 1] = i;
+        }
+        List<List<String>> res = new ArrayList<>();
+        char[] initChar = new char[nums.length];
+        for(int i = 0; i < n; i++){
+            initChar[i] = '.';
+        }
+        solveNQueens(nums, res, new ArrayList<>(), initChar, new boolean[nums.length]);
+        return res;
+    }
+
+    public static void solveNQueens(int[] nums, List<List<String>> res, List<String> temp, char[] initChar, boolean[] used){
+        if(nums.length == temp.size()){
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+        for(int i = 0; i < nums.length; i++){
+            if(used[i]){
+                continue;
+            } else if(temp.size() > 0){
+                int size = temp.size();
+                boolean flag = false;
+                for(int k = 1; k <= size; k++) {
+                    String lastStr = temp.get(size - k);
+                    if ((lastStr.indexOf("Q") + k == i) || (lastStr.indexOf("Q") - k == i)) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag){
+                    continue;
+                }
+            }
+            used[i] = true;
+            char[] curChar = Arrays.copyOf(initChar, initChar.length);
+            curChar[i] = 'Q';
+            temp.add(new String(curChar));
+            solveNQueens(nums, res, temp, initChar, used);
+            temp.remove(temp.size() - 1);
+            used[i] = false;
+        }
+    }
+
+    /**
+     * 52.N皇后 II
+     * 输入：n = 4
+     * 输出：2
+     * 解释：如上图所示，4 皇后问题存在两个不同的解法。
+     * @param n
+     * @return
+     */
+    public static int solveNQueens2(int n) {
+        int[] nums = new int[n];
+        for(int i = 1; i <= n; i++){
+            nums[i - 1] = i;
+        }
+        List<List<String>> res = new ArrayList<>();
+        char[] initChar = new char[nums.length];
+        for(int i = 0; i < n; i++){
+            initChar[i] = '.';
+        }
+        solveNQueens(nums, res, new ArrayList<>(), initChar, new boolean[nums.length]);
+        return res.size();
     }
 
     public static void main(String[] args){
