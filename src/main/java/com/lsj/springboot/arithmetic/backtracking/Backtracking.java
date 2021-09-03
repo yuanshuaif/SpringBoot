@@ -142,6 +142,41 @@ public class Backtracking {
     }
 
     /**
+     * 40. 组合总和 II
+     * 给定一个数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
+     * candidates 中的每个数字在每个组合中只能使用一次。注意：解集不能包含重复的组合。
+     * 输入: candidates = [10,1,2,7,6,1,5], target = 8,   输出:[[1,1,6],[1,2,5],[1,7],[2,6]]
+     * 输入: candidates = [2,5,2,1,2], target = 5,输出:[[1,2,2],[5]]
+     * @param candidates
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(candidates);
+        combinationSum2(candidates, target, res, new ArrayList(), 0);
+        return res;
+    }
+
+    public void combinationSum2(int[] candidates, int target, List<List<Integer>> res, List<Integer> temp, int start) {
+        if(target == 0){
+            res.add(new ArrayList(temp));
+            return;
+        }
+        for(int i = start; i < candidates.length; i++){
+            if(candidates[i] > target){
+                return;
+            } else if(i > start && candidates[i] == candidates[i - 1]){
+                continue;
+            }
+            temp.add(candidates[i]);
+            combinationSum2(candidates, target - candidates[i], res, temp, i + 1);
+            temp.remove(temp.size() - 1);
+        }
+
+    }
+
+    /**
      * 46. 全排列
      * 给定一个 没有重复 数字的序列，返回其所有可能的全排列。
      * 输入: [1,2,3]
