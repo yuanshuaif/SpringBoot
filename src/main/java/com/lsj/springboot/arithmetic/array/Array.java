@@ -55,6 +55,8 @@ import java.util.*;
  * 题目1480:一维数组的动态和
  *
  * 题目674. 最长连续递增序列
+ *
+ * 题目4. 寻找两个正序数组的中位数
  */
 public class Array {
 
@@ -824,6 +826,60 @@ public class Array {
             }
         }
         return ans;
+    }
+
+    /**
+     * 4. 寻找两个正序数组的中位数
+     * 给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
+     * 输入：nums1 = [1,3], nums2 = [2]    输出：2.00000  解释：合并数组 = [1,2,3] ，中位数 2
+     * 输入：nums1 = [1,2], nums2 = [3,4]  输出：2.50000  解释：合并数组 = [1,2,3,4] ，中位数 (2 + 3) / 2 = 2.5
+     * 输入：nums1 = [], nums2 = [1]   输出：1.00000
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        if(nums1.length == 0){
+            if((nums2.length & 1) == 0){
+                return (double)(nums2[nums2.length / 2] + nums2[nums2.length / 2 - 1]) / 2;
+            }else{
+                return nums2[nums2.length / 2];
+            }
+        } else if(nums2.length == 0){
+            if((nums1.length & 1) == 0){
+                return (double)(nums1[nums1.length / 2] + nums1[nums1.length / 2 - 1]) / 2;
+            }else{
+                return nums1[nums1.length / 2];
+            }
+        }
+        int[] sums = new int[nums1.length + nums2.length];
+        int i = 0, j = 0;
+        int k = 0;
+        for(; i < nums1.length && j < nums2.length;){
+            if(nums1[i] < nums2[j]){
+                sums[k++] = nums1[i++];
+            }else if(nums1[i] > nums2[j]){
+                sums[k++] = nums2[j++];
+            }else{
+                sums[k++] = nums1[i++];
+                sums[k++] = nums2[j++];
+            }
+        }
+        if(i < nums1.length){
+            while(i < nums1.length){
+                sums[k++] = nums1[i++];
+            }
+        }
+        if(j < nums2.length){
+            while(j < nums2.length){
+                sums[k++] = nums2[j++];
+            }
+        }
+        if((sums.length & 1) == 0){
+            return (double)(sums[sums.length / 2] + sums[sums.length / 2 - 1]) / 2;
+        }else{
+            return sums[sums.length / 2];
+        }
     }
 
     public static void main(String[] args){
