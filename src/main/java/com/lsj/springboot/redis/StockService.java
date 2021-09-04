@@ -31,7 +31,7 @@ public class StockService {
     /**
      * Redis 客户端
      */
-    @Autowired
+    @Autowired(required=false)
     private RedisTemplate<String, Object> redisTemplate;
 
     @Autowired

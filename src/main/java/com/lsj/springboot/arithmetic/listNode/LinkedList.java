@@ -68,6 +68,8 @@ import java.util.*;
  * 142. 环形链表 II
  *
  * 92. 反转链表 II
+ *
+ * 1669. 合并两个链表
  */
 public class LinkedList {
 
@@ -1060,6 +1062,35 @@ public class LinkedList {
             before = before.next.next;
         }
         return head;
+    }
+
+    /**
+     * 1669. 合并两个链表
+     * 给你两个链表 list1 和 list2 ，它们包含的元素分别为 n 个和 m 个。请你将 list1 中下标从 a 到 b 的全部节点都删除，并将list2 接在被删除节点的位置。
+     * 输入：list1 = [0,1,2,3,4,5], a = 3, b = 4, list2 = [1000000,1000001,1000002]    输出：[0,1,2,1000000,1000001,1000002,5]
+     * 解释：我们删除 list1 中下标为 3 和 4 的两个节点，并将 list2 接在该位置。上图中蓝色的边和节点为答案链表。
+     * @param list1
+     * @param a
+     * @param b
+     * @param list2
+     * @return
+     */
+    public ListNode mergeInBetween(ListNode list1, int a, int b, ListNode list2) {
+        ListNode head2 = list2;
+        while(list2.next != null){
+            list2 = list2.next;
+        }
+        ListNode tail2 = list2;
+        ListNode head1 = list1;
+        for(int i = 1; i < a; i++){
+            list1 = list1.next;
+        }
+        for(int i = 0; i <= b - a; i++){
+            list1.next = list1.next.next;
+        }
+        tail2.next = list1.next;
+        list1.next = head2;
+        return head1;
     }
 
     public static void main(String[] args){
