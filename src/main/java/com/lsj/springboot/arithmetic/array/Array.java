@@ -31,9 +31,6 @@ import java.util.*;
  *
  * 题目118:杨辉三角
  *
- * 题目48:旋转图像
- * 面试题 01.07. 旋转矩阵
- *
  * 题目442:数组中重复的数据
  *
  * 题目119:杨辉三角 II
@@ -42,14 +39,6 @@ import java.util.*;
  *
  * 题目66:加一
  *
- * 题目54:螺旋矩阵
- *
- * 剑指 Offer 29. 顺时针打印矩阵
- *
- * 题目867:转置矩阵
- *
- * 题目566:重塑矩阵
- *
  * 题目560:和为K的子数组
  *
  * 题目1480:一维数组的动态和
@@ -57,6 +46,17 @@ import java.util.*;
  * 题目674. 最长连续递增序列
  *
  * 题目4. 寻找两个正序数组的中位数
+ *
+ * 题目48:旋转图像
+ * 面试题 01.07. 旋转矩阵
+ *
+ * 题目54:螺旋矩阵
+ *
+ * 剑指 Offer 29. 顺时针打印矩阵
+ *
+ * 题目867:转置矩阵
+ *
+ * 题目566:重塑矩阵
  */
 public class Array {
 
@@ -179,23 +179,10 @@ public class Array {
      * @return
      */
     public int missingNumber(int[] nums) {
-        // 类似于贪心算法的种花问题
-        int target = 0;
-        if(nums[0] == 1){// 1.如果跳过了0
-            return target;
-        }
-        for(int i = 0; i < nums.length; i++){
-            if((i == 0 || nums[i] - nums[i - 1] == 1) &&
-                    (i == nums.length - 1 || nums[i + 1] - nums[i] == 1)){
-                continue;
-            }
-            target = nums[i] + 1;//6,7,9
-            break;
-        }
-        if(target == 0){// 3.如果是连续(跳过最后一个)
-            target = nums[nums.length - 1] + 1;
-        }
-        return target;
+       for(int i = 0; i < nums.length; i++){
+           if(i < nums[i])  return i;
+       }
+       return nums[nums.length - 1] + 1;
     }
 
     /**
@@ -397,9 +384,6 @@ public class Array {
      * @return
      */
     public boolean validMountainArray(int[] A) {
-        if(A == null || A.length < 3){
-            return false;
-        }
         int peekIndex = 0;
         for(int i = 1; i < A.length - 1; i++){
             if(peekIndex == 0){
@@ -410,7 +394,7 @@ public class Array {
                     peekIndex = i;
                 }
             }else{
-                if(A[i] >= A[i - 1]){// 山峰之前递减
+                if(A[i] >= A[i - 1]){// 山峰之后递减
                     return false;
                 }
             }
@@ -453,38 +437,6 @@ public class Array {
     }
 
     /**
-     * 48. 旋转图像
-     * 给定一个 n × n 的二维矩阵表示一个图像。将图像顺时针旋转 90 度。
-     * 说明：你必须在原地旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要使用另一个矩阵来旋转图像。
-     * 给定 matrix =                 原地旋转输入矩阵，使其变为:
-     * [                            [
-     *   [1,2,3],                       [7,4,1],
-     *   [4,5,6],                       [8,5,2],
-     *   [7,8,9]                        [9,6,3]
-     * ],                           ]
-     * 算法核心：先转置矩阵（对角线），然后翻转每一行
-     * @param matrix
-     */
-    public void rotate(int[][] matrix) {
-        int n = matrix.length;
-        int temp = 0;
-        for(int i = 0; i < n; i++){
-            for(int j = i + 1; j < n; j++){
-                temp = matrix[i][j];
-                matrix[i][j] = matrix[j][i];
-                matrix[j][i] = temp;
-            }
-        }
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n / 2; j++){
-                temp = matrix[i][j];
-                matrix[i][j] = matrix[i][n - 1 - j];
-                matrix[i][n - 1 - j] = temp;
-            }
-        }
-    }
-
-    /**
      * 442. 数组中重复的数据
      * 给定一个整数数组 a，其中1 ≤ a[i] ≤ n （n为数组长度）, 其中有些元素出现两次而其他元素出现一次。找到所有出现两次的元素。
      * 你可以不用到任何额外空间并在O(n)时间复杂度内解决这个问题吗？
@@ -509,6 +461,7 @@ public class Array {
      * 119. 杨辉三角 II
      * 输入: 3    输出: [1,3,3,1]
      * 公式法：numVal = (n - i) / i * res.get(i - 1)
+     * 动态规划
      * @param rowIndex
      * @return
      */
@@ -612,6 +565,161 @@ public class Array {
     }
 
     /**
+     * 560. 和为K的子数组
+     * 历史和+哈希表
+     * 给定一个整数数组和一个整数 k，你需要找到该数组中和为 k 的连续的子数组的个数。
+     * 示例 1 :输入:nums = [1,1,1], k = 2   输出: 2 , [1,1] 与 [1,1] 为两种不同的情况。
+     * 1.数组的长度为 [1, 20,000]。    2.数组中元素的范围是 [-1000, 1000] ，且整数 k 的范围是 [-1e7, 1e7]。
+     * pre[j−1]==pre[i]−k
+     * @param nums
+     * @param k
+     * @return
+     */
+    public static int subarraySum(int[] nums, int k) {
+       int count = 0;
+       int pre = 0;
+       Map<Integer, Integer> map = new HashMap<>();
+       map.put(0, 1);// pre - k 等于0，但是没有统计到，所以需要初始化值为1
+       for(int i = 0; i < nums.length; i++){
+           pre += nums[i];
+           if(map.containsKey(pre - k)){
+               count += map.get(pre - k);
+           }
+           map.put(pre, map.getOrDefault(pre, 0) + 1);
+       }
+       return count;
+    }
+
+    /**
+     * 1480. 一维数组的动态和
+     * 给你一个数组 nums 。数组「动态和」的计算公式为：runningSum[i] = sum(nums[0]…nums[i]) 。请返回 nums 的动态和。
+     * 输入：nums = [1,2,3,4]  输出：[1,3,6,10]   解释：动态和计算过程为 [1, 1+2, 1+2+3, 1+2+3+4] 。
+     * @param nums
+     * @return
+     */
+    public int[] runningSum(int[] nums) {
+        for(int i = 1; i < nums.length; i++){
+            nums[i] = nums[i - 1] + nums[i];
+        }
+        return nums;
+    }
+
+    /**
+     * 674. 最长连续递增序列
+     * 给定一个未经排序的整数数组，找到最长且 连续递增的子序列，并返回该序列的长度。
+     * 连续递增的子序列 可以由两个下标 l 和 r（l < r）确定，如果对于每个 l <= i < r，都有 nums[i] < nums[i + 1] ，
+     * 那么子序列 [nums[l], nums[l + 1], ..., nums[r - 1], nums[r]] 就是连续递增子序列。
+     *
+     * 输入：nums = [1,3,5,4,7]        输出：3        解释：最长连续递增序列是 [1,3,5], 长度为3。
+     * 尽管 [1,3,5,7] 也是升序的子序列, 但它不是连续的，因为 5 和 7 在原数组里被 4 隔开。
+     *
+     * 输入：nums = [2,2,2,2,2]        输出：1        解释：最长连续递增序列是 [2], 长度为1。
+     * @param nums
+     * @return
+     */
+    public int findLengthOfLCIS(int[] nums) {
+        int start = 1;
+        int ans = 1;
+        int count = 1;
+        for(int i = start; i < nums.length; i++){
+            if(nums[i - 1] < nums[i]){
+                count++;
+                ans = Math.max(ans, count);
+            }else{
+                count = 1;
+                ans = Math.max(ans, count);
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 4. 寻找两个正序数组的中位数
+     * 给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
+     * 输入：nums1 = [1,3], nums2 = [2]    输出：2.00000  解释：合并数组 = [1,2,3] ，中位数 2
+     * 输入：nums1 = [1,2], nums2 = [3,4]  输出：2.50000  解释：合并数组 = [1,2,3,4] ，中位数 (2 + 3) / 2 = 2.5
+     * 输入：nums1 = [], nums2 = [1]   输出：1.00000
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        if(nums1.length == 0){
+            if((nums2.length & 1) == 0){
+                return (double)(nums2[nums2.length / 2] + nums2[nums2.length / 2 - 1]) / 2;
+            }else{
+                return nums2[nums2.length / 2];
+            }
+        } else if(nums2.length == 0){
+            if((nums1.length & 1) == 0){
+                return (double)(nums1[nums1.length / 2] + nums1[nums1.length / 2 - 1]) / 2;
+            }else{
+                return nums1[nums1.length / 2];
+            }
+        }
+        int[] sums = new int[nums1.length + nums2.length];
+        int i = 0, j = 0;
+        int k = 0;
+        for(; i < nums1.length && j < nums2.length;){
+            if(nums1[i] < nums2[j]){
+                sums[k++] = nums1[i++];
+            }else if(nums1[i] > nums2[j]){
+                sums[k++] = nums2[j++];
+            }else{
+                sums[k++] = nums1[i++];
+                sums[k++] = nums2[j++];
+            }
+        }
+        if(i < nums1.length){
+            while(i < nums1.length){
+                sums[k++] = nums1[i++];
+            }
+        }
+        if(j < nums2.length){
+            while(j < nums2.length){
+                sums[k++] = nums2[j++];
+            }
+        }
+        if((sums.length & 1) == 0){
+            return (double)(sums[sums.length / 2] + sums[sums.length / 2 - 1]) / 2;
+        }else{
+            return sums[sums.length / 2];
+        }
+    }
+
+    /**
+     * 48. 旋转图像
+     * 给定一个 n × n 的二维矩阵表示一个图像。将图像顺时针旋转 90 度。
+     * 说明：你必须在原地旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要使用另一个矩阵来旋转图像。
+     * 给定 matrix =                 原地旋转输入矩阵，使其变为:
+     * [                                  [
+     *   [1,2,3],         1,4,7              [7,4,1],
+     *   [4,5,6],         2,5,8              [8,5,2],
+     *   [7,8,9]          3,6,9              [9,6,3]
+     * ],                                 ]
+     * 算法核心：先转置矩阵（对角线），然后翻转每一行
+     * @param matrix
+     */
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        int temp = 0;
+        for(int i = 0; i < n; i++){
+            for(int j = i + 1; j < n; j++){
+                temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
+            }
+        }
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n / 2; j++){
+                temp = matrix[i][j];
+                matrix[i][j] = matrix[i][n - 1 - j];
+                matrix[i][n - 1 - j] = temp;
+            }
+        }
+    }
+
+    /**
      * 54. 螺旋矩阵
      * 给定一个包含 m x n 个元素的矩阵（m 行, n 列），请按照顺时针螺旋顺序，返回矩阵中的所有元素。
      * 输入:   [[1, 2, 3, 4],
@@ -677,12 +785,12 @@ public class Array {
                 ans[curIndex++] = matrix[i][right];
             }
 //            if(left < right && top < bottom){// 一条直线或一个点时没必要进行后面的操作
-                for(int i = right - 1; i > left; i--){//11,10
-                    ans[curIndex++] = matrix[bottom][i];
-                }
-                for(int i = bottom; i > top; i--){//9,5
-                    ans[curIndex++] = matrix[i][left];
-                }
+            for(int i = right - 1; i > left; i--){//11,10
+                ans[curIndex++] = matrix[bottom][i];
+            }
+            for(int i = bottom; i > top; i--){//9,5
+                ans[curIndex++] = matrix[i][left];
+            }
 //            }
             left++;
             right--;
@@ -742,145 +850,6 @@ public class Array {
         return ans;
     }
 
-    /**
-     * 560. 和为K的子数组
-     * 给定一个整数数组和一个整数 k，你需要找到该数组中和为 k 的连续的子数组的个数。
-     * 示例 1 :输入:nums = [1,1,1], k = 2   输出: 2 , [1,1] 与 [1,1] 为两种不同的情况。
-     * 1.数组的长度为 [1, 20,000]。    2.数组中元素的范围是 [-1000, 1000] ，且整数 k 的范围是 [-1e7, 1e7]。
-     * @param nums
-     * @param k
-     * @return
-     */
-    public static int subarraySum(int[] nums, int k) {
-       /* int len = nums.length;
-        int[] dp = new int[len + 1];
-        // 求前缀和
-        for(int i = 0; i < len; i++){
-            dp[i + 1] = dp[i] + nums[i];
-        }
-        int count = 0;
-        // 求区间和
-        for(int left = 0; left < len; left++){
-            for(int right = left + 1; right <= len; right++){
-                if(dp[right] - dp[left] == k){
-                    count++;
-                }
-            }
-        }
-        return count;*/
-       int count = 0;
-       int pre = 0;
-       Map<Integer, Integer> map = new HashMap<>();
-       map.put(0, 1);
-       for(int i = 0; i < nums.length; i++){
-           pre += nums[i];
-           if(map.containsKey(pre - k)){
-               count += map.get(pre - k);
-           }
-           map.put(pre, map.getOrDefault(pre, 0) + 1);
-       }
-       return count;
-    }
-
-    /**
-     * 1480. 一维数组的动态和
-     * 给你一个数组 nums 。数组「动态和」的计算公式为：runningSum[i] = sum(nums[0]…nums[i]) 。请返回 nums 的动态和。
-     * 输入：nums = [1,2,3,4]  输出：[1,3,6,10]   解释：动态和计算过程为 [1, 1+2, 1+2+3, 1+2+3+4] 。
-     * @param nums
-     * @return
-     */
-    public int[] runningSum(int[] nums) {
-        for(int i = 1; i < nums.length; i++){
-            nums[i] = nums[i - 1] + nums[i];
-        }
-        return nums;
-    }
-
-    /**
-     * 674. 最长连续递增序列
-     * 给定一个未经排序的整数数组，找到最长且 连续递增的子序列，并返回该序列的长度。
-     * 连续递增的子序列 可以由两个下标 l 和 r（l < r）确定，如果对于每个 l <= i < r，都有 nums[i] < nums[i + 1] ，
-     * 那么子序列 [nums[l], nums[l + 1], ..., nums[r - 1], nums[r]] 就是连续递增子序列。
-     *
-     * 输入：nums = [1,3,5,4,7]        输出：3        解释：最长连续递增序列是 [1,3,5], 长度为3。
-     * 尽管 [1,3,5,7] 也是升序的子序列, 但它不是连续的，因为 5 和 7 在原数组里被 4 隔开。
-     *
-     * 输入：nums = [2,2,2,2,2]        输出：1        解释：最长连续递增序列是 [2], 长度为1。
-     * @param nums
-     * @return
-     */
-    public int findLengthOfLCIS(int[] nums) {
-        if(nums == null || nums.length == 0){
-            return 0;
-        }
-        int start = 1;
-        int ans = 1;
-        int count = 1;
-        for(int i = start; i < nums.length; i++){
-            if(nums[i - 1] < nums[i]){
-                count++;
-                ans = Math.max(ans, count);
-            }else{
-                ans = Math.max(ans, count);
-                count = 1;
-            }
-        }
-        return ans;
-    }
-
-    /**
-     * 4. 寻找两个正序数组的中位数
-     * 给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
-     * 输入：nums1 = [1,3], nums2 = [2]    输出：2.00000  解释：合并数组 = [1,2,3] ，中位数 2
-     * 输入：nums1 = [1,2], nums2 = [3,4]  输出：2.50000  解释：合并数组 = [1,2,3,4] ，中位数 (2 + 3) / 2 = 2.5
-     * 输入：nums1 = [], nums2 = [1]   输出：1.00000
-     * @param nums1
-     * @param nums2
-     * @return
-     */
-    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        if(nums1.length == 0){
-            if((nums2.length & 1) == 0){
-                return (double)(nums2[nums2.length / 2] + nums2[nums2.length / 2 - 1]) / 2;
-            }else{
-                return nums2[nums2.length / 2];
-            }
-        } else if(nums2.length == 0){
-            if((nums1.length & 1) == 0){
-                return (double)(nums1[nums1.length / 2] + nums1[nums1.length / 2 - 1]) / 2;
-            }else{
-                return nums1[nums1.length / 2];
-            }
-        }
-        int[] sums = new int[nums1.length + nums2.length];
-        int i = 0, j = 0;
-        int k = 0;
-        for(; i < nums1.length && j < nums2.length;){
-            if(nums1[i] < nums2[j]){
-                sums[k++] = nums1[i++];
-            }else if(nums1[i] > nums2[j]){
-                sums[k++] = nums2[j++];
-            }else{
-                sums[k++] = nums1[i++];
-                sums[k++] = nums2[j++];
-            }
-        }
-        if(i < nums1.length){
-            while(i < nums1.length){
-                sums[k++] = nums1[i++];
-            }
-        }
-        if(j < nums2.length){
-            while(j < nums2.length){
-                sums[k++] = nums2[j++];
-            }
-        }
-        if((sums.length & 1) == 0){
-            return (double)(sums[sums.length / 2] + sums[sums.length / 2 - 1]) / 2;
-        }else{
-            return sums[sums.length / 2];
-        }
-    }
 
     public static void main(String[] args){
       /*  int[] A = {1,2,3,0,0,0};
