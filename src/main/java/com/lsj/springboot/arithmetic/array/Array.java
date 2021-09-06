@@ -730,9 +730,6 @@ public class Array {
      */
     public List<Integer> spiralOrder(int[][] matrix) {
         List<Integer> ans = new ArrayList<>();
-        if(matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0){
-            return ans;
-        }
         int rows = matrix.length, cols = matrix[0].length;
         // 辅助矩阵，代表是否访问过
         boolean[][] visited = new boolean[rows][cols];
@@ -784,14 +781,14 @@ public class Array {
             for(int i = top + 1; i <= bottom; i++){//8,12
                 ans[curIndex++] = matrix[i][right];
             }
-//            if(left < right && top < bottom){// 一条直线或一个点时没必要进行后面的操作
-            for(int i = right - 1; i > left; i--){//11,10
-                ans[curIndex++] = matrix[bottom][i];
+            if(left < right && top < bottom){// 一条直线或一个点时没必要进行后面的操作
+                for(int i = right - 1; i >= left; i--){//11,10
+                    ans[curIndex++] = matrix[bottom][i];
+                }
+                for(int i = bottom - 1; i > top; i--){//9,5
+                    ans[curIndex++] = matrix[i][left];
+                }
             }
-            for(int i = bottom; i > top; i--){//9,5
-                ans[curIndex++] = matrix[i][left];
-            }
-//            }
             left++;
             right--;
             top++;
@@ -864,9 +861,9 @@ public class Array {
 //        moveZeroes(nums);
 //        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
 //        System.out.println(restoreString("aiohn", new int[]{3,1,4,2,0}));
-       /* int[][] a = new int[][]{{1,2,3,4},{5,6,7,8},{9,10,11,12}};
-        System.out.println(spiralOrder1(a));*/
-        System.out.println(subarraySum(new int[]{1,1,1}, 2));
+        int[][] a = new int[][]{{1,2,3,4,13},{5,6,7,8,14},{9,10,11,12,15}};
+        System.out.println(spiralOrder1(a));
+//        System.out.println(subarraySum(new int[]{1,1,1}, 2));
 //        System.out.println(findDisappearedNumbers(new int[]{4,3,2,7,8,2,3,1}));
 
     }
