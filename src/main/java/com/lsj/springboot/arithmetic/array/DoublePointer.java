@@ -60,22 +60,17 @@ public class DoublePointer {
      * 26.删除排序数组中的重复项
      * 给定一个排序数组，你需要在原地删除重复的数组，使得每一个元素只出现一次，返回新数组的长度
      * 不要使用额外的数组空间，并在原地修改输入数组  元素的顺序可以改变        nums{0,0,1,1,1,2,2,3,3,4}
-     * @param original
+     * @param nums
      * @return
      */
-    private static int deleteCommonItem(Integer[] original){
-        if(original == null){
-            return 0;
-        }else if(original.length < 2){
-            return original.length;
-        }
-        int cur = 0;
-        for(int i = 1; i < original.length; i++){
-            if(original[cur] != original[i]){
-                original[++cur] = original[i];
-            }
-        }
-        return (cur + 1);
+    private static int deleteCommonItem(Integer[] nums){
+       int ans = 0;
+       for(int i = 0; i < nums.length - 1; i++){
+           if(nums[i] != nums[i + 1]){
+               nums[++ans] = nums[i + 1];
+           }
+       }
+        return ans + 1;
     }
 
     /**
@@ -201,17 +196,15 @@ public class DoublePointer {
      * @param nums
      */
     public static void moveZeroes(int[] nums) {
-        int cur = 0;
-        int len = 0;
-        for(; len < nums.length; len++){
-            if(nums[len] != 0){
-                nums[cur++] = nums[len];
-            }
-        }
-        for(int j = cur; j < len; j++){
-            nums[j] = 0;
-        }
-        System.out.println(nums);
+       int ans = 0;
+       for(int i = 0; i < nums.length; i++){
+           if(nums[i] != 0){
+               nums[ans++] = nums[i];
+           }
+       }
+       for(int i = ans; i < nums.length; i++){
+           nums[i] = 0;
+       }
     }
 
     /**
@@ -408,7 +401,7 @@ public class DoublePointer {
      * 给出三个均为 严格递增排列 的整数数组 arr1，arr2 和 arr3。
      * 返回一个由 仅 在这三个数组中 同时出现 的整数所构成的有序数组。
      * 输入: arr1 = [1,2,3,4,5], arr2 = [1,2,5,7,9], arr3 = [1,3,4,5,8]   输出: [1,5]
-     * 解释: 只有 1 和 5 同时在这三个数组中出现.
+     * 解释: 只有 1 和 5 同时在这三个数组中出现.   hash表 ： value == 3
      * @param arr1
      * @param arr2
      * @param arr3
@@ -504,7 +497,7 @@ public class DoublePointer {
      * @param nums
      * @return
      */
-    public int removeDuplicates(int[] nums) {
+    public static int removeDuplicates(int[] nums) {
         if(nums.length <= 2){
             return nums.length;
         }
@@ -578,14 +571,12 @@ public class DoublePointer {
                     temp.add(nums[end]);
                     result.add(temp);
                     // 解决重复问题
-                    int start0 = start;
-                    int end0 = end;
-                    start++;
-                    end--;
-                    while(start < end && nums[start0] == nums[start] && nums[end0] == nums[end]){
+                    while(start < end && nums[start + 1] == nums[start] && nums[end - 1] == nums[end]){
                         start++;
                         end--;
                     }
+                    start++;
+                    end--;
                 }else if(nums[i] + nums[start] + nums[end] > 0){
                     end--;
                 }else if(nums[i] + nums[start] + nums[end] < 0){
@@ -624,7 +615,7 @@ public class DoublePointer {
                 if(nums[i] + nums[start] + nums[end] >= target){
                     end--;
                 }else{
-                    ans += end - start;
+                    ans += end - start;// [-2,0,3] -> [-2,0,1] start + （start -> end） 都满足条件
                     start++;
                 }
             }
@@ -745,8 +736,8 @@ public class DoublePointer {
     }
 
     public static void main(String[] args){
-//        int[] A = new int[]{-4,-1,0,3,10};
-//        System.out.println(sortedSquares(A));
+       /* int[] A = new int[]{-4,-1,0,3,10};
+        System.out.println(sortedSquares(A));*/
 //        System.out.println(backspaceCompare("ad#c", "ab#c"));
      /*   int[] arr1 = {1,2,3,4,5};
         int[] arr2 = {1,2,5,7,9};
@@ -754,12 +745,14 @@ public class DoublePointer {
         System.out.println(arraysIntersection(arr1,  arr2, arr3));*/
 //        System.out.println(isLongPressedName("leelee", "lleeelee"));
 
-//        System.out.println(threeSumSmaller(new int[]{-2,0,1,3},   2));
+        System.out.println(threeSumSmaller(new int[]{-2,0,1,3},   2));
 //        System.out.println(threeSumClosest(new int[]{1,1,-1,-1,3},   -1));
+
+//        System.out.println(removeDuplicates(new int[]{0,0,1,1,1,1,2,3,3}));
 
 //        System.out.println(merge88(new int[]{1,2,3,0,0,0}, 3, new int[]{2,5,6}, 3));
 
-        System.out.println(threeSum(new int[]{-1, -1, 2, 2, -1, -4}));
+//        System.out.println(threeSum(new int[]{-1, -1, 2, 2, -1, -4}));
 
     }
 
