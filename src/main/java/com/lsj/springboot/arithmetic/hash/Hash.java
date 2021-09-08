@@ -28,6 +28,7 @@ import java.util.*;
  * 题目594：最长和谐子序列
  *
  * 题目624：数组列表中的最大距离
+ * 动态规划效率更高
  *
  * 题目645：错误的集合
  * hash表、异或
@@ -57,9 +58,6 @@ public class Hash {
      */
     public int[] intersect(int[] nums1, int[] nums2) {
         // hash表的方式
-        if(nums1.length > nums2.length){
-            intersect(nums2, nums1);
-        }
         Map<Integer, Integer> hash = new HashMap<>();
         for(Integer integer : nums1){
             Integer count = hash.getOrDefault(integer, 0) + 1;
@@ -330,7 +328,8 @@ public class Hash {
      * 解释：一种得到答案 4 的方法是从第一个数组或者第三个数组中选择 1，同时从第二个数组中选择 5 。
      *
      * 1.每个给定数组至少会有 1 个数字。列表中至少有两个非空数组。2.所有 m 个数组中的数字总数目在范围 [2, 10000] 内。3.m 个数组中所有整数的范围在 [-10000, 10000] 内。
-     * 核心算法：1。找出不为空的行i内的最大值、最小值作为历史最小行，历史最大行；2.从i+1开始不为空的行，计算最大值、历史最小行，历史最大行
+     * 核心算法：1。找出不为空的行i内的最大值、最小值作为历史最小行，历史最大行；2.从i+1开始不为空的行，
+     * 动态规划：计算最大值、历史最小行，历史最大行
      * @param arrays
      * @return
      */
@@ -370,7 +369,7 @@ public class Hash {
      * @return
      */
     public static int[] findErrorNums(int[] nums) {
-        int[] ans = new int[2];
+       /* int[] ans = new int[2];
         Set<Integer> sets = new HashSet<>();
         int sum = 0;
         for(int num : nums){
@@ -384,6 +383,21 @@ public class Hash {
             sum ^= i;
         }
         ans[1] = sum;
+        return ans;*/
+        int[] ans = new int[2];
+        for(int i = 0; i < nums.length; i++){
+            int temp = Math.abs(nums[i]) - 1;
+            if(nums[temp] < 0){// 重复数据
+               ans[0] = Math.abs(nums[i]);
+            }else {
+                nums[temp] = -nums[temp];
+            }
+        }
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] > 0){// 缺失数据 （此处的i等于上面的temp）
+                ans[1] = i + 1;
+            }
+        }
         return ans;
     }
 
@@ -540,8 +554,8 @@ public class Hash {
         List<List<Integer>> list = new ArrayList(){{add(subList1); add(subList2); add(subList3);}};
         // [[-8,-7,-7,-5,1,1,3,4],[-2],[-10,-10,-7,0,1,3],[2]] 输出12 预期14
        System.out.println(maxDistance(list));*/
-
-//       System.out.println(findErrorNums(new int[]{37,62,43,27,12,66,36,18,39,54,61,65,47,32,23,2,46,8,4,24,29,38,63,39,25,11,45,28,44,52,15,30,21,7,57,49,1,59,58,14,9,40,3,42,56,31,20,41,22,50,13,33,6,10,16,64,53,51,19,17,48,26,34,60,35,5}));
+//        System.out.println(findErrorNums(new int[]{2,2}));
+       System.out.println(findErrorNums(new int[]{37,62,43,27,12,66,36,18,39,54,61,65,47,32,23,2,46,8,4,24,29,38,63,39,25,11,45,28,44,52,15,30,21,7,57,49,1,59,58,14,9,40,3,42,56,31,20,41,22,50,13,33,6,10,16,64,53,51,19,17,48,26,34,60,35,5}));
 
 //        System.out.println(commonChars(new String[]{"bella","label","roller"}));
 
