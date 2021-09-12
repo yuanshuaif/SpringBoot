@@ -20,7 +20,7 @@ import java.util.Stack;
  * 题目53: 最大子序和
  *
  * 题目392： 判断子序列
- * 入栈法
+ * 入栈法、双指针
  *
  * 题目70：爬楼梯
  *（剑指 Offer 10- II. 青蛙跳台阶问题、剑指 Offer 10- I. 斐波那契数列）
@@ -38,8 +38,6 @@ import java.util.Stack;
  * 64. 最小路径和
  *
  * 256.粉刷房子
- *
- *题目96:不同的二叉搜索树（看不懂）
  *
  * 120. 三角形最小路径和
  *
@@ -179,6 +177,7 @@ public class DynamicPlanning {
 
     /**
      * 392. 判断子序列
+     * 双指针、入栈法
      * 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。你可以认为 s 和 t 中仅包含英文小写字母。字符串 t 可能会很长（长度 ~= 500,000），而 s 是个短字符串（长度 <=100）。
      * 字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
      * 示例 1:s = "abc", t = "ahbgdc"    返回 true.    示例 2:s = "axc", t = "ahbgdc" 返回 false.
@@ -293,33 +292,33 @@ public class DynamicPlanning {
      * 给定一个整数数组，其中第 i 个元素代表了第 i 天的股票价格 。​
      * 设计一个算法计算出最大利润。在满足以下约束条件下，你可以尽可能地完成更多的交易（多次买卖一支股票）:你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
      * 卖出股票后，你无法在第二天买入股票 (即冷冻期为 1 天)。
-     * 输入: [1,2,3,0,2]  输出: 3   解释: 对应的交易状态为: [买入, 卖出, 冷冻期, 买入, 卖出]
+     * 输入: [1,2,3,0,2]  输出: 3   解释: 对应的交易状态为: [买入, 卖出, 冷冻期, 买入, 卖出]（冷冻期的概念：没有股票的交易）
      * 输入: [1,2,10,0,2]  输出: 9   解释: 对应的交易状态为: [买入, 持有, 卖出, 冷冻期, 买入]
      * @param prices
      * @return
      */
-    /*我们用 f[i] 表示第 i 天结束之后的「累计最大收益」。根据题目描述，由于我们最多只能同时买入（持有）一支股票，并且卖出股票后有冷冻期的限制，因此我们会有三种不同的状态：
-    我们目前持有一支股票，对应的「累计最大收益」记为 f[i][0]；
-    我们目前不持有任何股票，并且不处于冷冻期中，对应的「累计最大收益」记为 f[i][1]；
-    我们目前不持有任何股票，并且处于冷冻期中，对应的「累计最大收益」记为 f[i][2]。
-
-    如何进行状态转移呢？在第 i 天时，我们可以在不违反规则的前提下进行「买入」或者「卖出」操作，此时第 i 天的状态会从第 i-1 天的状态转移而来；
-    我们也可以不进行任何操作，此时第 i 天的状态就等同于第 i-1 天的状态。那么我们分别对这三种状态进行分析：
-    1.对于 f[i][0]，我们目前持有的这一支股票可以是在第 i-1 天就已经持有的，对应的状态为 f[i−1][0]；或者是第 i 天买入的，那么第 i-1 天就不能持有股票并且不处于冷冻期中，对应的状态为 f[i-1][2] 加上买入股票的负收益 prices[i]。因此状态转移方程为：
-        f[i][0]=max(f[i−1][0],f[i−1][2]−prices[i])
-    2.对于 f[i][1]，我们在第 i 天不处于冷冻期的原因是在当天卖出了股票，那么说明在第 i-1 天时我们必须持有一支股票，对应的状态为 f[i-1][0] 加上卖出股票的正收益prices[i]。因此状态转移方程为：
-        f[i][1]=f[i−1][0]+prices[i]
-    3.对于 f[i][2]，我们在第 i 天不持有任何股票并且处于冷冻期，说明当天没有进行任何操作，即第 i-1 天时不持有任何股票：如果处于冷冻期，对应的状态为 f[i-1][1]；如果不处于冷冻期，对应的状态为 f[i-1][2]。因此状态转移方程为：
-        f[i][2]=max(f[i−1][1],f[i−1][2])
-    4.这样我们就得到了所有的状态转移方程。如果一共有 n 天，那么最终的答案即为：max(f[n−1][0],f[n−1][1],f[n−1][2])
-    5.注意到如果在最后一天（第 n-1 天）结束之后，手上仍然持有股票，那么显然是没有任何意义的。因此更加精确地，最终的答案实际上是 f[n-1][1] 和 f[n-1][2] 中的较大值，即：max(f[n−1][1],f[n−1][2])
-
-    我们可以将第 0 天的情况作为动态规划中的边界条件：f[0][0] = −prices[0]   f[0][1] = 0   f[0][2] = 0
-
-    注意到上面的状态转移方程中，f[i][..] 只与f[i−1][..] 有关，
-    而与 f[i−2][..] 及之前的所有状态都无关，因此我们不必存储这些无关的状态。也就是说，我们只需要将 f[i−1][0]，f[i−1][1]，f[i−1][2] 存放在三个变量中，
-    通过它们计算出 f[i][0]，f[i][1]，f[i][2] 并存回对应的变量。*/
     public int maxProfit2(int[] prices) {
+        /*我们用 f[i] 表示第 i 天结束之后的「累计最大收益」。根据题目描述，由于我们最多只能同时买入（持有）一支股票，并且卖出股票后有冷冻期的限制，因此我们会有三种不同的状态：
+        我们目前持有一支股票，对应的「累计最大收益」记为 f[i][0]；
+        我们目前不持有任何股票，并且不处于冷冻期中，对应的「累计最大收益」记为 f[i][1]；
+        我们目前不持有任何股票，并且处于冷冻期中，对应的「累计最大收益」记为 f[i][2]。
+
+        如何进行状态转移呢？在第 i 天时，我们可以在不违反规则的前提下进行「买入」或者「卖出」操作，此时第 i 天的状态会从第 i-1 天的状态转移而来；
+        我们也可以不进行任何操作，此时第 i 天的状态就等同于第 i-1 天的状态。那么我们分别对这三种状态进行分析：
+        1.对于 f[i][0]，我们目前持有的这一支股票可以是在第 i-1 天就已经持有的，对应的状态为 f[i−1][0]；或者是第 i 天买入的，那么第 i-1 天就不能持有股票并且不处于冷冻期中，对应的状态为 f[i-1][2] 加上买入股票的负收益 prices[i]。因此状态转移方程为：
+            f[i][0]=max(f[i−1][0],f[i−1][2]−prices[i])
+        2.对于 f[i][1]，我们在第 i 天不处于冷冻期的原因是在当天卖出了股票，那么说明在第 i-1 天时我们必须持有一支股票，对应的状态为 f[i-1][0] 加上卖出股票的正收益prices[i]。因此状态转移方程为：
+            f[i][1]=f[i−1][0]+prices[i]
+        3.对于 f[i][2]，我们在第 i 天不持有任何股票并且处于冷冻期，说明当天没有进行任何操作，即第 i-1 天时不持有任何股票：如果处于冷冻期，对应的状态为 f[i-1][1]；如果不处于冷冻期，对应的状态为 f[i-1][2]。因此状态转移方程为：
+            f[i][2]=max(f[i−1][1],f[i−1][2])
+        4.这样我们就得到了所有的状态转移方程。如果一共有 n 天，那么最终的答案即为：max(f[n−1][0],f[n−1][1],f[n−1][2])
+        5.注意到如果在最后一天（第 n-1 天）结束之后，手上仍然持有股票，那么显然是没有任何意义的。因此更加精确地，最终的答案实际上是 f[n-1][1] 和 f[n-1][2] 中的较大值，即：max(f[n−1][1],f[n−1][2])
+
+        我们可以将第 0 天的情况作为动态规划中的边界条件：f[0][0] = −prices[0]   f[0][1] = 0   f[0][2] = 0
+
+        注意到上面的状态转移方程中，f[i][..] 只与f[i−1][..] 有关，
+        而与 f[i−2][..] 及之前的所有状态都无关，因此我们不必存储这些无关的状态。也就是说，我们只需要将 f[i−1][0]，f[i−1][1]，f[i−1][2] 存放在三个变量中，
+        通过它们计算出 f[i][0]，f[i][1]，f[i][2] 并存回对应的变量。*/
         if(prices == null || prices.length == 0){
             return 0;
         }
@@ -415,51 +414,19 @@ public class DynamicPlanning {
      * @return
      */
     public static int minCost(int[][] costs) {
-        if(costs == null || costs.length == 0 || costs[0] == null || costs[0].length == 0){
+        if(costs == null || costs.length == 0){
             return 0;
         }
         int[][] dp = new int[costs.length][costs[0].length];
-        for(int i = 0; i < costs.length; i++){
-            if(i == 0){
-                for(int j = 0; j < costs[0].length; j++){
-                    dp[0][j] = costs[0][j];
-                }
-            }else{
-                for(int j = 0; j < costs[i].length; j++){
-                    int minValue = Integer.MAX_VALUE;
-                    for(int k = 0; k < costs[i].length; k++){
-                        if(k != j) {
-                            minValue = Math.min(costs[i][j] + dp[i - 1][k], minValue);
-                        }
-                    }
-                    dp[i][j] = minValue;
-                }
-            }
+        dp[0][0] = costs[0][0];
+        dp[0][1] = costs[0][1];
+        dp[0][2] = costs[0][2];
+        for(int i = 1; i < costs.length; i++){
+            dp[i][0] = Math.min(dp[i - 1][1], dp[i - 1][2]) + costs[i][0];
+            dp[i][1] = Math.min(dp[i - 1][0], dp[i - 1][2]) + costs[i][1];
+            dp[i][2] = Math.min(dp[i - 1][0], dp[i - 1][1]) + costs[i][2];
         }
-        int res = Integer.MAX_VALUE;
-        for(int i = 0; i < costs[0].length; i++){
-            res = Math.min(res, dp[costs.length - 1][i]);
-        }
-        return res;
-    }
-
-    /**
-     * 96. 不同的二叉搜索树
-     * 给定一个整数 n，求以 1 ... n 为节点组成的二叉搜索树有多少种？
-     * 输入: 3        输出: 5
-     * @param n
-     * @return
-     */
-    public int numTrees(int n) {
-        int[] g = new int[n + 1];
-        g[0] = 1;
-        g[1] = 1;
-        for(int i = 2; i <= n; i++){
-            for(int j = 1; j <= i; j++){
-                g[i] += g[j - 1] * g[i - j];
-            }
-        }
-        return g[n];
+        return Math.min(dp[costs.length - 1][2], Math.min(dp[costs.length - 1][0], dp[costs.length - 1][1]));
     }
 
     /**
@@ -478,31 +445,20 @@ public class DynamicPlanning {
      * @return
      */
     public static int minimumTotal(List<List<Integer>> triangle) {
-        if(triangle == null || triangle.size() == 0 || triangle.get(0) == null || triangle.get(0).size() == 0){
-            return 0;
-        }
         for(int i = 1; i < triangle.size(); i++){
-            for(int j = 0; j < triangle.get(i).size(); j++){
-                if(j == 0){
-                    triangle.get(i).set(j, triangle.get(i).get(j) + triangle.get(i - 1).get(j));
-                }else if(j == triangle.get(i).size() - 1){
-                    triangle.get(i).set(j, triangle.get(i).get(j) + triangle.get(i - 1).get(j - 1));
-                }else{
-                    triangle.get(i).set(j, triangle.get(i).get(j) +
-                            Math.min(triangle.get(i - 1).get(j - 1), triangle.get(i - 1).get(j)));
-                }
+            triangle.get(i).set(0, triangle.get(i).get(0) + triangle.get(i - 1).get(0));
+            for(int j = 1; j < triangle.get(i).size() - 1; j++){
+                triangle.get(i).set(j, triangle.get(i).get(j) +
+                        Math.min(triangle.get(i - 1).get(j - 1), triangle.get(i - 1).get(j)));
             }
+            triangle.get(i).set(triangle.get(i).size() - 1,
+                    triangle.get(i).get(triangle.get(i).size() - 1) + triangle.get(i - 1).get(triangle.get(i).size()  - 2));
         }
-
-        if(triangle.size() > 0){
-            int min = Integer.MAX_VALUE;
-            for(int i = 0; i < triangle.get(triangle.size() - 1).size(); i++){
-                min = Math.min(min, triangle.get(triangle.size() - 1).get(i));
-            }
-            return min;
-        }else{
-            return triangle.get(0).get(0);
+        int min = Integer.MAX_VALUE;
+        for(int i = 0; i < triangle.get(triangle.size() - 1).size(); i++){
+            min = Math.min(min, triangle.get(triangle.size() - 1).get(i));
         }
+        return min;
     }
 
     /**
@@ -562,9 +518,6 @@ public class DynamicPlanning {
         return Math.max(dp[nums.length - 1], dp[nums.length - 2]);*/
 
         // 我不一定选的场景
-        if(nums == null || nums.length == 0){
-            return 0;
-        }
         int length = nums.length;
         if(length == 1){
             return nums[0];
@@ -587,9 +540,6 @@ public class DynamicPlanning {
      * @return
      */
     public static int lengthOfLIS(int[] nums) {
-        if(nums == null || nums.length == 0){
-            return 0;
-        }
         int[] dp = new int[nums.length];// 记录每个点的最长上升子序列
         dp[0] = 1;
         int ans = dp[0];
@@ -798,7 +748,7 @@ public class DynamicPlanning {
                 left[i] = left[i - 1] + 1;
             }
         }
-        for(int i = A.length - 2; i >= 0; i--){// 右边递增个数
+        for(int i = A.length - 2; i >= 0; i--){// 右边递减个数
             if(A[i] > A[i + 1]){
                 right[i] = right[i + 1] + 1;
             }
@@ -821,7 +771,8 @@ public class DynamicPlanning {
      * @return
      */
     public static int findLength(int[] A, int[] B) {
-        // dp[i][j] 代表 i、j重复数组的长度； 转移方程  dp[i][j] = dp[i + 1][j + 1] + 1
+        // dp[i][j] 代表 i、j重复数组的长度A[i] == B[j]； 转移方程  dp[i][j] = dp[i + 1][j + 1] + 1; A[i] != B[j]   dp[i][j] = 0
+        // dp[i][j]：表示第一个数组 A 前 i 个元素和数组 B 前 j 个元素组成的最长公共子数组(相当于子串)的长度。
         int ans = 0;
         int[][] dp = new int[A.length + 1][B.length + 1];
         for(int i = A.length - 1; i >= 0; i--){
@@ -863,7 +814,8 @@ public class DynamicPlanning {
 
     /**
      * 面试题 17.16. 按摩师
-     * 一个有名的按摩师会收到源源不断的预约请求，每个预约都可以选择接或不接。在每次预约服务之间要有休息时间，因此她不能接受相邻的预约。给定一个预约请求序列，替按摩师找到最优的预约集合（总预约时间最长），返回总的分钟数。
+     * 一个有名的按摩师会收到源源不断的预约请求，每个预约都可以选择接或不接。在每次预约服务之间要有休息时间，因此她不能接受相邻的预约。
+     * 给定一个预约请求序列，替按摩师找到最优的预约集合（总预约时间最长），返回总的分钟数。
      * 输入： [2,7,9,3,1]  输出： 12      解释： 选择 1 号预约、 3 号预约和 5 号预约，总时长 = 2 + 9 + 1 = 12。
      * 输入： [2,1,4,5,3,1,1,3]      输出： 12    解释： 选择 1 号预约、 3 号预约、 5 号预约和 8 号预约，总时长 = 2 + 4 + 3 + 3 = 12。
      * @param nums
