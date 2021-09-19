@@ -8,10 +8,10 @@ public class FullRound {
     static int index;
 
     public static String go() {
-        if (index == servers.list.size()) {
+       /* if (index == servers.list.size()) {
             index = 0;
-        }
-        return servers.list.get(index++);
+        }*/
+        return servers.list.get(index++ % servers.list.size());
     }
 
 

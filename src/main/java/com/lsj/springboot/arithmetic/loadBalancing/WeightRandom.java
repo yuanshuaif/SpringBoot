@@ -39,9 +39,9 @@ public class WeightRandom {
     */
     public static String go1() {
         int allWeight = servers.map.values().stream().mapToInt(a -> a).sum();
-        int number = random.nextInt(allWeight) + 1;
+        int number = random.nextInt(allWeight);
         for (Map.Entry<String, Integer> item : servers.map.entrySet()) {
-            if (item.getValue() >= number) {
+            if (item.getValue() > number) {
                 return item.getKey();
             }
             number -= item.getValue();

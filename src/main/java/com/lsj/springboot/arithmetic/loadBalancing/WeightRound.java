@@ -32,7 +32,7 @@ public class WeightRound {
 
     public static String go1() {
         int allWeight = servers.map.values().stream().mapToInt(a -> a).sum();
-        int number = (index++) % allWeight + 1;
+        int number = (index++) % allWeight;
         for (Map.Entry<String, Integer> item : servers.map.entrySet()) {
             if (item.getValue() > number) {
                 return item.getKey();
