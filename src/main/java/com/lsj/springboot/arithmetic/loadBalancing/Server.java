@@ -1,4 +1,4 @@
-package com.lsj.springboot.loadBalancing;
+package com.lsj.springboot.arithmetic.loadBalancing;
 
 public class Server {
     public Server(int weight, int currentWeight, String ip) {

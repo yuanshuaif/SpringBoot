@@ -1,4 +1,4 @@
-package com.lsj.springboot.loadBalancing;
+package com.lsj.springboot.arithmetic.loadBalancing;
 
 import java.util.ArrayList;
 import java.util.List;
