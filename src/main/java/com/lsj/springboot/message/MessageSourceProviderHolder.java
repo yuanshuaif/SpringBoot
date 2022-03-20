@@ -14,10 +14,10 @@ public class MessageSourceProviderHolder {
 
     private static IMessageSourceProvider msProvider;
 
-    @Autowired
+   /* @Autowired
     public MessageSourceProviderHolder(IMessageSourceProvider messageSourceProvider) {
         msProvider = messageSourceProvider;
-    }
+    }*/
 
     /**
      * 为了能够拿到spring容器管理的对象
@@ -27,9 +27,9 @@ public class MessageSourceProviderHolder {
         return msProvider;
     }
 
-    /*msProvider 调用时无法注入*/
-//    public static void setMessageSourceProvider(@Autowired IMessageSourceProvider messageSourceProvider) {
-//        msProvider = messageSourceProvider;
-//    }
+    @Autowired
+    public void setMessageSourceProvider(IMessageSourceProvider messageSourceProvider) {
+        msProvider = messageSourceProvider;
+    }
 
 }
