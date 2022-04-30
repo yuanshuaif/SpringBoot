@@ -60,10 +60,11 @@ public class SnowFlake {
 
         if (currStmp == lastStmp) {
             //相同毫秒内，序列号自增
-            sequence = (sequence + 1) & MAX_SEQUENCE;
+            sequence = (sequence + 1);
             //同一毫秒的序列数已经达到最大
-            if (sequence == 0L) {
+            if (sequence > MAX_SEQUENCE) {
                 currStmp = getNextMill();
+                sequence = 0L;
             }
         } else {
             //不同毫秒内，序列号置为0
