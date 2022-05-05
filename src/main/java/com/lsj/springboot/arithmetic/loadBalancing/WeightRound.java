@@ -21,18 +21,20 @@ public class WeightRound {
         }
         int allWeight = servers.map.values().stream().mapToInt(a -> a).sum();
         int number = (index++) % allWeight;
+        index = index % allWeight;
         return ipList.get(number);
     }
 
     public static void main(String[] args) {
         for (int i = 0; i < 15; i++) {
-            System.out.println(go());
+            System.out.println(go1());
         }
     }
 
     public static String go1() {
         int allWeight = servers.map.values().stream().mapToInt(a -> a).sum();
         int number = (index++) % allWeight;
+        index = index % allWeight;
         for (Map.Entry<String, Integer> item : servers.map.entrySet()) {
             if (item.getValue() > number) {
                 return item.getKey();
