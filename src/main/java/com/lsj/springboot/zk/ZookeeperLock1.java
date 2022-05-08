@@ -71,10 +71,11 @@ public class ZookeeperLock1 implements Lock {
                 }
             }
             // 添加节点监控
-            zooKeeper.exists(zookeeperLockNodeName, new LockWatcher(Thread.currentThread()));
-            synchronized (Thread.currentThread()) {
-                // 线程等待锁，只有在删除节点的watch中才会重新激活线程
-                Thread.currentThread().wait();
+            if(zooKeeper.exists(zookeeperLockNodeName, new LockWatcher(Thread.currentThread())) != null) {//监听器添加成功，才能线程挂起等待被唤醒
+                synchronized (Thread.currentThread()) {
+                    // 线程等待锁，只有在删除节点的watch中才会重新激活线程
+                    Thread.currentThread().wait();
+                }
             }
         }
     }
