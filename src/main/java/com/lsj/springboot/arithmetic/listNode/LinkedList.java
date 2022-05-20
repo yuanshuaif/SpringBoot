@@ -317,6 +317,34 @@ public class LinkedList {
     }
 
     /**
+     * 876. 链表的中间结点
+     * 给定一个带有头结点 head 的非空单链表，返回链表的中间结点。 如果有两个中间结点，则返回第二个中间结点。
+     * 输入：[1,2,3,4,5]   输出：此列表中的结点 3 (序列化形式：[3,4,5]);   输入：[1,2,3,4,5,6] 输出：此列表中的结点 4 (序列化形式：[4,5,6])
+     * @param head
+     * @return
+     */
+    public ListNode middleNode(ListNode head) {
+        // 快慢指针
+    /*    ListNode p = head;
+        ListNode q = head.next;
+        while(q != null && q.next != null){
+            p = p.next;
+            q = q.next.next;
+        }
+        if(q != null && q.next == null){// 偶数结束再移动一位
+            p = p.next;
+        }
+        return p;*/
+        ListNode p = head;
+        ListNode q = head;
+        while(q != null && q.next != null){
+            p = p.next;
+            q = q.next.next;
+        }
+        return p;
+    }
+
+    /**
      * 160. 相交链表
      * 找到两个单链表相交的起始节点。（引用是否相等）（默认一定相交）
      * 输入：intersectVal = 8, listA = [4,1,8,4,5], listB = [5,0,1,8,4,5], skipA = 2, skipB = 3
@@ -443,27 +471,6 @@ public class LinkedList {
             }
         }
         return ans.next;
-    }
-
-    /**
-     * 876. 链表的中间结点
-     * 给定一个带有头结点 head 的非空单链表，返回链表的中间结点。 如果有两个中间结点，则返回第二个中间结点。
-     * 输入：[1,2,3,4,5]   输出：此列表中的结点 3 (序列化形式：[3,4,5]);   输入：[1,2,3,4,5,6] 输出：此列表中的结点 4 (序列化形式：[4,5,6])
-     * @param head
-     * @return
-     */
-    public ListNode middleNode(ListNode head) {
-        // 快慢指针
-        ListNode p = head;
-        ListNode q = head.next;
-        while(q != null && q.next != null){
-            p = p.next;
-            q = q.next.next;
-        }
-        if(q != null && q.next == null){// 偶数结束再移动一位
-            p = p.next;
-        }
-        return p;
     }
 
     /**
