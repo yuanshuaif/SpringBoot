@@ -843,7 +843,7 @@ public class LinkedList {
      * @return
      */
     public ListNode plusOne(ListNode head) {
-        // 1.哨兵头节点
+       /* // 1.哨兵头节点
         ListNode sentinel = new ListNode(0);
         sentinel.next = head;
         ListNode curNode = sentinel;
@@ -862,7 +862,22 @@ public class LinkedList {
             curNode.val = 0;
             curNode = curNode.next;
         }
-        return sentinel.val == 0 ? sentinel.next : sentinel;// 是否发生了进位
+        return sentinel.val == 0 ? sentinel.next : sentinel;// 是否发生了进位*/
+        ListNode ans = new ListNode(0);
+        ans.next = head;
+        ListNode cur = ans;
+        while(head != null){
+            if(head.val != 9){
+                cur = head;
+            }
+            head = head.next;
+        }
+        cur.val += 1;
+        while(cur.next != null){
+            cur.next.val = 0;
+            cur = cur.next;
+        }
+        return ans.val == 0 ? ans.next : ans;
     }
 
     /**
