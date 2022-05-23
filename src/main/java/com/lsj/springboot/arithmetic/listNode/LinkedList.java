@@ -819,24 +819,18 @@ public class LinkedList {
         }
         ListNode ans = new ListNode(0);
         ans.next = head;
-        ListNode cur = ans;
-        boolean flag = false;
-        while(head != null && head.next != null){
-            while(head.next != null && head.val == head.next.val) {
-                head.next = head.next.next;
-                flag = true;
-            }
-            if(flag){
-                cur.next = head.next;
+        ListNode pre = ans;
+        while (head != null && head.next != null){
+            if(head.val != head.next.val){
                 head = head.next;
-                flag = false;
+                pre = pre.next;
             }else{
-                cur = cur.next;
+                while (head != null && head.next != null && head.val == head.next.val){
+                    head.next = head.next.next;
+                }
                 head = head.next;
+                pre.next = head;
             }
-        }
-        if(flag){
-            cur.next = head.next;
         }
         return ans.next;
     }
