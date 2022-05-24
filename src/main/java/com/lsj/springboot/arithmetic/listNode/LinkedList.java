@@ -1013,7 +1013,7 @@ public class LinkedList {
      * @return
      */
     public static ListNode reverseBetween(ListNode head, int m, int n) {
-        ListNode ans = new ListNode(0);
+        /*ListNode ans = new ListNode(0);
         ans.next = head;
         ListNode cur = ans;
         int i = 1;
@@ -1033,6 +1033,20 @@ public class LinkedList {
             }else{
                 break;
             }
+        }
+        return ans.next;*/
+        ListNode ans = new ListNode(0);
+        ans.next = head;
+        ListNode pre = ans;
+        for(int i = 1; i < m; i++){
+            head = head.next;
+            pre = pre.next;
+        }
+        for(int i = 0; i < n - m; i++){
+            ListNode next = head.next;
+            head.next = next.next;
+            next.next = pre.next;
+            pre.next = next;
         }
         return ans.next;
     }
