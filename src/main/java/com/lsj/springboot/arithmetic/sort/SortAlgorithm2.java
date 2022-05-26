@@ -30,14 +30,14 @@ public class SortAlgorithm2 {
         array = new int[]{9, 9, 8, 7, 1, 7, 8, 10, 9};
         array = sort8(array);*/
 
-       /* int[] array = new int[]{11, 7, 1, 33, 2, 22};
-        sort5(array);*/
+        int[] array = new int[]{11, 7, 1, 33, 2, 22};
+        sort5(array);
 
    /*     int[] array = new int[]{10, 15, 56, 25, 30, 70};
         sort(array);*/
 
-        int[] array = new int[]{4, 154, 56, 5, 34, 75};
-        sort3(array);
+      /*  int[] array = new int[]{4, 154, 56, 5, 34, 75};
+        sort3(array);*/
 
       /*  int[] array = new int[]{9, 3, 9, 7, 5, 1, 2, 10, 9};
         sort4(array);*/
@@ -239,6 +239,17 @@ public class SortAlgorithm2 {
                 arrays[i] = temp;
             }
         }
+       /* // 11, 7, 1, 33, 2, 22
+        int temp;
+       for(int i = 0; i < arrays.length - 1; i++){
+           for(int j = i + 1; j < arrays.length; j++){
+               if(arrays[j] < arrays[i]){
+                   temp = arrays[i];
+                   arrays[i] = arrays[j];
+                   arrays[j] = temp;
+               }
+           }
+       }*/
     }
 
     /**
