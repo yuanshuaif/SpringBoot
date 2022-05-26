@@ -37,7 +37,7 @@ public class SortAlgorithm2 {
         sort(array);*/
 
         int[] array = new int[]{4, 154, 56, 5, 34, 75};
-        sort9(array);
+        sort3(array);
 
       /*  int[] array = new int[]{9, 3, 9, 7, 5, 1, 2, 10, 9};
         sort4(array);*/
@@ -59,7 +59,7 @@ public class SortAlgorithm2 {
      * 时间复杂度：最好是O(n)，最坏是O(n^2)  空间复杂度：O(1)   属于稳定算法。
      */
     private static void sort1(int[] arrays){
-        int temp;
+        /*int temp;
         int j;
         for(int i = 1; i < arrays.length; i++){
             temp = arrays[i];//手牌
@@ -69,6 +69,16 @@ public class SortAlgorithm2 {
                 j--;
             }
             arrays[j + 1] = temp;
+        }*/
+        int cur;
+        int j;
+        for(int i = 1; i < arrays.length; i++){
+            cur = arrays[i];
+            for(j = i - 1; j >= 0 && arrays[j] > cur;){
+                arrays[j + 1] = arrays[j];
+                j--;
+            }
+            arrays[j + 1] = cur;
         }
     }
 
