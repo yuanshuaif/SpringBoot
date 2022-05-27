@@ -30,8 +30,8 @@ public class SortAlgorithm2 {
         array = new int[]{9, 9, 8, 7, 1, 7, 8, 10, 9};
         array = sort8(array);*/
 
-        int[] array = new int[]{11, 7, 1, 33, 2, 22};
-        sort5(array);
+       /* int[] array = new int[]{11, 7, 1, 33, 2, 22};
+        sort5(array);*/
 
    /*     int[] array = new int[]{10, 15, 56, 25, 30, 70};
         sort(array);*/
@@ -42,8 +42,8 @@ public class SortAlgorithm2 {
       /*  int[] array = new int[]{9, 3, 9, 7, 5, 1, 2, 10, 9};
         sort4(array);*/
 
-       /* int[] array = new int[]{43, 13, 91, 23, 24, 16, 5, 88};
-        sort6(array);*/
+        int[] array = new int[]{43, 13, 91, 23, 24, 16, 5, 88};
+        sort6(array);
 /*
         int[] array = new int[]{43, 13, 91, 23, 24, 16, 5, 88};
         array = sort7(array);*/
@@ -275,11 +275,16 @@ public class SortAlgorithm2 {
         //构建最大堆, 这里其实就是把待排序序列，变成一个大顶堆结构的数组
         buildMaxHeap(arrays, len);
         // 交换堆顶和当前末尾的节点，重置大顶堆
-        for(int i = len - 1; i > 0; i--){
+      /*  for(int i = len - 1; i > 0; i--){
             swap (arrays, 0, i);// 堆顶元素与最后一个值互换
             len--;
             heapify(arrays, 0, len);
-        }
+        }*/
+        do{
+            swap (arrays, 0, len - 1);// 堆顶元素与最后一个值互换
+            len--;
+            heapify(arrays, 0, len);
+        }while(len > 1);
     }
 
     /**
