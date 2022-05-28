@@ -364,48 +364,62 @@ public class Sort {
      * 面试题 17.14. 最小K个数
      * 设计一个算法，找出数组中最小的k个数。以任意顺序返回这k个数均可。
      * 示例：输入： arr = [1,3,5,7,2,4,6,8], k = 4    输出： [1,2,3,4]
-     * 快排思想
-     * @param arr
-     * @param k
+     * 堆排序
      * @return
      */
-    /*public int[] smallestK(int[] arr, int k) {
-        sort(arr, 0, arr.length - 1);
+    public static void swap(int[] nums, int start, int end){
+        int temp = nums[start];
+        nums[start] = nums[end];
+        nums[end] = temp;
+    }
+
+    public static int[] smallestK(int[] arrays, int k) {
+        int len = arrays.length;
+        //构建最小堆, 这里其实就是把待排序序列，变成一个小顶堆结构的数组
+        buildMinHeap(arrays, len);
+        // 交换堆顶和当前末尾的节点，重置小顶堆
         int[] ans = new int[k];
-        for(int i = 0; i < k; i++){
-            ans[i] = arr[i];
+        int j = 0;
+        for(int i = len - 1; i >= len - k; i--){
+            swap (arrays, 0, i);// 堆顶元素与最后一个值互换
+            ans[j++] = arrays[i];
+            len--;
+            heapify(arrays, 0, len);
         }
         return ans;
     }
-    public void sort(int[] arr, int left, int right){
-        if(arr.length == 0){
-            return;
+    /**
+     * 构建最小堆
+     */
+    private static void buildMinHeap(int[] arrays, int len){
+        //从第一个非叶子节点向前遍历，调整节点的位置，使之成为最小堆
+        for(int i = (int)Math.floor(len / 2) - 1; i >= 0; i--){
+            heapify(arrays, i, len);
         }
-        int fLeft = left;
-        int fRight = right;
-        int x = arr[left];
-        while(fLeft < fRight){
-            while(fLeft < fRight && arr[fRight] >= x){
-                fRight--;
-            }
-            if(fLeft < fRight){
-                arr[fLeft++] = arr[fRight];
-            }
-            while(fLeft < fRight && arr[fLeft] < x){
-                fLeft++;
-            }
-            if(fLeft < fRight){
-                arr[fRight--] = arr[fLeft];
-            }
+    }
+
+    /**
+     * 堆化
+     * @param arrays
+     * @param cur
+     * @param len
+     */
+    private static void heapify(int[] arrays, int cur, int len){
+        int left = cur * 2 + 1;
+        int right = cur * 2 + 2;
+        int minIndex = cur;//初始化当前下标为最小值的下标
+        if(left < len && arrays[left] < arrays[minIndex]){
+            minIndex = left;
         }
-        arr[fLeft] = x;// fLeft == fRight
-        if(left < fLeft){
-            sort(arr, left, fLeft - 1);
+        if(right < len && arrays[right] < arrays[minIndex]){
+            minIndex = right;
         }
-        if(right > fRight){
-            sort(arr, fRight + 1, right);
+        if(minIndex != cur){
+            swap (arrays, minIndex, cur);
+            // 因为互换之后，子节点的值变了，如果该子节点也有自己的子节点，仍需要再次调整
+            heapify(arrays, minIndex, len);
         }
-    }*/
+    }
 
     /**
      * 75. 颜色分类
@@ -593,59 +607,5 @@ public class Sort {
 //        System.out.println(canMakeArithmeticProgression(new int[]{1,2,4}));
 //        System.out.println(relativeSortArray(new int[]{2,3,1,3,2,4,6,19,9,2,8,7}, new int[]{2,1,4,3,9,6}));
         System.out.println(smallestK(new int[]{1,3,5,7,2,4,6,8}, 4));
-    }
-
-    public static void swap(int[] nums, int start, int end){
-        int temp = nums[start];
-        nums[start] = nums[end];
-        nums[end] = temp;
-    }
-
-    public static int[] smallestK(int[] arrays, int k) {
-        int len = arrays.length;
-        //构建最小堆, 这里其实就是把待排序序列，变成一个小顶堆结构的数组
-        buildMinHeap(arrays, len);
-        // 交换堆顶和当前末尾的节点，重置小顶堆
-        int[] ans = new int[k];
-        int j = 0;
-        for(int i = len - 1; i >= len - k; i--){
-            swap (arrays, 0, i);// 堆顶元素与最后一个值互换
-            ans[j++] = arrays[i];
-            len--;
-            heapify(arrays, 0, len);
-        }
-        return ans;
-    }
-    /**
-     * 构建最小堆
-     */
-    private static void buildMinHeap(int[] arrays, int len){
-        //从第一个非叶子节点向前遍历，调整节点的位置，使之成为最小堆
-        for(int i = (int)Math.floor(len / 2) - 1; i >= 0; i--){
-            heapify(arrays, i, len);
-        }
-    }
-
-    /**
-     * 堆化
-     * @param arrays
-     * @param cur
-     * @param len
-     */
-    private static void heapify(int[] arrays, int cur, int len){
-        int left = cur * 2 + 1;
-        int right = cur * 2 + 2;
-        int minIndex = cur;//初始化当前下标为最小值的下标
-        if(left < len && arrays[left] < arrays[minIndex]){
-            minIndex = left;
-        }
-        if(right < len && arrays[right] < arrays[minIndex]){
-            minIndex = right;
-        }
-        if(minIndex != cur){
-            swap (arrays, minIndex, cur);
-            // 因为互换之后，子节点的值变了，如果该子节点也有自己的子节点，仍需要再次调整
-            heapify(arrays, minIndex, len);
-        }
     }
 }
