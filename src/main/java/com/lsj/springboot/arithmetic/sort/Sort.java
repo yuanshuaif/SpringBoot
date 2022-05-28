@@ -607,10 +607,10 @@ public class Sort {
         buildMinHeap(arrays, len);
         // 交换堆顶和当前末尾的节点，重置小顶堆
         int[] ans = new int[k];
-        int count = len - k;
-        for(int i = len - 1; i >= count; i--){
+        int j = 0;
+        for(int i = len - 1; i >= len - k; i--){
             swap (arrays, 0, i);// 堆顶元素与最后一个值互换
-            ans[i - count] = arrays[i];
+            ans[j++] = arrays[i];
             len--;
             heapify(arrays, 0, len);
         }
