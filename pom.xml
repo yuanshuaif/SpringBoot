@@ -121,6 +121,12 @@
 			<version>2.9.0</version>
 		</dependency>
 
+		<!--Redis实现session共享-->
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
+		</dependency>
+
 		<!--<dependency>
 			<groupId>org.apache.kafka</groupId>
 			<artifactId>kafka-clients</artifactId>
