@@ -207,26 +207,25 @@ public class BinarySearch {
      */
     public int searchInsert(int[] nums, int target) {
         int start = 0;
-        int end = nums.length;
-        if(target < nums[start]){
-            return 0;
-        }else if(target > nums[end - 1]){
-            return nums.length;
-        }
-        int k = 0;
-        while(start <= end){
-            int mid = (start + end) / 2;
-            if(nums[mid] < target){
-                start = mid + 1;
-                k = mid + 1;
-            }else if( nums[mid] > target){
-                end = mid - 1;
-            }else{
-                k = mid;
-                break;
-            }
-        }
-        return k;
+        int end = nums.length - 1;
+       if(target < nums[start]){
+           return 0;
+       }
+       if(target > nums[end]){
+           return end + 1;
+       }
+       while (start <= end){
+           int mid = (end - start) / 2 + start;
+           if(nums[mid] == target){
+               return mid;
+           }else if(nums[mid] > target){
+               end = mid - 1;
+           }else {
+               start = mid + 1;
+           }
+       }
+       // start > end 二分查找，如果找不到start就是要插入的位置
+       return start;
     }
 
     /**
