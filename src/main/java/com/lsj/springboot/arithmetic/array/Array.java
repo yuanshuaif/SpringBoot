@@ -618,17 +618,11 @@ public class Array {
      * @return
      */
     public int findLengthOfLCIS(int[] nums) {
-        int start = 1;
         int ans = 1;
         int count = 1;
-        for(int i = start; i < nums.length; i++){
-            if(nums[i - 1] < nums[i]){
-                count++;
-                ans = Math.max(ans, count);
-            }else{
-                count = 1;
-                ans = Math.max(ans, count);
-            }
+        for(int i = 1; i < nums.length; i++){
+            count = nums[i - 1] < nums[i] ? ++count : 1;
+            ans = Math.max(ans, count);
         }
         return ans;
     }
